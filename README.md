@@ -1,4 +1,4 @@
-# ISFDS
+# ISFS
 
 Informationssystem für Schulen = ISFS
 
