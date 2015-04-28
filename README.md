@@ -1,6 +1,6 @@
-# ISFDS
+# ISFS
 
-Informationssystem für deutsche Schulen = ISFDS
+Informationssystem für Schulen = ISFS
 
 Die entstehende Website soll...
   * den Wahlprozess des W-/P-Seminars vereinfachen und auch z.B. für Umfragen dienen,
