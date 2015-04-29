@@ -5,3 +5,5 @@ Hier werden die konfigurationsfiles für diverse Programme wie ...
 + fcgiwrap
 + mysql
 + usw
+
+abgelegt.
