@@ -19,4 +19,7 @@ http://www.c-howto.de/tutorial-einfuehrung.html
 ### CSS-Vorlagen:
 http://purecss.io/ 
 
+### HTML, CSS und mehr
+http://www.lightsphere.com/dev/
+
 auch: [vhf/free-programming-books](https://github.com/vhf/free-programming-books)
