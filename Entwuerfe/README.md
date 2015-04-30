@@ -7,4 +7,4 @@ Das Format sollte eines der follgenden sein:
 + Text (Kodierung: UTF-8)  
 
 Alternativ können auch Links zu öffentlich verfügbaren Dateien (Dropbox-Links) in einem eigenes Markdown-File gespeichert werden  
---> links.md
+--> [links.md](https://github.com/EGFGy/ISFS/blob/master/Entwuerfe/links.md)
