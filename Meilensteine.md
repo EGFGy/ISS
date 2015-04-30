@@ -1,4 +1,4 @@
-# TODO-Liste
+# Meilensteine
 
 1. Genauere Analyse, Designentwurf ("Wie soll es aussehen? Ws soll es machen?")
 2. Datenbank zur Speicherung einrichten und Modellierung von: Dynamischer Stundenplan und Wahlprozess
