@@ -7,7 +7,11 @@ Java-CGI-Library -- http://www.javaworld.com/article/2076863/java-web-developmen
 C-CGI-Library -- http://www.boutell.com/cgic/  
 
 ### SQL:
-C-SQL-API -- https://dev.mysql.com/doc/refman/5.0/en/c-api.html  
+C-SQL-API
+* https://dev.mysql.com/doc/refman/5.0/en/c-api.html  
+* http://zetcode.com/db/mysqlc/
+* http://openbook.rheinwerk-verlag.de/c_von_a_bis_z/024_c_mysql_004.htm
+
 SQL-Dokoumentatoin -- http://dev.mysql.com/doc/  
 
 ### C-Tutorial
