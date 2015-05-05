@@ -1,10 +1,14 @@
-# Hilfsmitter für die Erstellung
+# Hilfsmitter für die Erstellung und Konfiguration
 
 ### CGI:
 Allgemeines -- http://www.cgi101.com/book/  
 Sichherheit bei Skriptsprachen -- http://hea-www.harvard.edu/~fine/Tech/cgi-safe.html  
 Java-CGI-Library -- http://www.javaworld.com/article/2076863/java-web-development/write-cgi-programs-in-java.html  
-C-CGI-Library -- http://www.boutell.com/cgic/  
+C-CGI-Library -- http://www.boutell.com/cgic/
+
+### NGINX
+http://nginx.org/
+http://www.nginxtips.com/nginx-security-guide/
 
 ### SQL:
 C-SQL-API
