@@ -16,7 +16,10 @@ C-SQL-API
 * http://zetcode.com/db/mysqlc/  
 * http://openbook.rheinwerk-verlag.de/c_von_a_bis_z/024_c_mysql_004.htm  
 
-mySQL-cheat-sheet -- https://www.addedbytes.com/cheat-sheets/download/mysql-cheat-sheet-v1.png
+mySQL-cheat-sheet
+* https://www.addedbytes.com/cheat-sheets/download/mysql-cheat-sheet-v1.png
+* http://en.wikibooks.org/wiki/MySQL/CheatSheet
+* 
 SQL-Dokoumentatoin -- http://dev.mysql.com/doc/  
 
 ### C-Tutorial
