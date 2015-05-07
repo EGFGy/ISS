@@ -1,0 +1,25 @@
+Tabellen
+Schüler:
+name        |faecher/kurse |geschlecht |id
+VARCHAR(50) |VARCHAR(200)  |CHAR       |INT
+
+Lehrer
+name        |kuerzel     |faecher/kurse
+VARCHAR(50) |VARCHAR(10) |VARCHAR(200)
+
+
+Beispiele:
+Schüler:
+name: "Max Mustermann"
+faecher: "1d1,1e3,1g2,1+sk2,1mu2,1m1,1geo3"
+geschlecht: 'm'
+
+Lehrerin:
+name: Miriam Musterfrau
+kuerzel: MUF
+faecher: 1d1, 10fG, 2f2
+
+Format:
+Kurse:
+bei Unter- und Mittelstufe: <Klassenstufe><Klassenbuchstabe><Kursbezeichnung>
+bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung><opt: Kursnummer>
