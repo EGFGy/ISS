@@ -1,6 +1,6 @@
-# ISFS
+# ISS
 
-Informationssystem für Schulen = ISFS
+Informationssystem für Schulen = ISS
 
 Die entstehende Website soll...
   * den Wahlprozess des W-/P-Seminars vereinfachen und auch z.B. für Umfragen dienen,
