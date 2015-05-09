@@ -1,11 +1,11 @@
 Tabellen
 Schüler:
-name        |faecher/kurse |geschlecht |id
-VARCHAR(50) |VARCHAR(200)  |CHAR       |INT
+name        |faecher/kurse |geschlecht |id  |passwort
+VARCHAR(50) |VARCHAR(200)  |CHAR       |INT |VARCHAR(???)
 
 Lehrer
-name        |kuerzel     |faecher/kurse
-VARCHAR(50) |VARCHAR(10) |VARCHAR(200)
+name        |kuerzel     |faecher/kurse |passwort
+VARCHAR(50) |VARCHAR(10) |VARCHAR(200)  |VARCHAR (???)
 
 
 Beispiele:
@@ -13,6 +13,7 @@ Schüler:
 name: "Max Mustermann"
 faecher: "1d1,1e3,1g2,1+sk2,1mu2,1m1,1geo3"
 geschlecht: 'm'
+id: 276
 
 Lehrerin:
 name: "Miriam Musterfrau"
