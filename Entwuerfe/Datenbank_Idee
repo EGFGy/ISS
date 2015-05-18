@@ -11,14 +11,14 @@ VARCHAR(50) |VARCHAR(10) |VARCHAR(200)  |VARCHAR (???)
 Beispiele:
 Schüler:
 name: "Max Mustermann"
-faecher: "1d1,1e3,1g2,1+sk2,1mu2,1m1,1geo3"
+faecher: "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
 geschlecht: 'm'
 id: 276
 
 Lehrerin:
 name: "Miriam Musterfrau"
 kuerzel: "MUF"
-faecher: "1d1,10fG,2f2"
+faecher: "1D1,10fG,2F2"
 
 Format:
 Kurse:
