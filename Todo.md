@@ -1,5 +1,6 @@
 # TODO-Liste
 * - [ ] HTTPS-Einrichtung
+* - [ ] Anmelde Formular (HTML --> mySQL-Datenbank)
 * - [ ] Login + Datenbank (mySQL)
 * - [ ] Stunden / Vertretungsplan
     * - [ ] HTML analysieren ODER Vertretungsplan-Rohdaten
