@@ -19,8 +19,10 @@ C-SQL-API
 mySQL-cheat-sheet
 * https://www.addedbytes.com/cheat-sheets/download/mysql-cheat-sheet-v1.png
 * http://en.wikibooks.org/wiki/MySQL/CheatSheet
-* 
+
 SQL-Dokoumentatoin -- http://dev.mysql.com/doc/  
+
+mySQL exportieren -- http://webprosa.de/mysql-datenbanken-ueber-konsole-exportieren-importieren/
 
 ### C-Tutorial
 http://www.c-howto.de/tutorial-einfuehrung.html  
