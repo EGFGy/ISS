@@ -7,7 +7,7 @@ server {
 	root /usr/share/nginx/html;
 	index index.html index.htm *;
 
-	server_name infoWall; # Entsprechendes
+	server_name info_wall;
 	
 	ssl_certificate /etc/nginx/ssl/nginx.crt;
 	ssl_certificate_key /etc/nginx/ssl/nginx.key;

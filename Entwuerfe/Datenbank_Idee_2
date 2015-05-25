@@ -1,11 +1,15 @@
 Tabellen
+Person:
+id  |name        |passwort     |kurse
+INT |VARCHAR(50) |VARCHAR(200) |VARCHAR(200)
+
 Schüler:
-name        |passwort    |kurse       |geschlecht |id
-VARCHAR(50) |VARCHAR(200)|VARCHAR(200)|CHAR       |INT (auto_increment, primary)
+id
+INT
 
 Lehrer
-name        |passwort    |kurse       |kuerzel    
-VARCHAR(50) |VARCHAR(200)|VARCHAR(200)|VARCHAR(10) (primary)
+id  |kuerzel    
+INT |VARCHAR(3)
 
 
 Beispiele:
@@ -13,7 +17,6 @@ Schüler:
 name: "Max Mustermann"
 passwort: "gw039ics07" 
 faecher: "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
-geschlecht: 'm'
 id: 276
 
 Lehrerin:
@@ -27,6 +30,5 @@ passwort:   <P4sß\/\/0rt>
 Kurse:
             bei Unter- und Mittelstufe: <Klassenstufe><Klassenbuchstabe (klein)><Kursbezeichnung (groß)>
             bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß) ><opt: Kursnummer>
-geschlecht: '<m/w>'
 id:         1234
 kuerzel:    [A-Z][A-Z][A-Z]
