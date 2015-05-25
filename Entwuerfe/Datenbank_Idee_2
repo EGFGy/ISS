@@ -1,7 +1,7 @@
 Tabellen
 Person:
-id  |name        |passwort     |kurse
-INT |VARCHAR(50) |VARCHAR(200) |VARCHAR(200)
+id                 |name        |passwort     |kurse
+INT AUTO_INCREMENT |VARCHAR(50) |VARCHAR(200) |VARCHAR(200)
 
 Schüler:
 id
@@ -32,3 +32,19 @@ Kurse:
             bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß) ><opt: Kursnummer>
 id:         1234
 kuerzel:    [A-Z][A-Z][A-Z]
+
+
+Erklärung:
+
+In der Tabelle "Person" werden alle registrierten Personen gespeichert.
+Anhand der ID sind sie Eindeutig identifizierbar.
+Die Anmeldung soll über den in "name" gespeicherten String erfolgen.
+Zudem besteht die Möglichkeit, dass sich Lehrer über ihr "kuerzel" einloggen.
+--> Das Programm, das die Daten der HTML-Seite übermittelt bekommt,
+    erkennt aus wieveilen Buchstaben der Login-Name besteht
+    --> es kann, sofern der Name nur aus drei Buchstaben besteht
+        (die dann in nur Großbuchstaben umgewandelt werden),
+        auch in der Lehrer-Tabelle nach dem entsprechenden Kürzel suchen.
+
+Vorteile:  einfache Erweiterbarkeit, keine Trennung von Lehrern und Schülern anhand von Namen
+Nachteile: Personenetabelle kann schnell unübersichtlich werden (bei +1000 Schülern + Lehrern)
