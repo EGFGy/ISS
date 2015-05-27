@@ -4,8 +4,8 @@ id                 |name        |passwort     |kurse
 INT AUTO_INCREMENT |VARCHAR(50) |VARCHAR(200) |VARCHAR(200)
 
 Schüler:
-id
-INT
+id  |adresse
+INT |VARCHAR(200)
 
 Lehrer
 id  |kuerzel    
@@ -14,15 +14,16 @@ INT |VARCHAR(3)
 
 Beispiele:
 Schüler:
-name: "Max Mustermann"
+name:     "Max Mustermann"
 passwort: "gw039ics07" 
-faecher: "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
-id: 276
+kurse:    "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
+id:       276
+addresse: "Musterstraße 1, 91337 Mustredorf, Musterland (N:49.XXXXX S:11.XXXXX)"
 
 Lehrerin:
-name: "Miriam Musterfrau"
+name:    "Miriam Musterfrau"
 kuerzel: "MUF"
-faecher: "1D1,10fG,2F2"
+kurse:   "1D1,10fG,2F2"
 
 Format:
 name:       <Vorname> <Nachname>
@@ -48,3 +49,4 @@ Zudem besteht die Möglichkeit, dass sich Lehrer über ihr "kuerzel" einloggen.
 
 Vorteile:  einfache Erweiterbarkeit, keine Trennung von Lehrern und Schülern anhand von Namen
 Nachteile: Personenetabelle kann schnell unübersichtlich werden (bei +1000 Schülern + Lehrern)
+           (aber das würden die beiden getrennten Tabellen auch)
