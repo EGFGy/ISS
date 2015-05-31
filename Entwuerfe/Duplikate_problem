@@ -1,0 +1,11 @@
+Was ist wenn,
+1. Schüler + Leher haben den gleichen Namen?
+2. mehrere Schüler haben den gleichen Namen?
+3. meherer Lehrer haben den gleichen Namen?
+
+3 Möglichkeiten:
+A: Es wird dafür gesorgt, dass es in der Datenbank nur unterschiedliche Namen gibt (z.B. Meyer1,  Meyer2 (Zusätze)).
+B: RadioButtons (für Lehrer oder Schüler) (Hilft bloß für Fall 1)
+C: Frage nach Kürzel (bei Lehrern) oder Einführung von Kürzeln für Schüler.
+
+Es wird wahrscheinlich auf Möglichkeit A hinuslaufen.
