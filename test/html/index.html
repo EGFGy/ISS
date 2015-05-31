@@ -15,8 +15,11 @@
 		<div class="login-form">
 			<form class="form-login" action="/cgi-bin/Login.cgi" method="POST" target="_self">
 				<div class="fields">
-					<input placeholder="Benutzername" value="" type="text" name="name" maxlength="35" mozactionhint="next" required>
-					<input placeholder="Passwort" value="" type="password" name="pass" maxlength="25" required>
+					<input class="input-text" placeholder="Benutzername" value="" type="text" name="name" maxlength="35" mozactionhint="next" required>
+					<input class="input-text" placeholder="Passwort" value="" type="password" name="pass" maxlength="15" required>
+					<br>
+					<input type="radio" id="radioteach" name="teach" value="true"><label for="true">Lehrer</label><br> 
+					<input type="radio" id="radioteach" name="teach" value="false"><label for="false">Schüler</label>
 				</div>
 				<button style="margin-top: 5px; color: blue;" type="submit">Login</button>
 			</form>

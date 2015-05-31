@@ -23,13 +23,13 @@ form{
 	display: inline;
 }
 
-input{
+.input-text{
 	width: inherit;
 	height: 2em;
 	border: 4px outset #0AD;
 	border-radius: 1em;
 }
-input:hover{
+.input-text:hover{
 	border: 4px inset #0AD;
 }
 
@@ -42,11 +42,11 @@ input:hover{
 	display: inline;
 	float: right;
 	width: 300px;
-	height: 120px; 
+	height: 160px; 
 	border-bottom: 5px dashed black;
 	position: absolute;
 	left: calc(100% - 300px);
-	top: -115px;
+	top: -155px;
 	transition: top 0.4s ease;
 	transition-delay: 1.7s;
 }
@@ -59,6 +59,11 @@ input:hover{
 .login-form{
 	margin-left: 10px;
 	margin-top: 5px;	
+}
+
+#radioteach{
+	display: inline;
+	width: auto;
 }
 .menu{
 	text-align: center;
