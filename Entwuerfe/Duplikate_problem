@@ -1,11 +1,16 @@
-Was ist wenn,
-1. Schüler + Leher haben den gleichen Namen?
-2. mehrere Schüler haben den gleichen Namen?
-3. meherer Lehrer haben den gleichen Namen?
+Was ist wenn?
+Folgende Fälle sind für die Datenbank denkbar:
+1. Schüler + Leher haben den gleichen Namen.
+2. mehrere Schüler haben den gleichen Namen.
+3. meherer Lehrer haben den gleichen Namen.
 
-3 Möglichkeiten:
+3 Möglichkeiten die Abhilfe schaffen:
 A: Es wird dafür gesorgt, dass es in der Datenbank nur unterschiedliche Namen gibt (z.B. Meyer1,  Meyer2 (Zusätze)).
-B: RadioButtons (für Lehrer oder Schüler) (Hilft bloß für Fall 1)
+B: RadioButtons beim Anmelden zur Auswahl von Lehrer oder Schüler. (Hilft bloß für Fall 1)
 C: Frage nach Kürzel (bei Lehrern) oder Einführung von Kürzeln für Schüler.
+
+Beispiel zu C:
+Lehrer:   Meyer Fritz (MEY), Meyer Fritz (MEE)  (<- unterschiedliche Kürzel, gleiche Namen)
+Beim Anmelden: "Welches ist ihr Kürzel? -- MEY oder MEE"
 
 Es wird wahrscheinlich auf Möglichkeit A hinuslaufen.
