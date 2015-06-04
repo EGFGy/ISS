@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="backend" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="strtok_base3">
+				<Option output="bin/Debug/Login" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add directory="/usr/include/mysql" />
+		</Compiler>
+		<Linker>
+			<Add library="mysqlclient" />
+		</Linker>
+		<Unit filename="CGI_functions.c">
+			<Option compilerVar="CC" />
+			<Option weight="49" />
+			<Option target="strtok_base3" />
+		</Unit>
+		<Unit filename="CGI_functions.h">
+			<Option target="strtok_base3" />
+		</Unit>
+		<Unit filename="SQL_functions.c">
+			<Option compilerVar="CC" />
+			<Option target="strtok_base3" />
+		</Unit>
+		<Unit filename="SQL_functions.h">
+			<Option target="strtok_base3" />
+		</Unit>
+		<Unit filename="main_strtok_base3.c">
+			<Option compilerVar="CC" />
+			<Option target="strtok_base3" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars set="default" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project output_language="German" />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
