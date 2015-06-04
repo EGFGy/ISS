@@ -120,6 +120,19 @@ void setCookie(char name[], char content[]){
     }
 }
 
+/** \brief HTTP-Header-Zeile zum Umleiten drucken
+ *
+ * \param url const char*  Zieladresse
+ * \return void
+ *
+ */
+void httpRedirect(const char * url){
+    if(url != NULL){
+        puts("Status: 301");
+        printf("Location: %s\n", url);
+    }
+}
+
 /** \brief Extrahiert aus einem Eingabe-String alle zeichen zwischen "<property>=" und <delim>. Speicherung in out
  *
  * \param data char*            eingabe-String
