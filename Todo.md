@@ -1,10 +1,12 @@
 # TODO-Liste
-* - [ ] HTTPS-Einrichtung
-* - [ ] Anmelde Formular (HTML --> mySQL-Datenbank)
-* - [ ] Login + Datenbank (mySQL)
-* - [ ] Stunden / Vertretungsplan
-    * - [ ] HTML analysieren ODER Vertretungsplan-Rohdaten
-    * - [ ] Datenbank aus vorhandenen Stundenplänen erzeugen (aus Datei)
-    * - [ ]  **Persönlichen Stundenplan nach Vertretungsplan aktualisieren**
-    * - [ ] **HTML + CSS für die Anzeige von dyn. Tabellen (Stundenplan)**
+
+- [ ] HTTPS-Einrichtung
+- [ ] Anmelde Formular (HTML --> mySQL-Datenbank)
+- [ ] Login + Datenbank (mySQL)
+- [ ] Meldungen / Nachrichten für Schüler 
+- [ ] Stunden / Vertretungsplan
+	- [ ] HTML analysieren ODER Vertretungsplan-Rohdaten
+	- [ ] Datenbank aus vorhandenen Stundenplänen erzeugen (aus Datei)
+	- [ ]  **Persönlichen Stundenplan nach Vertretungsplan aktualisieren**
+	- [ ] **HTML + CSS für die Anzeige von dyn. Tabellen (Stundenplan)**
 - [ ] Abstimmung
