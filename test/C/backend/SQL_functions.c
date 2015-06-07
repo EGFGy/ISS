@@ -50,7 +50,6 @@ void verifyUser(person * pers){
         printExitFailure("MYSQL init failure");
     }
 
-    //TODO: in der DB einen nutzer einrichten, der nur lesen darf (Sicherheit)
     if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base3", 0, NULL, 0) == NULL){
         /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
         mysql_errno (my), mysql_error (my));
@@ -200,24 +199,3 @@ void verifyUser(person * pers){
     mysql_close(my);
 }
 
-/*
-void checkForSql(person * pers){
-    if(pers=NULL || pers->name == NULL || pers->passwort == NULL){
-        printExitFailure("Fehler in checkForSql");
-    }
-
-    char forbidden_commands [128][32]={
-        {"\\"},
-        {"!"},
-        {"SELECT"},
-        {"DROP"},
-        {"DELETE"},
-        {"FROM"},
-        {"*"},
-        {"TABLE"},
-        {"DATABASE"},
-        {"WHERE"},
-        {"AND"},
-        {"
-    };
-}*/
