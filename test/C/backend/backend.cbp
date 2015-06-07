@@ -5,6 +5,11 @@
 		<Option title="backend" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option show_notes="0">
+			<notes>
+				<![CDATA[test_text]]>
+			</notes>
+		</Option>
 		<Build>
 			<Target title="strtok_base3">
 				<Option output="bin/Debug/Login" prefix_auto="1" extension_auto="1" />
@@ -34,21 +39,14 @@
 		<Unit filename="CGI_functions.c">
 			<Option compilerVar="CC" />
 			<Option weight="49" />
-			<Option target="strtok_base3" />
 		</Unit>
-		<Unit filename="CGI_functions.h">
-			<Option target="strtok_base3" />
-		</Unit>
+		<Unit filename="CGI_functions.h" />
 		<Unit filename="SQL_functions.c">
 			<Option compilerVar="CC" />
-			<Option target="strtok_base3" />
 		</Unit>
-		<Unit filename="SQL_functions.h">
-			<Option target="strtok_base3" />
-		</Unit>
+		<Unit filename="SQL_functions.h" />
 		<Unit filename="main_strtok_base3.c">
 			<Option compilerVar="CC" />
-			<Option target="strtok_base3" />
 		</Unit>
 		<Extensions>
 			<code_completion />

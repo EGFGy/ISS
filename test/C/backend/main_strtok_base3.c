@@ -103,16 +103,13 @@ int main(int argc, char **argv)
     //Zwei cookies setzen
     //login_person.sid=12345;
     setCookie("NAME", login_person.name);
-    char sid_string[10];
-    sprintf(sid_string, "%d", login_person.sid);
+    char * sid_string;
+    asprintf(&sid_string, "%d", login_person.sid);
     setCookie("SID", sid_string);
 
 
 
     //Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
-    //puts("Status: 301");
-    //puts("Location: http://keller-pc/joke.html\n");
-
 
 	puts("Content-type: text/plain\n\n");
 	printf("%s\n", datCGI.POST_data);

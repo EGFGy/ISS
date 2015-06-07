@@ -10,6 +10,8 @@
 
 #include "SQL_functions.h"
 
+#define SELECT_Schueler "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"?\" AND Schueler.id=Benutzer.id;"
+
 /** \brief Überprüfen, ob eine Person in de Datenbank ist und ob das Passwor stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
@@ -49,7 +51,7 @@ void verifyUser(person * pers){
     }
 
     //TODO: in der DB einen nutzer einrichten, der nur lesen darf (Sicherheit)
-    if(mysql_real_connect(my, "localhost", "root", "WUW", "base3", 0, NULL, 0) == NULL){
+    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base3", 0, NULL, 0) == NULL){
         /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
         mysql_errno (my), mysql_error (my));
         exit(EXIT_FAILURE);*/
@@ -64,16 +66,45 @@ void verifyUser(person * pers){
     if(!isAcronym){
 
         //TODO: sql-injection verhindern
-        char * sql_query=calloc(strlen("SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"\" AND Schueler.id=Benutzer.id;")+strlen(pers->name)+1, sizeof(char));
+        size_t len_start=strlen("SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"");
+        size_t len_mid=strlen(pers->name);
+        size_t len_end=strlen("\" AND Schueler.id=Benutzer.id;");
+
+        char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
+        if(sql_query == NULL){
+            printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
+        }
         strcpy(sql_query, "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"");
-        strcat(sql_query, pers->name);
+        strncat(sql_query, pers->name, len_mid);
         strcat(sql_query, "\" AND Schueler.id=Benutzer.id;");
 
         fprintf(stderr, "Schueler\nsql_query: %s\n", sql_query);
 
         if(mysql_query(my, sql_query)){  //SELECT * FROM Benutzer WHERE name="<name>"; Liefert 0 bei Erfolg
             printExitFailure("mysql_query failed");
+        }/*
+        MYSQL_STMT * stmt = mysql_stmt_init(my);
+        if(stmt == NULL){
+            printExitFailure("stmt: es konnte kein Speicher angefpordert werden.");
         }
+
+        mysql_stmt_prepare(stmt, SELECT_Schueler, strlen(SELECT_Schueler));
+        MYSQL_BIND bind[1];
+        memset(bind, 0,sizeof(bind));
+        bind[0].buffer_type=MYSQL_TYPE_STRING;
+        bind[0].buffer=(char *)pers->name;
+        bind[0].buffer_length=50;
+        bind[0].is_null=0;
+        bind[0].length=(long *)strlen(pers->name);
+
+        mysql_stmt_bind_param(stmt, bind);
+
+        mysql_stmt_execute(stmt);
+        mysql_stmt_store_result(stmt);
+
+        int row_count= mysql_stmt_affected_rows(stmt);*/
+
+
         result = mysql_store_result(my);
 
         if(mysql_num_rows(result) == 1){
@@ -82,6 +113,9 @@ void verifyUser(person * pers){
         }else{
             //Entweder es ist eine Lehrer, oder die Person existiert nicht in der Datenabank (oder ist doppelt vorhanden).
             char * sql_query_lehrer=calloc(strlen("SELECT Benutzer.id, name, passwort, kurse, Lehrer.kuerzel FROM Lehrer, Benutzer WHERE Benutzer.name=\"\" AND Lehrer.id=Benutzer.id;")+strlen(pers->name)+1, sizeof(char));
+            if(sql_query_lehrer == NULL){
+                printExitFailure("Es konnte kein Speicher für \"sql_query_lehrer\" angefrdert werden");
+            }
             strcpy(sql_query_lehrer, "SELECT Benutzer.id, name, passwort, kurse, Lehrer.kuerzel FROM Lehrer, Benutzer WHERE Benutzer.name=\"");
             strcat(sql_query_lehrer, pers->name);
             strcat(sql_query_lehrer, "\" AND Lehrer.id=Benutzer.id;");
@@ -109,6 +143,9 @@ void verifyUser(person * pers){
     }else{
         //Es ist eine Person mit Kürzel! (Das sind bei uns nur Lehrer)
         char * sql_query=calloc(strlen("SELECT Benutzer.id, name, passwort, kurse, Lehrer.kuerzel FROM Lehrer, Benutzer WHERE Lehrer.kuerzel=\"\" AND Lehrer.id=Benutzer.id;")+strlen(pers->acronym)+1, sizeof(char));
+        if(sql_query == NULL){
+            printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
+        }
         strcpy(sql_query, "SELECT Benutzer.id, name, passwort, kurse, Lehrer.kuerzel FROM Lehrer, Benutzer WHERE Lehrer.kuerzel=\"");
         strcat(sql_query, pers->acronym);
         strcat(sql_query, "\" AND Lehrer.id=Benutzer.id;");
@@ -124,6 +161,7 @@ void verifyUser(person * pers){
         if(mysql_num_rows(result) == 1){
             found=true;
             isAcronym=true;
+            pers->isTeacher=true;
         }
     }
 
@@ -157,5 +195,29 @@ void verifyUser(person * pers){
             pers->sid=0;
         }
     }
+
+    mysql_free_result(result);
     mysql_close(my);
 }
+
+/*
+void checkForSql(person * pers){
+    if(pers=NULL || pers->name == NULL || pers->passwort == NULL){
+        printExitFailure("Fehler in checkForSql");
+    }
+
+    char forbidden_commands [128][32]={
+        {"\\"},
+        {"!"},
+        {"SELECT"},
+        {"DROP"},
+        {"DELETE"},
+        {"FROM"},
+        {"*"},
+        {"TABLE"},
+        {"DATABASE"},
+        {"WHERE"},
+        {"AND"},
+        {"
+    };
+}*/

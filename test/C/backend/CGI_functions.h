@@ -1,5 +1,5 @@
 #ifndef content_max
-#define content_max 700
+#define content_max 700  //Wir sagen: "Es gib einfach nicht mehr als contenr_max bytes in den Übergebenen Daten!!"
 #endif // content_max
 
 typedef struct{
