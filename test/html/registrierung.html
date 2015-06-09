@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <head>
-	<title>InfoWall v2</title>
+	<title>InfoWall -- Registrierung</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.23.1" />
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="/forms.css">
+	<script type="text/javascript">
+
+	function ShowAcronym(it){
+		var acr=document.getElementById('acronym');
+		if ( it.id == "teacher" ){
+			acr.readOnly = false;
+			acr.style.display = 'inline-block';
+		}
+		if ( it.id == "pupil" ){
+			acr.readOnly = true;
+			acr.value="";
+			acr.style.display = 'none';
+		}
+	}
+
+	function ShowDat(it, dat_id){
+		var dat=document.getElementById(dat_id);
+		
+		if(it.checked == true){
+			dat.style.display = 'inline-block';
+		}else{
+			dat.style.display = 'none';
+		}
+	}
+
+	</script>
 </head>
 
-<script type="text/javascript">
-
-function showAcronym(it){
-	var acr=document.getElementById('acronym');
-	if ( it.id == "teacher" ){
-		acr.readOnly = false;
-		acr.style.display = 'inline-block';
-	}
-	if ( it.id == "pupil" ){
-		acr.readOnly = true;
-		acr.value="";
-		acr.style.display = 'none';
-	}
-}
-
-</script>
-
-<body onload="javascript:showAcronym(document.getElementById('pupil'));">
+<body onload="javascript:ShowAcronym(document.getElementById('pupil')); ShowDat(document.getElementById('accepTOS'), 'register');">
 	<div id="login-form">
-	<form  method="post" action="/cgi-bin/Register.cgi" style="border-radius: 1em; padding: 1em;">
+	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;">
 		<p>Geben sie Ihre Personendaten ein!</p>
 		<input class="textIn" placeholder="Name" name="name" type="text" required />
 		<!-- <br>
@@ -36,21 +45,18 @@ function showAcronym(it){
 		<br>
 		<input class="textIn" placeholder="Kürzel" name="k&uuml;rzel" type="text" required /> -->
 		<br>
-		<input type="radio" onclick="javascript:showAcronym(this);" id="teacher" name="teach" value="true">Lehrer
-		<input type="radio" onclick="javascript:showAcronym(this);" id="pupil" name="teach" value="false" checked="checked">Schüler
+		<input type="radio" onclick="javascript:ShowAcronym(this);" id="teacher" name="teach" value="true">Lehrer</input>
+		<input type="radio" onclick="javascript:ShowAcronym(this);" id="pupil" name="teach" value="false" checked="checked">Schüler</input>
 		<br>
 		<input id="acronym" class="textIn" placeholder="Kürzel" name="acronym" type="text" required />
 		<br>
 		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" required />
 		<br>
-		<input id="anmelden" type="submit" value="logrZ in"/>
+		<input type="checkbox" onclick="ShowDat(this, 'register');" id="accepTOS" name="acceptTOS">Nutzungsbedingungen gelesen und akzeptiert</input>
+		<br>
+		<button class="submitButton" type="submit" id="register">Registrieren</button>
 	</form>
 	<a href="/index.html">zur&uuml;ck</a>
 	</div>
 </body>
-</html>
-
-	
-</body>
-
 </html>
