@@ -1,0 +1,79 @@
+@charset "utf-8";
+/*form{
+	border: 2px solid;
+	width: 300px;
+	text-align: center;
+	margin: 30px auto;
+	padding: 5px;
+}*/
+
+.textIn, label{
+	margin: 2px;
+	vertical-align: middle;
+	display: inline-block;
+	box-sizing: border-box;
+	width: 200px;
+}
+
+
+input{
+	border: 2px solid grey;
+	background: blanchedalmond;
+	transition: background-color 0.5s ease;
+}
+
+input:focus{
+	border: 2px solid lightred;
+	background-color: lightgreen;
+}
+
+#anmelden{
+	border-radius: 0.4em;
+	border: 2px solid #000;
+	color: #000;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 10px;
+	background-color: #DDF;
+	transition: background-color 0.2s ease;
+}
+
+#anmelden:hover{
+	background-color: #99F;
+}
+
+
+@media all and (max-width: 800px){
+	html{
+		font-size: 1.2em;
+	}
+	input, button{
+		heigh: 1.3em;
+		font-size: 1.2em;
+	}
+	.textIn{
+		width: 80%;
+	}
+}
+
+#login-form {
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 1em;
+	padding: 5px;
+	background-color:#FFF;
+	text-align: center;
+	background: radial-gradient(#FFF 0%, #FF4 75%);
+	background-color: #FF0;
+	/*width: 910px;*/
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media all and (min-width: 800px){
+	#login-form {
+		width: 300px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

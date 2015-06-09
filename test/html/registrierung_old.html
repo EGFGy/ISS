@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="./frames_css.css">
+<title>Registrierung</title>
+
+<style>
+*/form{
+	border: 2px solid;
+	width: 300px;
+	text-align: center;
+	margin: 30px auto;
+	padding: 5px;  
+}*/
+
+#inText{
+	border: 2px solid grey;
+	
+	background: blanchedalmond;
+	transition: background-color 0.5s ease;
+}
+
+#inText:focus{
+	border: 2px solid lightred;
+	background-color: lightgreen;
+}
+
+#anmelden{
+	border-radius: 0.4em;
+	border: 2px solid #000;
+	color: #000;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 10px;
+	background-color: #DDF;
+	transition: background-color 0.2s ease;
+}
+
+#anmelden:hover{
+	background-color: #99F;
+}
+
+</style>	
+
+</head>
+<body>
+<p>Bitte geben Sie Ihre Personendaten ein, damit wir Sie ausspionieren können</p>
+
+<form action="./cgi-bin/test.sh" method="post" class="registring">
+	<input id="inText" placeholder="Name" name="name" type="text" required />
+	<br>
+	<input id="inText" placeholder="E-Mail" name="mail" type="text" required />
+	<br>
+	<input id="inText" placeholder="Kurse" name="kurs" type="text" required />
+	<br>
+	<input id="inText" placeholder="Kürzel" name="kürzel" type="text" required />
+	<br>
+	<input id="inText" placeholder="Passwort (bitte gut!)" name="passwd" type="password" required />
+	<br>
+	<input id="anmelden" type="submit" value="logrZ in"/>
+</form> 
+
+</body>
+</html>

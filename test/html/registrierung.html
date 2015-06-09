@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+	<title>InfoWall v2</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="/forms.css">
+</head>
+
+<script type="text/javascript">
+
+function showAcronym(it){
+	var acr=document.getElementById('acronym');
+	if ( it.id == "teacher" ){
+		acr.readOnly = false;
+	}
+	if ( it.id == "pupil" ){
+		acr.readOnly = true;
+		acr.value="";
+	}
+}
+
+</script>
+
+<body>
+	<div id="login-form">
+	<form  method="post" action="/cgi-bin/Register.cgi" style="border-radius: 1em; padding: 1em;">
+		<p>Geben sie Ihre Personendaten ein!</p>
+		<input class="textIn" placeholder="Name" name="name" type="text" required />
+		<!-- <br>
+		<input class="textIn" placeholder="E-Mail" name="mail" type="text" required />
+		<br>
+		<input class="textIn" placeholder="Kurse" name="kurs" type="text" required />
+		<br>
+		<input class="textIn" placeholder="Kürzel" name="k&uuml;rzel" type="text" required /> -->
+		<br>
+		<input type="radio" onclick="javascript:showAcronym(this);" id="teacher" name="teach" value="true">Lehrer
+		<input type="radio" onclick="javascript:showAcronym(this);" id="pupil" name="teach" value="false" checked="checked">Schüler
+		<br>
+		<input id="acronym" class="textIn" placeholder="Kürzel" name="acronym" type="text" required />
+		<br>
+		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" required />
+		<br>
+		<input id="anmelden" type="submit" value="logrZ in"/>
+	</form>
+	<a href="/index.html">zur&uuml;ck</a>
+	</div>
+</body>
+</html>
+
+	
+</body>
+
+</html>
