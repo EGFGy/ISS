@@ -13,16 +13,18 @@ function showAcronym(it){
 	var acr=document.getElementById('acronym');
 	if ( it.id == "teacher" ){
 		acr.readOnly = false;
+		acr.style.display = 'inline-block';
 	}
 	if ( it.id == "pupil" ){
 		acr.readOnly = true;
 		acr.value="";
+		acr.style.display = 'none';
 	}
 }
 
 </script>
 
-<body>
+<body onload="javascript:showAcronym(document.getElementById('pupil'));">
 	<div id="login-form">
 	<form  method="post" action="/cgi-bin/Register.cgi" style="border-radius: 1em; padding: 1em;">
 		<p>Geben sie Ihre Personendaten ein!</p>
