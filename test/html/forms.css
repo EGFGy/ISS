@@ -42,6 +42,27 @@ input:focus{
 	background-color: #99F;
 }
 
+.gradient-button{
+	color: #000;
+	border-width: 0px;
+	border-style: solid;
+	background: -moz-linear-gradient(top,  #EEE,  #AAA);
+	background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#AAA));
+	background: linear-gradient(to bottom, #EEE , #AAA);
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-radius: 0.3em;
+	margin: 2px;
+	/*cursor: crosshair !important;*/
+}
+.gradient-button:hover{
+	background: -moz-linear-gradient(top,  #AAA,  #EEE);
+	background: -webkit-gradient(linear, left top, left bottom, from(#AAA), to(#EEE));
+	background: linear-gradient(to bottom, #AAA , #EEE);
+}
+
 
 @media all and (max-width: 800px){
 	html{

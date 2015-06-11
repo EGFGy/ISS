@@ -5,6 +5,7 @@
 	<meta name="generator" content="Geany 1.23.1" />
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="/forms.css">
+	
 	<script type="text/javascript">
 
 	function ShowAcronym(it){
@@ -35,7 +36,7 @@
 
 <body onload="javascript:ShowAcronym(document.getElementById('pupil')); ShowDat(document.getElementById('accepTOS'), 'register');">
 	<div id="login-form">
-	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;">
+	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
 		<p>Geben sie Ihre Personendaten ein!</p>
 		<input class="textIn" placeholder="Name" name="name" type="text" required />
 		<!-- <br>
@@ -52,11 +53,11 @@
 		<br>
 		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" required />
 		<br>
-		<input type="checkbox" onclick="ShowDat(this, 'register');" id="accepTOS" name="acceptTOS">Nutzungsbedingungen gelesen und akzeptiert</input>
+		<input type="checkbox" onclick="ShowDat(this, 'register');" id="accepTOS" name="acceptTOS"><a href="/tos.html">Nutzungsbedingungen</a> gelesen und akzeptiert</input>
 		<br>
 		<button class="submitButton" type="submit" id="register">Registrieren</button>
 	</form>
-	<a href="/index.html">zur&uuml;ck</a>
+	<a href="/index.html" class="gradient-button">Zur&uuml;ck</a>
 	</div>
 </body>
 </html>
