@@ -3,6 +3,9 @@
 - [ ] HTTPS-Einrichtung
 - [ ] Anmelde Formular (HTML --> mySQL-Datenbank)
 - [ ] Login + Datenbank (mySQL)
+- [ ] SQL-injection verhindern
+- [ ] Passwörter richtig speichern (Verschlüsselt + Salt)
+- [ ] HTML-Seiten erzeugen die nach dem Lopgin erscheinen
 - [ ] Meldungen / Nachrichten für Schüler 
 - [ ] Stunden / Vertretungsplan
 	- [ ] HTML analysieren ODER Vertretungsplan-Rohdaten
