@@ -15,3 +15,4 @@ typedef struct {
 }person;
 
 void verifyUser(person * pers);
+bool detectConvertAcronym(person * pers);

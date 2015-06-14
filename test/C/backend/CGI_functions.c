@@ -9,11 +9,12 @@
 
 #include "CGI_functions.h"
 
-/** \brief Aus dem Environment und der Standardeingabe entsprechende Daten einlesen
+/** \brief Aus dem Environment und der Standardeingabe wichtige Daten einlesen
  *
  * \param gotCGI cgi*  CGI-Objekt, in dem die gefundenen Daten gespeichert werden
  * \return void
- *
+ * Es werden aus den Eivironment-Variablen und je nachdem Wert von REQUEST_METHOD ein maximal
+ * content_max langer String aus der Standardeingabe gelesen.
  */
 void getCGIdata(cgi * gotCGI){
     int content_length = 0;
@@ -106,7 +107,7 @@ void printExitFailure(const char * message){
      exit(EXIT_FAILURE);
 }
 
-/** \brief HTTP-Header-Text für das setzten eins Cookies drucken
+/** \brief HTTP-Header-Text für das Setzten eins Cookies drucken
  *
  * \param name[] char    Attributname (Cookie-Name)
  * \param content[] char Attributwert (Cookie-Inhalt)
@@ -134,7 +135,7 @@ void httpRedirect(const char * url){
     }
 }
 
-/** \brief Extrahiert aus einem Eingabe-String alle zeichen zwischen "<property>=" und <delim>. Speicherung in out
+/** \brief Extrahiert aus einem Eingabe-String alle Zeichen zwischen "<property>=" und <delim>. Speicherung in out
  *
  * \param data char*            eingabe-String
  * \param property const char*  Suchmuster

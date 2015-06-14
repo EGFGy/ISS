@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1433505467 source:/home/keller/InfoWall/testProjekte/backend/CGI_functions.c
+1433882857 source:/home/keller/InfoWall/testProjekte/backend/CGI_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -102,7 +102,7 @@
 
 1433271928 /home/keller/InfoWall/testProjekte/backend/SQL_functions.h
 
-1433513055 source:/home/keller/InfoWall/testProjekte/backend/SQL_functions.c
+1433886619 source:/home/keller/InfoWall/testProjekte/backend/SQL_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -113,4 +113,16 @@
 	<mysql.h>
 	<ctype.h>
 	"SQL_functions.h"
+
+1433886814 source:/home/keller/InfoWall/testProjekte/backend/register.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<my_global.h>
+	<mysql.h>
+	<ctype.h>
+	"CGI_functions.h"
 

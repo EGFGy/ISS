@@ -12,7 +12,7 @@
 
 #define SELECT_Schueler "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"?\" AND Schueler.id=Benutzer.id;"
 
-/** \brief Überprüfen, ob eine Person in de Datenbank ist und ob das Passwor stimmt
+/** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwor stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
  * \return void
@@ -29,7 +29,8 @@ void verifyUser(person * pers){
 		printExitFailure("Programm falsch!");
 	}
 
-	if(strlen(pers->name) > 3){
+    isAcronym=detectConvertAcronym(pers);
+	/*if(strlen(pers->name) > 3){
         isAcronym=false;
     }else{
         if(strlen(pers->name) == 3){
@@ -43,7 +44,7 @@ void verifyUser(person * pers){
                 p++;
             }
         }
-    }
+    }*/
 
     MYSQL *my=mysql_init(NULL);
     if(my == NULL){
@@ -197,5 +198,45 @@ void verifyUser(person * pers){
 
     mysql_free_result(result);
     mysql_close(my);
+}
+
+/** \brief  Funktion zum Testen, ob der Name vielleicht ein Kürzel ist
+ *
+ * \param pers person*  Personen-Objekt, das den Name enthält
+ * \return bool
+ *
+ */
+bool detectConvertAcronym(person * pers){
+    bool isAcronym;
+
+    if(pers->name==NULL || pers->passwort==NULL){
+		printExitFailure("Programm falsch!");
+	}
+
+    //Ist anstelle ds Namen ein Kürzel?
+	if(strlen(pers->name) > 3){
+        isAcronym=false;
+    }else{
+        if(strlen(pers->name) == 3){
+            isAcronym=true;
+            pers->acronym=pers->name;
+            pers->name=NULL;
+        }
+    }
+
+    //Wenn ein Kürzel in acronym gespeichert ist, dann dieses zu Großbuchstaben umwandeln
+    if(pers->acronym != NULL && strlen(pers->acronym)==3){
+        int p=0;
+        while(pers->acronym[p]){
+            pers->acronym[p]=toupper(pers->acronym[p]);
+            p++;
+        }
+    }
+
+    return isAcronym;
+}
+
+void insertUser(person * pers){
+
 }
 
