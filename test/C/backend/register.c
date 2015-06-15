@@ -9,6 +9,7 @@
 #include <ctype.h>
 
 #include "CGI_functions.h"
+#include "SQL_functions.h"
 
 int main(int argc, char ** argv){
     cgi datCGI;
@@ -28,6 +29,12 @@ int main(int argc, char ** argv){
     extractPOSTdata(datCGI.POST_data, "acronym", &acronym);
     extractPOSTdata(datCGI.POST_data, "teach", &teach);
     extractPOSTdata(datCGI.POST_data, "acceptTOS", &acceptTOS);
+    person reg_person;
+    reg_person.name=name;
+    reg_person.passwort=pass;
+    reg_person.acronym=acronym;
+    reg_person.isTeacher=true;
+    insertUser(&reg_person);
 
 
     puts("Content-type: text/plain\n\n");

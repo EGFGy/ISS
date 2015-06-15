@@ -14,5 +14,7 @@ typedef struct {
 	bool isTeacher;
 }person;
 
+
 void verifyUser(person * pers);
 bool detectConvertAcronym(person * pers);
+void insertUser(person * pers);

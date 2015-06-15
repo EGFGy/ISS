@@ -9,6 +9,7 @@
 #include <ctype.h>
 
 #include "SQL_functions.h"
+#include "CGI_functions.h"
 
 #define SELECT_Schueler "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"?\" AND Schueler.id=Benutzer.id;"
 
@@ -30,7 +31,8 @@ void verifyUser(person * pers){
 	}
 
     isAcronym=detectConvertAcronym(pers);
-	/*if(strlen(pers->name) > 3){
+    /*
+	if(strlen(pers->name) > 3){
         isAcronym=false;
     }else{
         if(strlen(pers->name) == 3){
@@ -200,12 +202,6 @@ void verifyUser(person * pers){
     mysql_close(my);
 }
 
-/** \brief  Funktion zum Testen, ob der Name vielleicht ein Kürzel ist
- *
- * \param pers person*  Personen-Objekt, das den Name enthält
- * \return bool
- *
- */
 bool detectConvertAcronym(person * pers){
     bool isAcronym;
 
@@ -213,7 +209,6 @@ bool detectConvertAcronym(person * pers){
 		printExitFailure("Programm falsch!");
 	}
 
-    //Ist anstelle ds Namen ein Kürzel?
 	if(strlen(pers->name) > 3){
         isAcronym=false;
     }else{
@@ -221,22 +216,55 @@ bool detectConvertAcronym(person * pers){
             isAcronym=true;
             pers->acronym=pers->name;
             pers->name=NULL;
-        }
-    }
-
-    //Wenn ein Kürzel in acronym gespeichert ist, dann dieses zu Großbuchstaben umwandeln
-    if(pers->acronym != NULL && strlen(pers->acronym)==3){
-        int p=0;
-        while(pers->acronym[p]){
-            pers->acronym[p]=toupper(pers->acronym[p]);
-            p++;
+            //char * c=pers->acronym_id;
+            int p=0;
+            while(pers->acronym[p]){
+                pers->acronym[p]=toupper(pers->acronym[p]);
+                p++;
+            }
         }
     }
 
     return isAcronym;
 }
 
+void uppercase_acr(person * pers){
+    int p=0;
+    while(pers->acronym[p]){
+        pers->acronym[p]=toupper(pers->acronym[p]);
+        p++;
+    }
+
+}
+
 void insertUser(person * pers){
+    if(pers == NULL){
+        printExitFailure("Programm falsch.\n Wörk!");
+    }
+
+    MYSQL *my=mysql_init(NULL);
+    if(my == NULL){
+        printExitFailure("MYSQL init failure");
+    }
+
+    if(mysql_real_connect(my, "localhost", "root", "WUW", "base3", 0, NULL, 0) == NULL){
+        /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
+        mysql_errno (my), mysql_error (my));
+        exit(EXIT_FAILURE);*/
+        printExitFailure("MYSQL-connection error!");
+    }else{
+        //fprintf(stderr, "Connection extablished!\n");
+    }
+
+    if(pers->isTeacher){
+        uppercase_acr(pers);
+
+        if(mysql_query(my, "INSERT INTO Benutzer (name, passwort, kurse) VALUES(\"Klötenfritz\", \"plööp\", \"meeeeer\");")){
+            printExitFailure("mysql_query failed");
+        }
+
+    }
+
 
 }
 
