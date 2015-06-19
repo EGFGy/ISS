@@ -5,6 +5,27 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.23.1" />
 	<link rel="stylesheet" href="/forms.css">
+	<style>
+	input[type="radio"] {
+		display:none;
+	}
+	input[type="radio"] + label {
+		display:inline-block;
+		margin:-1px 4px 0 0;
+		width: 50px;
+		height: 50px;
+		padding: 5px;
+		vertical-align:middle;
+		background-color: beige;
+		cursor:pointer;
+		
+		transition: background-color 0.2s ease;
+	}
+	input[type="radio"]:checked + label {
+		background-color: lightgreen;
+	}
+	
+	</style>
 </head>
 
 <body>
@@ -21,6 +42,13 @@
 		
 	
 	</ol>
+	
+	<input type="radio" id="c1" name="cc" />
+<label for="c1">Box A</label>
+	<input type="radio" id="c2" name="cc" />
+<label for="c2">Box B</label>
+	<input type="radio" id="c3" name="cc" />
+<label for="c3">Box C</label>
 	
 	<a href="/registrierung.html" class="gradient-button">Zur&uuml;ck</a>
 </body>
