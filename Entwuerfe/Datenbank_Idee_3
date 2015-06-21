@@ -20,7 +20,7 @@ kurse:   "1D1,10fG,2F2"
 
 Format:
 name:       <Vorname> <Nachname>
-passwort:   <P4sß\/\/0rt>
+passwort:   <Salt><Hash des Passwortes>
 Kurse:
             bei Unter- und Mittelstufe: <Klassenstufe><Klassenbuchstabe (klein)><Kursbezeichnung (groß)>
             bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß) ><opt: Kursnummer>
