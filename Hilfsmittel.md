@@ -1,4 +1,4 @@
-# Hilfsmitter für die Erstellung und Konfiguration
+# Hilfsmittel für die Erstellung und Konfiguration
 
 ### CGI:
 Allgemeines -- http://www.cgi101.com/book/  
@@ -31,4 +31,10 @@ http://www.c-howto.de/tutorial-einfuehrung.html
 http://www.lightsphere.com/dev/  
 CSS-Vorlagen -- http://purecss.io/  
 
-auch: [vhf/free-programming-books](https://github.com/vhf/free-programming-books)
+auch: [vhf/free-programming-books](https://github.com/vhf/free-programming-books)  
+
+
+# Quelltext der hilfreich sein könnte  
+
+### C
+* generisches Salz erzeugen -- http://perfec.to/gensalt/
