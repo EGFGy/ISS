@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="/radio_block.css">
 	
 	<script type="text/javascript">
+var name_correct=false;
 
 function ShowAcronym(it){
 	var acr=document.getElementById('acronym');
@@ -24,10 +25,15 @@ function ShowAcronym(it){
 
 function ShowDat(it, dat_id){
 	var dat=document.getElementById(dat_id);
-	
-	if(it.checked == true){
-		dat.style.display = 'inline-block';
+	if(name_correct){
+		if(it.checked == true){
+			dat.style.display = 'inline-block';
+		}else{
+			dat.style.display = 'none';
+		}
 	}else{
+		alert("Geben Sie einen korrekten Namen ein!");
+		it.checked = false;
 		dat.style.display = 'none';
 	}
 }
@@ -50,6 +56,7 @@ function CheckIfUserExists()
 						document.getElementById('UserName').style.border= "2px solid red";
 					}else{
 						document.getElementById('UserName').style.border= "2px solid green";
+						name_correct=true;
 					}
 				 }
 				//alert(allText);
@@ -63,7 +70,7 @@ function CheckIfUserExists()
 	
 </head>
 
-<body onload="javascript:ShowAcronym(document.getElementById('pupil')); ShowDat(document.getElementById('acceptTOS'), 'register');">
+<body onload="javascript:ShowAcronym(document.getElementById('pupil')); document.getElementById('register').style.display='none';">
 	<div id="login-form">
 	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
 		<p>Geben sie Ihre Personendaten ein!</p>
