@@ -9,10 +9,12 @@ input[type="radio"] + label {
 	vertical-align:middle;
 	background-color: beige;
 	cursor:pointer;
+    border: 2px solid black;
 	
 	transition: background-color 0.3s ease;
 }
 input[type="radio"]:checked + label {
 	background-color: lightgreen;
+	border: 2px solid green;
 	font-style: 	italic;
 }

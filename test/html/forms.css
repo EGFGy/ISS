@@ -12,7 +12,8 @@
 	vertical-align: middle;
 	display: inline-block;
 	box-sizing: border-box;
-	width: 200px;
+	max-width: 200px;
+	width: 90%;
 }
 
 
@@ -72,10 +73,13 @@ input:focus{
 		heigh: 1.3em;
 		font-size: 1.2em;
 	}
-	.textIn{
-		width: 80%;
+	.textIn, label{
+		width: 70%;
+		max-width: 90%;
 	}
 }
+	
+
 
 #login-form {
 	border-width: 2px;
@@ -89,11 +93,13 @@ input:focus{
 	/*width: 910px;*/
 	margin-left: auto;
 	margin-right: auto;
+	max-width: 500px;
 }
 
 @media all and (min-width: 800px){
 	#login-form {
-		width: 300px;
+		width: 30%;
+		max-width: 300px;
 		margin-left: auto;
 		margin-right: auto;
 	}
