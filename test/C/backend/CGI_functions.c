@@ -99,7 +99,7 @@ void printExitFailure(const char * message){
      printf("Content-type: text/plain\n\n");
      if(message != NULL){
         printf("ERROR: %s\n", message);
-        fprintf(stderr, "ERROR: %s", message);
+        fprintf(stderr, "ERROR: %s\n", message);
      }else{
         printf("ERROR: Keine Nachricht\n");
         fprintf(stderr, "ERROR: Keine Nachricht\n");
@@ -119,6 +119,24 @@ void setCookie(char name[], char content[]){
         return;
     }else{
         printf("Set-Cookie: %s=%s\n", name, content);
+    }
+}
+
+/** \brief HTTP-Header drucken
+ *
+ * \param type httpHeaderType  Typ des Headers (nur Text, oder html usw.)
+ * \return void
+ *
+ */
+void httpHeader(httpHeaderType type){
+    switch(type){
+        case HTML:
+            puts("Content-type: text/html\n\n");
+        break;
+        case TEXT:
+            puts("Content-type: text/plain\n\n");
+        break;
+
     }
 }
 
@@ -198,14 +216,14 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 
 /** \brief Aus dem mit POST übergeben String Attribut erte extrahieren
  *
- * \param data char*            String mit den POST-Daten
+ * \param cgi cgi*              CGI-objekt
  * \param property const char*  Attributname
  * \param out char**            Rückgabe des gefundenen Atrributwertes
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
-int extractPOSTdata(char * data, const char * property, char ** out){
-    return extractCGIdata(data, property, "&", out);
+int extractPOSTdata(cgi * cgi, const char * property, char ** out){
+    return extractCGIdata(cgi->POST_data, property, "&", out);
 }
 
 
@@ -218,6 +236,6 @@ int extractPOSTdata(char * data, const char * property, char ** out){
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
-int extractCOOKIEdata(char * data, const char * property, char ** out){
-    return extractCGIdata(data, property, ";", out);
+int extractCOOKIEdata(cgi * cgi, const char * property, char ** out){
+    return extractCGIdata(cgi->http_cookies, property, ";", out);
 }

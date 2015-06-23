@@ -9,10 +9,13 @@ typedef struct{
     char * query_string;
     char * http_cookies;
 }cgi;
+typedef enum {TEXT, HTML}httpHeaderType;
+
 void getCGIdata(cgi * gotCGI);
 void printExitFailure(const char * message);
 void setCookie(char name[], char content[]);
 void httpRedirect(const char * url);
+void httpHeader(httpHeaderType type);
 int extractCGIdata(char * data, const char * property, char * delim, char ** out);
-int extractPOSTdata(char * data, const char * property, char ** out);
-int extractCOOKIEdata(char * data, const char * property, char ** out);
+int extractPOSTdata(cgi * cgi, const char * property, char ** out);
+int extractCOOKIEdata(cgi * cgi, const char * property, char ** out);

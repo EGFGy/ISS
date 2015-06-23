@@ -229,10 +229,12 @@ bool detectConvertAcronym(person * pers){
 }
 
 void uppercase_acr(person * pers){
-    int p=0;
-    while(pers->acronym[p]){
-        pers->acronym[p]=toupper(pers->acronym[p]);
-        p++;
+    if(pers->acronym != NULL){
+        int p=0;
+        while(pers->acronym[p]){
+            pers->acronym[p]=toupper(pers->acronym[p]);
+            p++;
+        }
     }
 
 }
@@ -256,13 +258,77 @@ void insertUser(person * pers){
         //fprintf(stderr, "Connection extablished!\n");
     }
 
+    //TODO Passwort verschlüsseln (erstmal ohne Salz)
+    char * query;
+    query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse) VALUES(\"")+strlen(pers->name)+strlen("\", \"")+strlen(pers->passwort)+strlen("\");")+1, sizeof(char));
+    strcat(query, "INSERT INTO Benutzer (name, passwort, kurse) VALUES(\"");
+    strcat(query, pers->name);
+    strcat(query, "\", \"");
+    strcat(query, pers->passwort);
+    strcat(query, "\", \"n/a\");");
+
+    if(mysql_query(my, query)){
+        printExitFailure("mysql_query failed");
+    }
+
+    MYSQL_RES * result;
+
+    //Ist es eine Lehrer?
     if(pers->isTeacher){
         uppercase_acr(pers);
+        char * query_t=calloc(strlen("SELECT id FROM Benutzer WHERE name=\"")+strlen(pers->name)+strlen("\";")+1,sizeof(char));
+        strcat(query_t, "SELECT id FROM Benutzer WHERE name=\"");
+        strcat(query_t, pers->name);
+        strcat(query_t, "\";");
 
-        if(mysql_query(my, "INSERT INTO Benutzer (name, passwort, kurse) VALUES(\"Klötenfritz\", \"plööp\", \"meeeeer\");")){
+
+        if(mysql_query(my, query_t)){
             printExitFailure("mysql_query failed");
         }
 
+        result=mysql_store_result(my);
+        MYSQL_ROW row;
+        row=mysql_fetch_row(result);
+
+        if(mysql_num_rows(result) == 1){
+            query_t=calloc(strlen("INSERT INTO Lehrer VALUES(")+strlen(row[COL_ID])+strlen(", \"")+strlen(pers->acronym)+strlen("\");"),sizeof(char));
+            strcat(query_t, "INSERT INTO Lehrer VALUES(");
+            strcat(query_t,row[COL_ID]);
+            strcat(query_t,", \"");
+            strcat(query_t,pers->acronym);
+            strcat(query_t,"\");");
+
+            if(mysql_query(my, query_t)){
+                printExitFailure("mysql_query failed");
+            }
+        }
+    }else{
+        char * query_s=calloc(strlen("SELECT id FROM Benutzer WHERE name=\"")+strlen(pers->name)+strlen("\";")+1,sizeof(char));
+        strcat(query_s, "SELECT id FROM Benutzer WHERE name=\"");
+        strcat(query_s, pers->name);
+        strcat(query_s, "\";");
+
+
+        if(mysql_query(my, query_s)){
+            printExitFailure("mysql_query failed");
+        }
+
+        result=mysql_store_result(my);
+        MYSQL_ROW row;
+        row=mysql_fetch_row(result);
+
+        if(mysql_num_rows(result) == 1){
+            query_s=calloc(strlen("INSERT INTO Schueler VALUES(")+strlen(row[COL_ID])+strlen(", \"")+strlen("n/a")+strlen("\");"),sizeof(char));
+            strcat(query_s, "INSERT INTO Schueler VALUES(");
+            strcat(query_s,row[COL_ID]);
+            strcat(query_s,", \"");
+            strcat(query_s,"n/a");
+            strcat(query_s,"\");");
+
+            if(mysql_query(my, query_s)){
+                printExitFailure("mysql_query failed");
+            }
+        }
     }
 
 

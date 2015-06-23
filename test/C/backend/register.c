@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <math.h>
-#include <my_global.h>
-#include <mysql.h>
 #include <ctype.h>
 
 #include "CGI_functions.h"
 #include "SQL_functions.h"
+
+//name=fhfhiu&teach=true&acronym=FFF&pass=weew&acceptTOS=on (58)
 
 int main(int argc, char ** argv){
     cgi datCGI;
@@ -24,11 +24,11 @@ int main(int argc, char ** argv){
     char * teach=NULL;
     char * pass=NULL;
     char * acceptTOS=NULL;
-    extractPOSTdata(datCGI.POST_data, "name", &name);
-    extractPOSTdata(datCGI.POST_data, "pass", &pass);
-    extractPOSTdata(datCGI.POST_data, "acronym", &acronym);
-    extractPOSTdata(datCGI.POST_data, "teach", &teach);
-    extractPOSTdata(datCGI.POST_data, "acceptTOS", &acceptTOS);
+    extractPOSTdata(&datCGI, "name", &name);
+    extractPOSTdata(&datCGI, "pass", &pass);
+    extractPOSTdata(&datCGI, "acronym", &acronym);
+    extractPOSTdata(&datCGI, "teach", &teach);
+    extractPOSTdata(&datCGI, "acceptTOS", &acceptTOS);
     person reg_person;
     reg_person.name=name;
     reg_person.passwort=pass;
@@ -37,7 +37,7 @@ int main(int argc, char ** argv){
     insertUser(&reg_person);
 
 
-    puts("Content-type: text/plain\n\n");
+    httpHeader(TEXT);
 	printf("%s\n", datCGI.POST_data);
 
 

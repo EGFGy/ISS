@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1433882857 source:/home/keller/InfoWall/testProjekte/backend/CGI_functions.c
+1434925524 source:/home/keller/InfoWall/testProjekte/backend/CGI_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -10,9 +10,9 @@
 	<features.h>
 	"CGI_functions.h"
 
-1433505467 /home/keller/InfoWall/testProjekte/backend/CGI_functions.h
+1434925631 /home/keller/InfoWall/testProjekte/backend/CGI_functions.h
 
-1433510792 source:/home/keller/InfoWall/testProjekte/backend/main_strtok_base3.c
+1434825566 source:/home/keller/InfoWall/testProjekte/backend/main_strtok_base3.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -100,7 +100,7 @@
 
 1425025834 /usr/include/mysql/my_alloc.h
 
-1433271928 /home/keller/InfoWall/testProjekte/backend/SQL_functions.h
+1434913854 /home/keller/InfoWall/testProjekte/backend/SQL_functions.h
 
 1433886619 source:/home/keller/InfoWall/testProjekte/backend/SQL_functions.c
 	<stdio.h>
@@ -114,7 +114,31 @@
 	<ctype.h>
 	"SQL_functions.h"
 
-1433886814 source:/home/keller/InfoWall/testProjekte/backend/register.c
+1434925087 source:/home/keller/InfoWall/testProjekte/backend/register.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1434380413 source:/home/mr/Dokumente/Schule11/Informatik_P/InfoWall/testProjekte/backend/CGI_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	<features.h>
+	"CGI_functions.h"
+
+1434380413 /home/mr/Dokumente/Schule11/Informatik_P/InfoWall/testProjekte/backend/CGI_functions.h
+
+1434380413 source:/home/mr/Dokumente/Schule11/Informatik_P/InfoWall/testProjekte/backend/register.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -125,4 +149,44 @@
 	<mysql.h>
 	<ctype.h>
 	"CGI_functions.h"
+	"SQL_functions.h"
+
+1434380413 /home/mr/Dokumente/Schule11/Informatik_P/InfoWall/testProjekte/backend/SQL_functions.h
+
+1434393046 source:/home/mr/Dokumente/Schule11/Informatik_P/InfoWall/testProjekte/backend/SQL_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<my_global.h>
+	<mysql.h>
+	<ctype.h>
+	"SQL_functions.h"
+	"CGI_functions.h"
+
+1434925036 source:/home/keller/InfoWall/testProjekte/backend/SQL_functions_v1.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<my_global.h>
+	<mysql.h>
+	<ctype.h>
+	<crypt.h>
+	"SQL_functions.h"
+	"CGI_functions.h"
+
+1434926191 source:/home/keller/InfoWall/testProjekte/backend/check_user_exist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
 

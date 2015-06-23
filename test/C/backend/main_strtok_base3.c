@@ -11,8 +11,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <math.h>
-#include <my_global.h>
-#include <mysql.h>
 #include <ctype.h>
 
 #include "CGI_functions.h"
@@ -49,7 +47,9 @@
  * +----+----------------+--------------+--------------+
  */
 
-int main(int argc, char **argv)
+
+//name=sfdfewds&pass=avcfdcx&teach=false
+int main(int argc, char ** argv)
 {
 	char * name = NULL; //Pointer für den eingegebenen Namen
 	char * password = NULL; //Pointer für das eingegebene Passwort
@@ -74,17 +74,17 @@ int main(int argc, char **argv)
         printExitFailure("Use POST!");
     }
     //Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
-    extractPOSTdata(datCGI.POST_data, "name", &name);
-    extractPOSTdata(datCGI.POST_data, "pass", &password);
+    extractPOSTdata(&datCGI, "name", &name);
+    extractPOSTdata(&datCGI, "pass", &password);
     char * isT=NULL;
-    if(extractPOSTdata(datCGI.POST_data, "teach", &isT) ==0){
+    if(extractPOSTdata(&datCGI, "teach", &isT) ==0){
         if(strcmp(isT, "true") == 0){
             login_person.isTeacher=true;
         }
     }
 
     if(datCGI.http_cookies != NULL){
-        if(extractCOOKIEdata(datCGI.http_cookies, "NAME", &Cook_name) == -1 || extractCOOKIEdata(datCGI.http_cookies, "SID", &Cook_sid) == -1){
+        if(extractCOOKIEdata(&datCGI, "NAME", &Cook_name) == -1 || extractCOOKIEdata(&datCGI, "SID", &Cook_sid) == -1){
             cookies_found=false;
         }else{
             cookies_found=true;
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
 
     //Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
 
-	puts("Content-type: text/plain\n\n");
+	httpHeader(TEXT);
 	printf("%s\n", datCGI.POST_data);
 
 
