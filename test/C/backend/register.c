@@ -33,11 +33,18 @@ int main(int argc, char ** argv){
     reg_person.name=name;
     reg_person.passwort=pass;
     reg_person.acronym=acronym;
-    reg_person.isTeacher=true;
+    if(strcmp(teach, "true") == 0){
+        reg_person.isTeacher=true;
+    }else{
+        reg_person.isTeacher=false;
+    }
+
+
     insertUser(&reg_person);
 
 
-    httpHeader(TEXT);
+    //httpHeader(TEXT);
+    puts("Content-type: text/plain\n\n");
 	printf("%s\n", datCGI.POST_data);
 
 

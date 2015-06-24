@@ -259,10 +259,12 @@ void insertUser(person * pers){
         strcat(query, pers->acronym);
         strcat(query, "');");
     }
-    fprintf(stderr, "%s", query);
+    fprintf(stderr, "\nInsert dat:\n%s\n", query);
     if(mysql_query(my, query)){
+        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         printExitFailure("mysql_query failed (insert)");
     }
+    mysql_close(my);
 }
 
 void salt_generate(char ** salt){
@@ -307,14 +309,20 @@ bool salt_exists(char ** salt){
 
     if(mysql_query(my, query)){
         printExitFailure("mysql_query failed (search salt)");
+        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
     }else{
         result = mysql_store_result(my);
 
         if(mysql_num_rows(result) > 0){
             fprintf(stderr, "Salz gefunden, wörk\n");
+            mysql_free_result(result);
+            mysql_close(my);
             return true;
         }
     }
+
+    mysql_free_result(result);
+    mysql_close(my);
 
     return false;
 }
@@ -325,7 +333,7 @@ bool user_exists(char * name){
     }
 
     char * query=NULL;
-    query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(name)+strlen("';"), sizeof(char));
+    query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(name)+strlen("';")+1, sizeof(char));
     strcat(query, "SELECT name FROM Benutzer WHERE name='");
     strcat(query, name);
     strcat(query, "';");
@@ -335,7 +343,7 @@ bool user_exists(char * name){
         printExitFailure("MYSQL init failure!");
     }
 
-    if(mysql_real_connect(my, "localhost", "root", "WUW", "base4", 0, NULL, 0) == NULL){
+    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
         printExitFailure("MYSQL-connection error!");
     }else{
         //fprintf(stderr, "Connection extablished!\n");
@@ -344,18 +352,24 @@ bool user_exists(char * name){
     MYSQL_RES * result=NULL;
 
     if(mysql_query(my, query)){
+        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         printExitFailure("mysql_query failed (search user)");
     }else{
         result = mysql_store_result(my);
 
         if(mysql_num_rows(result) > 0){
             fprintf(stderr, "Benutzer gefunden, wörk\n");
+            mysql_free_result(result);
+            mysql_close(my);
             return true;
         }else{
+            mysql_free_result(result);
+            mysql_close(my);
             return false;
         }
     }
-
+    mysql_free_result(result);
+    mysql_close(my);
     return false;
 }
 

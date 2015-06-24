@@ -52,6 +52,7 @@ void getCGIdata(cgi * gotCGI){
             printExitFailure("Use GET or POST");
 		}
 	}else{
+        //Es ist POST
 	    contentLength = getenv("CONTENT_LENGTH");
 	    if(contentLength == NULL){
             printExitFailure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
