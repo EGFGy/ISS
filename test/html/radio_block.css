@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-input[type="radio"] {
+input[type="radio"], input[type="checkbox"] {
 	display:none;
 }
 input[type="radio"] + label {
@@ -13,8 +13,20 @@ input[type="radio"] + label {
 	
 	transition: background-color 0.3s ease;
 }
-input[type="radio"]:checked + label {
+input[type="checkbox"] + label{
+	display:inline-block;
+	vertical-align:middle;
+	width: 15px;
+	height: 15px;
+	background-color: beige;
+	cursor:pointer;
+    border: 2px solid black;
+	
+	transition: background-color 0.3s ease;
+}
+
+input[type="radio"]:checked + label , input[type="checkbox"]:checked + label {
 	background-color: lightgreen;
-	border: 2px solid green;
+	border: 5px solid green;
 	font-style: 	italic;
 }

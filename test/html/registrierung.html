@@ -32,12 +32,13 @@ function ShowDat(it, dat_id){
 			dat.style.display = 'none';
 		}
 	}else{
-		alert("Geben Sie einen korrekten Namen ein!");
+		alert("Geben Sie einen Namen ein, der noch nicht vergeben ist!");
 		it.checked = false;
 		dat.style.display = 'none';
 	}
 }
 
+//Das ist nur zum Testen (damit es schonmal so aussieht als ob es fertig wäre)
 function CheckIfUserExists()
 {
 	var rawFile = new XMLHttpRequest();
@@ -52,10 +53,10 @@ function CheckIfUserExists()
 				var names = allText.split("\n");
 				if(document.getElementById('UserName').value.match(/\S/)){
 					if(allText.indexOf(document.getElementById('UserName').value+'\n') >0){
-						alert("Name existiert" + '\n' + allText + '\n' + names.length);
-						document.getElementById('UserName').style.border= "2px solid red";
+						alert('Name existiert bereits' + '\n' + allText + '\n' + names.length);
+						document.getElementById('UserName').style.border= '2px solid red';
 					}else{
-						document.getElementById('UserName').style.border= "2px solid green";
+						document.getElementById('UserName').style.border= '2px solid green';
 						name_correct=true;
 					}
 				 }
@@ -66,6 +67,38 @@ function CheckIfUserExists()
 	rawFile.send(null);
 }
 
+function checkDatName(id)
+{
+	var url = "/cgi-bin/check_user_exist.cgi";
+	var params = "name="+document.getElementById(id).value;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	
+	
+	xhr.onreadystatechange = function ()
+		{
+			if(xhr.readyState === 4)
+			{
+				if(xhr.status === 200 || rawFile.status == 0)
+				{
+					var allText = xhr.responseText;
+					var names = allText.split("\n");
+					if(names.indexOf("exists")>0){
+						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: Name existiert bereits!' + "\n<--- !!!!!!! -\-\->");
+						document.getElementById(id).style.border= '2px solid red';
+					 }else{
+						document.getElementById(id).style.border= '2px solid green';
+						name_correct=true;
+					 }
+					//alert(allText);
+				}
+			}
+		}
+	xhr.send(params);
+}
+
 	</script>
 	
 </head>
@@ -74,21 +107,13 @@ function CheckIfUserExists()
 	<div id="login-form">
 	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
 		<p>Geben sie Ihre Personendaten ein!</p>
-		<input id="UserName" class="textIn" placeholder="Name" name="name" type="text" onblur="CheckIfUserExists()" required />
-		<!-- <br>
-		<input class="textIn" placeholder="E-Mail" name="mail" type="text" required />
-		<br>
-		<input class="textIn" placeholder="Kurse" name="kurs" type="text" required />
-		<br>
-		<input class="textIn" placeholder="Kürzel" name="k&uuml;rzel" type="text" required /> -->
-		<br>
+		<input id="UserName" class="textIn" placeholder="Name" name="name" type="text" onblur="checkDatName(this.id)" required />
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="teacher" name="teach" value="true"><label for="teacher">Lehrer</label></input>
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="pupil" name="teach" value="false" checked="checked"><label for="pupil">Schüler</label></input>
 		<input id="acronym" class="textIn" placeholder="Kürzel" name="acronym" type="text" required />
-		<br>
 		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" required />
 		<br>
-		<input onclick="ShowDat(this, 'register');" id="acceptTOS" name="acceptTOS" type="checkbox"><label for="acceptTOS"><a href="/tos.html">Nutzungsbedingungen</a> gelesen und akzeptiert</label>
+		<input onclick="ShowDat(this, 'register');" id="acceptTOS" name="acceptTOS" type="checkbox"><label for="acceptTOS"></label><a href="/tos.html">Nutzungsbedingungen</a> gelesen und akzeptiert
 		<br>
 		<button class="submitButton" type="submit" id="register">Registrieren</button>
 	</form>

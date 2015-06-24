@@ -74,8 +74,8 @@ input:focus{
 		font-size: 1.2em;
 	}
 	.textIn, label{
-		width: 70%;
-		max-width: 90%;
+		width: 100%;
+		max-width: 300px;
 	}
 }
 	
