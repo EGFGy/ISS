@@ -20,6 +20,7 @@ typedef struct {
 
 void verifyUser(person * pers);
 bool detectConvertAcronym(person * pers);
+void uppercase_acr(person * pers);
 void insertUser(person * pers);
 void salt_generate(char ** salt);
 bool salt_exists(char ** salt);

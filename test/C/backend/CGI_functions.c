@@ -17,6 +17,8 @@
  * content_max langer String aus der Standardeingabe gelesen.
  */
 void getCGIdata(cgi * gotCGI){
+
+    //TODO: Unterstützung für HEX-Sequenzen hinzufügen (%XX)
     int content_length = 0;
 	char * contentLength = NULL; //Länge des übertragenen Strings
 	char * request_method = getenv("REQUEST_METHOD"); //HTTP-Request-Method

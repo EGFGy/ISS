@@ -17,7 +17,7 @@
 #define SELECT_Schueler "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"?\" AND Schueler.id=Benutzer.id;"
 
 /**
-Neue Version mit nur einer Tabelle.
+Neue Version mit nur einer Tabelle. (base4)
 */
 
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwor stimmt
@@ -169,6 +169,13 @@ void verifyUser(person * pers){
     mysql_close(my);
 }
 
+/** \brief Feststellen ob der name möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
+ *
+ * \param pers person*  Personen-Struktur
+ * \return bool         true: es gibt ein Kürzel, false: es ist kein Kürzel.
+ *  Falls der Name genau drei buchstabe lang ist wird der Inhalt in das Kürzel verschoben und
+ *  zu nur Großbuchstaben umgewandelt.
+ */
 bool detectConvertAcronym(person * pers){
     bool isAcronym;
 
@@ -183,18 +190,26 @@ bool detectConvertAcronym(person * pers){
             isAcronym=true;
             pers->acronym=pers->name;
             pers->name=NULL;
+
+            uppercase_acr(pers);
             //char * c=pers->acronym_id;
-            int p=0;
+            /*int p=0;
             while(pers->acronym[p]){
                 pers->acronym[p]=toupper(pers->acronym[p]);
                 p++;
-            }
+            }*/
         }
     }
 
     return isAcronym;
 }
 
+/** \brief Kürzel in nur Großbuchstaben umwandeln
+ *
+ * \param pers person*  Personen-Struktur
+ * \return void
+ *
+ */
 void uppercase_acr(person * pers){
     if(pers->acronym != NULL){
         int p=0;
@@ -206,6 +221,13 @@ void uppercase_acr(person * pers){
 
 }
 
+/** \brief Nutzer mit Name, (ggf. Kürzel) und Passwort in die DB einfügen
+ *
+ * \param pers person*  Personen-Struktur
+ * \return void
+ * Eine Person in die DB einfügen, falls diese noch nicht existiert.
+ * Das Passwort wird mithilfe von crypt() verschlüsselt
+ */
 void insertUser(person * pers){
     if(pers == NULL){
         printExitFailure("Programm falsch.\n Wörk!");
@@ -267,6 +289,12 @@ void insertUser(person * pers){
     mysql_close(my);
 }
 
+/** \brief Salz generieren aus urandom (könnte man das nicht einfacher haben?)
+ *
+ * \param salt char**   Pointer auf einen Salt-pointer
+ * \return void
+ *
+ */
 void salt_generate(char ** salt){
     FILE * f_random=fopen("/dev/urandom", "r");
     if(!f_random)printExitFailure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
@@ -281,10 +309,16 @@ void salt_generate(char ** salt){
     }
 }
 
+/** \brief Prüfen ob das Salz noch nicht vorhanden ist
+ *
+ * \param salt char**   Pointer auf einen Salt-pointer
+ * \return bool         true: Salz gefunden ; false: Salz nicht gefunden
+ *
+ */
 bool salt_exists(char ** salt){
 
     char * seekSalt=calloc(SALT_SIZE+1, sizeof(char));
-    strncpy(seekSalt, *salt, 2);
+    strncpy(seekSalt, *salt, SALT_SIZE);
 
     char * query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
     strcat(query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^");
@@ -296,7 +330,7 @@ bool salt_exists(char ** salt){
         printExitFailure("MYSQL init failure\n Wörk!");
     }
 
-    if(mysql_real_connect(my, "localhost", "root", "WUW", "base4", 0, NULL, 0) == NULL){
+    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
         /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
         mysql_errno (my), mysql_error (my));
         exit(EXIT_FAILURE);*/
@@ -327,6 +361,12 @@ bool salt_exists(char ** salt){
     return false;
 }
 
+/** \brief Prüfen ob ein bestimmter Name schon in der Datenbank existiert
+ *
+ * \param name char*   Name der gesucht werden soll
+ * \return bool        true: Name gefunden; false: Name nicht gefunden
+ *
+ */
 bool user_exists(char * name){
     if(name == NULL){
         printExitFailure("Programm falsch, Wörk!");
