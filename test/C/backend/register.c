@@ -43,8 +43,8 @@ int main(int argc, char ** argv){
     insertUser(&reg_person);
 
 
-    //httpHeader(TEXT);
-    puts("Content-type: text/plain\n\n");
+    httpHeader(TEXT);
+    //puts("Content-type: text/plain\n\n");
 	printf("%s\n", datCGI.POST_data);
 
 

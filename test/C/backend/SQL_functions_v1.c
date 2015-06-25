@@ -116,7 +116,7 @@ void verifyUser(person * pers){
             isAcronym=false; //Da wir jetzt eine Person mit Kürzel gefunden haben
         }else{
             //Person nicht vorhanden, oder Fehler
-            printExitFailure("mysql: Person nicht vorhanden, oder doppelt.");
+            printExitFailure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
         }
     }
 
@@ -129,7 +129,7 @@ void verifyUser(person * pers){
         fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s\n", row[COL_NAME], row[COL_PASS]);
 
         //TODO: Passwort RICHTIG machen (mit hash + salt)
-        char * salt=calloc(3, sizeof(char));
+        char * salt=calloc(SALT_SIZE+1, sizeof(char));
         strncat(salt, row[COL_PASS], 1);
         strncat(salt, row[COL_PASS]+1, 1);
         pers->passwort=crypt(pers->passwort, salt);
