@@ -18,6 +18,8 @@ int main(int argc, char ** argv){
         printExitFailure("Use POST!");
     }
 
+    fprintf(stderr, "Hello, welcome\n");
+
     //Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
     char * name=NULL;
     char * acronym=NULL;
@@ -39,11 +41,13 @@ int main(int argc, char ** argv){
         reg_person.isTeacher=false;
     }
 
-
+    fprintf(stderr, "\nnow comes da htmlz\n");
     insertUser(&reg_person);
 
 
     httpHeader(TEXT);
+    //puts("Content-type: text\/plain\n\n\TEST");
+    //printf("FAAAAAAACK!!!\n\n\n\n");
     //puts("Content-type: text/plain\n\n");
 	printf("%s\n", datCGI.POST_data);
 
