@@ -46,21 +46,18 @@ int main(int argc, char ** argv){
 
 
     httpHeader(TEXT);
-    //puts("Content-type: text\/plain\n\n\TEST");
-    //printf("FAAAAAAACK!!!\n\n\n\n");
-    //puts("Content-type: text/plain\n\n");
-	printf("%s\n", datCGI.POST_data);
+    printf("%s\n", datCGI.POST_data);
 
 
     puts("Erhaltene Daten:\n");
-	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
+    printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
     printf("Name:           %s\nPassword:       %s\n", name, pass);
     printf("Kuerzel:        %s\nTeach:          %s\n", acronym, teach);
     printf("accepted TOS:   %s\n\n", acceptTOS);
 
 
-	printf("Post Data:      %s\n", datCGI.POST_data);
+    printf("Post Data:      %s\n", datCGI.POST_data);
 
 
-	exit(0);
+    exit(0);
 }

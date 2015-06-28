@@ -6,6 +6,9 @@
 	<meta name="generator" content="Geany 1.23.1" />
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="/forms.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<style>
 	input[type="radio"] {
 		display:none;
@@ -89,6 +92,17 @@ function checkDatName(id)
 		}
 	xhr.send(params);
 }
+
+  $(function() {
+    $( "#dialog-message" ).dialog({
+      modal: true,
+      buttons: {
+        Ok: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  });
 	</script>
 </head>
 
@@ -116,9 +130,20 @@ function checkDatName(id)
 <label for="c2">Box B</label>
 	<input type="radio" id="c3" name="cc" />
 <label for="c3">Box C</label>
-	<input type="text" id="UserName" onblur="checkDatName(this.id);">
+	<input type="text" id="UserName" onblur="checkDatName(this.id);" autocorrect="off" autocapitalize="off">
 	<button onclick="CheckIfUserExists();">balbalbal</button>
 	<a href="/registrierung.html" class="gradient-button">Zur&uuml;ck</a>
+	<hr>
+	<hr>
+	<div id="dialog-message" title="Download complete">
+  <p>
+    <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+    Your files have downloaded successfully into the My Downloads folder.
+  </p>
+  <p>
+    Currently using <b>36% of your storage space</b>.
+  </p>
+</div>
 </body>
 
 </html>
