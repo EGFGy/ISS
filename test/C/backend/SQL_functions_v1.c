@@ -31,138 +31,135 @@ Neue Version mit nur einer Tabelle. (base4)
  *  --> die Person ist authentifiziert.
  */
 void verifyUser(person * pers){
-    bool isAcronym;
+	bool isAcronym;
 
-    if(pers->name==NULL || pers->passwort==NULL){
+	if(pers->name==NULL || pers->passwort==NULL){
 		printExitFailure("Programm falsch!");
 	}
 
-    isAcronym=detectConvertAcronym(pers);
+	isAcronym=detectConvertAcronym(pers);
 
-    MYSQL *my=mysql_init(NULL);
-    if(my == NULL){
-        printExitFailure("MYSQL init failure");
-    }
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure");
+	}
 
-    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
-        /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-        mysql_errno (my), mysql_error (my));
-        exit(EXIT_FAILURE);*/
-        printExitFailure("MYSQL-connection error!");
+	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
+		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
+		mysql_errno (my), mysql_error (my));
+		exit(EXIT_FAILURE);*/
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
+
+	MYSQL_RES * result=NULL;
+	bool found=false;
+
+
+	if(isAcronym){
+		//Es ist sicher eine Lehrer
+
+		//TODO: Verhindern, dass ein bereits vorhandener Name erneut eingefügt wird.
+		//TODO: sql-injection verhindern
+		size_t len_start=strlen("SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE kuerzel=\"");
+		size_t len_mid=strlen(pers->acronym);
+		size_t len_end=strlen("\";");
+
+		char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
+		if(sql_query == NULL){
+			printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
+		}
+		strcpy(sql_query, "SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE kuerzel=\"");
+		strncat(sql_query, pers->acronym, len_mid);
+		strcat(sql_query, "\";");
+
+		fprintf(stderr, "Lehrer.\nsql_query: %s\n", sql_query);
+
+		if(mysql_query(my, sql_query)){  //Liefert 0 bei Erfolg
+			printExitFailure("mysql_query failed (Lehrer)");
+		}
+
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) == 1){
+			found=true;
+			isAcronym=true; //Da wir jetzt eine Person mit Kürzel gefunden haben
+			pers->isTeacher=true;
+		}
     }else{
-        //fprintf(stderr, "Connection extablished!\n");
+		//Es könnte ein Lehrer oder ein Schüler sein
+
+		size_t len_start=strlen("SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE name=\"");
+		size_t len_mid=strlen(pers->name);
+		size_t len_end=strlen("\";");
+
+		char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
+		if(sql_query == NULL){
+			printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
+		}
+		strcpy(sql_query, "SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE name=\"");
+		strncat(sql_query, pers->name, len_mid);
+		strcat(sql_query, "\";");
+
+		fprintf(stderr, "Schueler o. Lehrer.\nsql_query: %s\n", sql_query);
+
+		if(mysql_query(my, sql_query)){  // Liefert 0 bei Erfolg
+			printExitFailure("mysql_query failed (Schueler - Lehrer)");
+		}
+
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) == 1){
+			found=true;
+			isAcronym=false; //Da wir jetzt eine Person mit Kürzel gefunden haben
+		}else{
+			//Person nicht vorhanden, oder Fehler
+			printExitFailure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
+		}
     }
 
-    MYSQL_RES * result=NULL;
-    bool found=false;
+	//Ab hier wurde die SQL-Query für Leher oder Schuler ausgeführt.
+	if(found == true){
+		MYSQL_ROW row;
+		row=mysql_fetch_row(result);
+		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s\n", row[COL_NAME], row[COL_PASS]);
 
+		//TODO: Passwort RICHTIG machen (mit hash + salt)
+		char * salt=calloc(SALT_SIZE+1, sizeof(char));
+		strncat(salt, row[COL_PASS], 1);
+		strncat(salt, row[COL_PASS]+1, 1);
+		pers->passwort=crypt(pers->passwort, salt);
 
+		if(strcmp(pers->passwort, row[COL_PASS]) == 0){
+			pers->auth=true;
+			if(isAcronym){
+				//Person hat Kürzel als Name angegeben --> es ist eine Leherer --> Name holen
+				pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+				strcpy(pers->name, row[COL_NAME]);
+			}else{
+				//Person hat ihren Namen statt dem Kürzel angegeben --> (Falls es ein Lehrerist, dessen Kürzel holen)
+				pers->acronym=NULL;
+				if(row[COL_ACR] != NULL){
+					//Die Person hat ein Küzel --> Lehrer
+					pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
+					strcpy(pers->acronym, row[COL_ACR]);
+					pers->isTeacher=true;
+				}else{
+					pers->isTeacher=false;
+				}
+			}
+			if(row[COL_COURSE] != NULL){
+				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
+				strcpy(pers->courses, row[COL_COURSE]);
+			}
 
-    if(isAcronym){
-        //Es ist sicher eine Lehrer
-
-        //TODO: Verhindern, dass ein bereits vorhandener Name erneut eingefügt wird.
-        //TODO: sql-injection verhindern
-        size_t len_start=strlen("SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE kuerzel=\"");
-        size_t len_mid=strlen(pers->acronym);
-        size_t len_end=strlen("\";");
-
-        char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
-        if(sql_query == NULL){
-            printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
-        }
-        strcpy(sql_query, "SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE kuerzel=\"");
-        strncat(sql_query, pers->acronym, len_mid);
-        strcat(sql_query, "\";");
-
-        fprintf(stderr, "Lehrer.\nsql_query: %s\n", sql_query);
-
-        if(mysql_query(my, sql_query)){  //Liefert 0 bei Erfolg
-            printExitFailure("mysql_query failed (Lehrer)");
-        }
-
-        result = mysql_store_result(my);
-
-        if(mysql_num_rows(result) == 1){
-            found=true;
-            isAcronym=true; //Da wir jetzt eine Person mit Kürzel gefunden haben
-            pers->isTeacher=true;
-        }
-    }else{
-        //Es könnte ein Lehrer oder ein Schüler sein
-
-        size_t len_start=strlen("SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE name=\"");
-        size_t len_mid=strlen(pers->name);
-        size_t len_end=strlen("\";");
-
-        char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
-        if(sql_query == NULL){
-            printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
-        }
-        strcpy(sql_query, "SELECT id, name, passwort, kurse, kuerzel FROM Benutzer WHERE name=\"");
-        strncat(sql_query, pers->name, len_mid);
-        strcat(sql_query, "\";");
-
-        fprintf(stderr, "Schueler o. Lehrer.\nsql_query: %s\n", sql_query);
-
-        if(mysql_query(my, sql_query)){  // Liefert 0 bei Erfolg
-            printExitFailure("mysql_query failed (Schueler - Lehrer)");
-        }
-
-        result = mysql_store_result(my);
-
-        if(mysql_num_rows(result) == 1){
-            found=true;
-            isAcronym=false; //Da wir jetzt eine Person mit Kürzel gefunden haben
-        }else{
-            //Person nicht vorhanden, oder Fehler
-            printExitFailure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
-        }
-    }
-
-
-    //Ab hier wurde die SQL-Query für Leher oder Schuler ausgeführt.
-    if(found == true){
-
-        MYSQL_ROW row;
-        row=mysql_fetch_row(result);
-        fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s\n", row[COL_NAME], row[COL_PASS]);
-
-        //TODO: Passwort RICHTIG machen (mit hash + salt)
-        char * salt=calloc(SALT_SIZE+1, sizeof(char));
-        strncat(salt, row[COL_PASS], 1);
-        strncat(salt, row[COL_PASS]+1, 1);
-        pers->passwort=crypt(pers->passwort, salt);
-
-        if(strcmp(pers->passwort, row[COL_PASS]) == 0){
-            pers->auth=true;
-            if(isAcronym){
-                //Person hat Kürzel als Name angegeben --> es ist eine Leherer --> Name holen
-                pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-                strcpy(pers->name, row[COL_NAME]);
-            }else{
-                //Person hat ihren Namen statt dem Kürzel angegeben --> (Falls es ein Lehrerist, dessen Kürzel holen)
-                pers->acronym=NULL;
-                if(row[COL_ACR] != NULL){
-                    //Die Person hat ein Küzel --> Lehrer
-                    pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
-                    strcpy(pers->acronym, row[COL_ACR]);
-                    pers->isTeacher=true;
-                }else{
-                    pers->isTeacher=false;
-                }
-            }
-            if(row[COL_COURSE] != NULL){
-                pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
-                strcpy(pers->courses, row[COL_COURSE]);
-            }
-
-            srand((unsigned int)time(NULL));
-            pers->sid=rand();
-        }else{
-            pers->auth=false;
-            pers->sid=0;
-        }
+			srand((unsigned int)time(NULL));
+			pers->sid=rand();
+		}else{
+			pers->auth=false;
+			pers->sid=0;
+		}
     }
 
     mysql_free_result(result);
@@ -184,22 +181,22 @@ bool detectConvertAcronym(person * pers){
 	}
 
 	if(strlen(pers->name) > 3){
-        isAcronym=false;
-    }else{
-        if(strlen(pers->name) == 3){
-            isAcronym=true;
-            pers->acronym=pers->name;
-            pers->name=NULL;
+		isAcronym=false;
+	}else{
+		if(strlen(pers->name) == 3){
+			isAcronym=true;
+			pers->acronym=pers->name;
+			pers->name=NULL;
 
-            uppercase_acr(pers);
-            //char * c=pers->acronym_id;
-            /*int p=0;
-            while(pers->acronym[p]){
-                pers->acronym[p]=toupper(pers->acronym[p]);
-                p++;
-            }*/
-        }
-    }
+			uppercase_acr(pers);
+			//char * c=pers->acronym_id;
+			/*int p=0;
+			while(pers->acronym[p]){
+				pers->acronym[p]=toupper(pers->acronym[p]);
+				p++;
+			}*/
+		}
+	}
 
     return isAcronym;
 }
@@ -211,13 +208,13 @@ bool detectConvertAcronym(person * pers){
  *
  */
 void uppercase_acr(person * pers){
-    if(pers->acronym != NULL){
-        int p=0;
-        while(pers->acronym[p]){
-            pers->acronym[p]=toupper(pers->acronym[p]);
-            p++;
-        }
-    }
+	if(pers->acronym != NULL){
+		int p=0;
+		while(pers->acronym[p]){
+			pers->acronym[p]=toupper(pers->acronym[p]);
+			p++;
+		}
+	}
 
 }
 
@@ -229,64 +226,64 @@ void uppercase_acr(person * pers){
  * Das Passwort wird mithilfe von crypt() verschlüsselt
  */
 void insertUser(person * pers){
-    if(pers == NULL){
-        printExitFailure("Programm falsch.\n Wörk!");
-    }
+	if(pers == NULL){
+		printExitFailure("Programm falsch.\n Wörk!");
+	}
 
-    if(user_exists(pers->name)){
-        printExitFailure("Benutzer Existiert schon!");
-    }
+	if(user_exists(pers->name)){
+		printExitFailure("Benutzer Existiert schon!");
+	}
 
-    MYSQL *my=mysql_init(NULL);
-    if(my == NULL){
-        printExitFailure("MYSQL init failure\n Wörk!");
-    }
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure\n Wörk!");
+	}
 
-    if(mysql_real_connect(my, "localhost", "root", "WUW", "base4", 0, NULL, 0) == NULL){
-        /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-        mysql_errno (my), mysql_error (my));
-        exit(EXIT_FAILURE);*/
-        printExitFailure("MYSQL-connection error!");
-    }else{
-        //fprintf(stderr, "Connection extablished!\n");
-    }
+	if(mysql_real_connect(my, "localhost", "root", "WUW", "base4", 0, NULL, 0) == NULL){
+		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
+		mysql_errno (my), mysql_error (my));
+		exit(EXIT_FAILURE);*/
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
 
-    //TODO Salt erzeugen und "Salt-reuse verhindern"
-    char * salt=NULL;
-    salt_generate(&salt);
+	//TODO Salt erzeugen und "Salt-reuse verhindern"
+	char * salt=NULL;
+	salt_generate(&salt);
 
-    while(salt_exists(&salt)){
-        salt_generate(&salt);
-    }
+	while(salt_exists(&salt)){
+		salt_generate(&salt);
+	}
 
-    pers->passwort=crypt(pers->passwort, salt);
+	pers->passwort=crypt(pers->passwort, salt);
 
 
-    char * query;
-    //Ist es eine Lehrer oder ein Schüler?
-    if(!pers->isTeacher){
-        query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
-        strcat(query, "INSERT INTO Benutzer (name, passwort, kurse) VALUES('");
-        strcat(query, pers->name);
-        strcat(query, "', '");
-        strcat(query, pers->passwort);
-        strcat(query, "', 'n/a');");
-    }else{
-        query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
-        strcat(query, "INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('");
-        strcat(query, pers->name);
-        strcat(query, "', '");
-        strcat(query, pers->passwort);
-        strcat(query, "', 'n/a', '");
-        strcat(query, pers->acronym);
-        strcat(query, "');");
-    }
-    fprintf(stderr, "\nInsert dat:\n%s\n", query);
-    if(mysql_query(my, query)){
-        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-        printExitFailure("mysql_query failed (insert)");
-    }
-    mysql_close(my);
+	char * query;
+	//Ist es eine Lehrer oder ein Schüler?
+	if(!pers->isTeacher){
+		query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
+		strcat(query, "INSERT INTO Benutzer (name, passwort, kurse) VALUES('");
+		strcat(query, pers->name);
+		strcat(query, "', '");
+		strcat(query, pers->passwort);
+		strcat(query, "', 'n/a');");
+	}else{
+		query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
+		strcat(query, "INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('");
+		strcat(query, pers->name);
+		strcat(query, "', '");
+		strcat(query, pers->passwort);
+		strcat(query, "', 'n/a', '");
+		strcat(query, pers->acronym);
+		strcat(query, "');");
+	}
+	fprintf(stderr, "\nInsert dat:\n%s\n", query);
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		printExitFailure("mysql_query failed (insert)");
+	}
+	mysql_close(my);
 }
 
 /** \brief Salz generieren aus urandom (könnte man das nicht einfacher haben?)
@@ -296,17 +293,17 @@ void insertUser(person * pers){
  *
  */
 void salt_generate(char ** salt){
-    FILE * f_random=fopen("/dev/urandom", "r");
-    if(!f_random)printExitFailure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
-    *salt=calloc(SALT_SIZE+1, sizeof(unsigned char));
+	FILE * f_random=fopen("/dev/urandom", "r");
+	if(!f_random)printExitFailure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
+	*salt=calloc(SALT_SIZE+1, sizeof(unsigned char));
 
-    //strcpy(salt, "00");
-    for(int i=SALT_SIZE; i>0; i--){
-        //fread(salt, 1, 2, f_random);
-        //strcat(salt, fgetc(f_random));
-        sprintf(*salt,"%s%x",*salt,fgetc(f_random));
-        //sprintf(salt,"%c",fgetc(f_random));
-    }
+	//strcpy(salt, "00");
+	for(int i=SALT_SIZE; i>0; i--){
+		//fread(salt, 1, 2, f_random);
+		//strcat(salt, fgetc(f_random));
+		sprintf(*salt,"%s%x",*salt,fgetc(f_random));
+		//sprintf(salt,"%c",fgetc(f_random));
+	}
 }
 
 /** \brief Prüfen ob das Salz noch nicht vorhanden ist
@@ -317,48 +314,48 @@ void salt_generate(char ** salt){
  */
 bool salt_exists(char ** salt){
 
-    char * seekSalt=calloc(SALT_SIZE+1, sizeof(char));
-    strncpy(seekSalt, *salt, SALT_SIZE);
+	char * seekSalt=calloc(SALT_SIZE+1, sizeof(char));
+	strncpy(seekSalt, *salt, SALT_SIZE);
 
-    char * query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
-    strcat(query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^");
-    strcat(query, seekSalt);
-    strcat(query, "';");
+	char * query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
+	strcat(query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^");
+	strcat(query, seekSalt);
+	strcat(query, "';");
 
-    MYSQL *my=mysql_init(NULL);
-    if(my == NULL){
-        printExitFailure("MYSQL init failure\n Wörk!");
-    }
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure\n Wörk!");
+	}
 
-    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
-        /*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-        mysql_errno (my), mysql_error (my));
-        exit(EXIT_FAILURE);*/
-        printExitFailure("MYSQL-connection error!");
-    }else{
-        //fprintf(stderr, "Connection extablished!\n");
-    }
+	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
+		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
+		mysql_errno (my), mysql_error (my));
+		exit(EXIT_FAILURE);*/
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
 
-    MYSQL_RES * result=NULL;
+	MYSQL_RES * result=NULL;
 
-    if(mysql_query(my, query)){
-        printExitFailure("mysql_query failed (search salt)");
-        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-    }else{
-        result = mysql_store_result(my);
+	if(mysql_query(my, query)){
+		printExitFailure("mysql_query failed (search salt)");
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+	}else{
+		result = mysql_store_result(my);
 
-        if(mysql_num_rows(result) > 0){
-            fprintf(stderr, "Salz gefunden, wörk\n");
-            mysql_free_result(result);
-            mysql_close(my);
-            return true;
-        }
-    }
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "Salz gefunden, wörk\n");
+			mysql_free_result(result);
+			mysql_close(my);
+			return true;
+		}
+	}
 
-    mysql_free_result(result);
-    mysql_close(my);
+	mysql_free_result(result);
+	mysql_close(my);
 
-    return false;
+	return false;
 }
 
 /** \brief Prüfen ob ein bestimmter Name schon in der Datenbank existiert
@@ -368,48 +365,48 @@ bool salt_exists(char ** salt){
  *
  */
 bool user_exists(char * name){
-    if(name == NULL){
-        printExitFailure("Programm falsch, Wörk!");
-    }
+	if(name == NULL){
+		printExitFailure("Programm falsch, Wörk!");
+	}
 
-    char * query=NULL;
-    query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(name)+strlen("';")+1, sizeof(char));
-    strcat(query, "SELECT name FROM Benutzer WHERE name='");
-    strcat(query, name);
-    strcat(query, "';");
+	char * query=NULL;
+	query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(name)+strlen("';")+1, sizeof(char));
+	strcat(query, "SELECT name FROM Benutzer WHERE name='");
+	strcat(query, name);
+	strcat(query, "';");
 
-    MYSQL *my=mysql_init(NULL);
-    if(my == NULL){
-        printExitFailure("MYSQL init failure!");
-    }
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
 
-    if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
-        printExitFailure("MYSQL-connection error!");
-    }else{
-        //fprintf(stderr, "Connection extablished!\n");
-    }
+	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
 
-    MYSQL_RES * result=NULL;
+	MYSQL_RES * result=NULL;
 
-    if(mysql_query(my, query)){
-        fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-        printExitFailure("mysql_query failed (search user)");
-    }else{
-        result = mysql_store_result(my);
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		printExitFailure("mysql_query failed (search user)");
+	}else{
+		result = mysql_store_result(my);
 
-        if(mysql_num_rows(result) > 0){
-            fprintf(stderr, "Benutzer gefunden, wörk\n");
-            mysql_free_result(result);
-            mysql_close(my);
-            return true;
-        }else{
-            mysql_free_result(result);
-            mysql_close(my);
-            return false;
-        }
-    }
-    mysql_free_result(result);
-    mysql_close(my);
-    return false;
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "Benutzer gefunden, wörk\n");
+			mysql_free_result(result);
+			mysql_close(my);
+			return true;
+		}else{
+			mysql_free_result(result);
+			mysql_close(my);
+			return false;
+		}
+	}
+	mysql_free_result(result);
+	mysql_close(my);
+	return false;
 }
 

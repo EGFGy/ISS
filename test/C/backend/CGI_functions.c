@@ -32,46 +32,45 @@ void getCGIdata(cgi * gotCGI){
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
 	if(strncmp(request_method, "POST", 5) != 0){
-        if(strncmp(request_method, "GET", 3) != 0){
-            //TODO: Test this!
-            char * query_string=getenv("QUERY_STRING");
-            if(query_string == NULL){
-                printExitFailure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
-            }
+		if(strncmp(request_method, "GET", 3) != 0){
+			//TODO: Test this!
+			char * query_string=getenv("QUERY_STRING");
+			if(query_string == NULL){
+				printExitFailure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
+			}
 
-            char * pch;
-            int query_len=strnlen(query_string, content_max);
-            //Alle '+' durch Leerzeichen ersetzen
-            for(int i=0; i<query_len; i++){
-                pch=memchr(query_string, '+', query_len);
-                if(pch !=NULL) *pch=' ';
-            }
-            gotCGI->query_string=query_string;
-            gotCGI->request_method = request_method;
-            gotCGI->http_cookies = env_cook;
-
-        }else{
-            printExitFailure("Use GET or POST");
+			char * pch;
+			int query_len=strnlen(query_string, content_max);
+			//Alle '+' durch Leerzeichen ersetzen
+			for(int i=0; i<query_len; i++){
+				pch=memchr(query_string, '+', query_len);
+				if(pch !=NULL) *pch=' ';
+			}
+			gotCGI->query_string=query_string;
+			gotCGI->request_method = request_method;
+			gotCGI->http_cookies = env_cook;
+		}else{
+			printExitFailure("Use GET or POST");
 		}
 	}else{
-        //Es ist POST
-	    contentLength = getenv("CONTENT_LENGTH");
-	    if(contentLength == NULL){
-            printExitFailure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
-	    }
+		//Es ist POST
+		contentLength = getenv("CONTENT_LENGTH");
+		if(contentLength == NULL){
+			printExitFailure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
+		}
 		content_length=atoi(contentLength);
 		if(content_length > content_max){
 			printExitFailure("Eingabe zu lang!");
 		}else{
 			POST_data=calloc(content_length+1, sizeof(char));
-            if(POST_data == NULL){
-                printExitFailure("Es konnte kein Speicher angefordert werden");
-            }
+			if(POST_data == NULL){
+				printExitFailure("Es konnte kein Speicher angefordert werden");
+			}
 
 			fgets(POST_data, content_length+1, stdin); //Standardeingabe lesen (vom fcgiwrapper)
 
 			if(POST_data == NULL){
-                printExitFailure("Keine Eingabe");
+				printExitFailure("Keine Eingabe");
 			}
 
 			char * pch;
@@ -99,15 +98,15 @@ void getCGIdata(cgi * gotCGI){
  *
  */
 void printExitFailure(const char * message){
-     printf("Content-type: text/plain\n\n");
-     if(message != NULL){
-        printf("ERROR: %s\n", message);
-        fprintf(stderr, "ERROR: %s\n", message);
-     }else{
-        printf("ERROR: Keine Nachricht\n");
-        fprintf(stderr, "ERROR: Keine Nachricht\n");
-     }
-     exit(EXIT_FAILURE);
+	printf("Content-type: text/plain\n\n");
+	if(message != NULL){
+		printf("ERROR: %s\n", message);
+		fprintf(stderr, "ERROR: %s\n", message);
+	}else{
+		printf("ERROR: Keine Nachricht\n");
+		fprintf(stderr, "ERROR: Keine Nachricht\n");
+	}
+	exit(EXIT_FAILURE);
 }
 
 /** \brief HTTP-Header-Text für das Setzten eins Cookies drucken
@@ -118,11 +117,11 @@ void printExitFailure(const char * message){
  *
  */
 void setCookie(char name[], char content[]){
-    if(name == NULL || content == NULL){
-        return;
-    }else{
-        printf("Set-Cookie: %s=%s\n", name, content);
-    }
+	if(name == NULL || content == NULL){
+		return;
+	}else{
+		printf("Set-Cookie: %s=%s\n", name, content);
+	}
 }
 
 /** \brief HTTP-Header drucken
@@ -132,15 +131,14 @@ void setCookie(char name[], char content[]){
  *
  */
 void httpHeader(httpHeaderType type){
-    switch(type){
-        case HTML:
-            puts("Content-type: text/html\n\n\nu");
-        break;
-        case TEXT:
-            puts("Content-type: text/plain\n\n");
-        break;
-
-    }
+	switch(type){
+		case HTML:
+			puts("Content-type: text/html\n\n\nu");
+		break;
+		case TEXT:
+			puts("Content-type: text/plain\n\n");
+		break;
+	}
 }
 
 /** \brief HTTP-Header-Zeile zum Umleiten drucken
@@ -150,10 +148,10 @@ void httpHeader(httpHeaderType type){
  *
  */
 void httpRedirect(const char * url){
-    if(url != NULL){
-        puts("Status: 301");
-        printf("Location: %s\n", url);
-    }
+	if(url != NULL){
+		puts("Status: 301");
+		printf("Location: %s\n", url);
+	}
 }
 
 /** \brief Extrahiert aus einem Eingabe-String alle Zeichen zwischen "<property>=" und <delim>. Speicherung in out
@@ -166,53 +164,53 @@ void httpRedirect(const char * url){
  *
  */
 int extractCGIdata(char * data, const char * property, char * delim, char ** out){
-    if(data == NULL || property == NULL || delim == NULL){
-        printExitFailure("Eingabeparameter von extractCGIdata sind falsch");
-    }
-    char * prop=NULL;
-    prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
-    char * tempData=NULL;
-    tempData=(char *)calloc(strlen(data)+1, sizeof(char));
+	if(data == NULL || property == NULL || delim == NULL){
+		printExitFailure("Eingabeparameter von extractCGIdata sind falsch");
+	}
+	char * prop=NULL;
+	prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
+	char * tempData=NULL;
+	tempData=(char *)calloc(strlen(data)+1, sizeof(char));
 
-    if(prop == NULL || tempData == NULL){
-        printExitFailure("Es konnte kein Speicher angefordert werden");
-    }
-    strcpy(prop, property); //Den Namen, des Attributs kopieren und
-    strcat(prop, "="); // ein '=' anfügen
-    strcpy(tempData, data);
+	if(prop == NULL || tempData == NULL){
+		printExitFailure("Es konnte kein Speicher angefordert werden");
+	}
+	strcpy(prop, property); //Den Namen, des Attributs kopieren und
+	strcat(prop, "="); // ein '=' anfügen
+	strcpy(tempData, data);
 
-    char * start=NULL;
-    start=strstr(tempData, prop); //Anfangspunkt de Suche festlegen
-    if(start == NULL){
-        //printExitFailure("Fehler beim Suchen des Attributnamens");
-        return -1;
-    }
-    char * klaus=NULL;
-    klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden und
-    if(klaus == NULL){
-        printExitFailure("Token nicht gefunden");
-    }
+	char * start=NULL;
+	start=strstr(tempData, prop); //Anfangspunkt de Suche festlegen
+	if(start == NULL){
+		//printExitFailure("Fehler beim Suchen des Attributnamens");
+		return -1;
+	}
+	char * klaus=NULL;
+	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden und
+	if(klaus == NULL){
+		printExitFailure("Token nicht gefunden");
+	}
 
-    //Neue Zeile am Ende durch 0-Terminator ersetzen.
-    char * newline=strchr(klaus, '\n');
-    if(newline != NULL){
-        *newline='\0'; //vorher '\0'
-    }
+	//Neue Zeile am Ende durch 0-Terminator ersetzen.
+	char * newline=strchr(klaus, '\n');
+	if(newline != NULL){
+		*newline='\0'; //vorher '\0'
+	}
 
-    *out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
-    if(*out == NULL){
-        printExitFailure("Es konnte kein Speicher angefordert werden");
-    }
-    strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
+	*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
+	if(*out == NULL){
+		printExitFailure("Es konnte kein Speicher angefordert werden");
+	}
+	strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
 
 
-    //fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
-    free(prop);
-    //fprintf(stderr, "freed prop\n");
-    free(tempData);
-    //fprintf(stderr, "freedtempDat\n");
-    return 0;
-    //return *out;
+	//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
+	free(prop);
+	//fprintf(stderr, "freed prop\n");
+	free(tempData);
+	//fprintf(stderr, "freedtempDat\n");
+	return 0;
+	//return *out;
 
 }
 
@@ -226,7 +224,7 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
  *
  */
 int extractPOSTdata(cgi * cgi, const char * property, char ** out){
-    return extractCGIdata(cgi->POST_data, property, "&", out);
+	return extractCGIdata(cgi->POST_data, property, "&", out);
 }
 
 
@@ -240,5 +238,5 @@ int extractPOSTdata(cgi * cgi, const char * property, char ** out){
  *
  */
 int extractCOOKIEdata(cgi * cgi, const char * property, char ** out){
-    return extractCGIdata(cgi->http_cookies, property, ";", out);
+	return extractCGIdata(cgi->http_cookies, property, ";", out);
 }

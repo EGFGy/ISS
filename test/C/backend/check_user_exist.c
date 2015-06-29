@@ -10,20 +10,20 @@
 
 
 int main(int argc, char ** argv){
-    cgi thisCGI;
+	cgi thisCGI;
 
-    getCGIdata(&thisCGI);
-    char * name=NULL;
+	getCGIdata(&thisCGI);
+	char * name=NULL;
 
-    extractPOSTdata(&thisCGI, "name", &name);
+	extractPOSTdata(&thisCGI, "name", &name);
 
-    httpHeader(TEXT);
-    if(user_exists(name)){
-        puts("exists\n");
-    }else{
-        puts("no\n");
-    }
+	httpHeader(TEXT);
+	if(user_exists(name)){
+		puts("exists\n");
+	}else{
+		puts("no\n");
+	}
 
-    return 1;
+	return 1;
 
 }

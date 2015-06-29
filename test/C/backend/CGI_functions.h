@@ -3,11 +3,11 @@
 #endif // content_max
 
 typedef struct{
-    int content_length;
-    char * request_method;
-    char * POST_data;
-    char * query_string;
-    char * http_cookies;
+	int content_length;
+	char * request_method;
+	char * POST_data;
+	char * query_string;
+	char * http_cookies;
 }cgi;
 typedef enum {TEXT, HTML}httpHeaderType;
 

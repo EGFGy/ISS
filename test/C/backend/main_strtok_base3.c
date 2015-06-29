@@ -65,72 +65,72 @@ int main(int argc, char ** argv)
 	login_person.sid=0;
 	login_person.isTeacher=false;
 
-    char * Cook_name=NULL;
-    char * Cook_sid=NULL;
+	char * Cook_name=NULL;
+	char * Cook_sid=NULL;
 
 
-    getCGIdata(&datCGI);
-    if(strncmp(datCGI.request_method, "POST", 4) != 0){
-        printExitFailure("Use POST!");
-    }
-    //Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
-    extractPOSTdata(&datCGI, "name", &name);
-    extractPOSTdata(&datCGI, "pass", &password);
-    char * isT=NULL;
-    if(extractPOSTdata(&datCGI, "teach", &isT) ==0){
-        if(strcmp(isT, "true") == 0){
-            login_person.isTeacher=true;
-        }
-    }
+	getCGIdata(&datCGI);
+	if(strncmp(datCGI.request_method, "POST", 4) != 0){
+		printExitFailure("Use POST!");
+	}
+	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
+	extractPOSTdata(&datCGI, "name", &name);
+	extractPOSTdata(&datCGI, "pass", &password);
+	char * isT=NULL;
+	if(extractPOSTdata(&datCGI, "teach", &isT) ==0){
+		if(strcmp(isT, "true") == 0){
+			login_person.isTeacher=true;
+		}
+	}
 
-    if(datCGI.http_cookies != NULL){
-        if(extractCOOKIEdata(&datCGI, "NAME", &Cook_name) == -1 || extractCOOKIEdata(&datCGI, "SID", &Cook_sid) == -1){
-            cookies_found=false;
-        }else{
-            cookies_found=true;
-        }
-    }
+	if(datCGI.http_cookies != NULL){
+		if(extractCOOKIEdata(&datCGI, "NAME", &Cook_name) == -1 || extractCOOKIEdata(&datCGI, "SID", &Cook_sid) == -1){
+			cookies_found=false;
+		}else{
+			cookies_found=true;
+		}
+	}
 
-    if(name == NULL){
-        printExitFailure("Name leer");
-    }
+	if(name == NULL){
+		printExitFailure("Name leer");
+	}
 
-    login_person.name=name;
-    login_person.passwort=password;
+	login_person.name=name;
+	login_person.passwort=password;
 
-    verifyUser(&login_person);
+	verifyUser(&login_person);
 
-    //Zwei cookies setzen
-    //login_person.sid=12345;
-    setCookie("NAME", login_person.name);
-    char * sid_string;
-    asprintf(&sid_string, "%d", login_person.sid);
-    setCookie("SID", sid_string);
+	//Zwei cookies setzen
+	//login_person.sid=12345;
+	setCookie("NAME", login_person.name);
+	char * sid_string;
+	asprintf(&sid_string, "%d", login_person.sid);
+	setCookie("SID", sid_string);
 
 
 
-    //Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
+	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
 
 	httpHeader(TEXT);
 	printf("%s\n", datCGI.POST_data);
 
 
-    puts("Erhaltene Daten:\n");
+	puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-    printf("Name:           %s\nPassword:       %s\n", name, password);
+	printf("Name:           %s\nPassword:       %s\n", name, password);
 
 
 	printf("Post Data:           %s\n", datCGI.POST_data);
 	//if(datCGI.http_cookies != NULL){
 	if(cookies_found){
-        printf("Cook_sid: %s\nCook_name: %s", Cook_sid, Cook_name);
+		printf("Cook_sid: %s\nCook_name: %s", Cook_sid, Cook_name);
 	}
 
 	puts("\n\n\n\n");
 
 	if(login_person.auth){
-        printf("Personendaten:\n");
-        printf("Name:     %s\n", login_person.name);
+		printf("Personendaten:\n");
+		printf("Name:     %s\n", login_person.name);
 		printf("Passwort: %s (richtig)\n", login_person.passwort);
 		printf("Faecher:  %s\n", login_person.courses);
 		if(login_person.isTeacher)printf("Kuerzel:  %s\n", login_person.acronym);
