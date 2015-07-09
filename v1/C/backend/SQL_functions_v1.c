@@ -58,7 +58,7 @@ void verifyUser(person * pers){
 
 
 	if(isAcronym){
-		//Es ist sicher eine Lehrer
+		//Es ist sicher eine Lehrer (jemand hat das Kürzel eingegeben)
 
 		//TODO: Verhindern, dass ein bereits vorhandener Name erneut eingefügt wird.
 		//TODO: sql-injection verhindern
@@ -90,16 +90,16 @@ void verifyUser(person * pers){
     }else{
 		//Es könnte ein Lehrer oder ein Schüler sein
 
-		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE name='");
-		size_t len_mid=strlen(pers->name);
+		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE email='");
+		size_t len_mid=strlen(pers->email);
 		size_t len_end=strlen("';");
 
 		char * sql_query=calloc(len_start+len_end+len_mid+1, sizeof(char));
 		if(sql_query == NULL){
 			printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
 		}
-		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE name='");
-		strncat(sql_query, pers->name, len_mid);
+		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE email='");
+		strncat(sql_query, pers->email, len_mid);
 		strcat(sql_query, "';");
 
 		fprintf(stderr, "Schueler o. Lehrer.\nsql_query: %s\n", sql_query);
@@ -125,7 +125,7 @@ void verifyUser(person * pers){
 		row=mysql_fetch_row(result);
 		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s\n", row[COL_NAME], row[COL_PASS]);
 
-		//TODO: Passwort RICHTIG machen (mit hash + salt)
+		//Erzeugung eines Salt
 		char * salt=calloc(SALT_SIZE+1, sizeof(char));
 		strncat(salt, row[COL_PASS], 1);
 		strncat(salt, row[COL_PASS]+1, 1);
@@ -134,11 +134,13 @@ void verifyUser(person * pers){
 		if(strcmp(pers->passwort, row[COL_PASS]) == 0){
 			pers->auth=true;
 			if(isAcronym){
-				//Person hat Kürzel als Name angegeben --> es ist eine Leherer --> Name holen
+				//Person hat Kürzel angegeben --> es ist eine Leherer --> Name + email holen holen
 				pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
 				strcpy(pers->name, row[COL_NAME]);
+				pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+				strcpy(pers->name, row[COL_VORNAME]);
 			}else{
-				//Person hat ihren Namen statt dem Kürzel angegeben --> (Falls es ein Lehrerist, dessen Kürzel holen)
+				//Person hat ihre Email-Addresse statt dem Kürzel angegeben --> (Falls es ein Lehrerist, dessen Kürzel holen)
 				pers->acronym=NULL;
 				if(row[COL_ACR] != NULL){
 					//Die Person hat ein Küzel --> Lehrer
@@ -149,18 +151,23 @@ void verifyUser(person * pers){
 					pers->isTeacher=false;
 				}
 			}
+
+			//Kurse (falls vorhanden)
 			if(row[COL_COURSE] != NULL){
 				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
 				strcpy(pers->courses, row[COL_COURSE]);
 			}
 
+
+			//TODO: SID-erzeugung kontrollieren !!!
 			srand((unsigned int)time(NULL));
+
 			pers->sid=rand();
 		}else{
 			pers->auth=false;
 			pers->sid=0;
 		}
-    }
+	}
 
     mysql_free_result(result);
     mysql_close(my);
@@ -176,17 +183,17 @@ void verifyUser(person * pers){
 bool detectConvertAcronym(person * pers){
     bool isAcronym;
 
-    if(pers->name==NULL || pers->passwort==NULL){
+    if(pers->email==NULL || pers->passwort==NULL){
 		printExitFailure("Programm falsch!");
 	}
 
-	if(strlen(pers->name) > 3){
+	if(strlen(pers->email) > 3){
 		isAcronym=false;
 	}else{
-		if(strlen(pers->name) == 3){
+		if(strlen(pers->email) == 3){
 			isAcronym=true;
-			pers->acronym=pers->name;
-			pers->name=NULL;
+			pers->acronym=pers->email;
+			pers->email=NULL;
 
 			uppercase_acr(pers);
 			//char * c=pers->acronym_id;
@@ -230,7 +237,7 @@ void insertUser(person * pers){
 		printExitFailure("Programm falsch.\n Wörk!");
 	}
 
-	if(user_exists(pers->name)){
+	if(user_exists(pers->email)){
 		printExitFailure("Benutzer Existiert schon!");
 	}
 
@@ -262,16 +269,24 @@ void insertUser(person * pers){
 	char * query;
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
-		query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
-		strcat(query, "INSERT INTO Benutzer (name, passwort, kurse) VALUES('");
+		query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
+		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('");
+		strcat(query, pers->vorname);
+		strcat(query, "', '");
 		strcat(query, pers->name);
+		strcat(query, "', '");
+		strcat(query, pers->email);
 		strcat(query, "', '");
 		strcat(query, pers->passwort);
 		strcat(query, "', 'n/a');");
 	}else{
-		query = calloc(strlen("INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('")+strlen(pers->name)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
-		strcat(query, "INSERT INTO Benutzer (name, passwort, kurse, kuerzel) VALUES('");
+		query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
+		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('");
+		strcat(query, pers->vorname);
+		strcat(query, "', '");
 		strcat(query, pers->name);
+		strcat(query, "', '");
+		strcat(query, pers->email);
 		strcat(query, "', '");
 		strcat(query, pers->passwort);
 		strcat(query, "', 'n/a', '");
@@ -364,15 +379,15 @@ bool salt_exists(char ** salt){
  * \return bool        true: Name gefunden; false: Name nicht gefunden
  *
  */
-bool user_exists(char * name){
-	if(name == NULL){
+bool user_exists(char * email){
+	if(email == NULL){
 		printExitFailure("Programm falsch, Wörk!");
 	}
 
 	char * query=NULL;
-	query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(name)+strlen("';")+1, sizeof(char));
+	query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(email)+strlen("';")+1, sizeof(char));
 	strcat(query, "SELECT name FROM Benutzer WHERE name='");
-	strcat(query, name);
+	strcat(query, email);
 	strcat(query, "';");
 
 	MYSQL *my=mysql_init(NULL);

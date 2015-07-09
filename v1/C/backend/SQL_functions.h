@@ -1,8 +1,13 @@
 #define COL_ID 0
-#define COL_NAME 1 //zweite Spalte ist der Name
-#define COL_PASS 2
-#define COL_COURSE 3
-#define COL_ACR 4
+#define COL_VORNAME 1 //zweite Spalte ist der Name
+#define COL_NAME 2
+#define COL_EMAIL 3
+#define COL_PASS 4
+#define COL_ACR 5
+#define COL_COURSE 6
+
+//id | vorname | name | email | passwort | kuerzel | kurse
+
 
 #define SALT_SIZE 2
 
