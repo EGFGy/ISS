@@ -67,6 +67,11 @@
 					<Add library="crypt" />
 				</Linker>
 			</Target>
+			<Target title="all_messages">
+				<Option output="backend" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
@@ -84,6 +89,10 @@
 		<Unit filename="SQL_functions.h" />
 		<Unit filename="SQL_functions_v1.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="all_messages.c">
+			<Option compilerVar="CC" />
+			<Option target="all_messages" />
 		</Unit>
 		<Unit filename="check_user_exist.c">
 			<Option compilerVar="CC" />
