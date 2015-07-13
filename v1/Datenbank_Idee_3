@@ -1,11 +1,15 @@
 Tabellen
 Benutzer:
-id                 |email       |name        |vorname    |passwort     |kurse       |kuerzel
-INT AUTO_INCREMENT |VARCHAR(50) |VARCHAR(50) |VARCHAR(50)|VARCHAR(200) |VARCHAR(200)|VARCHAR(3)
+id                          |email       |name        |vorname    |passwort     |kurse       |kuerzel
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(50) |VARCHAR(50) |VARCHAR(50)|VARCHAR(200) |VARCHAR(200)|VARCHAR(3)
 
 Kurse:
 name        |start    |ende     |raum
 VARCHAR(10) |DATETIME |DATETIME |VARCHAR(10)
+
+Meldungen
+id                          |titel        |meldung      |kurse        |erstellerID |erstellt
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(120) |VARCHAR(900) |VARCHAR(200) |UNSINED INT |DATETIME
 
 
 Beispiele:
@@ -24,11 +28,11 @@ kurse:   "1D1,10fG,2F2"
 Format:
 name:       <Vorname> <Nachname>
 passwort:   <Salt><Hash des Passwortes>
-Kurse:
+kurse:
             bei Unter- und Mittelstufe: <Klassenstufe><Klassenbuchstabe (klein)><Kursbezeichnung (groß)>
             bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß) ><opt: Kursnummer>
-id:         1234
-kuerzel:    [A-Z][A-Z][A-Z]
+id:         [0-9]*  ()
+kuerzel:    [A-Za-z][A-Za-z][A-Za-z]
 
 
 Erklärung:
@@ -48,3 +52,8 @@ Vorteile: deutlich EINFACHER (!!) als "Datenbank_Idee_2"
           (eigene Tabelle mit ID als Primärschlüssel usw.)
 
 Die E-Mail soll wegen ihrer einzigartigkeit zur Identifikation verwendet werden.
+
+
+In der Tabelle Meldungen werden alle Meldungen (allgemein und kursbezogen) gespeichert.
+Jede Meldung kann über ihre "id" identifiziert werden und hat einen Ersteller ("erstellerID").
+Im Feld "meldung" soll zuesrst nur Text gespeichert werden, später HTML-Code.

@@ -21,20 +21,23 @@ int main(int argc, char ** argv){
 	fprintf(stderr, "Hello, welcome\n");
 
 	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
-	char * name=NULL;
-	char * acronym=NULL;
+	person reg_person;
+	reg_person.vorname=NULL;
+	reg_person.name=NULL;
+	reg_person.email=NULL;
+	reg_person.acronym=NULL;
 	char * teach=NULL;
-	char * pass=NULL;
+	reg_person.passwort=NULL;
+	reg_person.auth=false;
+	reg_person.sid=0;
 	char * acceptTOS=NULL;
-	extractPOSTdata(&datCGI, "name", &name);
-	extractPOSTdata(&datCGI, "pass", &pass);
-	extractPOSTdata(&datCGI, "acronym", &acronym);
+	extractPOSTdata(&datCGI, "name_vor", &reg_person.vorname);
+	extractPOSTdata(&datCGI, "name", &reg_person.name);
+	extractPOSTdata(&datCGI, "email", &reg_person.email);
+	extractPOSTdata(&datCGI, "pass", &reg_person.passwort);
+	extractPOSTdata(&datCGI, "acronym", &reg_person.acronym);
 	extractPOSTdata(&datCGI, "teach", &teach);
 	extractPOSTdata(&datCGI, "acceptTOS", &acceptTOS);
-	person reg_person;
-	reg_person.name=name;
-	reg_person.passwort=pass;
-	reg_person.acronym=acronym;
 	if(strcmp(teach, "true") == 0){
 		reg_person.isTeacher=true;
 	}else{
@@ -46,16 +49,13 @@ int main(int argc, char ** argv){
 
 
 	httpHeader(TEXT);
-	//puts("Content-type: text\/plain\n\n\TEST");
-	//printf("FAAAAAAACK!!!\n\n\n\n");
-	//puts("Content-type: text/plain\n\n");
 	printf("%s\n", datCGI.POST_data);
 
 
 	puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-	printf("Name:           %s\nPassword:       %s\n", name, pass);
-	printf("Kuerzel:        %s\nTeach:          %s\n", acronym, teach);
+	printf("Name:           %s\nPassword:       %s\n", reg_person.name, reg_person.passwort);
+	printf("Kuerzel:        %s\nTeach:          %s\n", reg_person.acronym, teach);
 	printf("accepted TOS:   %s\n\n", acceptTOS);
 
 

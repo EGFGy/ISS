@@ -6,6 +6,12 @@
 #define COL_ACR 5
 #define COL_COURSE 6
 
+#define SQL_USER "web_user"
+#define SQL_PASS "web_pass"
+#define SQL_BASE "base5"
+#define SQL_ALTERNATE_USER "root"
+#define SQL_ALTERNATE_PASS "WUW"
+
 //id | vorname | name | email | passwort | kuerzel | kurse
 
 
@@ -31,4 +37,5 @@ void uppercase_acr(person * pers);
 void insertUser(person * pers);
 void salt_generate(char ** salt);
 bool salt_exists(char ** salt);
-bool user_exists(char * name);
+bool email_exists(char * name);
+bool acronym_exists(char * acronym);

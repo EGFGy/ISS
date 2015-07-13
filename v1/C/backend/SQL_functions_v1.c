@@ -44,7 +44,7 @@ void verifyUser(person * pers){
 		printExitFailure("MYSQL init failure");
 	}
 
-	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base5", 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
 		mysql_errno (my), mysql_error (my));
 		exit(EXIT_FAILURE);*/
@@ -56,11 +56,9 @@ void verifyUser(person * pers){
 	MYSQL_RES * result=NULL;
 	bool found=false;
 
-
 	if(isAcronym){
 		//Es ist sicher eine Lehrer (jemand hat das Kürzel eingegeben)
 
-		//TODO: Verhindern, dass ein bereits vorhandener Name erneut eingefügt wird.
 		//TODO: sql-injection verhindern
 		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE kuerzel='");
 		size_t len_mid=strlen(pers->acronym);
@@ -138,15 +136,23 @@ void verifyUser(person * pers){
 				pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
 				strcpy(pers->name, row[COL_NAME]);
 				pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-				strcpy(pers->name, row[COL_VORNAME]);
+				strcpy(pers->vorname, row[COL_VORNAME]);
+				pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
+				strcpy(pers->email, row[COL_EMAIL]);
 			}else{
-				//Person hat ihre Email-Addresse statt dem Kürzel angegeben --> (Falls es ein Lehrerist, dessen Kürzel holen)
+				//Person hat ihre Email-Addresse statt dem Kürzel angegeben --> (Falls es ein Lehrer ist, dessen Kürzel holen)
 				pers->acronym=NULL;
 				if(row[COL_ACR] != NULL){
 					//Die Person hat ein Küzel --> Lehrer
 					pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
 					strcpy(pers->acronym, row[COL_ACR]);
 					pers->isTeacher=true;
+
+					//Name holen
+					pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+					strcpy(pers->name, row[COL_NAME]);
+					pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+					strcpy(pers->vorname, row[COL_VORNAME]);
 				}else{
 					pers->isTeacher=false;
 				}
@@ -158,11 +164,7 @@ void verifyUser(person * pers){
 				strcpy(pers->courses, row[COL_COURSE]);
 			}
 
-
-			//TODO: SID-erzeugung kontrollieren !!!
-			srand((unsigned int)time(NULL));
-
-			pers->sid=rand();
+			create_session(pers);
 		}else{
 			pers->auth=false;
 			pers->sid=0;
@@ -237,7 +239,7 @@ void insertUser(person * pers){
 		printExitFailure("Programm falsch.\n Wörk!");
 	}
 
-	if(user_exists(pers->email)){
+	if(email_exists(pers->email)){
 		printExitFailure("Benutzer Existiert schon!");
 	}
 
@@ -342,7 +344,7 @@ bool salt_exists(char ** salt){
 		printExitFailure("MYSQL init failure\n Wörk!");
 	}
 
-	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
 		mysql_errno (my), mysql_error (my));
 		exit(EXIT_FAILURE);*/
@@ -379,7 +381,7 @@ bool salt_exists(char ** salt){
  * \return bool        true: Name gefunden; false: Name nicht gefunden
  *
  */
-bool user_exists(char * email){
+bool email_exists(char * email){
 	if(email == NULL){
 		printExitFailure("Programm falsch, Wörk!");
 	}
@@ -395,7 +397,7 @@ bool user_exists(char * email){
 		printExitFailure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", "web_user", "web_pass", "base4", 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		printExitFailure("MYSQL-connection error!");
 	}else{
 		//fprintf(stderr, "Connection extablished!\n");
@@ -405,7 +407,7 @@ bool user_exists(char * email){
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (search user)");
+		printExitFailure("mysql_query failed (search email)");
 	}else{
 		result = mysql_store_result(my);
 
@@ -423,5 +425,56 @@ bool user_exists(char * email){
 	mysql_free_result(result);
 	mysql_close(my);
 	return false;
+}
+
+
+bool acronym_exists(char * acronym){
+	if(acronym == NULL){
+		printExitFailure("Programm falsch, Wörk!");
+	}
+	char * query=NULL;
+	query=calloc(strlen("SELECT kuerzel FROM Benutzer WHERE kuerzel='")+strlen(acronym)+strlen("';")+1, sizeof(char));
+	strcat(query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='");
+	strcat(query, acronym);
+	strcat(query, "';");
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
+
+	MYSQL_RES * result=NULL;
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		printExitFailure("mysql_query failed (search acronym)");
+	}else{
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "Benutzer gefunden, wörk\n");
+			mysql_free_result(result);
+			mysql_close(my);
+			return true;
+		}else{
+			mysql_free_result(result);
+			mysql_close(my);
+			return false;
+		}
+	}
+	mysql_free_result(result);
+	mysql_close(my);
+	return false;
+
+}
+
+int create_session(person * pers){
+
 }
 

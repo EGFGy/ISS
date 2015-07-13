@@ -54,7 +54,6 @@ int main(int argc, char ** argv)
 	char * email = NULL; //Pointer für den eingegebenen Namen
 	char * password = NULL; //Pointer für das eingegebene Passwort
 	cgi datCGI;
-	bool cookies_found=false;
 	person login_person;
 
 	login_person.email=NULL;
@@ -75,7 +74,7 @@ int main(int argc, char ** argv)
 	extractPOSTdata(&datCGI, "pass", &password);
 
 
-	if(name == NULL){
+	if(email == NULL){
 		printExitFailure("Name leer");
 	}
 
