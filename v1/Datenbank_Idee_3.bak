@@ -18,7 +18,7 @@ id:       276
 name:     "Max Mustermann"
 passwort: "gw039ics07" 
 kurse:    "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
-kuerzel:  null (Schüler haben kein Kürzel, daher unterscheiden sie sich von Lehrern)
+kuerzel:  null (Schüler haben kein Kürzel, daher unterscheidne sie sich von Lehrern)
 
 Lehrerin:
 name:    "Miriam Musterfrau"
@@ -42,7 +42,7 @@ Anhand der ID sind sie Eindeutig identifizierbar.
 Die Anmeldung soll über den in "email" gespeicherten String erfolgen.
 Zudem besteht die Möglichkeit, dass sich Lehrer über ihr "kuerzel" einloggen.
 --> Das Programm, das die Daten der HTML-Seite übermittelt bekommt,
-    erkennt aus wievielen Buchstaben der Login-Name besteht
+    erkennt aus wieveilen Buchstaben der Login-Name besteht
     --> es kann, sofern der Name nur aus drei Buchstaben besteht
         (die dann in nur Großbuchstaben umgewandelt werden),
         auch in der Lehrer-Tabelle nach dem entsprechenden Kürzel suchen.
@@ -51,11 +51,11 @@ Vorteile: deutlich EINFACHER (!!) als "Datenbank_Idee_2"
           Adressen können ja später immernoch hinzugefügt werden
           (eigene Tabelle mit ID als Primärschlüssel usw.)
 
-Die E-Mail soll wegen ihrer Einzigartigkeit zur Identifikation verwendet werden.
+Die E-Mail soll wegen ihrer einzigartigkeit zur Identifikation verwendet werden.
 
 
 In der Tabelle Meldungen werden alle Meldungen (allgemein und kursbezogen) gespeichert.
 Jede Meldung kann über ihre "id" identifiziert werden und hat einen Ersteller ("erstellerID").
-Im Feld "meldung" soll zuerst nur Text gespeichert werden, später HTML-Code.
-In "kurse" werden die Kurse gespeichert für die die Nachricht bestimmt ist (z.B. "1e5", "all" usw.).
+Im Feld "meldung" soll zuesrst nur Text gespeichert werden, später HTML-Code.
+In "kurse" werden die Kurse gespeicher für die die Nachricht bestimmt ist (z.B. "1e5", "all" usw.).
 Auch das Datum an dem die Nachricht erstellt wurde soll gespeichert werden --> "erstellt"
