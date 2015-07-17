@@ -16,13 +16,19 @@ int main(int argc, char ** argv){
 	char * email=NULL;
 
 	extractPOSTdata(&thisCGI, "email", &email);
+	char * convertedMail=calloc(strlen(email)+1, sizeof(char));
+	//convertHEXtoAscii(email, &convertedMail);
+	decodeHEX(email, convertedMail);
 
-	httpHeader(TEXT);
-	if(email_exists(email)){
+	printf("Email: %s\nconv. Email '%s'\n\n", email, convertedMail);
+
+	if(email_exists(convertedMail)){
 		puts("exists\n");
 	}else{
 		puts("no\n");
 	}
+
+	printf("Email war: '%s'\n", convertedMail);
 
 	return 1;
 

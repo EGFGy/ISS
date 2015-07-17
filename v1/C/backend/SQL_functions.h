@@ -39,3 +39,4 @@ void salt_generate(char ** salt);
 bool salt_exists(char ** salt);
 bool email_exists(char * name);
 bool acronym_exists(char * acronym);
+int create_session(person * pers);

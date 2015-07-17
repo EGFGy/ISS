@@ -9,6 +9,13 @@
 
 #include "CGI_functions.h"
 
+
+int ishex(int x){
+	return	(x >= '0' && x <= '9')	||
+		(x >= 'a' && x <= 'f')	||
+		(x >= 'A' && x <= 'F');
+}
+
 /** \brief Aus dem Environment und der Standardeingabe wichtige Daten einlesen
  *
  * \param gotCGI cgi*  CGI-Objekt, in dem die gefundenen Daten gespeichert werden
@@ -156,7 +163,7 @@ void httpRedirect(const char * url){
 
 /** \brief Extrahiert aus einem Eingabe-String alle Zeichen zwischen "<property>=" und <delim>. Speicherung in out
  *
- * \param data char*            eingabe-String
+ * \param data char*            Eingabe-String
  * \param property const char*  Suchmuster
  * \param delim char*           Ende
  * \param out char**            Rückgabewert
@@ -180,7 +187,7 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 	strcpy(tempData, data);
 
 	char * start=NULL;
-	start=strstr(tempData, prop); //Anfangspunkt de Suche festlegen
+	start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
 	if(start == NULL){
 		//printExitFailure("Fehler beim Suchen des Attributnamens");
 		return -1;
@@ -205,21 +212,20 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 
 
 	//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
+	//Speicher freigeben
 	free(prop);
-	//fprintf(stderr, "freed prop\n");
 	free(tempData);
-	//fprintf(stderr, "freedtempDat\n");
 	return 0;
 	//return *out;
 
 }
 
 
-/** \brief Aus dem mit POST übergeben String Attribut erte extrahieren
+/** \brief Aus dem mit POST übergeben String Attributwerte extrahieren
  *
- * \param cgi cgi*              CGI-objekt
+ * \param cgi cgi*              CGI-Objekt
  * \param property const char*  Attributname
- * \param out char**            Rückgabe des gefundenen Atrributwertes
+ * \param out char**            Rückgabe des gefundenen Attributwertes
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
@@ -239,4 +245,31 @@ int extractPOSTdata(cgi * cgi, const char * property, char ** out){
  */
 int extractCOOKIEdata(cgi * cgi, const char * property, char ** out){
 	return extractCGIdata(cgi->http_cookies, property, ";", out);
+}
+
+
+/** \brief Wandelt Hexadezimal-Sequenzen in entsprechende Zeichen um
+ *
+ * \param s const char*  Eingabestring
+ * \param dec char*      Ausgabe
+ * \return int
+ *  von Rosetta-Code http://rosettacode.org/wiki/URL_decoding#C
+ */
+int decodeHEX(char *s, char *dec)
+{
+	char *o;
+	char *end = s + strlen(s);
+	int c;
+
+	for (o = dec; s <= end; o++) {
+		c = *s++;
+		if (c == '+'){
+			c = ' ';
+		}else if (c == '%' && (	!ishex(*s++) ||	!ishex(*s++) ||	!sscanf(s - 2, "%2x", &c))){
+			return -1;
+		}
+
+		if (dec) *o = c;
+	}
+	return o - dec;
 }

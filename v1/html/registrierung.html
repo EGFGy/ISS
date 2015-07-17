@@ -85,8 +85,8 @@ function checkDatEmail(field)
 				{
 					var allText = xhr.responseText;
 					var names = allText.split("\n");
-					if(names.indexOf("exists")>0){
-						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: Name existiert bereits!' + "\n<--- !!!!!!! -\-\->");
+					if(names.indexOf("exists")!= -1){
+						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: E-Mail existiert bereits!' + "\n<--- !!!!!!! -\-\->");
 						field.style.border= '2px solid red';
 					 }else{
 						field.style.border= '2px solid green';

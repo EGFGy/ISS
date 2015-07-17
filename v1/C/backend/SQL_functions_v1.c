@@ -387,8 +387,8 @@ bool email_exists(char * email){
 	}
 
 	char * query=NULL;
-	query=calloc(strlen("SELECT name FROM Benutzer WHERE name='")+strlen(email)+strlen("';")+1, sizeof(char));
-	strcat(query, "SELECT name FROM Benutzer WHERE name='");
+	query=calloc(strlen("SELECT email FROM Benutzer WHERE email='")+strlen(email)+strlen("';")+1, sizeof(char));
+	strcat(query, "SELECT email FROM Benutzer WHERE email='");
 	strcat(query, email);
 	strcat(query, "';");
 
@@ -475,6 +475,6 @@ bool acronym_exists(char * acronym){
 }
 
 int create_session(person * pers){
-
+	return -1;
 }
 
