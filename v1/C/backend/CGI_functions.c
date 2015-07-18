@@ -90,7 +90,9 @@ void getCGIdata(cgi * gotCGI){
 			}
 			gotCGI->content_length=content_length;
 			gotCGI->http_cookies=env_cook;
-			gotCGI->POST_data=POST_data;
+			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
+			decodeHEX(POST_data, gotCGI->POST_data);
+			//gotCGI->POST_data=POST_data;
 			gotCGI->query_string=NULL;
 			gotCGI->request_method=request_method;
 			return;
