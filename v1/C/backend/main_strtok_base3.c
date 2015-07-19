@@ -108,11 +108,14 @@ int main(int argc, char ** argv)
 
 	if(login_person.auth){
 		printf("Personendaten:\n");
+		printf("User ID:   %d\n", login_person.id);
+		printf("Vorname:   %s\n", login_person.vorname);
+		printf("Nachname:  %s\n", login_person.name);
 		printf("Email:     %s\n", login_person.email);
-		printf("Passwort: %s (richtig)\n", login_person.passwort);
-		printf("Faecher:  %s\n", login_person.courses);
-		if(login_person.isTeacher)printf("Kuerzel:  %s\n", login_person.acronym);
-		printf("SID:      %d\n", login_person.sid);
+		printf("Passwort:  %s (richtig)\n", login_person.passwort);
+		printf("Faecher:   %s\n", login_person.courses);
+		if(login_person.isTeacher)printf("Kuerzel:   %s\n", login_person.acronym);
+		printf("SID:       %d\n", login_person.sid);
 	}else{
 		puts("YOU FAIL!!\n");
 	}

@@ -148,9 +148,9 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1437163313 /home/keller/InfoWall/v1/C/backend/SQL_functions.h
+1437342589 /home/keller/InfoWall/v1/C/backend/SQL_functions.h
 
-1437163313 source:/home/keller/InfoWall/v1/C/backend/SQL_functions_v1.c
+1437342652 source:/home/keller/InfoWall/v1/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -164,12 +164,23 @@
 	"SQL_functions.h"
 	"CGI_functions.h"
 
-1437164212 source:/home/keller/InfoWall/v1/C/backend/check_user_exist.c
+1437213435 source:/home/keller/InfoWall/v1/C/backend/check_user_exist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<stdbool.h>
 	<unistd.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1437248445 source:/home/keller/InfoWall/v1/C/backend/main_strtok_base3.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
 	<ctype.h>
 	"CGI_functions.h"
 	"SQL_functions.h"

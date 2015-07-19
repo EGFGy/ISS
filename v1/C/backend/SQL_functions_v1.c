@@ -1,3 +1,6 @@
+
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,17 +10,18 @@
 #include <my_global.h>
 #include <mysql.h>
 #include <ctype.h>
-/*
-#define _GNU_SOURCE
+
 #include <crypt.h>
-*/
+
 #include "SQL_functions.h"
 #include "CGI_functions.h"
 
 #define SELECT_Schueler "SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name=\"?\" AND Schueler.id=Benutzer.id;"
 
+//id, vorname, name, email, passwort, kuerzel, kurse, sid
+
 /**
-Neue Version mit nur einer Tabelle. (base4)
+Identifikation per E-mail oder Kürzel (base5)
 */
 
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwor stimmt
@@ -60,7 +64,7 @@ void verifyUser(person * pers){
 		//Es ist sicher eine Lehrer (jemand hat das Kürzel eingegeben)
 
 		//TODO: sql-injection verhindern
-		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE kuerzel='");
+		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='");
 		size_t len_mid=strlen(pers->acronym);
 		size_t len_end=strlen("' ;");
 
@@ -68,7 +72,7 @@ void verifyUser(person * pers){
 		if(sql_query == NULL){
 			printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
 		}
-		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE kuerzel='");
+		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='");
 		strncat(sql_query, pers->acronym, len_mid);
 		strcat(sql_query, "';");
 
@@ -88,7 +92,7 @@ void verifyUser(person * pers){
     }else{
 		//Es könnte ein Lehrer oder ein Schüler sein
 
-		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE email='");
+		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE email='");
 		size_t len_mid=strlen(pers->email);
 		size_t len_end=strlen("';");
 
@@ -96,7 +100,7 @@ void verifyUser(person * pers){
 		if(sql_query == NULL){
 			printExitFailure("Es konnte kein Speicher für \"sql_query\" angefrdert werden");
 		}
-		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse FROM Benutzer WHERE email='");
+		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE email='");
 		strncat(sql_query, pers->email, len_mid);
 		strcat(sql_query, "';");
 
@@ -121,9 +125,13 @@ void verifyUser(person * pers){
 	if(found == true){
 		MYSQL_ROW row;
 		row=mysql_fetch_row(result);
-		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s\n", row[COL_NAME], row[COL_PASS]);
+		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s, SID: '%s'\n", row[COL_NAME], row[COL_PASS], row[COL_SID]);
 
-		//Erzeugung eines Salt
+		if(row[COL_SID] != NULL){
+            printExitFailure("Bereits angemeldet!!");
+		}
+
+		//Auslesen des Salt
 		char * salt=calloc(SALT_SIZE+1, sizeof(char));
 		strncat(salt, row[COL_PASS], 1);
 		strncat(salt, row[COL_PASS]+1, 1);
@@ -131,12 +139,15 @@ void verifyUser(person * pers){
 
 		if(strcmp(pers->passwort, row[COL_PASS]) == 0){
 			pers->auth=true;
+
+			//Name holen
+            pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+            strcpy(pers->name, row[COL_NAME]);
+            pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+            strcpy(pers->vorname, row[COL_VORNAME]);
+
 			if(isAcronym){
-				//Person hat Kürzel angegeben --> es ist eine Leherer --> Name + email holen holen
-				pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-				strcpy(pers->name, row[COL_NAME]);
-				pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-				strcpy(pers->vorname, row[COL_VORNAME]);
+				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
 				pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
 				strcpy(pers->email, row[COL_EMAIL]);
 			}else{
@@ -147,12 +158,6 @@ void verifyUser(person * pers){
 					pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
 					strcpy(pers->acronym, row[COL_ACR]);
 					pers->isTeacher=true;
-
-					//Name holen
-					pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-					strcpy(pers->name, row[COL_NAME]);
-					pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-					strcpy(pers->vorname, row[COL_VORNAME]);
 				}else{
 					pers->isTeacher=false;
 				}
@@ -162,6 +167,11 @@ void verifyUser(person * pers){
 			if(row[COL_COURSE] != NULL){
 				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
 				strcpy(pers->courses, row[COL_COURSE]);
+			}
+
+			//ID holen
+			if(row[COL_ID] != NULL){
+                pers->id=atoi(row[COL_ID]);
 			}
 
 			create_session(pers);
@@ -257,10 +267,10 @@ void insertUser(person * pers){
 		//fprintf(stderr, "Connection extablished!\n");
 	}
 
-	//TODO Salt erzeugen und "Salt-reuse verhindern"
 	char * salt=NULL;
 	salt_generate(&salt);
 
+    //Verhindern, dass ein bereits vorhandenes Salt zweimal verwendet wird (falls zwei Nutzer identische Passwörter wählen)
 	while(salt_exists(&salt)){
 		salt_generate(&salt);
 	}
@@ -428,6 +438,12 @@ bool email_exists(char * email){
 }
 
 
+/** \brief Prüfen ob ein eingegebenes Kürzel schon in der Datenbank existiert
+ *
+ * \param acronym char*    Kürzel
+ * \return bool            true: existiert; false: existiert nicht (gut)
+ *
+ */
 bool acronym_exists(char * acronym){
 	if(acronym == NULL){
 		printExitFailure("Programm falsch, Wörk!");
@@ -474,7 +490,93 @@ bool acronym_exists(char * acronym){
 
 }
 
+/** \brief Eine neue SID für einen Benutzer erzeugen
+ *
+ * \param pers person*   Person für die die Sitzung angelegt werden soll (enthält die id)
+ * \return int           ???
+ *
+ */
 int create_session(person * pers){
+    char * query=NULL;
+
+	srand(time(NULL));
+	int generated_sid=rand();
+	while(sid_exists(generated_sid)){
+        generated_sid=rand();
+	}
+
+	pers->sid=generated_sid;
+
+	//Versuch die query mittels asprintf aufzubauen
+	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
+        printExitFailure("Es konnte kein Speicher sür die SID angefordert werden");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
+
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		printExitFailure("mysql_query failed (create session)");
+	}
+
 	return -1;
 }
 
+
+/** \brief Prüfen ob die sid noch nicht vorhanden ist
+ *
+ * \param sid int       zu überprüfende sid
+ * \return bool         true: sid gefunden ; false: sid nicht gefunden (gut)
+ *
+ */
+bool sid_exists(int sid){
+
+	char * query=NULL;
+	asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid);
+
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure\n Wörk!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
+		mysql_errno (my), mysql_error (my));
+		exit(EXIT_FAILURE);*/
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
+
+	MYSQL_RES * result=NULL;
+
+	if(mysql_query(my, query)){
+		printExitFailure("mysql_query failed (search sid)");
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+	}else{
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "sid gefunden, wörk\n");
+			mysql_free_result(result);
+			mysql_close(my);
+			return true;
+		}
+	}
+
+	mysql_free_result(result);
+	mysql_close(my);
+
+	return false;
+}

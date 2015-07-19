@@ -17,6 +17,8 @@ int main(int argc, char ** argv){
 
 	extractPOSTdata(&thisCGI, "email", &email);
 
+	httpHeader(TEXT);
+
 
 	if(email_exists(email)){
 		puts("exists\n");

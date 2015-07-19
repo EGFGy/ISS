@@ -5,6 +5,7 @@
 #define COL_PASS 4
 #define COL_ACR 5
 #define COL_COURSE 6
+#define COL_SID 7
 
 #define SQL_USER "web_user"
 #define SQL_PASS "web_pass"
@@ -19,6 +20,7 @@
 
 
 typedef struct {
+    int id;
 	char * vorname;
 	char * name;
 	char * passwort;
@@ -40,3 +42,4 @@ bool salt_exists(char ** salt);
 bool email_exists(char * name);
 bool acronym_exists(char * acronym);
 int create_session(person * pers);
+bool sid_exists(int sid);
