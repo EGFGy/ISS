@@ -43,3 +43,5 @@ bool email_exists(char * name);
 bool acronym_exists(char * acronym);
 int create_session(person * pers);
 bool sid_exists(int sid);
+bool sid_set_null(person * pers);
+bool verify_sid(person * pers);

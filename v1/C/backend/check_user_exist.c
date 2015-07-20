@@ -13,7 +13,6 @@ Prüfen ob ein Email in der Datenbank existiert.
 - für Registrierungsformular
 - Javascript führt Anfrage aus --> Auswertung der Antwort im Browser
   --> dem Benutzer wir eine Warnung angezeigt, wenn die E-Mail schon in der DB existiert.
-
 */
 int main(int argc, char ** argv){
 	cgi thisCGI;

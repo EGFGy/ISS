@@ -609,3 +609,15 @@ bool sid_set_null(person * pers){
 		return true;
 	}
 }
+
+bool verify_sid(person * pers){
+	char * query=NULL;
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
+		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (logout)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
+}

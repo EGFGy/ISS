@@ -48,11 +48,12 @@
  */
 
 
-//name=sfdfewds&pass=avcfdcx&teach=false
+/**
+Benutzer anmelden (Passwort Überprüfen)
+
+*/
 int main(int argc, char ** argv)
 {
-	char * email = NULL; //Pointer für den eingegebenen Namen
-	char * password = NULL; //Pointer für das eingegebene Passwort
 	cgi datCGI;
 	person login_person;
 
@@ -70,16 +71,13 @@ int main(int argc, char ** argv)
 		printExitFailure("Use POST!");
 	}
 	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
-	extractPOSTdata(&datCGI, "email", &email);
-	extractPOSTdata(&datCGI, "pass", &password);
+	extractPOSTdata(&datCGI, "email", &login_person.email);
+	extractPOSTdata(&datCGI, "pass", &login_person.passwort);
 
 
-	if(email == NULL){
+	if(login_person.email == NULL){
 		printExitFailure("Name leer");
 	}
-
-	login_person.email=email;
-	login_person.passwort=password;
 
 	verifyUser(&login_person);
 
@@ -88,7 +86,6 @@ int main(int argc, char ** argv)
 	char * sid_string;
 	asprintf(&sid_string, "%d", login_person.sid);
 	setCookie("SID", sid_string);
-
 
 
 	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
@@ -106,7 +103,7 @@ int main(int argc, char ** argv)
 
 	puts("<h1>Erhaltene Daten:</h1>\n");
 	printf("<br>CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-	printf("<br>Name:           %s\nPassword:       %s\n", email, password);
+	printf("<br>Name:           %s\nPassword:       %s\n", login_person.email, login_person.passwort);
 
 
 	printf("<br>Post Data:           %s\n", datCGI.POST_data);
