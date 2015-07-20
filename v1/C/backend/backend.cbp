@@ -68,7 +68,22 @@
 				</Linker>
 			</Target>
 			<Target title="all_messages">
-				<Option output="backend" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/all_messages" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="logout">
+				<Option output="bin/Debug/logout" prefix_auto="1" extension_auto="1" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -107,6 +122,10 @@
 		<Unit filename="check_user_exist.c">
 			<Option compilerVar="CC" />
 			<Option target="check_user_exist" />
+		</Unit>
+		<Unit filename="logout.c">
+			<Option compilerVar="CC" />
+			<Option target="logout" />
 		</Unit>
 		<Unit filename="main_strtok_base3.c">
 			<Option compilerVar="CC" />

@@ -8,7 +8,13 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+/**
+Prüfen ob ein Email in der Datenbank existiert.
+- für Registrierungsformular
+- Javascript führt Anfrage aus --> Auswertung der Antwort im Browser
+  --> dem Benutzer wir eine Warnung angezeigt, wenn die E-Mail schon in der DB existiert.
 
+*/
 int main(int argc, char ** argv){
 	cgi thisCGI;
 
@@ -18,8 +24,6 @@ int main(int argc, char ** argv){
 	extractPOSTdata(&thisCGI, "email", &email);
 
 	httpHeader(TEXT);
-
-
 	if(email_exists(email)){
 		puts("exists\n");
 	}else{

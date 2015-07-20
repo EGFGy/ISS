@@ -39,7 +39,9 @@ void getCGIdata(cgi * gotCGI){
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
 	if(strncmp(request_method, "POST", 5) != 0){
-		if(strncmp(request_method, "GET", 3) != 0){
+
+	//TODO: FIX THIS !!!
+		//if(strncmp(request_method, "GET", 3) != 0){
 			//TODO: Test this!
 			char * query_string=getenv("QUERY_STRING");
 			if(query_string == NULL){
@@ -56,9 +58,9 @@ void getCGIdata(cgi * gotCGI){
 			gotCGI->query_string=query_string;
 			gotCGI->request_method = request_method;
 			gotCGI->http_cookies = env_cook;
-		}else{
+		/*}else{
 			printExitFailure("Use GET or POST");
-		}
+		}*/
 	}else{
 		//Es ist POST
 		contentLength = getenv("CONTENT_LENGTH");

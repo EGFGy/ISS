@@ -506,7 +506,6 @@ int create_session(person * pers){
 	}
 
 	pers->sid=generated_sid;
-
 	//Versuch die query mittels asprintf aufzubauen
 	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
         printExitFailure("Es konnte kein Speicher sür die SID angefordert werden");
@@ -523,13 +522,12 @@ int create_session(person * pers){
 		//fprintf(stderr, "Connection extablished!\n");
 	}
 
-
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		printExitFailure("mysql_query failed (create session)");
 	}
 
-	return -1;
+	return 0;
 }
 
 
@@ -579,4 +577,35 @@ bool sid_exists(int sid){
 	mysql_close(my);
 
 	return false;
+}
+
+/** \brief SID des Benutzers löschen (--> Abmelden)
+ *
+ * \param pers person * Person, die abzumelden ist
+ * \return bool         true: sid gefunden ; false: sid nicht gefunden
+ *
+ */
+bool sid_set_null(person * pers){
+	char * query=NULL;
+	if(asprintf(&query, "UPDATE Benutzer SET sid=NULL WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
+		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (logout)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}else{
+		//fprintf(stderr, "Connection extablished!\n");
+	}
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		return false;
+	}else{
+		return true;
+	}
 }

@@ -93,32 +93,45 @@ int main(int argc, char ** argv)
 
 	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
 
-	httpHeader(TEXT);
+	httpHeader(HTML);
+	printf("<!DOCTYPE html><head>\
+		<title>InfoWall -- Anmeldung</title>\
+		<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />\
+		<meta name=\"viewport\" content=\"width=device-width\">\
+	</head>\
+	<body>");
+
 	printf("%s\n", datCGI.POST_data);
 
 
-	puts("Erhaltene Daten:\n");
-	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-	printf("Name:           %s\nPassword:       %s\n", email, password);
+	puts("<h1>Erhaltene Daten:</h1>\n");
+	printf("<br>CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
+	printf("<br>Name:           %s\nPassword:       %s\n", email, password);
 
 
-	printf("Post Data:           %s\n", datCGI.POST_data);
+	printf("<br>Post Data:           %s\n", datCGI.POST_data);
 
-	puts("\n\n\n\n");
+	puts("<br>\n\n\n\n");
 
 	if(login_person.auth){
-		printf("Personendaten:\n");
-		printf("User ID:   %d\n", login_person.id);
-		printf("Vorname:   %s\n", login_person.vorname);
-		printf("Nachname:  %s\n", login_person.name);
-		printf("Email:     %s\n", login_person.email);
-		printf("Passwort:  %s (richtig)\n", login_person.passwort);
-		printf("Faecher:   %s\n", login_person.courses);
-		if(login_person.isTeacher)printf("Kuerzel:   %s\n", login_person.acronym);
-		printf("SID:       %d\n", login_person.sid);
+		printf("<h2>Personendaten:</h2>\n");
+		printf("<br>User ID:   %d\n", login_person.id);
+		printf("<br>Vorname:   %s\n", login_person.vorname);
+		printf("<br>Nachname:  %s\n", login_person.name);
+		printf("<br>Email:     %s\n", login_person.email);
+		printf("<br>Passwort:  %s (richtig)\n", login_person.passwort);
+		printf("<br>Faecher:   %s\n", login_person.courses);
+		if(login_person.isTeacher)printf("<br>Kuerzel:   %s\n", login_person.acronym);
+		printf("<br>SID:       %d\n", login_person.sid);
+
+		printf("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>");
 	}else{
-		puts("YOU FAIL!!\n");
+		puts("<br>YOU FAIL!!\n");
 	}
+
+	printf("</body>\
+	</html>");
+
 	exit(0);
 }
 
