@@ -355,12 +355,7 @@ bool salt_exists(char ** salt){
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-		mysql_errno (my), mysql_error (my));
-		exit(EXIT_FAILURE);*/
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	MYSQL_RES * result=NULL;
@@ -409,8 +404,6 @@ bool email_exists(char * email){
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	MYSQL_RES * result=NULL;
@@ -461,8 +454,6 @@ bool acronym_exists(char * acronym){
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	MYSQL_RES * result=NULL;
@@ -518,8 +509,6 @@ int create_session(person * pers){
 
 	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	if(mysql_query(my, query)){
@@ -549,12 +538,7 @@ bool sid_exists(int sid){
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-		mysql_errno (my), mysql_error (my));
-		exit(EXIT_FAILURE);*/
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	MYSQL_RES * result=NULL;
@@ -598,8 +582,6 @@ bool sid_set_null(person * pers){
 
 	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	if(mysql_query(my, query)){
@@ -620,4 +602,24 @@ bool verify_sid(person * pers){
 	if(my == NULL){
 		printExitFailure("MYSQL init failure!");
 	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		printExitFailure("mysql_query failed (verify_sid)");
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "sid gefunden\n");
+			mysql_free_result(result);
+			mysql_close(my);
+			return true;
+		}
+	}
+	return false;
 }

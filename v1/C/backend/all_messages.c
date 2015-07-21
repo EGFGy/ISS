@@ -20,7 +20,12 @@ int main(int argc, char ** argv){
     extractCOOKIEdata(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
 
-    if(verify_sid(&check_person))
+	httpHeader(TEXT);
+    if(verify_sid(&check_person)){
+		printf("You are authorized to view da dataz!!\n");
+    }else{
+		printf("Go away!!");
+    }
 
 
 
