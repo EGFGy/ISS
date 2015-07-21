@@ -15,6 +15,7 @@ int main(int argc, char ** argv){
 
 	char * s_sid=NULL;
     getCGIdata(&datCGI);
+    if(datCGI.http_cookies == NULL)printExitFailure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
 
     extractCOOKIEdata(&datCGI, "SID", &s_sid);
     extractCOOKIEdata(&datCGI, "EMAIL", &logout_person.email);
@@ -27,7 +28,7 @@ int main(int argc, char ** argv){
 			setCookie("SID", "0");
 			httpHeader(TEXT);
 			if(sid_set_null(&logout_person)){
-				printf("Logout erfolgreich\nGOE HOEM!!");
+				printf("Logout erfolgreich\n");
 			}else{
 				printf("Fehler in sid_set_null\n");
 			}

@@ -13,8 +13,6 @@
 #define SQL_ALTERNATE_USER "root"
 #define SQL_ALTERNATE_PASS "WUW"
 
-//id | vorname | name | email | passwort | kuerzel | kurse
-
 
 #define SALT_SIZE 2
 
@@ -33,7 +31,7 @@ typedef struct {
 }person;
 
 
-void verifyUser(person * pers);
+int verifyUser(person * pers);
 bool detectConvertAcronym(person * pers);
 void uppercase_acr(person * pers);
 void insertUser(person * pers);

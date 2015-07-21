@@ -15,16 +15,17 @@ int main(int argc, char ** argv){
 
 	char * s_sid=NULL;
     getCGIdata(&datCGI);
-
+	if(datCGI.http_cookies == NULL)printExitFailure("Cookies müssen aktiv und gesetzt sein!");
     extractCOOKIEdata(&datCGI, "SID", &s_sid);
     extractCOOKIEdata(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
 
 	httpHeader(TEXT);
     if(verify_sid(&check_person)){
-		printf("You are authorized to view da dataz!!\n");
+		printf("Daten dürfen angesehen werden!!\n");
+		printf("SID: %d\n", check_person.sid);
     }else{
-		printf("Go away!!");
+		printf("Erst anmelden!!");
     }
 
 

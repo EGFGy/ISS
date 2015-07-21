@@ -4,7 +4,7 @@
  *
  * Created on 25. Mai 2015, 13:50
  */
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,13 +79,15 @@ int main(int argc, char ** argv)
 		printExitFailure("Name leer");
 	}
 
-	verifyUser(&login_person);
+	int user_state=verifyUser(&login_person);
 
 	//Zwei cookies setzen
+
 	setCookie("EMAIL", login_person.email);
 	char * sid_string;
 	asprintf(&sid_string, "%d", login_person.sid);
 	setCookie("SID", sid_string);
+
 
 
 	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
@@ -110,8 +112,8 @@ int main(int argc, char ** argv)
 
 	puts("<br>\n\n\n\n");
 
-	if(login_person.auth){
-		printf("<h2>Personendaten:</h2>\n");
+	if(login_person.auth && user_state==0){
+		puts("<h2>Personendaten:</h2>\n");
 		printf("<br>User ID:   %d\n", login_person.id);
 		printf("<br>Vorname:   %s\n", login_person.vorname);
 		printf("<br>Nachname:  %s\n", login_person.name);
@@ -121,9 +123,16 @@ int main(int argc, char ** argv)
 		if(login_person.isTeacher)printf("<br>Kuerzel:   %s\n", login_person.acronym);
 		printf("<br>SID:       %d\n", login_person.sid);
 
-		printf("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>");
+		puts("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>\
+         <br><a href=\"/cgi-bin/all_messages.cgi\">Alle Nachrichten</a>");
+         puts("<iframe src=\"/cgi-bin/all_messages.cgi\" style=\"width: 100%; height: 500px;\"");
 	}else{
 		puts("<br>YOU FAIL!!\n");
+		if(user_state == 1){
+            puts("Bereits angemeldet!");
+            printf("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>\
+         <br><a href=\"/cgi-bin/all_messages.cgi\">Alle Nachrichten</a>");
+		}
 	}
 
 	printf("</body>\

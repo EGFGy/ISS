@@ -1,6 +1,4 @@
 
-#define _GNU_SOURCE
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +32,7 @@ Identifikation per E-mail oder Kürzel (base5)
  *  Wenn das Passwort stimmt wird der bool-Wert "auth" in "person" auf true gesetzt.
  *  --> die Person ist authentifiziert.
  */
-void verifyUser(person * pers){
+int verifyUser(person * pers){
 	bool isAcronym;
 
 	if(pers->name==NULL || pers->passwort==NULL){
@@ -64,7 +62,7 @@ void verifyUser(person * pers){
 		//Es ist sicher eine Lehrer (jemand hat das Kürzel eingegeben)
 
 		//TODO: sql-injection verhindern
-		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='");
+		/*size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='");
 		size_t len_mid=strlen(pers->acronym);
 		size_t len_end=strlen("' ;");
 
@@ -75,6 +73,12 @@ void verifyUser(person * pers){
 		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='");
 		strncat(sql_query, pers->acronym, len_mid);
 		strcat(sql_query, "';");
+		*/
+
+		char * sql_query=NULL;
+		if(asprintf(&sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE kuerzel='%s'", pers->acronym) == -1){
+			printExitFailure("Es konnte kein Speicher angefordert werden (verifyUser)");
+		}
 
 		fprintf(stderr, "Lehrer.\nsql_query: %s\n", sql_query);
 
@@ -91,7 +95,7 @@ void verifyUser(person * pers){
 		}
     }else{
 		//Es könnte ein Lehrer oder ein Schüler sein
-
+		/*
 		size_t len_start=strlen("SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE email='");
 		size_t len_mid=strlen(pers->email);
 		size_t len_end=strlen("';");
@@ -102,7 +106,12 @@ void verifyUser(person * pers){
 		}
 		strcpy(sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE email='");
 		strncat(sql_query, pers->email, len_mid);
-		strcat(sql_query, "';");
+		strcat(sql_query, "';");*/
+
+		char * sql_query=NULL;
+		if(asprintf(&sql_query, "SELECT  id, vorname, name, email, passwort, kuerzel, kurse, sid FROM Benutzer WHERE email='%s'", pers->email) == -1){
+			printExitFailure("Es konnte kein Speicher angefordert werden (verifyUser)");
+		}
 
 		fprintf(stderr, "Schueler o. Lehrer.\nsql_query: %s\n", sql_query);
 
@@ -128,7 +137,11 @@ void verifyUser(person * pers){
 		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s, SID: '%s'\n", row[COL_NAME], row[COL_PASS], row[COL_SID]);
 
 		if(row[COL_SID] != NULL){
-            printExitFailure("Bereits angemeldet!!");
+            pers->auth=true;
+            pers->sid=atoi(row[COL_SID]);
+            pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
+			strcpy(pers->email, row[COL_EMAIL]);
+            return 1;
 		}
 
 		//Auslesen des Salt
@@ -183,6 +196,9 @@ void verifyUser(person * pers){
 
     mysql_free_result(result);
     mysql_close(my);
+
+
+    return 0;
 }
 
 /** \brief Feststellen ob der name möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
@@ -208,12 +224,6 @@ bool detectConvertAcronym(person * pers){
 			pers->email=NULL;
 
 			uppercase_acr(pers);
-			//char * c=pers->acronym_id;
-			/*int p=0;
-			while(pers->acronym[p]){
-				pers->acronym[p]=toupper(pers->acronym[p]);
-				p++;
-			}*/
 		}
 	}
 
@@ -263,8 +273,6 @@ void insertUser(person * pers){
 		mysql_errno (my), mysql_error (my));
 		exit(EXIT_FAILURE);*/
 		printExitFailure("MYSQL-connection error!");
-	}else{
-		//fprintf(stderr, "Connection extablished!\n");
 	}
 
 	char * salt=NULL;
@@ -277,11 +285,10 @@ void insertUser(person * pers){
 
 	pers->passwort=crypt(pers->passwort, salt);
 
-
-	char * query;
+	char * query=NULL;
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
-		query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
+		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
 		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('");
 		strcat(query, pers->vorname);
 		strcat(query, "', '");
@@ -290,9 +297,15 @@ void insertUser(person * pers){
 		strcat(query, pers->email);
 		strcat(query, "', '");
 		strcat(query, pers->passwort);
-		strcat(query, "', 'n/a');");
+		strcat(query, "', 'n/a');");*/
+		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) \
+					VALUES('%s', '%s', '%s', '%s', 'n/a')",
+					pers->vorname, pers->name, pers->email, pers->passwort) == -1)
+		{
+			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
+		}
 	}else{
-		query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
+		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
 		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('");
 		strcat(query, pers->vorname);
 		strcat(query, "', '");
@@ -303,7 +316,13 @@ void insertUser(person * pers){
 		strcat(query, pers->passwort);
 		strcat(query, "', 'n/a', '");
 		strcat(query, pers->acronym);
-		strcat(query, "');");
+		strcat(query, "');");*/
+		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
+					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
+					pers->vorname, pers->name, pers->email, pers->passwort, pers->acronym) == -1)
+		{
+			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
+		}
 	}
 	fprintf(stderr, "\nInsert dat:\n%s\n", query);
 	if(mysql_query(my, query)){
@@ -344,10 +363,14 @@ bool salt_exists(char ** salt){
 	char * seekSalt=calloc(SALT_SIZE+1, sizeof(char));
 	strncpy(seekSalt, *salt, SALT_SIZE);
 
-	char * query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
+	char * query=NULL;
+	/*query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
 	strcat(query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^");
 	strcat(query, seekSalt);
-	strcat(query, "';");
+	strcat(query, "';");*/
+	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
+        printExitFailure("Es konnte kein Speicher angefordert werden (salt_exists)");
+	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -388,14 +411,13 @@ bool salt_exists(char ** salt){
  */
 bool email_exists(char * email){
 	if(email == NULL){
-		printExitFailure("Programm falsch, Wörk!");
+		printExitFailure("Programm falsch, (email_exists)");
 	}
 
 	char * query=NULL;
-	query=calloc(strlen("SELECT email FROM Benutzer WHERE email='")+strlen(email)+strlen("';")+1, sizeof(char));
-	strcat(query, "SELECT email FROM Benutzer WHERE email='");
-	strcat(query, email);
-	strcat(query, "';");
+	if(asprintf(&query, "SELECT email FROM Benutzer WHERE email='%s'", email) == -1){
+        printExitFailure("Es konnte kein Speicher angefordert werden (email_exists)");
+	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -410,7 +432,7 @@ bool email_exists(char * email){
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (search email)");
+		printExitFailure("mysql_query failed (email_exists)");
 	}else{
 		result = mysql_store_result(my);
 
@@ -442,10 +464,14 @@ bool acronym_exists(char * acronym){
 		printExitFailure("Programm falsch, Wörk!");
 	}
 	char * query=NULL;
-	query=calloc(strlen("SELECT kuerzel FROM Benutzer WHERE kuerzel='")+strlen(acronym)+strlen("';")+1, sizeof(char));
+	/*query=calloc(strlen("SELECT kuerzel FROM Benutzer WHERE kuerzel='")+strlen(acronym)+strlen("';")+1, sizeof(char));
 	strcat(query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='");
 	strcat(query, acronym);
-	strcat(query, "';");
+	strcat(query, "';");*/
+
+	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
+        printExitFailure("Es konnte kein Speicher angefordert werden (acronym_exists)");
+	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -460,7 +486,7 @@ bool acronym_exists(char * acronym){
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (search acronym)");
+		printExitFailure("mysql_query failed (acronym_exists)");
 	}else{
 		result = mysql_store_result(my);
 
@@ -499,7 +525,7 @@ int create_session(person * pers){
 	pers->sid=generated_sid;
 	//Versuch die query mittels asprintf aufzubauen
 	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
-        printExitFailure("Es konnte kein Speicher sür die SID angefordert werden");
+        printExitFailure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
@@ -513,8 +539,9 @@ int create_session(person * pers){
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (create session)");
+		printExitFailure("mysql_query failed (create_session)");
 	}
+    mysql_close(my);
 
 	return 0;
 }
@@ -586,8 +613,10 @@ bool sid_set_null(person * pers){
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+        mysql_close(my);
 		return false;
 	}else{
+        mysql_close(my);
 		return true;
 	}
 }
@@ -620,6 +649,9 @@ bool verify_sid(person * pers){
 			mysql_close(my);
 			return true;
 		}
+		mysql_free_result(result);
 	}
+
+    mysql_close(my);
 	return false;
 }

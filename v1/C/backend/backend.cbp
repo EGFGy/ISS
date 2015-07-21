@@ -101,6 +101,7 @@
 		<Compiler>
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-DGNU_SOURCE" />
 			<Add directory="/usr/include/mysql" />
 		</Compiler>
 		<Linker>
