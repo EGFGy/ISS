@@ -123,7 +123,7 @@ int main(int argc, char ** argv)
 		if(login_person.isTeacher)printf("<br>Kuerzel:   %s\n", login_person.acronym);
 		printf("<br>SID:       %d\n", login_person.sid);
 
-		puts("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>\
+		puts("<a href=\"/cgi-bin/logout.cgi\" style=\"color: green;\">LOGOUT</a>\
          <br><a href=\"/cgi-bin/all_messages.cgi\">Alle Nachrichten</a>");
          puts("<iframe src=\"/cgi-bin/all_messages.cgi\" style=\"width: 100%; height: 500px;\"");
 	}else{

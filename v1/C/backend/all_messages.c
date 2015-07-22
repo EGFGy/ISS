@@ -20,10 +20,13 @@ int main(int argc, char ** argv){
     extractCOOKIEdata(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
 
-	httpHeader(TEXT);
+	httpHeader(HTML);
     if(verify_sid(&check_person)){
-		printf("Daten dürfen angesehen werden!!\n");
-		printf("SID: %d\n", check_person.sid);
+		FILE * html_source;
+		fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
+
+		//printf("Daten dürfen angesehen werden!!\n");
+		//printf("SID: %d\n", check_person.sid);
     }else{
 		printf("Erst anmelden!!");
     }
