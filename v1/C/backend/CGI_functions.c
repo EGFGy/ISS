@@ -144,7 +144,7 @@ void setCookie(char name[], char content[]){
 void httpHeader(httpHeaderType type){
 	switch(type){
 		case HTML:
-			puts("Content-type: text/html\n\n\nu");
+			puts("Content-type: text/html\n");
 		break;
 		case TEXT:
 			puts("Content-type: text/plain\n\n");

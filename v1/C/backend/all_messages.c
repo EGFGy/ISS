@@ -21,10 +21,25 @@ int main(int argc, char ** argv){
     check_person.sid=atoi(s_sid);
 
 	httpHeader(HTML);
+
     if(verify_sid(&check_person)){
 		FILE * html_source;
-		fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
+		html_source=fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
+		if(html_source){
+			char c=NULL;
+			while((c = getc(html_source)) != EOF){
+				putchar(c);
+			}
+			fclose(html_source);
+		}
+		//Nachrichten ab hier
+		puts("<div class=\"content\">");
+		puts("<div class='messageBox'><h2 class=\"content-subhead\">Hallo B&uuml;l</h2>\n<p>//TODO</p>\n");
+		puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
+		puts("</div>");
 
+		puts("</div></div></div>");
+		puts("</body></html>");
 		//printf("Daten dürfen angesehen werden!!\n");
 		//printf("SID: %d\n", check_person.sid);
     }else{
