@@ -32,7 +32,6 @@ int main(int argc, char ** argv){
 			}else{
 				printf("Fehler in sid_set_null\n");
 			}
-
 		}else{
 			printExitFailure("Bereits abgemeldet");
 		}

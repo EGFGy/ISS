@@ -15,11 +15,13 @@ int main(int argc, char ** argv){
 	message * all_messages;
 	int number=0;
 
-	printf("Hello wörld\n");
+	fprintf(stderr, "Hello wörld\n");
 
 	char * s_sid=NULL;
     getCGIdata(&datCGI);
 	if(datCGI.http_cookies == NULL)printExitFailure("Cookies müssen aktiv und gesetzt sein!");
+
+	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
     extractCOOKIEdata(&datCGI, "SID", &s_sid);
     extractCOOKIEdata(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
@@ -57,9 +59,6 @@ int main(int argc, char ** argv){
     }else{
 		printf("Erst anmelden!!");
     }
-
-
-
     //Prüfen ob Nutzer angemeldet ist
 	return 0;
 }

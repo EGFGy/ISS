@@ -48,10 +48,8 @@ int main(int argc, char ** argv){
 	fprintf(stderr, "\nnow comes da htmlz\n");
 	insertUser(&reg_person);
 
-
 	httpHeader(TEXT);
 	printf("%s\n", datCGI.POST_data);
-
 
 	puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
@@ -59,9 +57,7 @@ int main(int argc, char ** argv){
 	printf("Kuerzel:        %s\nTeach:          %s\n", reg_person.acronym, teach);
 	printf("accepted TOS:   %s\n\n", acceptTOS);
 
-
 	printf("Post Data:      %s\n", datCGI.POST_data);
-
 
 	exit(0);
 }

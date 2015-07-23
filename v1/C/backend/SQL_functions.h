@@ -20,7 +20,6 @@
 #define SQL_ALTERNATE_USER "root"
 #define SQL_ALTERNATE_PASS "WUW"
 
-
 #define SALT_SIZE 2
 
 

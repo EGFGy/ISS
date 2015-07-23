@@ -79,6 +79,8 @@ int main(int argc, char ** argv)
 		printExitFailure("Name leer");
 	}
 
+	fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
+
 	int user_state=verifyUser(&login_person);
 
 	//Zwei cookies setzen
@@ -87,8 +89,6 @@ int main(int argc, char ** argv)
 	char * sid_string;
 	asprintf(&sid_string, "%d", login_person.sid);
 	setCookie("SID", sid_string);
-
-
 
 	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
 
@@ -106,7 +106,6 @@ int main(int argc, char ** argv)
 	puts("<h1>Erhaltene Daten:</h1>\n");
 	printf("<br>CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
 	printf("<br>Name:           %s\nPassword:       %s\n", login_person.email, login_person.password);
-
 
 	printf("<br>Post Data:           %s\n", datCGI.POST_data);
 

@@ -272,7 +272,6 @@ int decodeHEX(char *s, char *dec)
 		}else if (c == '%' && (	!ishex(*s++) ||	!ishex(*s++) ||	!sscanf(s - 2, "%2x", &c))){
 			return -1;
 		}
-
 		if (dec) *o = c;
 	}
 	return o - dec;
