@@ -1,0 +1,8 @@
+@charset "utf-8";
+.messageBox{
+	border: 2px solid;
+	border-radius: 0.8em;
+	background: #FF0 radial-gradient(#FFF 0%, #FF4 75%) repeat scroll 0% 0%;
+	padding: 5px;
+	margin-bottom: 5px;
+}

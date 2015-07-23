@@ -38,6 +38,7 @@ int main(int argc, char ** argv){
 	extractPOSTdata(&datCGI, "acronym", &reg_person.acronym);
 	extractPOSTdata(&datCGI, "teach", &teach);
 	extractPOSTdata(&datCGI, "acceptTOS", &acceptTOS);
+	//TODO: fehlerhaften Aufruf abfangen
 	if(strcmp(teach, "true") == 0){
 		reg_person.isTeacher=true;
 	}else{

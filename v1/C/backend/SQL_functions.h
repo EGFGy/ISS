@@ -59,4 +59,4 @@ int create_session(person * pers);
 bool sid_exists(int sid);
 bool sid_set_null(person * pers);
 bool verify_sid(person * pers);
-void get_all_messages(message mes[]);
+message * get_all_messages(int * number);

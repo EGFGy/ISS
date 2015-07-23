@@ -69,7 +69,7 @@
 			</Target>
 			<Target title="all_messages">
 				<Option output="bin/Debug/all_messages" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />
@@ -84,7 +84,7 @@
 			</Target>
 			<Target title="logout">
 				<Option output="bin/Debug/logout" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wextra" />

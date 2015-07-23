@@ -13,6 +13,7 @@ int main(int argc, char ** argv){
     cgi datCGI;
 	person check_person;
 	message * all_messages;
+	int number=0;
 
 	printf("Hello wörld\n");
 
@@ -26,7 +27,7 @@ int main(int argc, char ** argv){
 	httpHeader(HTML);
 
     if(verify_sid(&check_person)){
-		get_all_messages(all_messages);
+		all_messages=get_all_messages(&number);
 
 		FILE * html_source;
 		html_source=fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
@@ -39,9 +40,15 @@ int main(int argc, char ** argv){
 		}
 		//Nachrichten ab hier
 		puts("<div class=\"content\">");
-		puts("<div class='messageBox'><h2 class=\"content-subhead\">Hallo B&uuml;l</h2>\n<p>//TODO</p>\n");
+		puts("<div class='messageBox'><h2 class=\"content-subhead\">Hallo B&uuml;l</h2>\n<p>InfoText</p>\n");
 		puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
 		puts("</div>");
+		//TODO: Umlaute!!!
+		for(int i=0; i<number; i++){
+			printf("<div class='messageBox'><h2 class=\"content-subhead\">%s</h2>\n<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
+			puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
+			puts("</div>");
+		}
 
 		puts("</div></div></div>");
 		puts("</body></html>");

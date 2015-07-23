@@ -657,10 +657,8 @@ bool verify_sid(person * pers){
 	return false;
 }
 
-void get_all_messages(message mes[]){
-	if(mes == NULL){
-		printExitFailure("Fheler im Programm (get_all_messages)");
-	}
+message * get_all_messages(int * num){
+	message * mes=NULL;
 
 
 	char * query=NULL;
@@ -683,30 +681,32 @@ void get_all_messages(message mes[]){
 	}else{
 		MYSQL_RES * result=NULL;
 		result = mysql_store_result(my);
-
+		*num=mysql_num_rows(result);
 		if(mysql_num_rows(result) > 0){
 			mes = calloc(mysql_num_rows(result), sizeof(message));
             MYSQL_ROW message_row;
             for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
-				mes[i].id=atoi(message_row[COL_MESSAGE_ID]);
+				(mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
-				mes[i].title=calloc(strlen(message_row[COL_MESSAGE_TITEL]), sizeof(char));
-				strcpy(mes[i].title, message_row[COL_MESSAGE_TITEL]);
+				(mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL]), sizeof(char));
+				strcpy((mes+i)->title, message_row[COL_MESSAGE_TITEL]);
 
-				mes[i].message=calloc(strlen(message_row[COL_MESSAGE_MES]), sizeof(char));
-				strcpy(mes[i].message, message_row[COL_MESSAGE_MES]);
+				(mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES]), sizeof(char));
+				strcpy((mes+i)->message, message_row[COL_MESSAGE_MES]);
 
-				mes[i].courses=calloc(strlen(message_row[COL_MESSAGE_COURSES]), sizeof(char));
-				strcpy(mes[i].courses, message_row[COL_MESSAGE_COURSES]);
+				(mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES]), sizeof(char));
+				strcpy((mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
 
-				mes[i].creator_id=atoi(message_row[COL_MESSAGE_CREATORID]);
+				(mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
 				//TODO: uhrzeit rchtig machen ????
-				mes[i].created=NULL;
+				(mes+i)->created=NULL;
 
             }
 		}
 		mysql_free_result(result);
 	}
 	mysql_close(my);
+
+	return mes;
 }
