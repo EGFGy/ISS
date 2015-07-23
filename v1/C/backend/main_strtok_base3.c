@@ -59,7 +59,7 @@ int main(int argc, char ** argv)
 
 	login_person.email=NULL;
 	login_person.acronym=NULL;
-	login_person.passwort=NULL;
+	login_person.password=NULL;
 	login_person.auth=false;
 	login_person.courses=NULL;
 	login_person.sid=0;
@@ -72,7 +72,7 @@ int main(int argc, char ** argv)
 	}
 	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
 	extractPOSTdata(&datCGI, "email", &login_person.email);
-	extractPOSTdata(&datCGI, "pass", &login_person.passwort);
+	extractPOSTdata(&datCGI, "pass", &login_person.password);
 
 
 	if(login_person.email == NULL){
@@ -105,7 +105,7 @@ int main(int argc, char ** argv)
 
 	puts("<h1>Erhaltene Daten:</h1>\n");
 	printf("<br>CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-	printf("<br>Name:           %s\nPassword:       %s\n", login_person.email, login_person.passwort);
+	printf("<br>Name:           %s\nPassword:       %s\n", login_person.email, login_person.password);
 
 
 	printf("<br>Post Data:           %s\n", datCGI.POST_data);
@@ -115,10 +115,10 @@ int main(int argc, char ** argv)
 	if(login_person.auth && user_state==0){
 		puts("<h2>Personendaten:</h2>\n");
 		printf("<br>User ID:   %d\n", login_person.id);
-		printf("<br>Vorname:   %s\n", login_person.vorname);
+		printf("<br>Vorname:   %s\n", login_person.first_name);
 		printf("<br>Nachname:  %s\n", login_person.name);
 		printf("<br>Email:     %s\n", login_person.email);
-		printf("<br>Passwort:  %s (richtig)\n", login_person.passwort);
+		printf("<br>Passwort:  %s (richtig)\n", login_person.password);
 		printf("<br>Faecher:   %s\n", login_person.courses);
 		if(login_person.isTeacher)printf("<br>Kuerzel:   %s\n", login_person.acronym);
 		printf("<br>SID:       %d\n", login_person.sid);

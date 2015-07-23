@@ -22,19 +22,19 @@ int main(int argc, char ** argv){
 
 	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
 	person reg_person;
-	reg_person.vorname=NULL;
+	reg_person.first_name=NULL;
 	reg_person.name=NULL;
 	reg_person.email=NULL;
 	reg_person.acronym=NULL;
 	char * teach=NULL;
-	reg_person.passwort=NULL;
+	reg_person.password=NULL;
 	reg_person.auth=false;
 	reg_person.sid=0;
 	char * acceptTOS=NULL;
-	extractPOSTdata(&datCGI, "name_vor", &reg_person.vorname);
+	extractPOSTdata(&datCGI, "name_vor", &reg_person.first_name);
 	extractPOSTdata(&datCGI, "name", &reg_person.name);
 	extractPOSTdata(&datCGI, "email", &reg_person.email);
-	extractPOSTdata(&datCGI, "pass", &reg_person.passwort);
+	extractPOSTdata(&datCGI, "pass", &reg_person.password);
 	extractPOSTdata(&datCGI, "acronym", &reg_person.acronym);
 	extractPOSTdata(&datCGI, "teach", &teach);
 	extractPOSTdata(&datCGI, "acceptTOS", &acceptTOS);
@@ -54,7 +54,7 @@ int main(int argc, char ** argv){
 
 	puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
-	printf("Name:           %s\nPassword:       %s\n", reg_person.name, reg_person.passwort);
+	printf("Name:           %s\nPassword:       %s\n", reg_person.name, reg_person.password);
 	printf("Kuerzel:        %s\nTeach:          %s\n", reg_person.acronym, teach);
 	printf("accepted TOS:   %s\n\n", acceptTOS);
 

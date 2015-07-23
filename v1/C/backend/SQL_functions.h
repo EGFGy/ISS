@@ -7,6 +7,13 @@
 #define COL_COURSE 6
 #define COL_SID 7
 
+#define COL_MESSAGE_ID 0
+#define COL_MESSAGE_TITEL 1
+#define COL_MESSAGE_MES 2
+#define COL_MESSAGE_COURSES 3
+#define COL_MESSAGE_CREATORID 4
+#define COL_MESSAGE_TIME_CREATED 5
+
 #define SQL_USER "web_user"
 #define SQL_PASS "web_pass"
 #define SQL_BASE "base5"
@@ -19,9 +26,9 @@
 
 typedef struct {
     int id;
-	char * vorname;
+	char * first_name;
 	char * name;
-	char * passwort;
+	char * password;
 	char * courses;
 	char * acronym;
 	char * email;
@@ -30,9 +37,18 @@ typedef struct {
 	bool isTeacher;
 }person;
 
+typedef struct{
+	int id;
+	char * title;
+	char * message;
+	char * courses;
+	int creator_id;
+	struct tm * created;
+}message;
+
 
 int verifyUser(person * pers);
-bool detectConvertAcronym(person * pers);
+bool detect_convert_acronym(person * pers);
 void uppercase_acr(person * pers);
 void insertUser(person * pers);
 void salt_generate(char ** salt);
@@ -43,3 +59,4 @@ int create_session(person * pers);
 bool sid_exists(int sid);
 bool sid_set_null(person * pers);
 bool verify_sid(person * pers);
+void get_all_messages(message mes[]);

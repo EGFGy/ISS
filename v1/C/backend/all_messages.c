@@ -12,6 +12,9 @@
 int main(int argc, char ** argv){
     cgi datCGI;
 	person check_person;
+	message * all_messages;
+
+	printf("Hello wörld\n");
 
 	char * s_sid=NULL;
     getCGIdata(&datCGI);
@@ -23,6 +26,8 @@ int main(int argc, char ** argv){
 	httpHeader(HTML);
 
     if(verify_sid(&check_person)){
+		get_all_messages(all_messages);
+
 		FILE * html_source;
 		html_source=fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
 		if(html_source){
@@ -49,5 +54,5 @@ int main(int argc, char ** argv){
 
 
     //Prüfen ob Nutzer angemeldet ist
-
+	return 0;
 }

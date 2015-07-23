@@ -1,15 +1,15 @@
 Tabellen
 Benutzer:
 id                          |email       |name        |vorname    |passwort     |kurse       |kuerzel    |sid
-UNSIGNED INT AUTO_INCREMENT |VARCHAR(50) |VARCHAR(50) |VARCHAR(50)|VARCHAR(200) |VARCHAR(200)|VARCHAR(3) |INT
+INT UNSIGNED AUTO_INCREMENT |VARCHAR(50) |VARCHAR(50) |VARCHAR(50)|VARCHAR(200) |VARCHAR(200)|VARCHAR(3) |INT
 
 Kurse:
 name        |start    |ende     |raum
 VARCHAR(10) |DATETIME |DATETIME |VARCHAR(10)
 
 Meldungen
-id                          |titel        |meldung      |kurse        |erstellerID |erstellt
-UNSIGNED INT AUTO_INCREMENT |VARCHAR(120) |VARCHAR(900) |VARCHAR(200) |UNSINED INT |DATETIME
+id                          |titel        |meldung      |kurse        |erstellerID  |erstellt
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(120) |VARCHAR(900) |VARCHAR(200) |INT UNSIGNED |DATETIME
 
 
 Beispiele:

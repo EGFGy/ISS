@@ -8,6 +8,7 @@
 #include <my_global.h>
 #include <mysql.h>
 #include <ctype.h>
+#include <time.h>
 
 #include <crypt.h>
 
@@ -35,11 +36,11 @@ Identifikation per E-mail oder Kürzel (base5)
 int verifyUser(person * pers){
 	bool isAcronym;
 
-	if(pers->name==NULL || pers->passwort==NULL){
+	if(pers->name==NULL || pers->password==NULL){
 		printExitFailure("Programm falsch!");
 	}
 
-	isAcronym=detectConvertAcronym(pers);
+	isAcronym=detect_convert_acronym(pers);
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -148,16 +149,16 @@ int verifyUser(person * pers){
 		char * salt=calloc(SALT_SIZE+1, sizeof(char));
 		strncat(salt, row[COL_PASS], 1);
 		strncat(salt, row[COL_PASS]+1, 1);
-		pers->passwort=crypt(pers->passwort, salt);
+		pers->password=crypt(pers->password, salt);
 
-		if(strcmp(pers->passwort, row[COL_PASS]) == 0){
+		if(strcmp(pers->password, row[COL_PASS]) == 0){
 			pers->auth=true;
 
 			//Name holen
             pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
             strcpy(pers->name, row[COL_NAME]);
-            pers->vorname=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-            strcpy(pers->vorname, row[COL_VORNAME]);
+            pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+            strcpy(pers->first_name, row[COL_VORNAME]);
 
 			if(isAcronym){
 				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
@@ -208,10 +209,10 @@ int verifyUser(person * pers){
  *  Falls der Name genau drei buchstabe lang ist wird der Inhalt in das Kürzel verschoben und
  *  zu nur Großbuchstaben umgewandelt.
  */
-bool detectConvertAcronym(person * pers){
+bool detect_convert_acronym(person * pers){
     bool isAcronym;
 
-    if(pers->email==NULL || pers->passwort==NULL){
+    if(pers->email==NULL || pers->password==NULL){
 		printExitFailure("Programm falsch!");
 	}
 
@@ -283,43 +284,43 @@ void insertUser(person * pers){
 		salt_generate(&salt);
 	}
 
-	pers->passwort=crypt(pers->passwort, salt);
+	pers->password=crypt(pers->password, salt);
 
 	char * query=NULL;
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
-		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a');")+1, sizeof(char));
+		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('")+strlen(pers->first_name)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->password)+strlen("', 'n/a');")+1, sizeof(char));
 		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) VALUES('");
-		strcat(query, pers->vorname);
+		strcat(query, pers->first_name);
 		strcat(query, "', '");
 		strcat(query, pers->name);
 		strcat(query, "', '");
 		strcat(query, pers->email);
 		strcat(query, "', '");
-		strcat(query, pers->passwort);
+		strcat(query, pers->password);
 		strcat(query, "', 'n/a');");*/
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a')",
-					pers->vorname, pers->name, pers->email, pers->passwort) == -1)
+					pers->first_name, pers->name, pers->email, pers->password) == -1)
 		{
 			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
 		}
 	}else{
-		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('")+strlen(pers->vorname)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->passwort)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
+		/*query = calloc(strlen("INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('")+strlen(pers->first_name)+strlen("', '")+strlen(pers->name)+strlen("', '")+strlen(pers->email)+strlen("', '")+strlen(pers->password)+strlen("', 'n/a', '")+strlen(pers->acronym)+strlen("');")+1, sizeof(char));
 		strcat(query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) VALUES('");
-		strcat(query, pers->vorname);
+		strcat(query, pers->first_name);
 		strcat(query, "', '");
 		strcat(query, pers->name);
 		strcat(query, "', '");
 		strcat(query, pers->email);
 		strcat(query, "', '");
-		strcat(query, pers->passwort);
+		strcat(query, pers->password);
 		strcat(query, "', 'n/a', '");
 		strcat(query, pers->acronym);
 		strcat(query, "');");*/
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
-					pers->vorname, pers->name, pers->email, pers->passwort, pers->acronym) == -1)
+					pers->first_name, pers->name, pers->email, pers->password, pers->acronym) == -1)
 		{
 			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
 		}
@@ -654,4 +655,58 @@ bool verify_sid(person * pers){
 
     mysql_close(my);
 	return false;
+}
+
+void get_all_messages(message mes[]){
+	if(mes == NULL){
+		printExitFailure("Fheler im Programm (get_all_messages)");
+	}
+
+
+	char * query=NULL;
+	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all'") == -1){
+		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (get_all_messages)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		printExitFailure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		printExitFailure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		printExitFailure("mysql_query failed (verify_sid)");
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			mes = calloc(mysql_num_rows(result), sizeof(message));
+            MYSQL_ROW message_row;
+            for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
+				mes[i].id=atoi(message_row[COL_MESSAGE_ID]);
+
+				mes[i].title=calloc(strlen(message_row[COL_MESSAGE_TITEL]), sizeof(char));
+				strcpy(mes[i].title, message_row[COL_MESSAGE_TITEL]);
+
+				mes[i].message=calloc(strlen(message_row[COL_MESSAGE_MES]), sizeof(char));
+				strcpy(mes[i].message, message_row[COL_MESSAGE_MES]);
+
+				mes[i].courses=calloc(strlen(message_row[COL_MESSAGE_COURSES]), sizeof(char));
+				strcpy(mes[i].courses, message_row[COL_MESSAGE_COURSES]);
+
+				mes[i].creator_id=atoi(message_row[COL_MESSAGE_CREATORID]);
+
+				//TODO: uhrzeit rchtig machen ????
+				mes[i].created=NULL;
+
+            }
+		}
+		mysql_free_result(result);
+	}
+	mysql_close(my);
 }

@@ -39,7 +39,7 @@
 	"SQL_functions.h"
 	"CGI_functions.h"
 
-1425025834 /usr/include/mysql/my_global.h
+1430741807 /usr/include/mysql/my_global.h
 	<my_config.h>
 	<winsock2.h>
 	<ws2tcpip.h>
@@ -75,21 +75,21 @@
 	<dlfcn.h>
 	<new>
 
-1429544051 /usr/include/mysql/my_config.h
+1437076220 /usr/include/mysql/my_config.h
 
-1425025834 /usr/include/mysql/my_compiler.h
+1430741807 /usr/include/mysql/my_compiler.h
 	<my_global.h>
 	<my_attribute.h>
 
-1425025834 /usr/include/mysql/my_attribute.h
+1430741807 /usr/include/mysql/my_attribute.h
 
-1425025834 /usr/include/mysql/my_dbug.h
+1430741807 /usr/include/mysql/my_dbug.h
 	<sys/types.h>
 	<unistd.h>
 	<signal.h>
 	<crtdbg.h>
 
-1425025834 /usr/include/mysql/mysql.h
+1430741807 /usr/include/mysql/mysql.h
 	<standards.h>
 	<sys/types.h>
 	<winsock2.h>
@@ -100,19 +100,19 @@
 	"typelib.h"
 	"my_alloc.h"
 
-1429544051 /usr/include/mysql/mysql_version.h
+1437076220 /usr/include/mysql/mysql_version.h
 	<custom_conf.h>
 
-1425025834 /usr/include/mysql/mysql_com.h
+1430741807 /usr/include/mysql/mysql_com.h
 
-1425025834 /usr/include/mysql/mysql_time.h
+1430741807 /usr/include/mysql/mysql_time.h
 
-1425025834 /usr/include/mysql/my_list.h
+1430741807 /usr/include/mysql/my_list.h
 
-1425025834 /usr/include/mysql/typelib.h
+1430741807 /usr/include/mysql/typelib.h
 	"my_alloc.h"
 
-1425025834 /usr/include/mysql/my_alloc.h
+1430741807 /usr/include/mysql/my_alloc.h
 
 1437592447 source:/home/keller/InfoWall/v1/C/backend/all_messages.c
 	<stdio.h>
@@ -124,4 +124,45 @@
 	<ctype.h>
 	"CGI_functions.h"
 	"SQL_functions.h"
+
+1437635881 source:/home/bank/InfoWall/v1/C/backend/CGI_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	<features.h>
+	"CGI_functions.h"
+
+1437635881 /home/bank/InfoWall/v1/C/backend/CGI_functions.h
+
+1437641246 source:/home/bank/InfoWall/v1/C/backend/all_messages.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1437639861 /home/bank/InfoWall/v1/C/backend/SQL_functions.h
+
+1437641210 source:/home/bank/InfoWall/v1/C/backend/SQL_functions_v1.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<my_global.h>
+	<mysql.h>
+	<ctype.h>
+	<time.h>
+	<crypt.h>
+	"SQL_functions.h"
+	"CGI_functions.h"
 
