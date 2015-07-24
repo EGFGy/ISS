@@ -8,12 +8,9 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 
-<title>InfoWall -- Allgemeine Meldungen</title>
-
+<title>InfoWall -- Hilfe</title>
 
 <link rel="stylesheet" href="/css/layouts/pure-min.css">
-<link rel="stylesheet" href="/css/box.css">
-
 
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="/css/layouts/side-menu-old-ie.css">
@@ -58,6 +55,7 @@
 
 </head>
 <body>
+
 	<div id="layout">
 		<!-- Menu toggle -->
 		<a href="#menu" onclick="menuShowHide(this);" id="menuLink" class="menu-link">
@@ -71,14 +69,15 @@
 
 				<ul class="pure-menu-list">
 					<li class="pure-menu-item"><a href="#" class="pure-menu-link">Stundeplan</a></li>
-					<li class="pure-menu-item menu-item-divided pure-menu-selected">
-						<a href="#" class="pure-menu-link">Allgemeines</a></li>
-						<li class="pure-menu-item">
+					<li class="pure-menu-item">
+						<a href="/cgi-bin/all_messages.cgi" class="pure-menu-link">Allgemeines</a></li>
+
+							<li class="pure-menu-item">
 						<a href="#" class="pure-menu-link">Wahl</a>
 					</li>
 
 					<li class="pure-menu-item"><a href="#" class="pure-menu-link">Einstellungen</a></li>
-					<li class="pure-menu-item"><a href="/hilfe.html" class="pure-menu-link">Hilfe</a></li>
+					<li class="pure-menu-item menu-item-divided pure-menu-selected"><a href="/hilfe.html" class="pure-menu-link">Hilfe</a></li>
 					<li class="pure-menu-item"><a href="/cgi-bin/logout.cgi" class="pure-menu-link">LOGOUT</a></li>
 				</ul>
 			</div>
@@ -87,8 +86,14 @@
 
 		<div id="main">
 			<div class="header">
-		<h1>Infobereich</h1>
-			<h2>Allgemeine Meldungen</h2>
+				<h1>Hilfe</h1>
+				<h2>Informationen zu diesem Projekt und dessen Bedienung</h2>
+			</div>
+			<div class="content">
+				Beenden sie Umstände
+			</div>
 		</div>
 		
-		<!-- dynamischer Inhalt ab hier -->
+	</div>
+</body>
+</html>
