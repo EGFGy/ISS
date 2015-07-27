@@ -20,7 +20,7 @@
 #define SQL_ALTERNATE_USER "root"
 #define SQL_ALTERNATE_PASS "WUW"
 
-#define SALT_SIZE 2
+#define SALT_LENGTH 2
 
 
 typedef struct {

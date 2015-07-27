@@ -47,9 +47,7 @@ int verifyUser(person * pers){
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		/*fprintf (stderr, "Fehler mysql_real_connect(): %u (%s)\n",
-		mysql_errno (my), mysql_error (my));
-		exit(EXIT_FAILURE);*/
+
 		printExitFailure("MYSQL-connection error!");
 	}else{
 		//fprintf(stderr, "Connection extablished!\n");
@@ -121,7 +119,7 @@ int verifyUser(person * pers){
 		}
 
 		//Auslesen des Salt
-		char * salt=calloc(SALT_SIZE+1, sizeof(char));
+		char * salt=calloc(SALT_LENGTH+1, sizeof(char));
 		strncat(salt, row[COL_PASS], 1);
 		strncat(salt, row[COL_PASS]+1, 1);
 		pers->password=crypt(pers->password, salt);
@@ -137,7 +135,7 @@ int verifyUser(person * pers){
 
 			if(isAcronym){
 				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
-				pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
+				pers->email=calloc(strlen(row[COL_EMAIL])+1, sizeof(char));
 				strcpy(pers->email, row[COL_EMAIL]);
 			}else{
 				//Person hat ihre Email-Addresse statt dem Kürzel angegeben --> (Falls es ein Lehrer ist, dessen Kürzel holen)
@@ -292,10 +290,10 @@ void insertUser(person * pers){
 void salt_generate(char ** salt){
 	FILE * f_random=fopen("/dev/urandom", "r");
 	if(!f_random)printExitFailure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
-	*salt=calloc(SALT_SIZE+1, sizeof(unsigned char));
+	*salt=calloc(SALT_LENGTH+1, sizeof(unsigned char));
 
 	//strcpy(salt, "00");
-	for(int i=SALT_SIZE; i>0; i--){
+	for(int i=SALT_LENGTH; i>0; i--){
 		//fread(salt, 1, 2, f_random);
 		//strcat(salt, fgetc(f_random));
 		sprintf(*salt,"%s%x",*salt,fgetc(f_random));
@@ -311,14 +309,11 @@ void salt_generate(char ** salt){
  */
 bool salt_exists(char ** salt){
 
-	char * seekSalt=calloc(SALT_SIZE+1, sizeof(char));
-	strncpy(seekSalt, *salt, SALT_SIZE);
+	char * seekSalt=calloc(SALT_LENGTH+1, sizeof(char));
+	strncpy(seekSalt, *salt, SALT_LENGTH);
 
 	char * query=NULL;
-	/*query=calloc(strlen("SELECT passwort FROM Benutzer WHERE passwort REGEXP \"^")+strlen(seekSalt)+strlen("\";")+1, sizeof(char));
-	strcat(query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^");
-	strcat(query, seekSalt);
-	strcat(query, "';");*/
+
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
         printExitFailure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
@@ -415,10 +410,7 @@ bool acronym_exists(char * acronym){
 		printExitFailure("Programm falsch, Wörk!");
 	}
 	char * query=NULL;
-	/*query=calloc(strlen("SELECT kuerzel FROM Benutzer WHERE kuerzel='")+strlen(acronym)+strlen("';")+1, sizeof(char));
-	strcat(query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='");
-	strcat(query, acronym);
-	strcat(query, "';");*/
+
 
 	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
         printExitFailure("Es konnte kein Speicher angefordert werden (acronym_exists)");
@@ -474,7 +466,7 @@ int create_session(person * pers){
 	}
 
 	pers->sid=generated_sid;
-	//Versuch die query mittels asprintf aufzubauen
+
 	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
         printExitFailure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
@@ -507,7 +499,9 @@ int create_session(person * pers){
 bool sid_exists(int sid){
 
 	char * query=NULL;
-	asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid);
+	if(asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid) == -1){
+		printExitFailure("Es konnte kein Speicher angefordert werden (sid_exists)");
+	}
 
 
 	MYSQL *my=mysql_init(NULL);
@@ -550,7 +544,7 @@ bool sid_exists(int sid){
 bool sid_set_null(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "UPDATE Benutzer SET sid=NULL WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
-		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (logout)");
+		printExitFailure("Es konnte kein Speicher angefordert werden (sid_set_null)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
@@ -575,7 +569,7 @@ bool sid_set_null(person * pers){
 bool verify_sid(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
-		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (logout)");
+		printExitFailure("Es konnte kein Speicher angefordert werden (verify_sid)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
@@ -612,7 +606,7 @@ message * get_all_messages(int * num){
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all'") == -1){
-		printExitFailure("Es konnte kein Speicher für s_sid angefordert werden (get_all_messages)");
+		printExitFailure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
