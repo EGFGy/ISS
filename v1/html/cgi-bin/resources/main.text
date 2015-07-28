@@ -40,14 +40,21 @@
 				<ul class="pure-menu-list">
 					<li class="pure-menu-item"><a href="#" class="pure-menu-link">Stundeplan</a></li>
 					<li class="pure-menu-item menu-item-divided pure-menu-selected">
-						<a href="#" class="pure-menu-link">Allgemeines</a></li>
-						<li class="pure-menu-item">
+						<a href="#" class="pure-menu-link">Allgemeines</a>
+					</li>
+					<li class="pure-menu-item">
 						<a href="#" class="pure-menu-link">Wahl</a>
 					</li>
 
-					<li class="pure-menu-item"><a href="#" class="pure-menu-link">Einstellungen</a></li>
-					<li class="pure-menu-item"><a href="/hilfe.html" class="pure-menu-link">Hilfe</a></li>
-					<li class="pure-menu-item"><a href="/cgi-bin/logout.cgi" class="pure-menu-link">LOGOUT</a></li>
+					<li class="pure-menu-item">
+						<a href="#" class="pure-menu-link">Einstellungen</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="/hilfe.html" class="pure-menu-link">Hilfe</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="/cgi-bin/logout.cgi" class="pure-menu-link">LOGOUT</a>
+					</li>
 				</ul>
 			</div>
 
