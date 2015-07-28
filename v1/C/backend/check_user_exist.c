@@ -16,11 +16,12 @@ Prüfen ob ein Email in der Datenbank existiert.
 */
 int main(int argc, char ** argv){
 	cgi thisCGI;
+	init_CGI(&thisCGI);
 
-	getCGIdata(&thisCGI);
+	get_CGI_data(&thisCGI);
 	char * email=NULL;
 
-	extractPOSTdata(&thisCGI, "email", &email);
+	extract_POST_data(&thisCGI, "email", &email);
 
 	httpHeader(TEXT);
 	if(email_exists(email)){

@@ -13,31 +13,24 @@
 
 int main(int argc, char ** argv){
 	cgi datCGI;
-	getCGIdata(&datCGI);
+	init_CGI(&datCGI);
+	get_CGI_data(&datCGI);
 	if(strncmp(datCGI.request_method, "POST", 4) != 0){
-		printExitFailure("Use POST!");
+		print_exit_failure("Use POST!");
 	}
 
-	fprintf(stderr, "Hello, welcome\n");
-
-	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
 	person reg_person;
-	reg_person.first_name=NULL;
-	reg_person.name=NULL;
-	reg_person.email=NULL;
-	reg_person.acronym=NULL;
+	init_person(&reg_person);
 	char * teach=NULL;
-	reg_person.password=NULL;
-	reg_person.auth=false;
-	reg_person.sid=0;
 	char * acceptTOS=NULL;
-	extractPOSTdata(&datCGI, "name_vor", &reg_person.first_name);
-	extractPOSTdata(&datCGI, "name", &reg_person.name);
-	extractPOSTdata(&datCGI, "email", &reg_person.email);
-	extractPOSTdata(&datCGI, "pass", &reg_person.password);
-	extractPOSTdata(&datCGI, "acronym", &reg_person.acronym);
-	extractPOSTdata(&datCGI, "teach", &teach);
-	extractPOSTdata(&datCGI, "acceptTOS", &acceptTOS);
+	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
+	extract_POST_data(&datCGI, "name_vor", &reg_person.first_name);
+	extract_POST_data(&datCGI, "name", &reg_person.name);
+	extract_POST_data(&datCGI, "email", &reg_person.email);
+	extract_POST_data(&datCGI, "pass", &reg_person.password);
+	extract_POST_data(&datCGI, "acronym", &reg_person.acronym);
+	extract_POST_data(&datCGI, "teach", &teach);
+	extract_POST_data(&datCGI, "acceptTOS", &acceptTOS);
 	//TODO: fehlerhaften Aufruf abfangen
 	if(strcmp(teach, "true") == 0){
 		reg_person.isTeacher=true;
@@ -46,7 +39,7 @@ int main(int argc, char ** argv){
 	}
 
 	fprintf(stderr, "\nnow comes da htmlz\n");
-	insertUser(&reg_person);
+	insert_user(&reg_person);
 
 	httpHeader(TEXT);
 	printf("%s\n", datCGI.POST_data);

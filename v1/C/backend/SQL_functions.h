@@ -45,11 +45,11 @@ typedef struct{
 	struct tm * created;
 }message;
 
-
-int verifyUser(person * pers);
+void init_person(person * p);
+int verify_user(person * pers);
 bool detect_convert_acronym(person * pers);
 void uppercase_acr(person * pers);
-void insertUser(person * pers);
+void insert_user(person * pers);
 void salt_generate(char ** salt);
 bool salt_exists(char ** salt);
 bool email_exists(char * name);

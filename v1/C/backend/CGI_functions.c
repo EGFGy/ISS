@@ -16,6 +16,15 @@ int ishex(int x){
 		(x >= 'A' && x <= 'F');
 }
 
+void init_CGI(cgi * c){
+	c->content_length=0;
+	c->http_cookies=NULL;
+	c->http_host=NULL;
+	c->POST_data=NULL;
+	c->query_string=NULL;
+	c->request_method=NULL;
+}
+
 /** \brief Aus dem Environment und der Standardeingabe wichtige Daten einlesen
  *
  * \param gotCGI cgi*  CGI-Objekt, in dem die gefundenen Daten gespeichert werden
@@ -23,17 +32,17 @@ int ishex(int x){
  * Es werden aus den Eivironment-Variablen und je nachdem Wert von REQUEST_METHOD ein maximal
  * content_max langer String aus der Standardeingabe gelesen.
  */
-void getCGIdata(cgi * gotCGI){
+void get_CGI_data(cgi * gotCGI){
 
-    //TODO: Unterstützung für HEX-Sequenzen hinzufügen (%XX)
     int content_length = 0;
 	char * contentLength = NULL; //Länge des übertragenen Strings
 	char * request_method = getenv("REQUEST_METHOD"); //HTTP-Request-Method
 	char * env_cook = getenv("HTTP_COOKIE"); //Cookies holen
+	char * http_host=getenv("HTTP_HOST"); //Host-Adresse holen
 	char * POST_data = NULL; //Pointer in dem stdin gespeichert wird
 
 	if(request_method == NULL){
-        printExitFailure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
+        print_exit_failure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
     }
 
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
@@ -45,7 +54,7 @@ void getCGIdata(cgi * gotCGI){
 			//TODO: Test this!
 			char * query_string=getenv("QUERY_STRING");
 			if(query_string == NULL){
-				printExitFailure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
+				print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
 			}
 
 			char * pch;
@@ -58,28 +67,29 @@ void getCGIdata(cgi * gotCGI){
 			gotCGI->query_string=query_string;
 			gotCGI->request_method = request_method;
 			gotCGI->http_cookies = env_cook;
+			gotCGI->http_host=http_host;
 		/*}else{
-			printExitFailure("Use GET or POST");
+			print_exit_failure("Use GET or POST");
 		}*/
 	}else{
 		//Es ist POST
 		contentLength = getenv("CONTENT_LENGTH");
 		if(contentLength == NULL){
-			printExitFailure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
+			print_exit_failure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
 		}
 		content_length=atoi(contentLength);
 		if(content_length > content_max){
-			printExitFailure("Eingabe zu lang!");
+			print_exit_failure("Eingabe zu lang!");
 		}else{
 			POST_data=calloc(content_length+1, sizeof(char));
 			if(POST_data == NULL){
-				printExitFailure("Es konnte kein Speicher angefordert werden");
+				print_exit_failure("Es konnte kein Speicher angefordert werden");
 			}
 
 			fgets(POST_data, content_length+1, stdin); //Standardeingabe lesen (vom fcgiwrapper)
 
 			if(POST_data == NULL){
-				printExitFailure("Keine Eingabe");
+				print_exit_failure("Keine Eingabe");
 			}
 
 			char * pch;
@@ -97,6 +107,7 @@ void getCGIdata(cgi * gotCGI){
 			//gotCGI->POST_data=POST_data;
 			gotCGI->query_string=NULL;
 			gotCGI->request_method=request_method;
+			gotCGI->http_host=http_host;
 			return;
 		}
 	}
@@ -108,7 +119,7 @@ void getCGIdata(cgi * gotCGI){
  * \return void
  *
  */
-void printExitFailure(const char * message){
+void print_exit_failure(const char * message){
 	printf("Content-type: text/plain\n\n");
 	if(message != NULL){
 		printf("ERROR: %s\n", message);
@@ -161,7 +172,7 @@ void httpHeader(httpHeaderType type){
 void httpRedirect(const char * url){
 	if(url != NULL){
 		puts("Status: 301");
-		printf("Location: %s\n", url);
+		printf("Location: %s\n\n", url);
 	}
 }
 
@@ -174,9 +185,9 @@ void httpRedirect(const char * url){
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
-int extractCGIdata(char * data, const char * property, char * delim, char ** out){
+int _extractCGIdata(char * data, const char * property, char * delim, char ** out){
 	if(data == NULL || property == NULL || delim == NULL){
-		printExitFailure("Eingabeparameter von extractCGIdata sind falsch");
+		print_exit_failure("Eingabeparameter von extractCGIdata sind falsch");
 	}
 	char * prop=NULL;
 	prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
@@ -184,7 +195,7 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 	tempData=(char *)calloc(strlen(data)+1, sizeof(char));
 
 	if(prop == NULL || tempData == NULL){
-		printExitFailure("Es konnte kein Speicher angefordert werden");
+		print_exit_failure("Es konnte kein Speicher angefordert werden");
 	}
 	strcpy(prop, property); //Den Namen, des Attributs kopieren und
 	strcat(prop, "="); // ein '=' anfügen
@@ -193,13 +204,13 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 	char * start=NULL;
 	start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
 	if(start == NULL){
-		//printExitFailure("Fehler beim Suchen des Attributnamens");
+		//print_exit_failure("Fehler beim Suchen des Attributnamens");
 		return -1;
 	}
 	char * klaus=NULL;
 	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden und
 	if(klaus == NULL){
-		printExitFailure("Token nicht gefunden");
+		print_exit_failure("Token nicht gefunden");
 	}
 
 	//Neue Zeile am Ende durch 0-Terminator ersetzen.
@@ -210,7 +221,7 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
 
 	*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
 	if(*out == NULL){
-		printExitFailure("Es konnte kein Speicher angefordert werden");
+		print_exit_failure("Es konnte kein Speicher angefordert werden");
 	}
 	strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
 
@@ -233,8 +244,8 @@ int extractCGIdata(char * data, const char * property, char * delim, char ** out
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
-int extractPOSTdata(cgi * cgi, const char * property, char ** out){
-	return extractCGIdata(cgi->POST_data, property, "&", out);
+int extract_POST_data(cgi * cgi, const char * property, char ** out){
+	return _extractCGIdata(cgi->POST_data, property, "&", out);
 }
 
 
@@ -247,8 +258,8 @@ int extractPOSTdata(cgi * cgi, const char * property, char ** out){
  * \return int                  0: Erfolg , -1: Wenn der Wert nicht gefunden wird
  *
  */
-int extractCOOKIEdata(cgi * cgi, const char * property, char ** out){
-	return extractCGIdata(cgi->http_cookies, property, ";", out);
+int extract_COOKIE_data(cgi * cgi, const char * property, char ** out){
+	return _extractCGIdata(cgi->http_cookies, property, ";", out);
 }
 
 

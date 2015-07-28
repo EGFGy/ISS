@@ -22,6 +22,20 @@
 Identifikation per E-mail oder Kürzel (base5)
 */
 
+
+void init_person(person * p){
+	p->acronym=NULL;
+	p->auth=false;
+	p->courses=NULL;
+	p->email=NULL;
+	p->first_name=NULL;
+	p->id=0;
+	p->isTeacher=false;
+	p->name=NULL;
+	p->password=NULL;
+	p->sid=0;
+}
+
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwor stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
@@ -32,23 +46,23 @@ Identifikation per E-mail oder Kürzel (base5)
  *  Wenn das Passwort stimmt wird der bool-Wert "auth" in "person" auf true gesetzt.
  *  --> die Person ist authentifiziert.
  */
-int verifyUser(person * pers){
+int verify_user(person * pers){
 	bool isAcronym;
 
-	if(pers->name==NULL || pers->password==NULL){
-		printExitFailure("Programm falsch!");
+	if(pers->email==NULL || pers->password==NULL){
+		print_exit_failure("Programm falsch!");
 	}
 
 	isAcronym=detect_convert_acronym(pers);
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure");
+		print_exit_failure("MYSQL init failure");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}else{
 		//fprintf(stderr, "Connection extablished!\n");
 	}
@@ -63,13 +77,13 @@ int verifyUser(person * pers){
 
 		char * sql_query=NULL;
 		if(asprintf(&sql_query, "SELECT  * FROM Benutzer WHERE kuerzel='%s'", pers->acronym) == -1){
-			printExitFailure("Es konnte kein Speicher angefordert werden (verifyUser)");
+			print_exit_failure("Es konnte kein Speicher angefordert werden (verify_user)");
 		}
 
 		fprintf(stderr, "Lehrer.\nsql_query: %s\n", sql_query);
 
 		if(mysql_query(my, sql_query)){  //Liefert 0 bei Erfolg
-			printExitFailure("mysql_query failed (Lehrer)");
+			print_exit_failure("mysql_query failed (Lehrer)");
 		}
 
 		result = mysql_store_result(my);
@@ -84,13 +98,13 @@ int verifyUser(person * pers){
 
 		char * sql_query=NULL;
 		if(asprintf(&sql_query, "SELECT * FROM Benutzer WHERE email='%s'", pers->email) == -1){
-			printExitFailure("Es konnte kein Speicher angefordert werden (verifyUser)");
+			print_exit_failure("Es konnte kein Speicher angefordert werden (verify_user)");
 		}
 
 		fprintf(stderr, "Schueler o. Lehrer.\nsql_query: %s\n", sql_query);
 
 		if(mysql_query(my, sql_query)){  // Liefert 0 bei Erfolg
-			printExitFailure("mysql_query failed (Schueler - Lehrer)");
+			print_exit_failure("mysql_query failed (Schueler - Lehrer)");
 		}
 
 		result = mysql_store_result(my);
@@ -100,7 +114,7 @@ int verifyUser(person * pers){
 			isAcronym=false; //Da wir jetzt eine Person mit Kürzel gefunden haben
 		}else{
 			//Person nicht vorhanden, oder Fehler
-			printExitFailure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
+			print_exit_failure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
 		}
     }
 
@@ -186,7 +200,7 @@ bool detect_convert_acronym(person * pers){
     bool isAcronym;
 
     if(pers->email==NULL || pers->password==NULL){
-		printExitFailure("Programm falsch!");
+		print_exit_failure("Programm falsch!");
 	}
 
 	if(strlen(pers->email) > 3){
@@ -228,22 +242,22 @@ void uppercase_acr(person * pers){
  * Eine Person in die DB einfügen, falls diese noch nicht existiert.
  * Das Passwort wird mithilfe von crypt() verschlüsselt
  */
-void insertUser(person * pers){
+void insert_user(person * pers){
 	if(pers == NULL){
-		printExitFailure("Programm falsch.\n Wörk!");
+		print_exit_failure("Programm falsch.\n Wörk!");
 	}
 
 	if(email_exists(pers->email)){
-		printExitFailure("Benutzer Existiert schon!");
+		print_exit_failure("Benutzer Existiert schon!");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure\n Wörk!");
+		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
 
 	if(mysql_real_connect(my, "localhost", "root", "WUW", "base5", 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	char * salt=NULL;
@@ -263,20 +277,20 @@ void insertUser(person * pers){
 					VALUES('%s', '%s', '%s', '%s', 'n/a')",
 					pers->first_name, pers->name, pers->email, pers->password) == -1)
 		{
-			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
+			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
 	}else{
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
 					pers->first_name, pers->name, pers->email, pers->password, pers->acronym) == -1)
 		{
-			printExitFailure("Es konnte kein Speicher angefordert werden (insertUser)");
+			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
 	}
 	fprintf(stderr, "\nInsert dat:\n%s\n", query);
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (insert)");
+		print_exit_failure("mysql_query failed (insert)");
 	}
 	mysql_close(my);
 }
@@ -289,7 +303,7 @@ void insertUser(person * pers){
  */
 void salt_generate(char ** salt){
 	FILE * f_random=fopen("/dev/urandom", "r");
-	if(!f_random)printExitFailure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
+	if(!f_random)print_exit_failure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
 	*salt=calloc(SALT_LENGTH+1, sizeof(unsigned char));
 
 	//strcpy(salt, "00");
@@ -315,22 +329,22 @@ bool salt_exists(char ** salt){
 	char * query=NULL;
 
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
-        printExitFailure("Es konnte kein Speicher angefordert werden (salt_exists)");
+        print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure\n Wörk!");
+		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
-		printExitFailure("mysql_query failed (search salt)");
+		print_exit_failure("mysql_query failed (search salt)");
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 	}else{
 		result = mysql_store_result(my);
@@ -357,28 +371,28 @@ bool salt_exists(char ** salt){
  */
 bool email_exists(char * email){
 	if(email == NULL){
-		printExitFailure("Programm falsch, (email_exists)");
+		print_exit_failure("Programm falsch, (email_exists)");
 	}
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT email FROM Benutzer WHERE email='%s'", email) == -1){
-        printExitFailure("Es konnte kein Speicher angefordert werden (email_exists)");
+        print_exit_failure("Es konnte kein Speicher angefordert werden (email_exists)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (email_exists)");
+		print_exit_failure("mysql_query failed (email_exists)");
 	}else{
 		result = mysql_store_result(my);
 
@@ -407,29 +421,29 @@ bool email_exists(char * email){
  */
 bool acronym_exists(char * acronym){
 	if(acronym == NULL){
-		printExitFailure("Programm falsch, Wörk!");
+		print_exit_failure("Programm falsch, Wörk!");
 	}
 	char * query=NULL;
 
 
 	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
-        printExitFailure("Es konnte kein Speicher angefordert werden (acronym_exists)");
+        print_exit_failure("Es konnte kein Speicher angefordert werden (acronym_exists)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (acronym_exists)");
+		print_exit_failure("mysql_query failed (acronym_exists)");
 	}else{
 		result = mysql_store_result(my);
 
@@ -461,28 +475,28 @@ int create_session(person * pers){
 
 	srand(time(NULL));
 	int generated_sid=rand();
-	while(sid_exists(generated_sid)){
+	while((sid_exists(generated_sid)) ^ (generated_sid==0)){
         generated_sid=rand();
 	}
 
 	pers->sid=generated_sid;
 
 	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
-        printExitFailure("Es konnte kein Speicher angefordert werden (create_session)");
+        print_exit_failure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
-		printExitFailure("mysql_query failed (create_session)");
+		print_exit_failure("mysql_query failed (create_session)");
 	}
     mysql_close(my);
 
@@ -500,23 +514,23 @@ bool sid_exists(int sid){
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid) == -1){
-		printExitFailure("Es konnte kein Speicher angefordert werden (sid_exists)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_exists)");
 	}
 
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure\n Wörk!");
+		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
-		printExitFailure("mysql_query failed (search sid)");
+		print_exit_failure("mysql_query failed (search sid)");
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 	}else{
 		result = mysql_store_result(my);
@@ -544,16 +558,16 @@ bool sid_exists(int sid){
 bool sid_set_null(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "UPDATE Benutzer SET sid=NULL WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
-		printExitFailure("Es konnte kein Speicher angefordert werden (sid_set_null)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_set_null)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	if(mysql_query(my, query)){
@@ -569,20 +583,20 @@ bool sid_set_null(person * pers){
 bool verify_sid(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
-		printExitFailure("Es konnte kein Speicher angefordert werden (verify_sid)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (verify_sid)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	if(mysql_query(my, query)){
-		printExitFailure("mysql_query failed (verify_sid)");
+		print_exit_failure("mysql_query failed (verify_sid)");
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 	}else{
 		MYSQL_RES * result=NULL;
@@ -606,20 +620,20 @@ message * get_all_messages(int * num){
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all'") == -1){
-		printExitFailure("Es konnte kein Speicher angefordert werden (get_all_messages)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		printExitFailure("MYSQL init failure!");
+		print_exit_failure("MYSQL init failure!");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
-		printExitFailure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error!");
 	}
 
 	if(mysql_query(my, query)){
-		printExitFailure("mysql_query failed (verify_sid)");
+		print_exit_failure("mysql_query failed (verify_sid)");
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 	}else{
 		MYSQL_RES * result=NULL;

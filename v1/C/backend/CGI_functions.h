@@ -8,16 +8,17 @@ typedef struct{
 	char * POST_data;
 	char * query_string;
 	char * http_cookies;
+	char * http_host;
 }cgi;
 typedef enum {TEXT, HTML}httpHeaderType;
 
-
-void getCGIdata(cgi * gotCGI);
-void printExitFailure(const char * message);
+void init_CGI(cgi * c);
+void get_CGI_data(cgi * gotCGI);
+void print_exit_failure(const char * message);
 void setCookie(char name[], char content[]);
 void httpRedirect(const char * url);
 void httpHeader(httpHeaderType type);
-int extractCGIdata(char * data, const char * property, char * delim, char ** out);
-int extractPOSTdata(cgi * cgi, const char * property, char ** out);
-int extractCOOKIEdata(cgi * cgi, const char * property, char ** out);
+int _extractCGIdata(char * data, const char * property, char * delim, char ** out);
+int extract_POST_data(cgi * cgi, const char * property, char ** out);
+int extract_COOKIE_data(cgi * cgi, const char * property, char ** out);
 int decodeHEX(char *s, char *dec);

@@ -11,19 +11,21 @@
 
 int main(int argc, char ** argv){
     cgi datCGI;
+    init_CGI(&datCGI);
 	person check_person;
+	init_person(&check_person);
 	message * all_messages;
 	int number=0;
 
 	fprintf(stderr, "Hello wörld\n");
 
 	char * s_sid=NULL;
-    getCGIdata(&datCGI);
-	if(datCGI.http_cookies == NULL)printExitFailure("Cookies müssen aktiv und gesetzt sein!");
+    get_CGI_data(&datCGI);
+	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
-    extractCOOKIEdata(&datCGI, "SID", &s_sid);
-    extractCOOKIEdata(&datCGI, "EMAIL", &check_person.email);
+    extract_COOKIE_data(&datCGI, "SID", &s_sid);
+    extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
 
 	httpHeader(HTML);

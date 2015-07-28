@@ -11,14 +11,17 @@
 
 int main(int argc, char ** argv){
 	cgi datCGI;
+	init_CGI(&datCGI);
+
 	person logout_person;
+	init_person(&logout_person);
 
 	char * s_sid=NULL;
-    getCGIdata(&datCGI);
-    if(datCGI.http_cookies == NULL)printExitFailure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
+    get_CGI_data(&datCGI);
+    if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
 
-    extractCOOKIEdata(&datCGI, "SID", &s_sid);
-    extractCOOKIEdata(&datCGI, "EMAIL", &logout_person.email);
+    extract_COOKIE_data(&datCGI, "SID", &s_sid);
+    extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
     logout_person.sid=atoi(s_sid);
 
     if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
@@ -33,9 +36,9 @@ int main(int argc, char ** argv){
 				printf("Fehler in sid_set_null\n");
 			}
 		}else{
-			printExitFailure("Bereits abgemeldet");
+			print_exit_failure("Bereits abgemeldet");
 		}
     }else{
-		printExitFailure("Bereits abgemeldet (cookies waren schon 0 oder \"NULL\")");
+		print_exit_failure("Bereits abgemeldet (cookies waren schon 0 oder \"NULL\")");
 	}
 }

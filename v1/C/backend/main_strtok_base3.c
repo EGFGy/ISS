@@ -55,33 +55,27 @@ Benutzer anmelden (Passwort Überprüfen)
 int main(int argc, char ** argv)
 {
 	cgi datCGI;
+	init_CGI(&datCGI);
 	person login_person;
+	init_person(&login_person);
 
-	login_person.email=NULL;
-	login_person.acronym=NULL;
-	login_person.password=NULL;
-	login_person.auth=false;
-	login_person.courses=NULL;
-	login_person.sid=0;
-	login_person.isTeacher=false;
-
-
-	getCGIdata(&datCGI);
+	get_CGI_data(&datCGI);
 	if(strncmp(datCGI.request_method, "POST", 4) != 0){
-		printExitFailure("Use POST!");
+		print_exit_failure("Use POST!");
 	}
 	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
-	extractPOSTdata(&datCGI, "email", &login_person.email);
-	extractPOSTdata(&datCGI, "pass", &login_person.password);
+	extract_POST_data(&datCGI, "email", &login_person.email);
+	extract_POST_data(&datCGI, "pass", &login_person.password);
 
 
 	if(login_person.email == NULL){
-		printExitFailure("Name leer");
+		print_exit_failure("Name leer");
 	}
 
 	fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
-
-	int user_state=verifyUser(&login_person);
+	//TODO: Verhindern, dass sich ein anderer Nutzer vom selbe nRechner aus einloggt wenn der serte noch nicht abgemeldet ist
+	//(zuweimaliges Anmelden verhindern)
+	int user_state=verify_user(&login_person);
 
 	//Zwei cookies setzen
 
@@ -91,7 +85,8 @@ int main(int argc, char ** argv)
 	setCookie("SID", sid_string);
 
 	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
-
+	httpRedirect("https://info-wall/cgi-bin/all_messages.cgi");
+/*
 	httpHeader(HTML);
 	printf("<!DOCTYPE html><head>\
 		<title>InfoWall -- Anmeldung</title>\
@@ -135,7 +130,7 @@ int main(int argc, char ** argv)
 	}
 
 	printf("</body>\
-	</html>");
+	</html>");*/
 
 	exit(0);
 }
