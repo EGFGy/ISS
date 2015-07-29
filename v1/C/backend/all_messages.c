@@ -44,9 +44,6 @@ int main(int argc, char ** argv){
 		}
 		//Nachrichten ab hier
 		puts("<div class=\"content\">");
-		puts("<div class='messageBox'><h2 class=\"content-subhead\">Hallo B&uuml;l</h2>\n<p>InfoText</p>\n");
-		puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
-		puts("</div>");
 		//TODO: Umlaute!!!
 		for(int i=0; i<number; i++){
 			printf("<div class='messageBox'><h2 class=\"content-subhead\">%s</h2>\n<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
