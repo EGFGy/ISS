@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<head>
+	<title>InfoWall -- Nutzungsbedingungen</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="/forms.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<style>
+	input[type="radio"] {
+		display:none;
+	}
+	input[type="radio"] + label {
+		display:inline-block;
+		margin:-1px 4px 0 0;
+		width: 50px;
+		height: 50px;
+		padding: 5px;
+		vertical-align:middle;
+		background-color: beige;
+		cursor:pointer;
+		
+		transition: background-color 0.2s ease;
+	}
+	input[type="radio"]:checked + label {
+		background-color: lightgreen;
+	}
+	
+	</style>
+	<script type="text/javascript">
+//Das ist nur zum Testen (damit es schonmal so aussieht als ob es fertig wäre)
+function CheckIfUserExists()
+{
+	var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", '/cgi-bin/users.cgi', false);
+	rawFile.onreadystatechange = function ()
+	{
+		if(rawFile.readyState === 4)
+		{
+			if(rawFile.status === 200 || rawFile.status == 0)
+			{
+				var allText = rawFile.responseText;
+				var names = allText.split("\n");
+				if(document.getElementById('UserName').value.match(/\S/)){
+					if(allText.indexOf(document.getElementById('UserName').value+'\n') >0){
+						alert('Name existiert bereits' + '\n' + allText + '\n' + names.length);
+						document.getElementById('UserName').style.border= '2px solid red';
+					}else{
+						document.getElementById('UserName').style.border= '2px solid green';
+						name_correct=true;
+					}
+				 }
+				//alert(allText);
+			}
+		}
+	}
+	rawFile.send(null);
+}
+
+//Das ist nur zum Testen (damit es schonmal so aussieht als ob es fertig wäre)
+function checkDatName(id)
+{
+	var url = "/cgi-bin/check_user_exist.cgi";
+	var params = "name="+document.getElementById(id).value;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	
+	
+	xhr.onreadystatechange = function ()
+		{
+			if(xhr.readyState === 4)
+			{
+				if(xhr.status === 200 || rawFile.status == 0)
+				{
+					var allText = xhr.responseText;
+					var names = allText.split("\n");
+					if(names.indexOf("exists")>0){
+						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: Name existiert bereits!' + "\n<--- !!!!!!! -\-\->");
+						document.getElementById(id).style.border= '2px solid red';
+					 }else{
+						document.getElementById(id).style.border= '2px solid green';
+						name_correct=true;
+					 }
+					//alert(allText);
+				}
+			}
+		}
+	xhr.send(params);
+}
+
+  $(function() {
+    $( "#dialog-message" ).dialog({
+      modal: true,
+      buttons: {
+        Ok: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  });
+	</script>
+</head>
+
+<body>
+	<ol start="1">
+		<li>
+			alalal
+		</li>
+		<li>
+			lololol
+		</li>
+		<li>
+			alalalalalla
+		</li>
+	</ol>
+	<hr>
+	Und vorallem
+	<br><img src="http://imgs.xkcd.com/comics/password_reuse.png">
+	<br>
+	<hr>
+	
+	<input type="radio" id="c1" name="cc" />
+<label for="c1">Box A</label>
+	<input type="radio" id="c2" name="cc" />
+<label for="c2">Box B</label>
+	<input type="radio" id="c3" name="cc" />
+<label for="c3">Box C</label>
+	<input type="text" id="UserName" onblur="checkDatName(this.id);" autocorrect="off" autocapitalize="off">
+	<button onclick="CheckIfUserExists();">balbalbal</button>
+	<a href="/registrierung.html" class="gradient-button">Zur&uuml;ck</a>
+	<hr>
+	<hr>
+	<div id="dialog-message" title="Download complete">
+  <p>
+    <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+    Your files have downloaded successfully into the My Downloads folder.
+  </p>
+  <p>
+    Currently using <b>36% of your storage space</b>.
+  </p>
+</div>
+</body>
+
+</html>

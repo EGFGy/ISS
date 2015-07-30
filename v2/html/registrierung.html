@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+	<title>InfoWall -- Registrierung</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="/css/forms.css">
+	<link rel="stylesheet" href="/css/radio_block.css">
+	
+	<script type="text/javascript">
+var name_correct=false;
+
+function ShowAcronym(it){
+	var acr=document.getElementById('acronym');
+	if ( it.id == "teacher" ){
+		acr.readOnly = false;
+		acr.style.display = 'inline-block';
+	}
+	if ( it.id == "pupil" ){
+		acr.readOnly = true;
+		acr.value="";
+		acr.style.display = 'none';
+	}
+}
+
+function ShowDat(it, dat_id){
+	var dat=document.getElementById(dat_id);
+	if(name_correct){
+		if(it.checked == true){
+			dat.style.display = 'inline-block';
+		}else{
+			dat.style.display = 'none';
+		}
+	}else{
+		alert("Geben Sie einen Namen ein, der noch nicht vergeben ist!");
+		it.checked = false;
+		dat.style.display = 'none';
+	}
+}
+
+//Das ist nur zum Testen (damit es schonmal so aussieht als ob es fertig wäre)
+function CheckIfUserExists()
+{
+	var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", '/cgi-bin/users.cgi', false);
+	rawFile.onreadystatechange = function ()
+	{
+		if(rawFile.readyState === 4)
+		{
+			if(rawFile.status === 200 || rawFile.status == 0)
+			{
+				var allText = rawFile.responseText;
+				var names = allText.split("\n");
+				if(document.getElementById('UserName').value.match(/\S/)){
+					if(allText.indexOf(document.getElementById('UserName').value+'\n') >0){
+						alert('Name existiert bereits' + '\n' + allText + '\n' + names.length);
+						document.getElementById('UserName').style.border= '2px solid red';
+					}else{
+						document.getElementById('UserName').style.border= '2px solid green';
+						name_correct=true;
+					}
+				 }
+				//alert(allText);
+			}
+		}
+	}
+	rawFile.send(null);
+}
+
+function checkDatEmail(field)
+{
+	var url = "/cgi-bin/check_user_exist.cgi";
+	var params = "email="+field.value;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	
+	
+	xhr.onreadystatechange = function ()
+		{
+			if(xhr.readyState === 4)
+			{
+				if(xhr.status === 200 || rawFile.status == 0)
+				{
+					var allText = xhr.responseText;
+					var names = allText.split("\n");
+					if(names.indexOf("exists")!= -1){
+						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: E-Mail existiert bereits!' + "\n<--- !!!!!!! -\-\->");
+						field.style.border= '2px solid red';
+					 }else{
+						field.style.border= '2px solid green';
+						name_correct=true;
+					 }
+					//alert(allText);
+				}
+			}
+		}
+	xhr.send(params);
+}
+
+	</script>
+	
+</head>
+
+<body onload="javascript:ShowAcronym(document.getElementById('pupil')); document.getElementById('register').style.display='none';">
+	<div id="login-form">
+	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
+		<p>Geben sie Ihre Personendaten ein!</p>
+		<input id="UserName" class="textIn" placeholder="Vorname" name="name_vor" type="text" mozactionhint="next" required />
+		<input id="UserName" class="textIn" placeholder="Name" name="name" type type="text" mozactionhint="next" required />
+		<input id="Email" class="textIn" placeholder="E-Mail" name="email" type="email" onblur="checkDatEmail(this);" mozactionhint="next" required />
+		<input type="radio" onclick="javascript:ShowAcronym(this);" id="teacher" name="teach" value="true"><label for="teacher">Lehrer</label></input>
+		<input type="radio" onclick="javascript:ShowAcronym(this);" id="pupil" name="teach" value="false" checked="checked"><label for="pupil">Schüler</label></input>
+		<input id="acronym" class="textIn" placeholder="Kürzel" name="acronym" type="text" mozactionhint="next" required />
+		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" mozactionhint="next" required />
+		<br>
+		<input onclick="ShowDat(this, 'register');" id="acceptTOS" name="acceptTOS" type="checkbox"><label for="acceptTOS"></label><a href="/tos.html" target="_blank">Nutzungsbedingungen</a> gelesen und akzeptiert
+		<br>
+		<button class="submitButton" type="submit" id="register">Registrieren</button>
+	</form>
+	<a href="/index.html" class="gradient-button">Zur&uuml;ck</a>
+	</div>
+</body>
+</html>
