@@ -54,13 +54,21 @@ int main(int argc, char ** argv){
 		}
 		//Nachrichten ab hier
 		puts("<div class='content'>");
+
+		puts("<form action='/cgi-bin/post_message.cgi' method='POST'> \
+                <input style='display: block;' type='text' name='titel'>\
+                <textarea style='display: block;' cols='25' rows='3' name='meldung'></textarea>\
+                <input style='display: block;' type='submit'> \
+        </form>");
+
 		printf("<span>Seite %d</span>", no_older ? offset : offset+1);
 		//TODO: Umlaute!!!
 		for(int i=0; i<number; i++){
 			person * pers=get_person_by_id((all_messages+i)->creator_id);
+
 			puts("<div class='messageBox'>");
 			printf("<h2 class='content-subhead'>%s</h2>\n<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
-			if(pers != NULL)printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", "20:50", pers->first_name, pers->name );
+			if(pers != NULL)printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers->first_name, pers->name );
 
 			puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
 			puts("</div>");

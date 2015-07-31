@@ -43,9 +43,11 @@ typedef struct{
 	char * courses;
 	int creator_id;
 	struct tm * created;
+	char * s_created;
 }message;
 
 void init_person(person * p);
+void init_message(message * mes);
 int verify_user(person * pers);
 bool detect_convert_acronym(person * pers);
 void uppercase_acr(person * pers);
@@ -60,3 +62,5 @@ bool sid_set_null(person * pers);
 bool verify_sid(person * pers);
 message * get_messages(int * number, int offset);
 person * get_person_by_id(int id);
+void get_person_by_sid(person * pers);
+bool insert_message(message * mes);

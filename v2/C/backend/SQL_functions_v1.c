@@ -36,7 +36,16 @@ void init_person(person * p){
 	p->sid=0;
 }
 
-/** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwor stimmt
+void init_message(message * mes){
+	mes->courses=NULL;
+	mes->created=NULL;
+	mes->creator_id=0;
+	mes->id=0;
+	mes->message=NULL;
+	mes->title=NULL;
+}
+
+/** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
  * \return void
@@ -152,7 +161,7 @@ int verify_user(person * pers){
 				pers->email=calloc(strlen(row[COL_EMAIL])+1, sizeof(char));
 				strcpy(pers->email, row[COL_EMAIL]);
 			}else{
-				//Person hat ihre Email-Addresse statt dem Kürzel angegeben --> (Falls es ein Lehrer ist, dessen Kürzel holen)
+				//Person hat ihre Email-Adresse statt dem Kürzel angegeben --> (Falls es ein Lehrer ist, dessen Kürzel holen)
 				pers->acronym=NULL;
 				if(row[COL_ACR] != NULL){
 					//Die Person hat ein Küzel --> Lehrer
@@ -189,11 +198,11 @@ int verify_user(person * pers){
     return 0;
 }
 
-/** \brief Feststellen ob der name möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
+/** \brief Feststellen ob die E-mail möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
  *
  * \param pers person*  Personen-Struktur
  * \return bool         true: es gibt ein Kürzel, false: es ist kein Kürzel.
- *  Falls der Name genau drei buchstabe lang ist wird der Inhalt in das Kürzel verschoben und
+ *  Falls 'email' genau drei Buchstabe lang ist wird der Inhalt in das Kürzel verschoben und
  *  zu nur Großbuchstaben umgewandelt.
  */
 bool detect_convert_acronym(person * pers){
@@ -363,7 +372,7 @@ bool salt_exists(char ** salt){
 	return false;
 }
 
-/** \brief Prüfen ob ein bestimmter Name schon in der Datenbank existiert
+/** \brief Prüfen ob eine bestimmte E-mail schon in der Datenbank existiert
  *
  * \param name char*   Name der gesucht werden soll
  * \return bool        true: Name gefunden; false: Name nicht gefunden
@@ -580,6 +589,13 @@ bool sid_set_null(person * pers){
 	}
 }
 
+/** \brief Überprüfen, ob ein bestimmter Nutzer ein SID hat
+ *
+ * \param pers person*  Person mit E-mail und SID
+ * \return bool         true:  wenn E-mail und SID vorhanden sind --> Benutzer darf dinge tun
+ *                      false: wenn SID und email nicht bei dem Benutzer sind --> Benutzer darf nichts
+ *
+ */
 bool verify_sid(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
@@ -606,6 +622,8 @@ bool verify_sid(person * pers){
 			fprintf(stderr, "sid gefunden\n");
 			mysql_free_result(result);
 			mysql_close(my);
+
+			pers->auth=true;
 			return true;
 		}
 		mysql_free_result(result);
@@ -615,12 +633,18 @@ bool verify_sid(person * pers){
 	return false;
 }
 
+/** \brief 5 Nachrichten holen
+ *
+ * \param num int*    Pointer in dem die tatsächliche Anzahl an Nachrichten gespeichert wird
+ * \param offset int  Alle 5 Nachrichten ab der offset*5-ten Nachricht holen
+ * \return message*   Pointer auf ein Array aus max. 5 Nachrichten
+ *
+ */
 message * get_messages(int * num, int offset){
 	message * mes=NULL;
 
 	char * query=NULL;
-	//TODO: die n-ten 10 Nachrichten holen
-	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt LIMIT 5 OFFSET %d", (offset*5)) == -1){
+	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt DESC LIMIT 5 OFFSET %d", (offset*5)) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 	}
 
@@ -658,7 +682,8 @@ message * get_messages(int * num, int offset){
 				(mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
 				//TODO: uhrzeit rchtig machen ????
-				(mes+i)->created=NULL;
+				(mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
+				strcpy((mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
 
             }
 		}
@@ -669,6 +694,12 @@ message * get_messages(int * num, int offset){
 	return mes;
 }
 
+/** \brief Anhand der ID der Person die restliche Information über sie herausfinden
+ *
+ * \param id int    ID der Person
+ * \return person*  Personenobjekt in das die Daten geschrieben werden
+ *
+ */
 person * get_person_by_id(int id){
 
 	if(id < 1)return NULL;
@@ -716,4 +747,114 @@ person * get_person_by_id(int id){
 
     mysql_close(my);
     return NULL;
+}
+
+/** \brief Personendaten anhand der SID und E-mail abrufen
+ *
+ * \param pers person*  Person mit E-mail und SID in der die restlichen Daten gespeichert werden
+ * \return void
+ *
+ */
+void get_person_by_sid(person * pers){
+	char * query=NULL;
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE sid='%d' AND email='%s'", pers->sid, pers->email) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		print_exit_failure("mysql_query failed (get_person_by_sid)");
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			fprintf(stderr, "uid gefunden\n");
+
+			MYSQL_ROW row;
+			row=mysql_fetch_row(result);
+
+			//Name holen
+            pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+            strcpy(pers->name, row[COL_NAME]);
+            pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+            strcpy(pers->first_name, row[COL_VORNAME]);
+
+            //Kürzel (falls vorhanden) holen
+            if(row[COL_ACR] != NULL){
+				//Die Person hat ein Küzel --> Lehrer
+				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
+				strcpy(pers->acronym, row[COL_ACR]);
+				pers->isTeacher=true;
+			}else{
+				pers->isTeacher=false;
+			}
+
+			//Kurse (falls vorhanden)
+			if(row[COL_COURSE] != NULL){
+				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
+				strcpy(pers->courses, row[COL_COURSE]);
+			}
+
+			//ID holen
+			if(row[COL_ID] != NULL){
+                pers->id=atoi(row[COL_ID]);
+			}
+
+			mysql_free_result(result);
+			mysql_close(my);
+			return;
+		}
+		mysql_free_result(result);
+	}
+
+    mysql_close(my);
+    return;
+}
+
+/** \brief Eine Nachricht in die Datenbank einfügen
+ *
+ * \param mes message*  Nachricht
+ * \return bool         true: es hat funktioniert; false: es hat nicht funktoiniert
+ *
+ */
+bool insert_message(message * mes){
+	char * query=NULL;
+	char * time_created=calloc(20, sizeof(char));
+	strftime(time_created, 19, "%Y-%m-%d %H:%M:00", mes->created);
+
+	//TODO: Zeit umwandeln
+	if(asprintf(&query, "INSERT INTO Meldungen \
+				(titel, meldung, kurse, erstellerID, erstellt)\
+				VALUES('%s', '%s', '%s', '%d', '%s')",
+				mes->title, mes->message, mes->courses, mes->creator_id, time_created  ) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (insert_message)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+        mysql_close(my);
+		return false;
+	}else{
+        mysql_close(my);
+		return true;
+	}
 }

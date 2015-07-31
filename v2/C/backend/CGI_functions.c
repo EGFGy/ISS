@@ -250,8 +250,6 @@ int extract_POST_data(cgi * cgi, const char * property, char ** out){
 	return _extractCGIdata(cgi->POST_data, property, "&", out);
 }
 
-
-
 /** \brief Cookie-Daten extrahieren, anhand deren Attributnamen
  *
  * \param data char*            String mit allen Cookies

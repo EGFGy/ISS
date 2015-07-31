@@ -97,6 +97,21 @@
 					<Add library="crypt" />
 				</Linker>
 			</Target>
+			<Target title="post_message">
+				<Option output="bin/Debug/post_message" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
@@ -131,6 +146,10 @@
 		<Unit filename="main_strtok_base3.c">
 			<Option compilerVar="CC" />
 			<Option target="login" />
+		</Unit>
+		<Unit filename="post_message.c">
+			<Option compilerVar="CC" />
+			<Option target="post_message" />
 		</Unit>
 		<Unit filename="register.c">
 			<Option compilerVar="CC" />
