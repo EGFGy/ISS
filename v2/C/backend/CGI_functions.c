@@ -105,7 +105,14 @@ void get_CGI_data(cgi * gotCGI){
 			gotCGI->content_length=content_length;
 			gotCGI->http_cookies=env_cook;
 			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
+
+			fprintf(stderr, "\n\POST_DATA vor HEX: '%s'\n\n", POST_data);
+
 			decodeHEX(POST_data, gotCGI->POST_data);
+
+			fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
+
+
 			//gotCGI->POST_data=POST_data;
 			gotCGI->query_string=NULL;
 			gotCGI->request_method=request_method;
@@ -216,10 +223,11 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	}
 
 	//Neue Zeile am Ende durch 0-Terminator ersetzen.
-	char * newline=strchr(klaus, '\n');
-	if(newline != NULL){
-		*newline='\0'; //vorher '\0'
-	}
+	//TODO: das hier muss geändert werden!
+	//char * newline=strchr(klaus, '\n');
+	//if(newline != NULL){
+	//	*newline='\0'; //vorher '\0'
+	//}
 
 	*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
 	if(*out == NULL){
@@ -290,4 +298,11 @@ int decodeHEX(char *s, char *dec)
 		if (dec) *o = c;
 	}
 	return o - dec;
+}
+
+void remove_newline(char * str){
+	char * newline=strchr(str, '\n');
+	if(newline != NULL){
+		*newline='\0'; //vorher '\0'
+	}
 }

@@ -67,7 +67,10 @@ int main(int argc, char ** argv)
 	char * http_host=datCGI.http_host;
 	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
 	extract_POST_data(&datCGI, "email", &login_person.email);
+
+	remove_newline(login_person.email);
 	extract_POST_data(&datCGI, "pass", &login_person.password);
+	remove_newline(login_person.password);
 
 
 	if(login_person.email == NULL){

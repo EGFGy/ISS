@@ -45,6 +45,8 @@ int main(int argc, char ** argv){
 		time_t now=time(NULL);
 		mes.created=localtime(&now);
 
+		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
+
 		asprintf(&mes.courses, "all");
 
 		insert_message(&mes);

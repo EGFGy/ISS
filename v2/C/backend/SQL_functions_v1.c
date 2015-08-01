@@ -9,6 +9,9 @@
 #include <ctype.h>
 #include <time.h>
 
+#include <sys/types.h>
+#include <regex.h>
+
 #include <crypt.h>
 
 #include "SQL_functions.h"
@@ -828,9 +831,14 @@ void get_person_by_sid(person * pers){
  *
  */
 bool insert_message(message * mes){
+	if(strlen(mes->title)<2 || strlen(mes->message)<2)print_exit_failure("Geben sie eine Meldung ein!!");
+
+	clean_string(mes->message);
+	clean_string(mes->title);
+
 	char * query=NULL;
-	char * time_created=calloc(20, sizeof(char));
-	strftime(time_created, 19, "%Y-%m-%d %H:%M:00", mes->created);
+	char * time_created=calloc(21, sizeof(char));
+	strftime(time_created, 20, "%Y-%m-%d %H:%M:00", mes->created);
 
 	//TODO: Zeit umwandeln
 	if(asprintf(&query, "INSERT INTO Meldungen \
@@ -856,5 +864,19 @@ bool insert_message(message * mes){
 	}else{
         mysql_close(my);
 		return true;
+	}
+}
+
+
+void clean_string(char * str){
+	regex_t reg;
+	regcomp(&reg, "[^[A-Za-z0-9 @\n\lÄÖÜäöü!?]]*", REG_EXTENDED);
+	size_t str_len=strlen(str)+1;
+	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
+
+	while(regexec(&reg, str, str_len, pmatch, REG_NOTBOL) == 0){
+		int i=(int)pmatch->rm_so;
+		str[i]='X';
+
 	}
 }

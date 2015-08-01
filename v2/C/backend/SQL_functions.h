@@ -64,3 +64,4 @@ message * get_messages(int * number, int offset);
 person * get_person_by_id(int id);
 void get_person_by_sid(person * pers);
 bool insert_message(message * mes);
+void clean_string(char * str);

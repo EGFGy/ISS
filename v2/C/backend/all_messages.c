@@ -55,11 +55,12 @@ int main(int argc, char ** argv){
 		//Nachrichten ab hier
 		puts("<div class='content'>");
 
-		puts("<form action='/cgi-bin/post_message.cgi' method='POST'> \
-                <input style='display: block;' type='text' name='titel'>\
-                <textarea style='display: block;' cols='25' rows='3' name='meldung'></textarea>\
-                <input style='display: block;' type='submit'> \
-        </form>");
+        puts("<div id='login-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
+			  <label for='ti'>Titel</label><input class='textIn' style='display: block;' name='titel' id='ti' type='text'>\n\
+			  <label for='tex'>Text</label><textarea class='textIn' style='display: block; height: 88px; width: 427px;' name='meldung' id='tex'></textarea>\n\
+			  <input class='submitButton' style='display: block;' type='submit'>\n\
+			  </form></div>\
+			");
 
 		printf("<span>Seite %d</span>", no_older ? offset : offset+1);
 		//TODO: Umlaute!!!
@@ -76,7 +77,7 @@ int main(int argc, char ** argv){
 
 		if(no_older){
 			puts("<div class='messageBox warningBox'><em>Keine &auml;lteren Meldungen!</em></div>");
-			offset--;
+			offset--; //Damit man mit den Knöpfen nicht weiterschalten kann
 		}
 
 		puts("</div>");

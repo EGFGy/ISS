@@ -22,6 +22,7 @@ int main(int argc, char ** argv){
 	char * email=NULL;
 
 	extract_POST_data(&thisCGI, "email", &email);
+	remove_newline(email);
 
 	httpHeader(TEXT);
 	if(email_exists(email)){
