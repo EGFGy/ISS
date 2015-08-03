@@ -106,7 +106,7 @@ void get_CGI_data(cgi * gotCGI){
 			gotCGI->http_cookies=env_cook;
 			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
 
-			fprintf(stderr, "\n\POST_DATA vor HEX: '%s'\n\n", POST_data);
+			fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
 
 			decodeHEX(POST_data, gotCGI->POST_data);
 

@@ -39,11 +39,15 @@ int main(int argc, char ** argv){
 
 		extract_POST_data(&datCGI, "meldung", &mes.message);
 		extract_POST_data(&datCGI, "titel", &mes.title);
-		//TODO: Zeit einfügen
-		//mes.created
-		//mes.created=(time_t *)time(NULL);
+
+		fprintf(stderr, "\n\nPOST_DATA: '%s'\n\n", datCGI.POST_data);
+
+
 		time_t now=time(NULL);
 		mes.created=localtime(&now);
+
+
+		//mes.message=convert_to_html(mes.message);
 
 		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
 
@@ -60,5 +64,7 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
     }
+
+    return 0;
 
 }

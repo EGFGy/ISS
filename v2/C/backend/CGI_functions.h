@@ -23,3 +23,4 @@ int extract_POST_data(cgi * cgi, const char * property, char ** out);
 int extract_COOKIE_data(cgi * cgi, const char * property, char ** out);
 int extract_QUERY_data(cgi * cgi, const char * property, char ** out);
 int decodeHEX(char *s, char *dec);
+void remove_newline(char * str);

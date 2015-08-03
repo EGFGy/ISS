@@ -139,6 +139,7 @@ int verify_user(person * pers){
 		if(row[COL_SID] != NULL){
             pers->auth=true;
             pers->sid=atoi(row[COL_SID]);
+            //TODO: asprintf!
             pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
 			strcpy(pers->email, row[COL_EMAIL]);
             return 1;
@@ -154,6 +155,8 @@ int verify_user(person * pers){
 			pers->auth=true;
 
 			//Name holen
+
+			//TODO asprintf 2
             pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
             strcpy(pers->name, row[COL_NAME]);
             pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
@@ -639,15 +642,15 @@ bool verify_sid(person * pers){
 /** \brief 5 Nachrichten holen
  *
  * \param num int*    Pointer in dem die tatsächliche Anzahl an Nachrichten gespeichert wird
- * \param offset int  Alle 5 Nachrichten ab der offset*5-ten Nachricht holen
- * \return message*   Pointer auf ein Array aus max. 5 Nachrichten
+ * \param offset int  Alle 5 Nachrichten ab der offset*GET_MESSAGE_COUNT-ten Nachricht holen
+ * \return message*   Pointer auf ein Array aus max. GET_MESSAGE_COUNT Nachrichten
  *
  */
 message * get_messages(int * num, int offset){
 	message * mes=NULL;
 
 	char * query=NULL;
-	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt DESC LIMIT 5 OFFSET %d", (offset*5)) == -1){
+	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 	}
 
@@ -671,6 +674,7 @@ message * get_messages(int * num, int offset){
 			mes = calloc(mysql_num_rows(result), sizeof(message));
             MYSQL_ROW message_row;
             for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
+				//TODO: asprintf 3
 				(mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
 				(mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
@@ -831,10 +835,13 @@ void get_person_by_sid(person * pers){
  *
  */
 bool insert_message(message * mes){
-	if(strlen(mes->title)<2 || strlen(mes->message)<2)print_exit_failure("Geben sie eine Meldung ein!!");
+	if(strlen(mes->title)<2 || strlen(mes->message)<2)print_exit_failure("Geben Sie eine Meldung ein!!");
 
 	clean_string(mes->message);
 	clean_string(mes->title);
+	mes->message=nlcr_to_htmlbr(mes->message);
+	fprintf(stderr, "\n\n Meldung: '%s'", mes->message);
+	remove_newline(mes->message);
 
 	char * query=NULL;
 	char * time_created=calloc(21, sizeof(char));
@@ -847,6 +854,8 @@ bool insert_message(message * mes){
 				mes->title, mes->message, mes->courses, mes->creator_id, time_created  ) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (insert_message)");
 	}
+
+	fprintf(stderr, "\n\nQuery (insert_message) : '%s'\n\n", query);
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -868,15 +877,39 @@ bool insert_message(message * mes){
 }
 
 
+//Sollte man nicht alle html-bezogenen Funktionen in eine eigen Datei auslagern
+
 void clean_string(char * str){
 	regex_t reg;
-	regcomp(&reg, "[^[A-Za-z0-9 @\n\lÄÖÜäöü!?]]*", REG_EXTENDED);
+	regcomp(&reg, "[^[A-Za-z0-9 @\n\rÄÖÜäöü!?(),.\[\]]]*", REG_EXTENDED);
 	size_t str_len=strlen(str)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 
 	while(regexec(&reg, str, str_len, pmatch, REG_NOTBOL) == 0){
 		int i=(int)pmatch->rm_so;
-		str[i]='X';
+		str[i]=' ';
 
 	}
+}
+
+char * nlcr_to_htmlbr(char * str){
+
+	if(str == NULL){
+		 print_exit_failure("Programm falsch (nlcr_to_htmlbr)");
+	}
+
+	char * found=strstr(str, "\r\n");  //CR LF finden (%0D%0F) (machen alle Browser das so?) (IE, Safari, opera?)
+	char * out=NULL;
+	if(found){
+		for(char * i=str;i[0]!= found[0]; i++){
+			fprintf(stderr, "for_loop: str: '%s', found '%s', i '%c'\n", str, found, i[0]);
+			asprintf(&out, "%s%c", out ? out : "", i[0]);
+		}
+	}else{
+		asprintf(&out, "%s%s", out ? out : "", str);
+	}
+
+	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") );
+	return out;
+
 }

@@ -14,6 +14,8 @@
 #define COL_MESSAGE_CREATORID 4
 #define COL_MESSAGE_TIME_CREATED 5
 
+#define GET_MESSAGE_COUNT 5
+
 #define SQL_USER "web_user"
 #define SQL_PASS "web_pass"
 #define SQL_BASE "base5"
@@ -65,3 +67,5 @@ person * get_person_by_id(int id);
 void get_person_by_sid(person * pers);
 bool insert_message(message * mes);
 void clean_string(char * str);
+
+char * nlcr_to_htmlbr(char * str);
