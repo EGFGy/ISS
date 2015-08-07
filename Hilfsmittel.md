@@ -27,7 +27,8 @@ mySQL exportieren -- http://webprosa.de/mysql-datenbanken-ueber-konsole-exportie
 ### C-Tutorial
 http://www.c-howto.de/tutorial-einfuehrung.html  
 
-### HTML, CSS und mehr
+### HTTP, HTML, CSS und mehr
+Http-Header-felder -- https://tools.ietf.org/html/rfc2616
 http://www.lightsphere.com/dev/  
 CSS-Vorlagen -- http://purecss.io/  
 

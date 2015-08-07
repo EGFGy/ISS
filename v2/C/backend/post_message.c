@@ -65,6 +65,5 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
     }
 
-    return 0;
-
+    exit(0);
 }

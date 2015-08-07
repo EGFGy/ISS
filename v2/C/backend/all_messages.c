@@ -19,7 +19,16 @@ int main(int argc, char ** argv){
 	int offset=0; //Vom nutzer gewünschter offset
 
     get_CGI_data(&datCGI);
-	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
+	if(datCGI.http_cookies == NULL){
+		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
+		setCookie("EMAIL", "NULL");
+		setCookie("SID", "0");
+		httpHeader(HTML);
+        print_html_head("Benutzung von Cookeis", "Cookies");
+        puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
+		printf("<a href=https://%s/index.html>ZUR&Uuml; zur Anmeldung</a>", datCGI.http_host);
+	}
+	if(strncmp(datCGI.request_method, "GET", 3) != 0)print_exit_failure("Use GET!");
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
@@ -30,16 +39,20 @@ int main(int argc, char ** argv){
 
 
     if(verify_sid(&check_person)){
+		get_person_by_sid(&check_person);
+
 		httpHeader(HTML);
 
 		char * s_offest=NULL;
 		if(extract_QUERY_data(&datCGI, "offset", &s_offest) != -1){
 			offset=atoi(s_offest);
 		}
-		all_messages=get_messages(&number, offset);
+		//all_messages=get_messages(&number, offset);
+		number=get_messages(&all_messages, offset);
 		bool no_older=false;
 		if(number==0 && offset!=0){
-			all_messages=get_messages(&number, offset-1);
+			//all_messages=get_messages(&number, offset-1);
+			number=get_messages(&all_messages, offset-1);
 			no_older=true;
 		}
 
@@ -55,7 +68,7 @@ int main(int argc, char ** argv){
 		//Nachrichten ab hier
 		puts("<div class='content'>");
 
-        puts("<div id='login-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
+        if(check_person.isTeacher)puts("<div id='login-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
 			  <label for='ti'>Titel</label><input class='textIn' style='display: block;' name='titel' id='ti' type='text'>\n\
 			  <label for='tex'>Text</label><textarea class='textIn' style='display: block; height: 88px; width: 427px;' name='meldung' id='tex'></textarea>\n\
 			  <input class='submitButton' style='display: block;' type='submit'>\n\
@@ -65,12 +78,20 @@ int main(int argc, char ** argv){
 		printf("<span>Seite %d</span>", no_older ? offset : offset+1);
 		//TODO: Umlaute!!!
 		for(int i=0; i<number; i++){
-			person * pers=get_person_by_id((all_messages+i)->creator_id);
+			person pers;
+			init_person(&pers);
+			pers.id=(all_messages+i)->creator_id;
+
 
 			puts("<div class='messageBox'>");
 			printf("<h2 class='content-subhead'>%s</h2>\n<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
-			if(pers != NULL)printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers->first_name, pers->name );
+			if(get_person_by_id(&pers)){
+				printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers.first_name, pers.name );
+			}else{
+				printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (all_messages+i)->s_created);
+			}
 
+			//TODO: Button soll zur ganzen Meldung führen
 			puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
 			puts("</div>");
 		}
@@ -102,5 +123,5 @@ int main(int argc, char ** argv){
 
     }
     //Prüfen ob Nutzer angemeldet ist
-	return 0;
+	exit(0);
 }

@@ -83,6 +83,7 @@ void get_CGI_data(cgi * gotCGI){
 		if(content_length > content_max){
 			print_exit_failure("Eingabe zu lang!");
 		}else{
+			//TODO: hier stimmt was nicht +1 / +2 (manchmal gehts es nicht)
 			POST_data=calloc(content_length+1, sizeof(char));
 			if(POST_data == NULL){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
@@ -305,4 +306,19 @@ void remove_newline(char * str){
 	if(newline != NULL){
 		*newline='\0'; //vorher '\0'
 	}
+}
+void print_html_head(char * descr, char * title){
+	printf("\
+	<!doctype html>\n\
+	<html lang='en'>\n\
+	<head>\n\
+	<meta charset='utf-8'>\n\
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n\
+	<meta name='description' content='%s'>\n\
+	<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />\n\
+	<meta http-equiv='Pragma' content='no-cache' />\n\
+	<meta http-equiv='Expires' content='0' />\n\
+	<title>InfoWall -- %s</title>\n\
+	</head>\n\
+",descr, title );
 }

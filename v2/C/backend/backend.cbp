@@ -162,7 +162,7 @@
 			<DoxyBlocks>
 				<comment_style block="0" line="0" />
 				<doxyfile_project output_language="German" />
-				<doxyfile_build />
+				<doxyfile_build extract_all="1" />
 				<doxyfile_warnings />
 				<doxyfile_output />
 				<doxyfile_dot />

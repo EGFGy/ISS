@@ -45,4 +45,6 @@ int main(int argc, char ** argv){
     }else{
 		print_exit_failure("Bereits abgemeldet (cookies waren schon 0 oder \"NULL\")");
 	}
+
+	exit(0);
 }

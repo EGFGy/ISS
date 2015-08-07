@@ -51,7 +51,7 @@ void init_message(message * mes){
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
- * \return void
+ * \return int          1: Benutzer ist schon angemeldet; 0: Benutzer war noch nicht angemeldet (PW richtig); -1: PW falsch
  *  Die Funktion testet, ob der Name oder das Kürzel (je nachdem was eingegeben wurde)
  *  (Erkennung an der Länge des Strings: =3 --> Kürzel, >3 --> Name)
  *  in der DB vorhanden ist. Wenn der Name existiert wird geprüft ob das Passwort richtig ist.
@@ -60,6 +60,7 @@ void init_message(message * mes){
  */
 int verify_user(person * pers){
 	bool isAcronym;
+	UserState user_state=PW_INCORRECT;
 
 	if(pers->email==NULL || pers->password==NULL){
 		print_exit_failure("Programm falsch!");
@@ -126,7 +127,9 @@ int verify_user(person * pers){
 			isAcronym=false; //Da wir jetzt eine Person mit Kürzel gefunden haben
 		}else{
 			//Person nicht vorhanden, oder Fehler
-			print_exit_failure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
+			//print_exit_failure("mysql: Person nicht vorhanden, oder Passwort falsch."); //Was auch immer
+			found=false;
+			isAcronym=false;
 		}
     }
 
@@ -136,14 +139,7 @@ int verify_user(person * pers){
 		row=mysql_fetch_row(result);
 		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s, SID: '%s'\n", row[COL_NAME], row[COL_PASS], row[COL_SID]);
 
-		if(row[COL_SID] != NULL){
-            pers->auth=true;
-            pers->sid=atoi(row[COL_SID]);
-            //TODO: asprintf!
-            pers->email=calloc(strlen(row[COL_EMAIL]), sizeof(char));
-			strcpy(pers->email, row[COL_EMAIL]);
-            return 1;
-		}
+
 
 		//Auslesen des Salt
 		char * salt=calloc(SALT_LENGTH+1, sizeof(char));
@@ -156,11 +152,13 @@ int verify_user(person * pers){
 
 			//Name holen
 
-			//TODO asprintf 2
-            pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-            strcpy(pers->name, row[COL_NAME]);
-            pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-            strcpy(pers->first_name, row[COL_VORNAME]);
+			//TODO asprintf 2 -
+            //pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+            //strcpy(pers->name, row[COL_NAME]);
+            asprintf(&pers->name, "%s", row[COL_NAME]);
+            //pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+            //strcpy(pers->first_name, row[COL_VORNAME]);
+            asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
 
 			if(isAcronym){
 				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
@@ -190,8 +188,17 @@ int verify_user(person * pers){
                 pers->id=atoi(row[COL_ID]);
 			}
 
-			create_session(pers);
+			if(row[COL_SID] != NULL){
+				//Benutzer ist schon angemeldet
+				user_state=PW_CORRECT_ALREADY_LOGGED_IN;
+				pers->auth=true;
+				pers->sid=atoi(row[COL_SID]);
+			}else{
+				user_state=PW_CORRECT;
+				create_session(pers);
+			}
 		}else{
+			user_state=PW_INCORRECT;
 			pers->auth=false;
 			pers->sid=0;
 		}
@@ -201,7 +208,7 @@ int verify_user(person * pers){
     mysql_close(my);
 
 
-    return 0;
+    return user_state;
 }
 
 /** \brief Feststellen ob die E-mail möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
@@ -634,22 +641,25 @@ bool verify_sid(person * pers){
 		}
 		mysql_free_result(result);
 	}
-
+	pers->auth=false;
     mysql_close(my);
 	return false;
 }
 
 /** \brief 5 Nachrichten holen
  *
- * \param num int*    Pointer in dem die tatsächliche Anzahl an Nachrichten gespeichert wird
- * \param offset int  Alle 5 Nachrichten ab der offset*GET_MESSAGE_COUNT-ten Nachricht holen
- * \return message*   Pointer auf ein Array aus max. GET_MESSAGE_COUNT Nachrichten
+ * \param mes message ** message*   Pointer auf ein Array aus max. GET_MESSAGE_COUNT Nachrichten
+ * \param offset int                Alle 5 Nachrichten ab der offset*GET_MESSAGE_COUNT-ten Nachricht holen
+ * \return int                      Tatsächliche Anzahl an Meldungen
  *
  */
-message * get_messages(int * num, int offset){
-	message * mes=NULL;
+
+int get_messages(message ** mes, int offset){
+
+	//message * mes=NULL;
 
 	char * query=NULL;
+	int num=0;
 	if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 	}
@@ -669,28 +679,28 @@ message * get_messages(int * num, int offset){
 	}else{
 		MYSQL_RES * result=NULL;
 		result = mysql_store_result(my);
-		*num=mysql_num_rows(result);
+		num=mysql_num_rows(result);
 		if(mysql_num_rows(result) > 0){
-			mes = calloc(mysql_num_rows(result), sizeof(message));
+			*mes = calloc(mysql_num_rows(result), sizeof(message));
             MYSQL_ROW message_row;
             for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
 				//TODO: asprintf 3
-				(mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
+				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
-				(mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
-				strcpy((mes+i)->title, message_row[COL_MESSAGE_TITEL]);
+				(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
+				strcpy((*mes+i)->title, message_row[COL_MESSAGE_TITEL]);
 
-				(mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES])+1, sizeof(char));
-				strcpy((mes+i)->message, message_row[COL_MESSAGE_MES]);
+				//TODO: nur den ersten Satz / die ersten n Zeichen ausgeben oder bis zum ersten <br> ???
+				(*mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES])+1, sizeof(char));
+				strcpy((*mes+i)->message, message_row[COL_MESSAGE_MES]);
 
-				(mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES])+1, sizeof(char));
-				strcpy((mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
+				(*mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES])+1, sizeof(char));
+				strcpy((*mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
 
-				(mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
+				(*mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
-				//TODO: uhrzeit rchtig machen ????
-				(mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
-				strcpy((mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
+				(*mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
+				strcpy((*mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
 
             }
 		}
@@ -698,20 +708,19 @@ message * get_messages(int * num, int offset){
 	}
 	mysql_close(my);
 
-	return mes;
+	return num;
 }
 
 /** \brief Anhand der ID der Person die restliche Information über sie herausfinden
  *
- * \param id int    ID der Person
- * \return person*  Personenobjekt in das die Daten geschrieben werden
- *
+ * \param person*  Personenobjekt das die id enthält und in das die Daten geschrieben werden
+ * \return bool    true: Person gefunden; false: Person nucht gefunden
  */
-person * get_person_by_id(int id){
+bool get_person_by_id(person * pers){
 
-	if(id < 1)return NULL;
+	if(pers->id < 1)return NULL;
 	char * query=NULL;
-	if(asprintf(&query, "SELECT * FROM Benutzer WHERE id='%d'", id) == -1){
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE id='%d'", pers->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_id)");
 	}
 
@@ -737,7 +746,6 @@ person * get_person_by_id(int id){
 			MYSQL_ROW row;
 			row=mysql_fetch_row(result);
 
-			person * pers=calloc(1, sizeof(person));
 
 			//Name holen
             pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
@@ -745,24 +753,45 @@ person * get_person_by_id(int id){
             pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
             strcpy(pers->first_name, row[COL_VORNAME]);
 
+            //Kürzel (falls vorhanden) holen
+            if(row[COL_ACR] != NULL){
+				//Die Person hat ein Küzel --> Lehrer
+				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
+				strcpy(pers->acronym, row[COL_ACR]);
+				pers->isTeacher=true;
+			}else{
+				pers->isTeacher=false;
+			}
+
+			//Kurse (falls vorhanden)
+			if(row[COL_COURSE] != NULL){
+				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
+				strcpy(pers->courses, row[COL_COURSE]);
+			}
+
+			//SID (falls vorhanden)
+			if(row[COL_SID] != NULL){
+				pers->sid=atoi(row[COL_SID]);
+			}
+
 			mysql_free_result(result);
 			mysql_close(my);
-			return pers;
+			return true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
-    return NULL;
+    return false;
 }
 
 /** \brief Personendaten anhand der SID und E-mail abrufen
  *
  * \param pers person*  Person mit E-mail und SID in der die restlichen Daten gespeichert werden
- * \return void
+ * \return bool         true: Person gefunden; false: Person nucht gefunden
  *
  */
-void get_person_by_sid(person * pers){
+bool get_person_by_sid(person * pers){
 	char * query=NULL;
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE sid='%d' AND email='%s'", pers->sid, pers->email) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
@@ -819,13 +848,13 @@ void get_person_by_sid(person * pers){
 
 			mysql_free_result(result);
 			mysql_close(my);
-			return;
+			return true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
-    return;
+    return false;
 }
 
 /** \brief Eine Nachricht in die Datenbank einfügen
@@ -847,7 +876,6 @@ bool insert_message(message * mes){
 	char * time_created=calloc(21, sizeof(char));
 	strftime(time_created, 20, "%Y-%m-%d %H:%M:00", mes->created);
 
-	//TODO: Zeit umwandeln
 	if(asprintf(&query, "INSERT INTO Meldungen \
 				(titel, meldung, kurse, erstellerID, erstellt)\
 				VALUES('%s', '%s', '%s', '%d', '%s')",
@@ -888,7 +916,6 @@ void clean_string(char * str){
 	while(regexec(&reg, str, str_len, pmatch, REG_NOTBOL) == 0){
 		int i=(int)pmatch->rm_so;
 		str[i]=' ';
-
 	}
 }
 

@@ -199,7 +199,7 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1438473197 source:/home/bank/InfoWall/v2/C/backend/CGI_functions.c
+1438889708 source:/home/bank/InfoWall/v2/C/backend/CGI_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -212,7 +212,7 @@
 
 1438475621 /home/bank/InfoWall/v2/C/backend/CGI_functions.h
 
-1438415428 source:/home/bank/InfoWall/v2/C/backend/all_messages.c
+1438711912 source:/home/bank/InfoWall/v2/C/backend/all_messages.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -223,9 +223,9 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1438629441 /home/bank/InfoWall/v2/C/backend/SQL_functions.h
+1438714234 /home/bank/InfoWall/v2/C/backend/SQL_functions.h
 
-1438629441 source:/home/bank/InfoWall/v2/C/backend/SQL_functions_v1.c
+1438890791 source:/home/bank/InfoWall/v2/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -251,6 +251,28 @@
 	<math.h>
 	<ctype.h>
 	<time.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1438942530 source:/home/bank/InfoWall/v2/C/backend/main_strtok_base3.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1438892657 source:/home/bank/InfoWall/v2/C/backend/logout.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
 	"CGI_functions.h"
 	"SQL_functions.h"
 

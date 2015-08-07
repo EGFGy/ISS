@@ -48,6 +48,8 @@ typedef struct{
 	char * s_created;
 }message;
 
+typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;
+
 void init_person(person * p);
 void init_message(message * mes);
 int verify_user(person * pers);
@@ -62,10 +64,10 @@ int create_session(person * pers);
 bool sid_exists(int sid);
 bool sid_set_null(person * pers);
 bool verify_sid(person * pers);
-message * get_messages(int * number, int offset);
-person * get_person_by_id(int id);
-void get_person_by_sid(person * pers);
+int get_messages(message ** mes, int offset);
+bool get_person_by_id(person * pers);
+bool get_person_by_sid(person * pers);
 bool insert_message(message * mes);
-void clean_string(char * str);
 
+void clean_string(char * str);
 char * nlcr_to_htmlbr(char * str);

@@ -54,17 +54,21 @@ Benutzer anmelden (Passwort Überprüfen)
 */
 int main(int argc, char ** argv)
 {
+
 	cgi datCGI;
 	init_CGI(&datCGI);
 	person login_person;
 	init_person(&login_person);
 
+	fprintf(stderr, "Hallo vor Post\n");
 	get_CGI_data(&datCGI);
+
 	if(strncmp(datCGI.request_method, "POST", 4) != 0){
 		print_exit_failure("Use POST!");
 	}
 
-	char * http_host=datCGI.http_host;
+	//fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
+
 	//Aus POST_data den String zwischen <AttributName>= und '&' ausschneiden
 	extract_POST_data(&datCGI, "email", &login_person.email);
 
@@ -78,22 +82,31 @@ int main(int argc, char ** argv)
 	}
 
 	fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
-	//TODO: Verhindern, dass sich ein anderer Nutzer vom selbe nRechner aus einloggt wenn der serte noch nicht abgemeldet ist
-	//(zuweimaliges Anmelden verhindern)
-	int user_state=verify_user(&login_person);
+	//TODO: Verhindern, dass sich ein anderer Nutzer vom selben Rechner aus einloggt wenn der erste noch nicht abgemeldet ist
+	//(zweimaliges Anmelden verhindern)
+	UserState user_state=verify_user(&login_person);
 
 	//Zwei cookies setzen
+	if(user_state == PW_CORRECT || user_state == PW_CORRECT_ALREADY_LOGGED_IN){
+		setCookie("EMAIL", login_person.email);
+		char * sid_string;
+		asprintf(&sid_string, "%d", login_person.sid);
+		setCookie("SID", sid_string);
 
-	setCookie("EMAIL", login_person.email);
-	char * sid_string;
-	asprintf(&sid_string, "%d", login_person.sid);
-	setCookie("SID", sid_string);
+		//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
+		//httpRedirect("https://91.8.141.17/cgi-bin/all_messages.cgi");
+		char * redirectString=NULL;
+		asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
+		httpRedirect(redirectString);
+	}
+	if(user_state == PW_INCORRECT){
+		setCookie("EMAIL", "NULL");
+		setCookie("SID", "0");
+		char * redirectString=NULL;
+		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
+		httpRedirect(redirectString);
 
-	//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
-	//httpRedirect("https://91.8.141.17/cgi-bin/all_messages.cgi");
-	char * redirectString=NULL;
-	asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
-	httpRedirect(redirectString);
+	}
 /*
 	httpHeader(HTML);
 	printf("<!DOCTYPE html><head>\
