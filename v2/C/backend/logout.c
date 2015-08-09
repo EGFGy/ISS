@@ -24,6 +24,8 @@ int main(int argc, char ** argv){
     extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
     logout_person.sid=atoi(s_sid);
 
+    httpCacheControl("no-cache");
+
     if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
 
 		if(sid_exists(logout_person.sid)){

@@ -687,20 +687,24 @@ int get_messages(message ** mes, int offset){
 				//TODO: asprintf 3
 				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
-				(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
-				strcpy((*mes+i)->title, message_row[COL_MESSAGE_TITEL]);
+				//(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
+				//strcpy((*mes+i)->title, message_row[COL_MESSAGE_TITEL]);
+				asprintf(&(*mes+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
 
 				//TODO: nur den ersten Satz / die ersten n Zeichen ausgeben oder bis zum ersten <br> ???
-				(*mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES])+1, sizeof(char));
-				strcpy((*mes+i)->message, message_row[COL_MESSAGE_MES]);
+				//(*mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES])+1, sizeof(char));
+				//strcpy((*mes+i)->message, message_row[COL_MESSAGE_MES]);
+				asprintf(&(*mes+i)->message, "%s", message_row[COL_MESSAGE_MES]);
 
-				(*mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES])+1, sizeof(char));
-				strcpy((*mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
+				//(*mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES])+1, sizeof(char));
+				//strcpy((*mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
+				asprintf(&(*mes+i)->courses, "%s", message_row[COL_MESSAGE_COURSES]);
 
 				(*mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
-				(*mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
-				strcpy((*mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
+				//(*mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
+				//strcpy((*mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
+				asprintf(&(*mes+i)->s_created, "%s", message_row[COL_MESSAGE_TIME_CREATED]);
 
             }
 		}

@@ -66,9 +66,9 @@ input:focus{
 
 
 @media all and (max-width: 800px){
-	html{
+	/*html{
 		font-size: 1.2em;
-	}
+	}*/
 	input, button{
 		heigh: 1.3em;
 		font-size: 1.2em;

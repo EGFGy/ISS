@@ -41,13 +41,16 @@ void get_CGI_data(cgi * gotCGI){
 	char * http_host=getenv("HTTP_HOST"); //Host-Adresse holen
 	char * POST_data = NULL; //Pointer in dem stdin gespeichert wird
 
+	//fprintf(stderr, "get_CGI_data: env done\n");
+
 	if(request_method == NULL){
+		//request_method ist absolut notwendig
         print_exit_failure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
     }
 
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
-	if(strncmp(request_method, "POST", 5) != 0){
+	if(strncmp(request_method, "POST", 4) != 0){
 
 	//TODO: FIX THIS !!!
 		if(strncmp(request_method, "GET", 3) == 0){
@@ -65,7 +68,7 @@ void get_CGI_data(cgi * gotCGI){
 				if(pch !=NULL) *pch=' ';
 			}
 			//gotCGI->query_string=query_string;
-			gotCGI->query_string=calloc(strlen(query_string), sizeof(char));
+			gotCGI->query_string=calloc(strlen(query_string)+1, sizeof(char));
 			decodeHEX(query_string, gotCGI->query_string);
 			gotCGI->request_method = request_method;
 			gotCGI->http_cookies = env_cook;
@@ -83,13 +86,14 @@ void get_CGI_data(cgi * gotCGI){
 		if(content_length > content_max){
 			print_exit_failure("Eingabe zu lang!");
 		}else{
-			//TODO: hier stimmt was nicht +1 / +2 (manchmal gehts es nicht)
-			POST_data=calloc(content_length+1, sizeof(char));
+			//fprintf(stderr, "get_CGI_data: loading POST\n");
+			POST_data=calloc(content_length+2, sizeof(char));
 			if(POST_data == NULL){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
 			}
 
 			fgets(POST_data, content_length+1, stdin); //Standardeingabe lesen (vom fcgiwrapper)
+			//fprintf(stderr, "get_CGI_data: loading POST done\ndata: %s\n", POST_data);
 
 			if(POST_data == NULL){
 				print_exit_failure("Keine Eingabe");
@@ -107,11 +111,11 @@ void get_CGI_data(cgi * gotCGI){
 			gotCGI->http_cookies=env_cook;
 			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
 
-			fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
+			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
 
 			decodeHEX(POST_data, gotCGI->POST_data);
 
-			fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
+			//fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
 
 
 			//gotCGI->POST_data=POST_data;
@@ -183,6 +187,12 @@ void httpRedirect(const char * url){
 	if(url != NULL){
 		puts("Status: 301");
 		printf("Location: %s\n\n", url);
+	}
+}
+
+void httpCacheControl(const char * directive){
+	if(directive != NULL){
+		printf("Cache-Control: %s\n", directive);
 	}
 }
 

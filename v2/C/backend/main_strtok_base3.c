@@ -60,7 +60,7 @@ int main(int argc, char ** argv)
 	person login_person;
 	init_person(&login_person);
 
-	fprintf(stderr, "Hallo vor Post\n");
+	//fprintf(stderr, "Hallo vor Post\n");
 	get_CGI_data(&datCGI);
 
 	if(strncmp(datCGI.request_method, "POST", 4) != 0){
@@ -93,8 +93,8 @@ int main(int argc, char ** argv)
 		asprintf(&sid_string, "%d", login_person.sid);
 		setCookie("SID", sid_string);
 
-		//Ab hier beginnt der Bereich, der an den Aufrufer übertragen wird
-		//httpRedirect("https://91.8.141.17/cgi-bin/all_messages.cgi");
+		httpCacheControl("no-cache");
+
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
 		httpRedirect(redirectString);
@@ -102,6 +102,7 @@ int main(int argc, char ** argv)
 	if(user_state == PW_INCORRECT){
 		setCookie("EMAIL", "NULL");
 		setCookie("SID", "0");
+		httpCacheControl("no-cache");
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
 		httpRedirect(redirectString);

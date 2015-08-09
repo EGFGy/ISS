@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" href="/css/forms.css">
 	<link rel="stylesheet" href="/css/radio_block.css">
-	
+	<link rel="shortcut icon" href="/favicon.png" />
 	<script type="text/javascript">
 var name_correct=false;
 
@@ -36,35 +36,6 @@ function ShowDat(it, dat_id){
 		it.checked = false;
 		dat.style.display = 'none';
 	}
-}
-
-//Das ist nur zum Testen (damit es schonmal so aussieht als ob es fertig wäre)
-function CheckIfUserExists()
-{
-	var rawFile = new XMLHttpRequest();
-	rawFile.open("GET", '/cgi-bin/users.cgi', false);
-	rawFile.onreadystatechange = function ()
-	{
-		if(rawFile.readyState === 4)
-		{
-			if(rawFile.status === 200 || rawFile.status == 0)
-			{
-				var allText = rawFile.responseText;
-				var names = allText.split("\n");
-				if(document.getElementById('UserName').value.match(/\S/)){
-					if(allText.indexOf(document.getElementById('UserName').value+'\n') >0){
-						alert('Name existiert bereits' + '\n' + allText + '\n' + names.length);
-						document.getElementById('UserName').style.border= '2px solid red';
-					}else{
-						document.getElementById('UserName').style.border= '2px solid green';
-						name_correct=true;
-					}
-				 }
-				//alert(allText);
-			}
-		}
-	}
-	rawFile.send(null);
 }
 
 function checkDatEmail(field)

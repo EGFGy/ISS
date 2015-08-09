@@ -51,6 +51,7 @@ int main(int argc, char ** argv){
 
 		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
 
+		//TODO: diese Programm soll auch für Kursbezogene Meldungen funktionieren
 		asprintf(&mes.courses, "all");
 
 		insert_message(&mes);
