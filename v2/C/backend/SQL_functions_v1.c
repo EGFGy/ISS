@@ -792,7 +792,7 @@ bool get_person_by_id(person * pers){
 /** \brief Personendaten anhand der SID und E-mail abrufen
  *
  * \param pers person*  Person mit E-mail und SID in der die restlichen Daten gespeichert werden
- * \return bool         true: Person gefunden; false: Person nucht gefunden
+ * \return bool         true: Person gefunden; false: Person nicht gefunden
  *
  */
 bool get_person_by_sid(person * pers){

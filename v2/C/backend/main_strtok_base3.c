@@ -58,7 +58,9 @@ int main(int argc, char ** argv)
 	cgi datCGI;
 	init_CGI(&datCGI);
 	person login_person;
+	person already_logged_in_person;
 	init_person(&login_person);
+	init_person(&already_logged_in_person);
 
 	//fprintf(stderr, "Hallo vor Post\n");
 	get_CGI_data(&datCGI);
@@ -78,12 +80,29 @@ int main(int argc, char ** argv)
 
 
 	if(login_person.email == NULL){
-		print_exit_failure("Name leer");
+		setCookie("EMAIL", "NULL");
+		setCookie("SID", "0");
+		httpCacheControl("no-cache");
+		char * redirectString=NULL;
+		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
+		httpRedirect(redirectString);
 	}
 
-	fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
+	//fprintf(stderr, "POST_DATA: %s", datCGI.POST_data);
 	//TODO: Verhindern, dass sich ein anderer Nutzer vom selben Rechner aus einloggt wenn der erste noch nicht abgemeldet ist
 	//(zweimaliges Anmelden verhindern)
+
+	if(datCGI.http_cookies != NULL){
+		char * cook_sid=NULL;
+		if(extract_COOKIE_data(&datCGI, "EMAIL", &already_logged_in_person.email) == 0 && extract_COOKIE_data(&datCGI, "SID", &cook_sid) == 0){
+			//print_exit_failure("Hier ist schon jemand eingeloggt");
+			already_logged_in_person.sid=atoi(cook_sid);
+
+			if(get_person_by_sid(&already_logged_in_person)){
+				print_exit_failure("Hier ist schon jemand eingeloggt");
+			}
+		}
+	}
 	UserState user_state=verify_user(&login_person);
 
 	//Zwei cookies setzen
@@ -93,7 +112,7 @@ int main(int argc, char ** argv)
 		asprintf(&sid_string, "%d", login_person.sid);
 		setCookie("SID", sid_string);
 
-		httpCacheControl("no-cache");
+		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
@@ -102,7 +121,7 @@ int main(int argc, char ** argv)
 	if(user_state == PW_INCORRECT){
 		setCookie("EMAIL", "NULL");
 		setCookie("SID", "0");
-		httpCacheControl("no-cache");
+		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
 		httpRedirect(redirectString);

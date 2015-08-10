@@ -42,7 +42,7 @@ int main(int argc, char ** argv){
 
     if(verify_sid(&check_person)){
 		get_person_by_sid(&check_person);
-		httpCacheControl("no-cache");
+		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpHeader(HTML);
 
 		char * s_offest=NULL;
@@ -121,7 +121,7 @@ int main(int argc, char ** argv){
 		//printf("Erst anmelden!!");
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
-		httpCacheControl("no-cache");
+		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpRedirect(redirectString);
 
     }

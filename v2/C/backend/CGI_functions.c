@@ -109,6 +109,7 @@ void get_CGI_data(cgi * gotCGI){
 			}
 			gotCGI->content_length=content_length;
 			gotCGI->http_cookies=env_cook;
+			//TODO +1 ???
 			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
 
 			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
@@ -234,7 +235,7 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	}
 
 	//Neue Zeile am Ende durch 0-Terminator ersetzen.
-	//TODO: das hier muss geändert werden!
+	//das hier muss geändert werden!
 	//char * newline=strchr(klaus, '\n');
 	//if(newline != NULL){
 	//	*newline='\0'; //vorher '\0'

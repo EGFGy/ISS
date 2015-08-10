@@ -24,7 +24,7 @@ int main(int argc, char ** argv){
     extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
     logout_person.sid=atoi(s_sid);
 
-    httpCacheControl("no-cache");
+    httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 
     if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
 
