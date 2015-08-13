@@ -35,18 +35,19 @@
 		</a>
 
 		<div id="menu">
-				<div class="pure-menu">
+			<div class="pure-menu">
 				<a class="pure-menu-heading" href="#">EGF</a>
 
 				<ul class="pure-menu-list">
-					<li class="pure-menu-item"><a href="#" class="pure-menu-link">Stundeplan</a></li>
+					<li class="pure-menu-item">
+						<a href="#" class="pure-menu-link">Stundeplan</a>
+					</li>
 					<li class="pure-menu-item menu-item-divided pure-menu-selected">
 						<a href="#" class="pure-menu-link">Allgemeines</a>
 					</li>
 					<li class="pure-menu-item">
 						<a href="#" class="pure-menu-link">Wahl</a>
 					</li>
-
 					<li class="pure-menu-item">
 						<a href="#" class="pure-menu-link">Einstellungen</a>
 					</li>

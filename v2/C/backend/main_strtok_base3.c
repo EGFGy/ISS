@@ -80,8 +80,8 @@ int main(int argc, char ** argv)
 
 
 	if(login_person.email == NULL){
-		setCookie("EMAIL", "NULL");
-		setCookie("SID", "0");
+		httpSetCookie("EMAIL", "NULL");
+		httpSetCookie("SID", "0");
 		httpCacheControl("no-cache");
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
@@ -92,7 +92,9 @@ int main(int argc, char ** argv)
 	//TODO: Verhindern, dass sich ein anderer Nutzer vom selben Rechner aus einloggt wenn der erste noch nicht abgemeldet ist
 	//(zweimaliges Anmelden verhindern)
 
+/*
 	if(datCGI.http_cookies != NULL){
+
 		char * cook_sid=NULL;
 		if(extract_COOKIE_data(&datCGI, "EMAIL", &already_logged_in_person.email) == 0 && extract_COOKIE_data(&datCGI, "SID", &cook_sid) == 0){
 			//print_exit_failure("Hier ist schon jemand eingeloggt");
@@ -102,15 +104,15 @@ int main(int argc, char ** argv)
 				print_exit_failure("Hier ist schon jemand eingeloggt");
 			}
 		}
-	}
+	}*/
 	UserState user_state=verify_user(&login_person);
 
 	//Zwei cookies setzen
 	if(user_state == PW_CORRECT || user_state == PW_CORRECT_ALREADY_LOGGED_IN){
-		setCookie("EMAIL", login_person.email);
+		httpSetCookie("EMAIL", login_person.email);
 		char * sid_string;
 		asprintf(&sid_string, "%d", login_person.sid);
-		setCookie("SID", sid_string);
+		httpSetCookie("SID", sid_string);
 
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 
@@ -119,8 +121,8 @@ int main(int argc, char ** argv)
 		httpRedirect(redirectString);
 	}
 	if(user_state == PW_INCORRECT){
-		setCookie("EMAIL", "NULL");
-		setCookie("SID", "0");
+		httpSetCookie("EMAIL", "NULL");
+		httpSetCookie("SID", "0");
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);

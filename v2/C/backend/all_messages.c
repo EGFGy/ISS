@@ -22,8 +22,8 @@ int main(int argc, char ** argv){
 	if(datCGI.http_cookies == NULL){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
-		setCookie("EMAIL", "NULL");
-		setCookie("SID", "0");
+		httpSetCookie("EMAIL", "NULL");
+		httpSetCookie("SID", "0");
 		httpHeader(HTML);
         print_html_head("Benutzung von Cookeis", "Cookies");
         puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
@@ -37,7 +37,6 @@ int main(int argc, char ** argv){
     extract_COOKIE_data(&datCGI, "SID", &s_sid);
     extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
     check_person.sid=atoi(s_sid);
-
 
 
     if(verify_sid(&check_person)){
@@ -58,7 +57,7 @@ int main(int argc, char ** argv){
 			no_older=true;
 		}
 
-		FILE * html_source;
+		/*FILE * html_source;
 		html_source=fopen("/usr/share/nginx/html/cgi-bin/resources/main.text", "r");
 		if(html_source){
 			char c=NULL;
@@ -66,7 +65,10 @@ int main(int argc, char ** argv){
 				putchar(c);
 			}
 			fclose(html_source);
-		}
+		}*/
+
+		print_html_pure_head_menu("Anzeige von allgemeinen Meldungen", "Allgemeines", MAIN);
+
 		//Nachrichten ab hier
 		puts("<div class='content'>");
 
@@ -115,8 +117,6 @@ int main(int argc, char ** argv){
 
 		puts("</div></div>");
 		puts("</body></html>");
-		//printf("Daten dürfen angesehen werden!!\n");
-		//printf("SID: %d\n", check_person.sid);
     }else{
 		//printf("Erst anmelden!!");
 		char * redirectString=NULL;
@@ -125,6 +125,5 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
 
     }
-    //Prüfen ob Nutzer angemeldet ist
 	exit(0);
 }

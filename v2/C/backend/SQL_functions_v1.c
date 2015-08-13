@@ -877,8 +877,9 @@ bool insert_message(message * mes){
 	remove_newline(mes->message);
 
 	char * query=NULL;
-	char * time_created=calloc(21, sizeof(char));
-	strftime(time_created, 20, "%Y-%m-%d %H:%M:00", mes->created);
+	char * time_created=calloc(21, sizeof(char)); // 20
+	strftime(time_created, 20, "%Y-%m-%d %H:%M:%S", mes->created);
+	//                           4  2  2  2  2  2 ---> ? 19 +1 (\0) --> 20 = ????
 
 	if(asprintf(&query, "INSERT INTO Meldungen \
 				(titel, meldung, kurse, erstellerID, erstellt)\
@@ -910,12 +911,14 @@ bool insert_message(message * mes){
 
 
 //Sollte man nicht alle html-bezogenen Funktionen in eine eigen Datei auslagern
-
+//TODO FEHELER!!!!!!!
 void clean_string(char * str){
 	regex_t reg;
-	regcomp(&reg, "[^[A-Za-z0-9 @\n\rÄÖÜäöü!?(),.\[\]]]*", REG_EXTENDED);
+	regcomp(&reg, "[^[A-Za-z0-9 #@\n\rÄÖÜäöüß!?(),.-]]*", REG_EXTENDED);
 	size_t str_len=strlen(str)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
+
+	fprintf(stderr, "String : '%s'\n", str);
 
 	while(regexec(&reg, str, str_len, pmatch, REG_NOTBOL) == 0){
 		int i=(int)pmatch->rm_so;
@@ -923,13 +926,19 @@ void clean_string(char * str){
 	}
 }
 
+/** \brief Alle \r\n (0x0D 0x0A durch <br> ersetzen (Funktion ist rekursiv)
+ *
+ * \param str char*  String der \r\n enthält
+ * \return char*     String der <br> enthält
+ *
+ */
 char * nlcr_to_htmlbr(char * str){
 
 	if(str == NULL){
 		 print_exit_failure("Programm falsch (nlcr_to_htmlbr)");
 	}
 
-	char * found=strstr(str, "\r\n");  //CR LF finden (%0D%0F) (machen alle Browser das so?) (IE, Safari, opera?)
+	char * found=strstr(str, "\r\n");  //CR LF finden (%0D%0A) (machen alle Browser das so?) (IE, Safari, opera?)
 	char * out=NULL;
 	if(found){
 		for(char * i=str;i[0]!= found[0]; i++){

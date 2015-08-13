@@ -82,7 +82,7 @@ void get_CGI_data(cgi * gotCGI){
 		if(contentLength == NULL){
 			print_exit_failure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
 		}
-		content_length=atoi(contentLength);
+		content_length=atoi(contentLength)+1;
 		if(content_length > content_max){
 			print_exit_failure("Eingabe zu lang!");
 		}else{
@@ -92,7 +92,7 @@ void get_CGI_data(cgi * gotCGI){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
 			}
 
-			fgets(POST_data, content_length+1, stdin); //Standardeingabe lesen (vom fcgiwrapper)
+			fgets(POST_data, content_length, stdin); //Standardeingabe lesen (vom fcgiwrapper)
 			//fprintf(stderr, "get_CGI_data: loading POST done\ndata: %s\n", POST_data);
 
 			if(POST_data == NULL){
@@ -109,8 +109,7 @@ void get_CGI_data(cgi * gotCGI){
 			}
 			gotCGI->content_length=content_length;
 			gotCGI->http_cookies=env_cook;
-			//TODO +1 ???
-			gotCGI->POST_data=calloc(strlen(POST_data), sizeof(char));
+			gotCGI->POST_data=calloc(strlen(POST_data)+1, sizeof(char));
 
 			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
 
@@ -153,7 +152,7 @@ void print_exit_failure(const char * message){
  * \return void
  *
  */
-void setCookie(char name[], char content[]){
+void httpSetCookie(char name[], char content[]){
 	if(name == NULL || content == NULL){
 		return;
 	}else{
@@ -332,4 +331,116 @@ void print_html_head(char * descr, char * title){
 	<title>InfoWall -- %s</title>\n\
 	</head>\n\
 ",descr, title );
+}
+
+void print_html_pure_head_menu(char * descr, char * title, menuSelection menu){
+	if(descr == NULL || title == NULL){
+		print_exit_failure("Programm falsch");
+	}
+
+
+printf("<!doctype html>\n\
+<html lang='en'>\n\
+<head>\n\
+<meta charset='utf-8'>\n\
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n\
+<meta name='description' content='%s'>\n\
+<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />\n\
+<meta http-equiv='Pragma' content='no-cache' />\n\
+<meta http-equiv='Expires' content='0' />\n\
+<link rel='shortcut icon' href='/favicon.png' />\n\
+\n\
+<title>InfoWall -- %s</title>\n\
+\n\
+\n\
+<link rel='stylesheet' href='/css/layouts/pure-min.css' type='text/css'>\n\
+<link rel='stylesheet' href='/css/box.css' type='text/css'>\n\
+<link rel='stylesheet' href='/css/forms.css' type='text/css'>\n\
+\n\
+	<!--[if lte IE 8]>\n\
+        <link rel='stylesheet' href='/css/layouts/side-menu-old-ie.css' type='text/css'>\n\
+    <![endif]-->\n\
+    <!--[if gt IE 8]><!-->\n\
+        <link rel='stylesheet' href='/css/layouts/side-menu.css' type='text/css'>\n\
+    <!--<![endif]-->\n\
+<!-- Modified http://purecss.io/js/ui.js -->\n\
+<script src='/js/toggle.js'></script>\n\
+\n\
+</head>\n\
+<body>\n\
+		<div id='layout'>\n\
+                <!-- Menu toggle -->\n\
+                <a href='#menu' onclick='menuShowHide(this);' id='menuLink' class='menu-link'>\n\
+                        <!-- Hamburger icon -->\n\
+                        <span></span>\n\
+                </a>\n\
+                <div id='menu'>\n\
+                        <div class='pure-menu'>\n\
+                                <a class='pure-menu-heading' href='#'>EGF</a>\n", descr, title);
+	puts("<ul class='pure-menu-list'>\n");
+	if(menu == TIMETABLE){
+		puts("							<li class='pure-menu-item'>\n\
+											<a href='#' class='pure-menu-link pure-menu-selected'>Stundeplan</a>\n\
+										</li>\n\
+			");
+	}else{
+        puts("							<li class='pure-menu-item'>\n\
+                                                <a href='#' class='pure-menu-link'>Stundeplan</a>\n\
+                                        </li>\n\
+			");
+	}
+
+    if(menu == MAIN){
+		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
+											<a href='#' class='pure-menu-link'>Allgemeines</a>\n\
+										</li>\n\
+			");
+    }else{
+		puts("							<li class='pure-menu-item'>\n\
+											<a href='#' class='pure-menu-link'>Allgemeines</a>\n\
+										</li>\n\
+			");
+    }
+    if(menu == COURSE){
+		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
+											<a href='#' class='pure-menu-link'>Kursbezogenes</a>\n\
+										</li>\n\
+			");
+    }else{
+		puts("							<li class='pure-menu-item'>\n\
+											<a href='#' class='pure-menu-link'>Kursbezogenes</a>\n\
+										</li>\n\
+			");
+    }
+    if(menu == SETTINGS){
+		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
+											<a href='#' class='pure-menu-link'>Einstellungen</a>\n\
+										</li>\n\
+			");
+    }else{
+		puts("							<li class='pure-menu-item'>\n\
+											<a href='#' class='pure-menu-link'>Einstellungen</a>\n\
+										</li>\n\
+			");
+    }
+    puts("								<li class='pure-menu-item'>\n\
+                                                <a href='/hilfe.html' class='pure-menu-link'>Hilfe</a>\n\
+                                        </li>\n\
+                                        <li class='pure-menu-item'>\n\
+                                                <a href='/cgi-bin/logout.cgi' class='pure-menu-link'>LOGOUT</a>\n\
+                                        </li>\n\
+		");
+	printf("\
+                                </ul>\n\
+                        </div>\n\
+                </div>\n\
+                <div id='main'>\n\
+                        <div class='header'>\n\
+                <h1>%s</h1>\n\
+                        <h2>%s</h2>\n\
+                </div>\n\
+                \n\
+                <!-- dynamischer Inhalt ab hier -->\n\
+			", title, descr);
+
 }

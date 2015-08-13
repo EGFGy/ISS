@@ -26,26 +26,26 @@
 
 
 typedef struct {
-    int id;
-	char * first_name;
-	char * name;
-	char * password;
-	char * courses;
-	char * acronym;
-	char * email;
-	bool auth;
-	int sid;
-	bool isTeacher;
+    int id;              // ID der Person
+	char * first_name;   // Vorname
+	char * name;         // Nachname
+	char * password;     // eingegebenes Passwort
+	char * courses;      // Liste der Kurse an denen die Person teilnimmt
+	char * acronym;      // Kürzel der Person (falls vorhanden)
+	char * email;        // E-Mail-Adresse der Person
+	bool auth;           // ist die Person authentifiziert
+	int sid;             // Session-ID
+	bool isTeacher;      // Lehrer ?
 }person;
 
 typedef struct{
-	int id;
-	char * title;
-	char * message;
-	char * courses;
-	int creator_id;
-	struct tm * created;
-	char * s_created;
+	int id;               // ID der Nachricht
+	char * title;         // Titel
+	char * message;       // Nachricht
+	char * courses;       // String mit Kursliste aus der Datenbank / vom Browser (bei Erstellung)
+	int creator_id;       // ID des / der Erstellers / Erstellerin
+	struct tm * created;  // Speicherung der Zeit bei Erstellung
+	char * s_created;     // String in dem die Zeit de rErstellung aus der Datenbank gespeichert wird
 }message;
 
 typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;

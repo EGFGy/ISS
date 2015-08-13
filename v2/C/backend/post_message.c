@@ -26,9 +26,6 @@ int main(int argc, char ** argv){
     check_person.sid=atoi(s_sid);
 
 
-
-	//TODO irgendwas geht nicht
-
     if(verify_sid(&check_person)){
 		//httpHeader(TEXT);
 		get_person_by_sid(&check_person);
@@ -41,7 +38,6 @@ int main(int argc, char ** argv){
 		extract_POST_data(&datCGI, "titel", &mes.title);
 
 		fprintf(stderr, "\n\nPOST_DATA: '%s'\n\n", datCGI.POST_data);
-
 
 		time_t now=time(NULL);
 		mes.created=localtime(&now);

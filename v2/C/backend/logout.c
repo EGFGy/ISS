@@ -29,8 +29,8 @@ int main(int argc, char ** argv){
     if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
 
 		if(sid_exists(logout_person.sid)){
-			setCookie("EMAIL", "NULL");
-			setCookie("SID", "0");
+			httpSetCookie("EMAIL", "NULL");
+			httpSetCookie("SID", "0");
 			//httpHeader(TEXT);
 			if(sid_set_null(&logout_person)){
 				//printf("Logout erfolgreich\n");
