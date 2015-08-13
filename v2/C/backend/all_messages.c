@@ -27,7 +27,7 @@ int main(int argc, char ** argv){
 		httpHeader(HTML);
         print_html_head("Benutzung von Cookeis", "Cookies");
         puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
-		printf("<a href=https://%s/index.html>ZUR&Uuml; zur Anmeldung</a>", datCGI.http_host);
+		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
 		exit(0);
 	}
 	if(strncmp(datCGI.request_method, "GET", 3) != 0)print_exit_failure("Use GET!");
@@ -79,7 +79,7 @@ int main(int argc, char ** argv){
 			  </form></div>\
 			");
 
-		printf("<span>Seite %d</span>", no_older ? offset : offset+1);
+		printf("<span>Seite %d</span>\n", no_older ? offset : offset+1);
 		//TODO: Umlaute!!!
 		for(int i=0; i<number; i++){
 			person pers;
@@ -88,11 +88,11 @@ int main(int argc, char ** argv){
 
 
 			puts("<div class='messageBox'>");
-			printf("<h2 class='content-subhead'>%s</h2>\n<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
+			printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
 			if(get_person_by_id(&pers)){
-				printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers.first_name, pers.name );
+				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers.first_name, pers.name );
 			}else{
-				printf("<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (all_messages+i)->s_created);
+				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (all_messages+i)->s_created);
 			}
 
 			//TODO: Button soll zur ganzen Meldung führen
