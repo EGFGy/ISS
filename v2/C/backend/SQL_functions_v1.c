@@ -48,6 +48,12 @@ void init_message(message * mes){
 	mes->title=NULL;
 }
 
+void init_course(course * c){
+	c->id=0;
+	c->name=NULL;
+	c->time=NULL;
+}
+
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
@@ -684,7 +690,6 @@ int get_messages(message ** mes, int offset){
 			*mes = calloc(mysql_num_rows(result), sizeof(message));
             MYSQL_ROW message_row;
             for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
-				//TODO: asprintf 3
 				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
 				//(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
@@ -909,9 +914,49 @@ bool insert_message(message * mes){
 	}
 }
 
+size_t get_distinct_courses(course ** c){
+	char * query=NULL;
+	if(asprintf(&query, "SELECT DISTINCT name FROM Kurse") == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_courses)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+        mysql_close(my);
+		return 0;
+	}else{
+		size_t number=0;
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			number=mysql_num_rows(result);
+			*c=calloc(number, sizeof(course));
+			MYSQL_ROW row;
+			size_t i=0;
+			while((row=mysql_fetch_row(result)) && i<number){
+				init_course((*c+i));
+				asprintf(&(*c+i)->name, "%s", row[0]);  //0, da nur eine Spalte erwartet wird (^ Siehe query)
+				i++;
+			}
+		}
+        mysql_close(my);
+		return number;
+	}
+}
+
 
 //Sollte man nicht alle html-bezogenen Funktionen in eine eigen Datei auslagern
-//TODO FEHELER!!!!!!!
+//TODO FEHELER!!!!!!! ( Eckige Klammer-auf geht durch ????
 void clean_string(char * str){
 	regex_t reg;
 	regcomp(&reg, "[^[A-Za-z0-9 #@\n\rÄÖÜäöüß!?(),.-]]*", REG_EXTENDED);

@@ -1,17 +1,19 @@
 #ifndef content_max
-#define content_max 700  //Wir sagen: "Es gib einfach nicht mehr als contenr_max bytes in den Übergebenen Daten!!"
-#endif // content_max
+#define content_max 700  //Wir sagen: "Es gibt einfach nicht mehr als contenr_max Bytes in den Übergebenen Daten!!"
+#endif
+
+typedef enum {TEXT, HTML}httpHeaderType;
+typedef enum {POST, GET}httpRequestMethod;
+typedef enum {TIMETABLE, MAIN, SETTINGS, COURSE}menuSelection;
 
 typedef struct{
-	int content_length;     // Länge der Daten (bytes) in POST-Data
-	char * request_method;  // Methode der Anfrage
-	char * POST_data;       // per POST übertragene Daten (falls vorhanden)
-	char * query_string;    // QUERY_STRING (falls vorhanden)
-	char * http_cookies;    // Cookies
-	char * http_host;       // eigene Adresse
+	int content_length;                // Länge der Daten (bytes) in POST-Data
+	httpRequestMethod request_method;  // Methode der Anfrage
+	char * POST_data;                  // per POST übertragene Daten (falls vorhanden)
+	char * query_string;               // QUERY_STRING (falls vorhanden)
+	char * http_cookies;               // Cookies
+	char * http_host;                  // eigene Adresse
 }cgi;
-typedef enum {TEXT, HTML}httpHeaderType;
-typedef enum {TIMETABLE, MAIN, SETTINGS, COURSE}menuSelection;
 
 void init_CGI(cgi * c);
 void get_CGI_data(cgi * gotCGI);

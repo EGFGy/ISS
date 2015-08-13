@@ -30,7 +30,7 @@ int main(int argc, char ** argv){
 		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
 		exit(0);
 	}
-	if(strncmp(datCGI.request_method, "GET", 3) != 0)print_exit_failure("Use GET!");
+	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
@@ -80,7 +80,6 @@ int main(int argc, char ** argv){
 			");
 
 		printf("<span>Seite %d</span>\n", no_older ? offset : offset+1);
-		//TODO: Umlaute!!!
 		for(int i=0; i<number; i++){
 			person pers;
 			init_person(&pers);
@@ -105,7 +104,7 @@ int main(int argc, char ** argv){
 			offset--; //Damit man mit den Knöpfen nicht weiterschalten kann
 		}
 
-		puts("</div>");
+		puts("</div>"); //zu Content
 		puts("<div style='text-align: center;'>");
 
 		if(offset>0){

@@ -112,6 +112,21 @@
 					<Add library="crypt" />
 				</Linker>
 			</Target>
+			<Target title="settings">
+				<Option output="bin/Debug/settings" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
@@ -154,6 +169,10 @@
 		<Unit filename="register.c">
 			<Option compilerVar="CC" />
 			<Option target="register" />
+		</Unit>
+		<Unit filename="settings.c">
+			<Option compilerVar="CC" />
+			<Option target="settings" />
 		</Unit>
 		<Extensions>
 			<code_completion />

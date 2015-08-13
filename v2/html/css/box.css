@@ -9,6 +9,8 @@
 }
 
 .warningBox{
-	background: #F44 radial-gradient(#FFF 0%, #F44 75%) repeat scroll 0% 0%;
-	background: #F44;
+	background: radial-gradient(#FFF 0%, #F44 75%) repeat scroll 0% 0%;
+	background-color: #F44;
 }
+
+

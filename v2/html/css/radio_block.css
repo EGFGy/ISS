@@ -3,30 +3,21 @@
 input[type="radio"], input[type="checkbox"] {
 	display:none;
 }
-input[type="radio"] + label {
+
+input[type="checkbox"] + label, input[type="radio"] + label{
 	display:inline-block;
+	margin: 4px;
+	width: 80px;
+	height: 50px;
 	padding: 5px;
 	vertical-align:middle;
 	background-color: beige;
 	cursor:pointer;
-    border: 2px solid black;
 	
-	transition: background-color 0.3s ease;
+	transition: background-color 0.2s ease;
 }
-input[type="checkbox"] + label{
-	display:inline-block;
-	vertical-align:middle;
-	width: 15px;
-	height: 15px;
-	background-color: beige;
-	cursor:pointer;
-    border: 2px solid black;
-	
-	transition: background-color 0.3s ease;
-}
-
-input[type="radio"]:checked + label , input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked + label, input[type="radio"]:checked + label{
 	background-color: lightgreen;
-	border: 5px solid green;
-	font-style: 	italic;
 }
+	
+	

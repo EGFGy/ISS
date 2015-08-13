@@ -65,7 +65,7 @@ int main(int argc, char ** argv)
 	//fprintf(stderr, "Hallo vor Post\n");
 	get_CGI_data(&datCGI);
 
-	if(strncmp(datCGI.request_method, "POST", 4) != 0){
+	if(datCGI.request_method != POST){
 		print_exit_failure("Use POST!");
 	}
 

@@ -22,7 +22,7 @@ void init_CGI(cgi * c){
 	c->http_host=NULL;
 	c->POST_data=NULL;
 	c->query_string=NULL;
-	c->request_method=NULL;
+	c->request_method=GET;
 }
 
 /** \brief Aus dem Environment und der Standardeingabe wichtige Daten einlesen
@@ -70,7 +70,8 @@ void get_CGI_data(cgi * gotCGI){
 			//gotCGI->query_string=query_string;
 			gotCGI->query_string=calloc(strlen(query_string)+1, sizeof(char));
 			decodeHEX(query_string, gotCGI->query_string);
-			gotCGI->request_method = request_method;
+			//gotCGI->request_method = request_method;
+			gotCGI->request_method=GET;
 			gotCGI->http_cookies = env_cook;
 			gotCGI->http_host=http_host;
 		}else{
@@ -120,7 +121,8 @@ void get_CGI_data(cgi * gotCGI){
 
 			//gotCGI->POST_data=POST_data;
 			gotCGI->query_string=NULL;
-			gotCGI->request_method=request_method;
+			//gotCGI->request_method=request_method;
+			gotCGI->request_method=POST;
 			gotCGI->http_host=http_host;
 			return;
 		}
@@ -356,6 +358,7 @@ printf("<!doctype html>\n\
 <link rel='stylesheet' href='/css/layouts/pure-min.css' type='text/css'>\n\
 <link rel='stylesheet' href='/css/box.css' type='text/css'>\n\
 <link rel='stylesheet' href='/css/forms.css' type='text/css'>\n\
+<link rel='stylesheet' href='/css/radio_block.css' type='text/css'>\n\
 \n\
 	<!--[if lte IE 8]>\n\
         <link rel='stylesheet' href='/css/layouts/side-menu-old-ie.css' type='text/css'>\n\
@@ -392,12 +395,12 @@ printf("<!doctype html>\n\
 
     if(menu == MAIN){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='#' class='pure-menu-link'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='#' class='pure-menu-link'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }
@@ -414,12 +417,12 @@ printf("<!doctype html>\n\
     }
     if(menu == SETTINGS){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='#' class='pure-menu-link'>Einstellungen</a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'>Einstellungen</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='#' class='pure-menu-link'>Einstellungen</a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'>Einstellungen</a>\n\
 										</li>\n\
 			");
     }
