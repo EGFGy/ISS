@@ -230,7 +230,7 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 		return -1;
 	}
 	char * klaus=NULL;
-	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden und
+	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden
 	if(klaus == NULL){
 		print_exit_failure("Token nicht gefunden");
 	}
@@ -268,7 +268,14 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
  *
  */
 int extract_POST_data(cgi * cgi, const char * property, char ** out){
-	return _extractCGIdata(cgi->POST_data, property, "&", out);
+	if(out==NULL){
+		char * placeholder=NULL;
+		int i= _extractCGIdata(cgi->POST_data, property, "&",&placeholder);
+		if(placeholder)free(placeholder);
+		return i;
+	}else{
+		return _extractCGIdata(cgi->POST_data, property, "&", out);
+	}
 }
 
 /** \brief Cookie-Daten extrahieren, anhand deren Attributnamen

@@ -914,9 +914,15 @@ bool insert_message(message * mes){
 	}
 }
 
+/** \brief	Alle verfügbaren Kurse in alphabetischer Reihenfolge in dass Array "c" speichern
+ *
+ * \param c course**   Array, in dem die Kurse abgelegt werden (muss vorher NULL sein)
+ * \return size_t      Anzahl der Kurse (Größe des Arrays)
+ *
+ */
 size_t get_distinct_courses(course ** c){
 	char * query=NULL;
-	if(asprintf(&query, "SELECT DISTINCT name FROM Kurse") == -1){
+	if(asprintf(&query, "SELECT DISTINCT name FROM Kurse ORDER BY name") == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_courses)");
 	}
 
@@ -954,7 +960,49 @@ size_t get_distinct_courses(course ** c){
 	}
 }
 
+/** \brief  Die Kursliste des Benutzers in die Datenbank schreiben
+ *
+ * \param pers person*  Person mit Login-Daten und Kursliste
+ * \return bool         true: Erfolg; false: kein Erfolg
+ *
+ */
+bool update_user_courses(person * pers){
+	if(pers->courses == NULL){
+		print_exit_failure("Programm falsch (update_user_courses)");
+	}
 
+	char * query=NULL;
+	if(asprintf(&query, "UPDATE Benutzer SET kurse='%s' WHERE id='%d' AND email='%s'", pers->courses, pers->id, pers->email) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (update_user_courses)");
+	}
+
+	MYSQL *my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+        mysql_close(my);
+		return false;
+	}else{
+        mysql_close(my);
+		return true;
+	}
+}
+
+
+
+/**
+ * ----------------------------------------------------------------------------
+ * Ab hier: Funktionen, die nicht direkt mit myssql zu tun haben,
+ * aber dennoch häufig gemeinsam mit den obigen Funktionen aufgerufen werden
+ * ----------------------------------------------------------------------------
+*/
 //Sollte man nicht alle html-bezogenen Funktionen in eine eigen Datei auslagern
 //TODO FEHELER!!!!!!! ( Eckige Klammer-auf geht durch ????
 void clean_string(char * str){
@@ -997,4 +1045,31 @@ char * nlcr_to_htmlbr(char * str){
 	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") );
 	return out;
 
+}
+
+/** \brief 	Einen String der durch Kommata getrennt ist ("1D1, 1M1, 1E5" usw.) in die einzelnen Bestandteil zerlegen
+ *			und seine in einem Array speichern
+ *
+ * \param comma_char char*	Durch Kommata getrennter String
+ * \param str_array char**	Array mit einzelnen STrings
+ * \return int
+ *
+ */
+int comma_to_array(char * comma_char, char ** str_array){
+	if(comma_char == NULL){
+		print_exit_failure("Programm falsch (comma_to_array)");
+	}
+	char * local_comma_char=NULL;
+	asprintf(&local_comma_char, "%s", comma_char);
+	size_t comma_len=strlen(local_comma_char);
+	//*str_array=calloc(comma_len+1, sizeof(char));
+	char * str1=local_comma_char;
+	int j=0;
+	for (local_comma_char; ; j++, str1 = NULL) {
+	   char * token = strtok(str1, ",");
+	   if (token == NULL)break;
+	   //printf("%d: %s\n", j, token);
+	   asprintf(str_array+j, "%s", token);
+   }
+   return j;
 }

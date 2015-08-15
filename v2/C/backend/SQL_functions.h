@@ -80,6 +80,7 @@ bool get_person_by_id(person * pers);
 bool get_person_by_sid(person * pers);
 bool insert_message(message * mes);
 size_t get_distinct_courses(course ** c);
+bool update_user_courses(person * pers);
 
 void clean_string(char * str);
 char * nlcr_to_htmlbr(char * str);
