@@ -7,23 +7,20 @@
 	padding: 5px;
 }*/
 
-.textIn, label{
+.textIn, .decision{
 	margin: 2px;
 	vertical-align: middle;
 	display: inline-block;
 	box-sizing: border-box;
 	max-width: 200px;
 	width: 90%;
-}
 
-
-input{
 	border: 2px solid grey;
 	background: blanchedalmond;
 	transition: background-color 0.5s ease;
 }
 
-input:focus{
+.textIn:focus{
 	border: 2px solid lightred;
 	background-color: lightgreen;
 }
@@ -73,7 +70,7 @@ input:focus{
 		heigh: 1.3em;
 		font-size: 1.2em;
 	}
-	.textIn, label{
+	.textIn, .decision{
 		width: 100%;
 		max-width: 300px;
 	}

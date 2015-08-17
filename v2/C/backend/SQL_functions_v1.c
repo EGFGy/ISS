@@ -37,6 +37,7 @@ void init_person(person * p){
 	p->name=NULL;
 	p->password=NULL;
 	p->sid=0;
+	p->login_time=NULL;
 }
 
 void init_message(message * mes){
@@ -91,7 +92,6 @@ int verify_user(person * pers){
 
 	if(isAcronym){
 		//Es ist sicher eine Lehrer (jemand hat das Kürzel eingegeben)
-
 		//TODO: sql-injection verhindern
 
 		char * sql_query=NULL;
@@ -112,6 +112,7 @@ int verify_user(person * pers){
 			isAcronym=true; //Da wir jetzt eine Person mit Kürzel gefunden haben
 			pers->isTeacher=true;
 		}
+		free(sql_query);
     }else{
 		//Es könnte ein Lehrer oder ein Schüler sein
 
@@ -137,6 +138,7 @@ int verify_user(person * pers){
 			found=false;
 			isAcronym=false;
 		}
+		free(sql_query);
     }
 
 	//Ab hier wurde die SQL-Query für Lehrer oder Schüler ausgeführt.
@@ -145,19 +147,25 @@ int verify_user(person * pers){
 		row=mysql_fetch_row(result);
 		fprintf(stderr, "\nEin Ergebnis!\n Name: %s, Pass: %s, SID: '%s'\n", row[COL_NAME], row[COL_PASS], row[COL_SID]);
 
-
-
 		//Auslesen des Salt
 		char * salt=calloc(SALT_LENGTH+1, sizeof(char));
-		strncat(salt, row[COL_PASS], 1);
-		strncat(salt, row[COL_PASS]+1, 1);
-		pers->password=crypt(pers->password, salt);
+		//strncat(salt, row[COL_PASS], 1);
+		//strncat(salt, row[COL_PASS]+1, 1);
+		for(int i=0; i<SALT_LENGTH; i++){
+			strncat(salt, row[COL_PASS]+i, 1);
+		}
+		char * arg=NULL;
+		asprintf(&arg, "$6$%s$", salt);
+		char * encr=crypt(pers->password, arg);
+		free(pers->password);
+		char * load_pw=NULL;
+		asprintf(&load_pw, "%s%s", salt, encr+strlen(arg));
+		//pers->password=encr+strlen(arg);
 
-		if(strcmp(pers->password, row[COL_PASS]) == 0){
+		if(strcmp(load_pw, row[COL_PASS]) == 0){
 			pers->auth=true;
 
 			//Name holen
-
 			//TODO asprintf 2 -
             //pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
             //strcpy(pers->name, row[COL_NAME]);
@@ -213,7 +221,6 @@ int verify_user(person * pers){
     mysql_free_result(result);
     mysql_close(my);
 
-
     return user_state;
 }
 
@@ -242,7 +249,6 @@ bool detect_convert_acronym(person * pers){
 			uppercase_acr(pers);
 		}
 	}
-
     return isAcronym;
 }
 
@@ -260,7 +266,6 @@ void uppercase_acr(person * pers){
 			p++;
 		}
 	}
-
 }
 
 /** \brief Nutzer mit Name, (ggf. Kürzel) und Passwort in die DB einfügen
@@ -295,22 +300,30 @@ void insert_user(person * pers){
 	while(salt_exists(&salt)){
 		salt_generate(&salt);
 	}
+	char * arg=NULL;
+	asprintf(&arg, "$6$%s$", salt);
 
-	pers->password=crypt(pers->password, salt);
+	char * encr=crypt(pers->password, arg);
+	char * store_pw=NULL;
+	asprintf(&store_pw, "%s%s", salt, encr+strlen(arg));
+	free(arg);
+	free(pers->password);
+
+	//pers->password=encr+strlen(arg);
 
 	char * query=NULL;
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a')",
-					pers->first_name, pers->name, pers->email, pers->password) == -1)
+					pers->first_name, pers->name, pers->email, store_pw) == -1)
 		{
 			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
 	}else{
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
-					pers->first_name, pers->name, pers->email, pers->password, pers->acronym) == -1)
+					pers->first_name, pers->name, pers->email, store_pw, pers->acronym) == -1)
 		{
 			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
@@ -320,6 +333,7 @@ void insert_user(person * pers){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		print_exit_failure("mysql_query failed (insert)");
 	}
+	free(query);
 	mysql_close(my);
 }
 
@@ -334,12 +348,11 @@ void salt_generate(char ** salt){
 	if(!f_random)print_exit_failure("Problem beim generiern des Salt: urandom wurde nicht geoeffnet!");
 	*salt=calloc(SALT_LENGTH+1, sizeof(unsigned char));
 
+	char * letters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./";
+
 	//strcpy(salt, "00");
 	for(int i=SALT_LENGTH; i>0; i--){
-		//fread(salt, 1, 2, f_random);
-		//strcat(salt, fgetc(f_random));
-		sprintf(*salt,"%s%x",*salt,fgetc(f_random));
-		//sprintf(salt,"%c",fgetc(f_random));
+		sprintf(*salt,"%s%c",*salt,letters[fgetc(f_random) % 64]);
 	}
 }
 
@@ -355,7 +368,6 @@ bool salt_exists(char ** salt){
 	strncpy(seekSalt, *salt, SALT_LENGTH);
 
 	char * query=NULL;
-
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
         print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
@@ -381,6 +393,7 @@ bool salt_exists(char ** salt){
 			fprintf(stderr, "Salz gefunden, wörk\n");
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}
 	}
@@ -388,6 +401,7 @@ bool salt_exists(char ** salt){
 	mysql_free_result(result);
 	mysql_close(my);
 
+	free(query);
 	return false;
 }
 
@@ -423,20 +437,22 @@ bool email_exists(char * email){
 		print_exit_failure("mysql_query failed (email_exists)");
 	}else{
 		result = mysql_store_result(my);
-
 		if(mysql_num_rows(result) > 0){
 			fprintf(stderr, "Benutzer gefunden, wörk\n");
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}else{
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return false;
 		}
 	}
-	mysql_free_result(result);
+	mysql_free_result(result); //Was wenn result NULL ist?
 	mysql_close(my);
+	free(query);
 	return false;
 }
 
@@ -451,9 +467,8 @@ bool acronym_exists(char * acronym){
 	if(acronym == NULL){
 		print_exit_failure("Programm falsch, Wörk!");
 	}
+
 	char * query=NULL;
-
-
 	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
         print_exit_failure("Es konnte kein Speicher angefordert werden (acronym_exists)");
 	}
@@ -479,15 +494,18 @@ bool acronym_exists(char * acronym){
 			fprintf(stderr, "Benutzer gefunden, wörk\n");
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}else{
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return false;
 		}
 	}
 	mysql_free_result(result);
 	mysql_close(my);
+	free(query);
 	return false;
 
 }
@@ -528,6 +546,7 @@ int create_session(person * pers){
 	}
     mysql_close(my);
 
+	free(query);
 	return 0;
 }
 
@@ -544,7 +563,6 @@ bool sid_exists(int sid){
 	if(asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_exists)");
 	}
-
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
@@ -567,6 +585,7 @@ bool sid_exists(int sid){
 			fprintf(stderr, "sid gefunden, wörk\n");
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}
 	}
@@ -574,6 +593,7 @@ bool sid_exists(int sid){
 	mysql_free_result(result);
 	mysql_close(my);
 
+	free(query);
 	return false;
 }
 
@@ -601,9 +621,11 @@ bool sid_set_null(person * pers){
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         mysql_close(my);
+        free(query);
 		return false;
 	}else{
         mysql_close(my);
+        free(query);
 		return true;
 	}
 }
@@ -643,12 +665,14 @@ bool verify_sid(person * pers){
 			mysql_close(my);
 
 			pers->auth=true;
+			free(query);
 			return true;
 		}
 		mysql_free_result(result);
 	}
 	pers->auth=false;
     mysql_close(my);
+    free(query);
 	return false;
 }
 
@@ -661,8 +685,6 @@ bool verify_sid(person * pers){
  */
 
 int get_messages(message ** mes, int offset){
-
-	//message * mes=NULL;
 
 	char * query=NULL;
 	int num=0;
@@ -717,6 +739,7 @@ int get_messages(message ** mes, int offset){
 	}
 	mysql_close(my);
 
+	free(query);
 	return num;
 }
 
@@ -755,7 +778,6 @@ bool get_person_by_id(person * pers){
 			MYSQL_ROW row;
 			row=mysql_fetch_row(result);
 
-
 			//Name holen
             pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
             strcpy(pers->name, row[COL_NAME]);
@@ -785,12 +807,14 @@ bool get_person_by_id(person * pers){
 
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
+    free(query);
     return false;
 }
 
@@ -857,12 +881,14 @@ bool get_person_by_sid(person * pers){
 
 			mysql_free_result(result);
 			mysql_close(my);
+			free(query);
 			return true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
+    free(query);
     return false;
 }
 
@@ -907,9 +933,11 @@ bool insert_message(message * mes){
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         mysql_close(my);
+        free(query);
 		return false;
 	}else{
         mysql_close(my);
+        free(query);
 		return true;
 	}
 }
@@ -938,6 +966,7 @@ size_t get_distinct_courses(course ** c){
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         mysql_close(my);
+        free(query);
 		return 0;
 	}else{
 		size_t number=0;
@@ -956,6 +985,7 @@ size_t get_distinct_courses(course ** c){
 			}
 		}
         mysql_close(my);
+        free(query);
 		return number;
 	}
 }
@@ -988,9 +1018,11 @@ bool update_user_courses(person * pers){
 	if(mysql_query(my, query)){
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
         mysql_close(my);
+        free(query);
 		return false;
 	}else{
         mysql_close(my);
+        free(query);
 		return true;
 	}
 }
@@ -1044,7 +1076,6 @@ char * nlcr_to_htmlbr(char * str){
 
 	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") );
 	return out;
-
 }
 
 /** \brief 	Einen String der durch Kommata getrennt ist ("1D1, 1M1, 1E5" usw.) in die einzelnen Bestandteil zerlegen
@@ -1061,12 +1092,9 @@ int comma_to_array(char * comma_char, char ** str_array){
 	}
 	char * local_comma_char=NULL;
 	asprintf(&local_comma_char, "%s", comma_char);
-	size_t comma_len=strlen(local_comma_char);
-	//*str_array=calloc(comma_len+1, sizeof(char));
-	char * str1=local_comma_char;
-	int j=0;
-	for (local_comma_char; ; j++, str1 = NULL) {
-	   char * token = strtok(str1, ",");
+	int j;
+	for (j=0; ; j++, local_comma_char = NULL) {
+	   char * token = strtok(local_comma_char, ",");
 	   if (token == NULL)break;
 	   //printf("%d: %s\n", j, token);
 	   asprintf(str_array+j, "%s", token);

@@ -47,8 +47,8 @@ int main(int argc, char ** argv){
 
 			puts("<div class='content'>");
 			printf("<h2>%s aktuellen Kurse</h2>\n<span>%s</span>", check_person.isTeacher ? "Ihre" : "Deine", check_person.courses);
-			puts("<br><p>Um Kurse auszuw&auml;hlen einfach auf die bunten flächen klicken. Nachdem alle betreffenden Kurse\
-					ausgew&auml;ht wurden auf <em>Speichern</em> klicken.</p>");
+			puts("<br><p>Um Kurse auszuw&auml;hlen einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse\
+					ausgew&auml;lht wurden auf <em>Speichern</em> klicken.</p>");
 
 			puts("<div id='courseSelection'>\n");
 			printf("<form style='border-radius: 1em; padding: 1em;' action='https://%s/cgi-bin/settings.cgi' method='POST'>\n", datCGI.http_host);
@@ -61,9 +61,12 @@ int main(int argc, char ** argv){
 						strstr(check_person.courses, (all_courses+i)->name)!=NULL ? "checked='checked'" : "",
 						(all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name);
 			}
-			puts("<input class='submitButton' style='display: block;' type='submit' value='Speichern'>");
 			//Die Sicherheitsabfrage soll erst dann sichtbar sein, wenn der Nutzer bereits Kurse eingestellt hat
-			if(strcmp(check_person.courses, "n/a") != 0)puts("<input type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
+			if(strcmp(check_person.courses, "n/a") != 0){
+					puts("<br><input onclick='toggleId(this, \"btn_save\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
+			}
+			printf("<br><input id='btn_save' class='submitButton' %s type='submit' value='Speichern'>", strcmp(check_person.courses, "n/a") != 0 ? "style='display: none;'" : "style='display: block;'");
+
 			puts("</form>");
 			puts("</div>");
 
@@ -72,7 +75,7 @@ int main(int argc, char ** argv){
 			puts("</div></div>");
 			puts("</body></html>");
 
-		}else if(datCGI.request_method == POST){
+		}else if(datCGI.request_method == BOTH){
 			//Die Einstellungen sollen verändern werden
 			char * selected_courses=NULL;
 			//Die Liste aller Kurse durchgehen und die ausgewählten in die neue Kursliste eintrage
@@ -87,15 +90,16 @@ int main(int argc, char ** argv){
 			}
 
 			fprintf(stderr, "--------------\nKURSLISTE: %s\n--------------\n\n", selected_courses);
-
-			if(strcmp(check_person.courses, "n/a") == 0){
-				//Die Person hatte noch keine Kurse --> erstes einstellen
-				check_person.courses=selected_courses;
-				update_user_courses(&check_person);
-			}else if(extract_POST_data(&datCGI, "really",NULL) == 0){
-				fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
-				check_person.courses=selected_courses;
-				update_user_courses(&check_person);
+			if(selected_courses != NULL){
+				if(strcmp(check_person.courses, "n/a") == 0){
+					//Die Person hatte noch keine Kurse --> erstes einstellen
+					check_person.courses=selected_courses;
+					update_user_courses(&check_person);
+				}else if(extract_POST_data(&datCGI, "really",NULL) == 0){
+					fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
+					check_person.courses=selected_courses;
+					update_user_courses(&check_person);
+				}
 			}
 
 			//Den Nutzer wieder auf die Einstellungsseite umleiten

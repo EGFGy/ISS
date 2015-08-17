@@ -26,20 +26,21 @@
 #define SQL_ALTERNATE_USER  "root"
 #define SQL_ALTERNATE_PASS  "WUW"
 
-#define SALT_LENGTH 2
+#define SALT_LENGTH 12
 
 
 typedef struct {
-    int id;              // ID der Person
-	char * first_name;   // Vorname
-	char * name;         // Nachname
-	char * password;     // eingegebenes Passwort
-	char * courses;      // Liste der Kurse an denen die Person teilnimmt
-	char * acronym;      // Kürzel der Person (falls vorhanden)
-	char * email;        // E-Mail-Adresse der Person
-	bool auth;           // ist die Person authentifiziert
-	int sid;             // Session-ID
-	bool isTeacher;      // Lehrer ?
+	int id;                 // ID der Person
+	char * first_name;      // Vorname
+	char * name;            // Nachname
+	char * password;        // eingegebenes Passwort
+	char * courses;         // Liste der Kurse an denen die Person teilnimmt
+	char * acronym;         // Kürzel der Person (falls vorhanden)
+	char * email;           // E-Mail-Adresse der Person
+	struct tm * login_time; // Zeit zu der sich der Nutzer angemeldet hat
+	bool auth;              // ist die Person authentifiziert
+	int sid;                // Session-ID
+	bool isTeacher;         // Lehrer ?
 }person;
 
 typedef struct{

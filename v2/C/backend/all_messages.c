@@ -74,8 +74,8 @@ int main(int argc, char ** argv){
 
         if(check_person.isTeacher)puts("<div id='login-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
 			  <label for='ti'>Titel</label><input class='textIn' style='display: block;' name='titel' id='ti' type='text'>\n\
-			  <label for='tex'>Text</label><textarea class='textIn' style='display: block; height: 88px; width: 427px;' name='meldung' id='tex'></textarea>\n\
-			  <input class='submitButton' style='display: block;' type='submit'>\n\
+			  <label for='tex'>Text</label><textarea class='textIn' style='display: block;' name='meldung' id='tex'></textarea>\n\
+			  <input class='submitButton' style='display: block;' type='submit' value='Speichern'>\n\
 			  </form></div>\
 			");
 

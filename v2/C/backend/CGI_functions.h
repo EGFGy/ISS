@@ -3,7 +3,7 @@
 #endif
 
 typedef enum {TEXT, HTML}httpHeaderType;
-typedef enum {POST, GET}httpRequestMethod;
+typedef enum {POST, GET, BOTH}httpRequestMethod;
 typedef enum {TIMETABLE, MAIN, SETTINGS, COURSE}menuSelection;
 
 typedef struct{

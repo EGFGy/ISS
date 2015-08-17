@@ -9,15 +9,21 @@ input.courseselector[type="checkbox"] + label, input[type="radio"] + label{
 	margin: 4px;
 	width: 80px;
 	height: 50px;
-	padding: 5px;
+	text-align: center;
+	line-height: 50px;
 	vertical-align:middle;
 	background-color: beige;
 	cursor:pointer;
+	font-weight: initial;
+	font-family: courrier-new;
 	
 	transition: background-color 0.2s ease;
+	transition: transform 0.2s ease;
 }
 input.courseselector[type="checkbox"]:checked + label, input.courseselector[type="radio"]:checked + label{
 	background-color: lightgreen;
+	font-weight: bold;
+	transform: rotate(-360deg);
 }
 	
 	

@@ -51,7 +51,6 @@ void get_CGI_data(cgi * gotCGI){
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
 	if(strncmp(request_method, "POST", 4) != 0){
-
 	//TODO: FIX THIS !!!
 		if(strncmp(request_method, "GET", 3) == 0){
 			//TODO: Test this!
@@ -101,12 +100,32 @@ void get_CGI_data(cgi * gotCGI){
 			}
 
 			char * pch;
-
 			//Alle '+' durch Leerzeichen ersetzen
 			for(int i=0; i<content_length; i++){
-
 				pch=memchr(POST_data, '+', content_length);
 				if(pch !=NULL) *pch=' ';
+			}
+
+
+			//Wenn zusätzlich auch noch ein QUERY_STRING da ist, diesen auch einlesen
+			if(strlen(getenv("QUERY_STRING")) > 0){
+				char * query_string=getenv("QUERY_STRING");
+				if(query_string == NULL){
+					print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
+				}
+				fprintf(stderr, "(BOTH) QUERY_STRING: '%s'\n", query_string);
+
+				char * pch;
+				int query_len=strnlen(query_string, content_max);
+				//Alle '+' durch Leerzeichen ersetzen
+				for(int i=0; i<query_len; i++){
+					pch=memchr(query_string, '+', query_len);
+					if(pch !=NULL) *pch=' ';
+				}
+				gotCGI->query_string=query_string;
+				gotCGI->request_method=BOTH;
+			}else{
+				gotCGI->request_method=POST;
 			}
 			gotCGI->content_length=content_length;
 			gotCGI->http_cookies=env_cook;
@@ -119,10 +138,6 @@ void get_CGI_data(cgi * gotCGI){
 			//fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
 
 
-			//gotCGI->POST_data=POST_data;
-			gotCGI->query_string=NULL;
-			//gotCGI->request_method=request_method;
-			gotCGI->request_method=POST;
 			gotCGI->http_host=http_host;
 			return;
 		}
@@ -356,7 +371,7 @@ printf("<!doctype html>\n\
 <meta name='description' content='%s'>\n\
 <meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />\n\
 <meta http-equiv='Pragma' content='no-cache' />\n\
-<meta http-equiv='Expires' content='0' />\n\
+<meta http-equiv='expires' content='0' />\n\
 <link rel='shortcut icon' href='/favicon.png' />\n\
 \n\
 <title>InfoWall -- %s</title>\n\
@@ -450,7 +465,6 @@ printf("<!doctype html>\n\
                         <h2>%s</h2>\n\
                 </div>\n\
                 \n\
-                <!-- dynamischer Inhalt ab hier -->\n\
-			", title, descr);
+                <!-- dynamischer Inhalt ab hier -->\n", title, descr);
 
 }

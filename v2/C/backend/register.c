@@ -15,7 +15,7 @@ int main(int argc, char ** argv){
 	cgi datCGI;
 	init_CGI(&datCGI);
 	get_CGI_data(&datCGI);
-	if(datCGI.request_method != POST){
+	if(datCGI.request_method == GET){
 		print_exit_failure("Use POST!");
 	}
 
