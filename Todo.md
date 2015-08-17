@@ -5,7 +5,7 @@
 - [ ] Login + Datenbank (mySQL)
 - [ ] SQL-injection verhindern
 - [ ] Passwörter richtig speichern (Verschlüsselt + Salt)
-- [ ] HTML-Seiten erzeugen die nach dem Lopgin erscheinen
+- [ ] HTML-Seiten erzeugen die nach dem Login erscheinen
 - [ ] Meldungen / Nachrichten für Schüler 
 - [ ] Stunden / Vertretungsplan
 	- [ ] HTML analysieren ODER Vertretungsplan-Rohdaten
