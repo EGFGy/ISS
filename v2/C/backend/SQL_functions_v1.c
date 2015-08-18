@@ -228,7 +228,7 @@ int verify_user(person * pers){
  *
  * \param pers person*  Personen-Struktur
  * \return bool         true: es gibt ein Kürzel, false: es ist kein Kürzel.
- *  Falls 'email' genau drei Buchstabe lang ist wird der Inhalt in das Kürzel verschoben und
+ *  Falls 'email' genau drei Buchstaben lang ist und ein '@' beinhaltet wird der Inhalt in das Kürzel verschoben und
  *  zu nur Großbuchstaben umgewandelt.
  */
 bool detect_convert_acronym(person * pers){
@@ -238,7 +238,7 @@ bool detect_convert_acronym(person * pers){
 		print_exit_failure("Programm falsch!");
 	}
 
-	if(strlen(pers->email) > 3){
+	if(strlen(pers->email) > 3 || strchr(pers->email, '@') != NULL){
 		isAcronym=false;
 	}else{
 		if(strlen(pers->email) == 3){

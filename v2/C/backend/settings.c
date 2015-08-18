@@ -48,19 +48,46 @@ int main(int argc, char ** argv){
 			puts("<div class='content'>");
 			printf("<h2>%s aktuellen Kurse</h2>\n<span>%s</span>", check_person.isTeacher ? "Ihre" : "Deine", check_person.courses);
 			puts("<br><p>Um Kurse auszuw&auml;hlen einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse\
-					ausgew&auml;lht wurden auf <em>Speichern</em> klicken.</p>");
+					ausgew&auml;hlt wurden auf <em>Speichern</em> klicken.</p>");
 
 			puts("<div id='courseSelection'>\n");
-			printf("<form style='border-radius: 1em; padding: 1em;' action='https://%s/cgi-bin/settings.cgi' method='POST'>\n", datCGI.http_host);
+			puts("<table class='pure-table pure-table-bordered'>\n\
+				<tr><td>Klasse:<td>\n\
+						<select id='grade' onchange='toggleLetter();'>\n\
+							<option value='9'>9</option>\n\
+							<option value='10'>10</option>\n\
+							<option selected='selected' value='11'>11</option>\n\
+							<option value='12'>12</option>\n\
+						</select>\n\
+						<select style='display: none;' id='letter'>\n\
+							<option selected='selected' value='a'>a</option>\n\
+							<option value='b'>b</option>\n\
+							<option value='c'>c</option>\n\
+							<option value='d'>d</option>\n\
+							<option value='e'>e</option>\n\
+							<option value='f'>f</option>\n\
+						</select>\n\
+						<button onclick='selectOnly();'>Filter</button>\n\
+						</td>\n\
+						</tr>\n\
+			<tr>\n\
+			<td>Suche nach Text:</td> <td><input id='search-string' onkeydown='if (event.keyCode == 13)searchString(); ' type='text'><button onclick='searchString();'>Suchen</button></td>\n\
+			</tr>\n\
+			</table>");
+
+			puts("<div id='courses'>");
+			printf("<form style='border-radius: 1em; padding: 1em;' action='https://%s/cgi-bin/settings.cgi?1234' method='POST'>\n", datCGI.http_host);
 
 			//Blöcke mit Kursbezeichnungen ausgeben
 			for(size_t i=0; i<num_max_courses; i++){
 				//TODO: Kurse in denen die Person schon ist einfärben
 				//(checked="checked") jeweils hinzufügen
-				printf("<input class='courseselector' type='checkbox' %s id='%s' name='%s'/><label for='%s'>%s</label>\n",
+				printf("<input class='courseselector' type='checkbox' %s id='%s' name='%s'></input><label for='%s'>%s</label>\n",
 						strstr(check_person.courses, (all_courses+i)->name)!=NULL ? "checked='checked'" : "",
 						(all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name);
 			}
+			puts("</div>"); // zu 'courses'
+
 			//Die Sicherheitsabfrage soll erst dann sichtbar sein, wenn der Nutzer bereits Kurse eingestellt hat
 			if(strcmp(check_person.courses, "n/a") != 0){
 					puts("<br><input onclick='toggleId(this, \"btn_save\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");

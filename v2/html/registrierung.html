@@ -111,7 +111,7 @@ function checkDatEmail(field)
 	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
 		<p>Geben sie Ihre Personendaten ein!</p>
 		<input id="UserName" class="textIn" placeholder="Vorname" name="name_vor" type="text" mozactionhint="next" required />
-		<input id="UserName" class="textIn" placeholder="Name" name="name" type type="text" mozactionhint="next" required />
+		<input id="UserName" class="textIn" placeholder="Name" name="name" type="text" mozactionhint="next" required />
 		<input id="Email" class="textIn" placeholder="E-Mail" name="email" type="email" onblur="checkDatEmail(this);" mozactionhint="next" required />
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="teacher" name="teach" value="true"><label for="teacher" class="decision">Lehrer</label></input>
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="pupil" name="teach" value="false" checked="checked"><label for="pupil" class="decision">Schüler</label></input>

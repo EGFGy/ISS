@@ -58,9 +58,7 @@ int main(int argc, char ** argv)
 	cgi datCGI;
 	init_CGI(&datCGI);
 	person login_person;
-	person already_logged_in_person;
 	init_person(&login_person);
-	init_person(&already_logged_in_person);
 
 	//fprintf(stderr, "Hallo vor Post\n");
 	get_CGI_data(&datCGI);
@@ -92,8 +90,11 @@ int main(int argc, char ** argv)
 	//TODO: Verhindern, dass sich ein anderer Nutzer vom selben Rechner aus einloggt wenn der erste noch nicht abgemeldet ist
 	//(zweimaliges Anmelden verhindern)
 
-/*
+	//Das ist sehr unwahrscheinlich
+	/*
 	if(datCGI.http_cookies != NULL){
+		person already_logged_in_person;
+		init_person(&already_logged_in_person);
 
 		char * cook_sid=NULL;
 		if(extract_COOKIE_data(&datCGI, "EMAIL", &already_logged_in_person.email) == 0 && extract_COOKIE_data(&datCGI, "SID", &cook_sid) == 0){

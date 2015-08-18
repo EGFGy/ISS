@@ -32,8 +32,8 @@ function menuShowHide(e) {
     
 function toggleId(it, thatId){
 	if(it.checked){
-		document.getElementById(thatId).style='display: block;';
+		document.getElementById(thatId).style.display='block';
 	}else{
-		document.getElementById(thatId).style='display: none;';
+		document.getElementById(thatId).style.display='none';
 	}
 }

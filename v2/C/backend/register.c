@@ -45,19 +45,35 @@ int main(int argc, char ** argv){
 		reg_person.isTeacher=false;
 	}
 
-	fprintf(stderr, "\nnow comes da htmlz\n");
+	//fprintf(stderr, "\nnow comes da htmlz\n");
 	insert_user(&reg_person);
 
-	httpHeader(TEXT);
-	printf("%s\n", datCGI.POST_data);
+	httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
+	httpHeader(HTML);
+	//printf("%s\n", datCGI.POST_data);
 
-	puts("Erhaltene Daten:\n");
-	printf("CONTENT_LENGTH: %d -- REQUEST_METHOD: %s\n", datCGI.content_length, datCGI.request_method);
+	print_html_head("Passwort erneut eingeben", "Verifikation");
+
+	printf("<body>\n\
+		<div id='login-form'>\n\
+		<p>Passwort zum Anmelden eingeben</span></p>\n\
+		<form method='post' action='/cgi-bin/login.cgi' style='border-radius: 1em; padding: 1em;' autocomplete='off'>\n\
+		<input type='hidden' name='email' value='%s' />\n\
+		<input class='textIn' placeholder='Passwort' type='password' id='pass' name='pass' required>\n\
+		<button class='submitButton' type='submit'>Anmelden*</button>\n\
+		</form>\n\
+		<small>* Cookies müssen aktiviert sein!</small>\n\
+		</div>\n\
+	</body>\n\
+</html>\n", reg_person.email);
+
+	/*puts("Erhaltene Daten:\n");
+	printf("CONTENT_LENGTH: %d\n", datCGI.content_length);
 	printf("Name:           %s\nPassword:       %s\n", reg_person.name, reg_person.password);
 	printf("Kuerzel:        %s\nTeach:          %s\n", reg_person.acronym, teach);
 	printf("accepted TOS:   %s\n\n", acceptTOS);
 
-	printf("Post Data:      %s\n", datCGI.POST_data);
+	printf("Post Data:      %s\n", datCGI.POST_data);*/
 
 	exit(0);
 }

@@ -352,6 +352,8 @@ void print_html_head(char * descr, char * title){
 	<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />\n\
 	<meta http-equiv='Pragma' content='no-cache' />\n\
 	<meta http-equiv='Expires' content='0' />\n\
+	<link rel='stylesheet' href='/css/forms.css'>\n\
+	<link rel='shortcut icon' href='/favicon.png' />\n\
 	<title>InfoWall -- %s</title>\n\
 	</head>\n\
 ",descr, title );
@@ -390,6 +392,7 @@ printf("<!doctype html>\n\
     <!--<![endif]-->\n\
 <!-- Modified http://purecss.io/js/ui.js -->\n\
 <script src='/js/toggle.js'></script>\n\
+<script src='/js/filter.js'></script>\n\
 \n\
 </head>\n\
 <body>\n\
