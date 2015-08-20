@@ -56,7 +56,7 @@ int main(int argc, char ** argv){
 
 	printf("<body>\n\
 		<div id='login-form'>\n\
-		<p>Passwort zum Anmelden eingeben</span></p>\n\
+		<p><span>Herzlich wilkommen <span style='font-weight: bold;'>%s %s.</span><br>Bitte %s zum Anmelden %s Passwort ein</p>\n\
 		<form method='post' action='/cgi-bin/login.cgi' style='border-radius: 1em; padding: 1em;' autocomplete='off'>\n\
 		<input type='hidden' name='email' value='%s' />\n\
 		<input class='textIn' placeholder='Passwort' type='password' id='pass' name='pass' required>\n\
@@ -65,7 +65,7 @@ int main(int argc, char ** argv){
 		<small>* Cookies müssen aktiviert sein!</small>\n\
 		</div>\n\
 	</body>\n\
-</html>\n", reg_person.email);
+</html>\n",reg_person.first_name, reg_person.name, reg_person.isTeacher ? "geben Sie" : "gib", reg_person.isTeacher ? "Ihr" : "dein" ,reg_person.email);
 
 	/*puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d\n", datCGI.content_length);

@@ -71,7 +71,7 @@ int main(int argc, char ** argv){
 						</td>\n\
 						</tr>\n\
 			<tr>\n\
-			<td>Suche nach Text:</td> <td><input id='search-string' onkeydown='if (event.keyCode == 13)searchString(); ' type='text'><button onclick='searchString();'>Suchen</button></td>\n\
+			<td>Kursname suchen:</td> <td><input id='search-string' onkeydown='if (event.keyCode == 13)searchString(); ' type='text'><button onclick='searchString();'>Suchen</button></td>\n\
 			</tr>\n\
 			</table>");
 
