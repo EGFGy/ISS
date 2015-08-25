@@ -72,10 +72,10 @@ int main(int argc, char ** argv){
 		//Nachrichten ab hier
 		puts("<div class='content'>");
 
-        if(check_person.isTeacher)puts("<div id='login-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
-			  <label for='ti'>Titel</label><input class='textIn' style='display: block;' name='titel' id='ti' type='text'>\n\
-			  <label for='tex'>Text</label><textarea class='textIn' style='display: block;' name='meldung' id='tex'></textarea>\n\
-			  <input class='submitButton' style='display: block;' type='submit' value='Speichern'>\n\
+        if(check_person.isTeacher)puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
+			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text'>\n\
+			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex'></textarea>\n\
+			  <input style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
 			  </form></div>\
 			");
 
@@ -112,7 +112,7 @@ int main(int argc, char ** argv){
 			printf("<a class='pure-menu-link' style='display: inline;' href='/cgi-bin/all_messages.cgi?offset=%d'>Neuere</a>", offset-1);
 		}
 		if(!no_older)printf("<a class='pure-menu-link' style='display: inline;' href='/cgi-bin/all_messages.cgi?offset=%d'>&Auml;ltere</a>", offset+1);
-		puts("</div>");
+		puts("</div><br>");
 
 		puts("</div></div>");
 		puts("</body></html>");

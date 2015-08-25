@@ -51,15 +51,16 @@ int main(int argc, char ** argv){
 					ausgew&auml;hlt wurden auf <em>Speichern</em> klicken.</p>");
 
 			puts("<div id='courseSelection'>\n");
+			puts("<span style='font-weight: bold;'>Filter*</span>\n");
 			puts("<table class='pure-table pure-table-bordered'>\n\
 				<tr><td>Klasse:<td>\n\
-						<select id='grade' onchange='toggleLetter();'>\n\
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white;' id='grade' onchange='toggleLetter();'>\n\
 							<option value='9'>9</option>\n\
 							<option value='10'>10</option>\n\
 							<option selected='selected' value='11'>11</option>\n\
 							<option value='12'>12</option>\n\
 						</select>\n\
-						<select style='display: none;' id='letter'>\n\
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white; display: none;' id='letter'>\n\
 							<option selected='selected' value='a'>a</option>\n\
 							<option value='b'>b</option>\n\
 							<option value='c'>c</option>\n\
@@ -67,11 +68,12 @@ int main(int argc, char ** argv){
 							<option value='e'>e</option>\n\
 							<option value='f'>f</option>\n\
 						</select>\n\
-						<button onclick='selectOnly();'>Filter</button>\n\
+						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white;' onclick='selectOnly(this);'>Filter anwenden</button>\n\
 						</td>\n\
 						</tr>\n\
 			<tr>\n\
-			<td>Kursname suchen:</td> <td><input id='search-string' onkeydown='if (event.keyCode == 13)searchString(); ' type='text'><button onclick='searchString();'>Suchen</button></td>\n\
+			<td>Kursname suchen:</td> <td><input id='search-string' onkeydown='if (event.keyCode == 13)searchString(null); ' type='text'>");
+					puts("  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='searchString(this);' >suchen</button></td>\n\
 			</tr>\n\
 			</table>");
 
@@ -95,11 +97,12 @@ int main(int argc, char ** argv){
 			printf("<br><input id='btn_save' class='submitButton' %s type='submit' value='Speichern'>", strcmp(check_person.courses, "n/a") != 0 ? "style='display: none;'" : "style='display: block;'");
 
 			puts("</form>");
-			puts("</div>");
+			puts("<small>* erfordert Javascript</small>");
+			puts("</div>"); //zu content
 
-			puts("</div>");
+			puts("</div>"); //zu main
 
-			puts("</div></div>");
+			puts("</div></div>"); //immer da
 			puts("</body></html>");
 
 		}else if(datCGI.request_method == BOTH){
