@@ -13,6 +13,7 @@ input.courseselector[type="checkbox"] + label, input[type="radio"] + label{
 	line-height: 50px;
 	vertical-align:middle;
 	background-color: beige;
+	border: 1px solid transparent;
 	cursor:pointer;
 	font-weight: initial;
 	font-family: courrier-new;

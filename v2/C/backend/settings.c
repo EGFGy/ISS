@@ -84,7 +84,7 @@ int main(int argc, char ** argv){
 			for(size_t i=0; i<num_max_courses; i++){
 				//TODO: Kurse in denen die Person schon ist einfärben
 				//(checked="checked") jeweils hinzufügen
-				printf("<input class='courseselector' type='checkbox' %s id='%s' name='%s'></input><label for='%s'>%s</label>\n",
+				printf("<input class='courseselector' type='checkbox' %s id='%s' name='%s'><label for='%s'>%s</label>\n",
 						strstr(check_person.courses, (all_courses+i)->name)!=NULL ? "checked='checked'" : "",
 						(all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name);
 			}

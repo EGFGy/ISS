@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <math.h>
 #include <my_global.h>
+
+#include <mysql.h>
+
 #include <mysql.h>
 #include <ctype.h>
 #include <time.h>
@@ -25,6 +28,11 @@
 Identifikation per E-mail oder Kürzel (base5)
 */
 
+/*
+extern int asprintf (char **__restrict __ptr,
+                     const char *__restrict __fmt, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 3))) __wur;
+*/
 
 void init_person(person * p){
 	p->acronym=NULL;

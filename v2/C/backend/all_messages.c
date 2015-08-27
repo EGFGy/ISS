@@ -108,10 +108,11 @@ int main(int argc, char ** argv){
 		puts("<div style='text-align: center;'>");
 
 		if(offset>0){
-			puts("<a class='pure-menu-link' style='display: inline;' href='/cgi-bin/all_messages.cgi'>Neueste</a>");
-			printf("<a class='pure-menu-link' style='display: inline;' href='/cgi-bin/all_messages.cgi?offset=%d'>Neuere</a>", offset-1);
+			printf("<a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/all_messages.cgi?offset=%d'>&#x2770; Neuere</a>", offset-1);
+			puts("<a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/all_messages.cgi'>Neueste &#x21ef;</a>");
+
 		}
-		if(!no_older)printf("<a class='pure-menu-link' style='display: inline;' href='/cgi-bin/all_messages.cgi?offset=%d'>&Auml;ltere</a>", offset+1);
+		if(!no_older)printf("<a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/all_messages.cgi?offset=%d'>&Auml;ltere &#x2771;</a>", offset+1);
 		puts("</div><br>");
 
 		puts("</div></div>");

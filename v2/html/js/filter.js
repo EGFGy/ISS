@@ -38,11 +38,13 @@ function selectOnly(){
 		
 		
 		it.style.backgroundColor='lightgreen';
+		it.innerHTML='zur&uuml;ck';
 		gradeFilter=true;
 		oldGrade=grade;
 		oldLetter=letter;
 	}else{
 		reset();
+		it.innerHTML='Filter anwenden';
 		oldGrade='';
 		oldLetter='';
 		it.style.backgroundColor='white';
@@ -79,10 +81,12 @@ function searchString(){
 		}
 		
 		it.style.backgroundColor='lightgreen';
+		it.innerHTML='zur&uuml;ck';
 		stringFilter=true;
 		oldString=str;
 	}else{
 		reset();
+		it.innerHTML='suchen';
 		oldString='';
 		stringFilter=false;
 		it.style.backgroundColor='white';

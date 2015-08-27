@@ -16,14 +16,15 @@
 	width: 90%;
 }
 
-input[type="text"], input[type="password"], textarea{
+input, textarea/*[type="text"], input[type="password"], textarea*/{
 	box-sizing: border-box;
 	border: 2px solid grey;
 	background: blanchedalmond;
 	transition: background-color 0.5s ease;
 }
 
-.textIn:focus, input[type="text"]:focus, input[type="password"]:focus, textarea:focus{
+/*.textIn:focus, input[type="text"]:focus, input[type="password"]:focus, textarea:focus{*/
+input:focus, textarea:focus{
 	border: 2px solid lightred;
 	background-color: lightgreen;
 }
@@ -98,7 +99,11 @@ input[type="text"], input[type="password"], textarea{
 #tex{
 	display: block;
 	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
 	height: 100px;
+	min-height: 100px;
+	max-height: 300px;
 }
 
 #ti{
