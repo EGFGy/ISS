@@ -1,0 +1,61 @@
+Tabellen
+Benutzer:
+id                          |email       |name        |vorname    |passwort     |kurse       |kuerzel    |sid
+INT UNSIGNED AUTO_INCREMENT |VARCHAR(50) |VARCHAR(50) |VARCHAR(50)|VARCHAR(200) |VARCHAR(200)|VARCHAR(3) |INT
+
+Meldungen
+id                          |titel        |meldung      |kurse        |erstellerID  |erstellt
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(120) |VARCHAR(900) |VARCHAR(200) |INT UNSIGNED |DATETIME
+
+
+Beispiele:
+Schüler:
+id:       276
+vorname:  "Max"
+name:     "Mustermann"
+passwort: "gw039ics07" 
+kurse:    "1D1,1E3,1G2,1+SK2,1MU2,1M1,1GEO3"
+kuerzel:  NULL (Schüler haben kein Kürzel, daher unterscheiden sie sich von Lehrern)
+
+Lehrerin:
+name:    "Miriam Musterfrau"
+kuerzel: "MUF"
+kurse:   "1D1,10fG,2F2"
+
+Format:
+vorname:    <Vorname>
+name:       <Nachname>
+passwort:   <Salt><Hash des Passwortes>
+kurse:
+            bei Unter- und Mittelstufe: <Klassenstufe (1-2 Zeichen)><Klassenbuchstabe (klein, 1 Zeichen)><Kursbezeichnung (groß, 1-?)>
+            bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß, 1-? kann '_' enthalten) ><opt: Kursnummer>
+id:         [0-9] (usw.)
+kuerzel:    [A-Za-z][A-Za-z][A-Za-z]
+sid:        [0-9] (usw.)
+
+Erklärung:
+
+In der Tabelle "Benutzer" werden alle registrierten Personen gespeichert.
+Anhand der ID sind sie Eindeutig identifizierbar.
+Die Anmeldung soll über den in "email" gespeicherten String erfolgen.
+Zudem besteht die Möglichkeit, dass sich Lehrer über ihr "kuerzel" einloggen.
+--> Das Programm, das die Daten der HTML-Seite übermittelt bekommt,
+    erkennt aus wie vielen Buchstaben der Login-Name besteht
+    --> es kann, sofern der Name nur aus drei Buchstaben besteht
+        (die dann in nur Großbuchstaben umgewandelt werden),
+        auch in der Lehrer-Tabelle nach dem entsprechenden Kürzel suchen.
+
+Vorteile: deutlich EINFACHER (!!) als "Datenbank_Idee_2"
+          Adressen können ja später immer noch hinzugefügt werden
+          (eigene Tabelle mit ID als Primärschlüssel usw.)
+
+Die E-Mail soll wegen ihrer Einzigartigkeit zur Identifikation verwendet werden.
+
+
+In der Tabelle Meldungen werden alle Meldungen (allgemein und kursbezogen) gespeichert.
+Jede Meldung kann über ihre "id" identifiziert werden und hat einen Ersteller ("erstellerID").
+Im Feld "meldung" soll zuerst nur Text gespeichert werden, später HTML-Code.
+In "kurse" werden die Kurse gespeichert für die die Nachricht bestimmt ist (z.B. "1e5", "all" usw.).
+Auch das Datum an dem die Nachricht erstellt wurde soll gespeichert werden --> "erstellt"
+
+

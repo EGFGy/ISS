@@ -1,0 +1,22 @@
+@charset "utf-8";
+.messageBox, .courseBox{
+	border: 2px solid;
+	border-radius: 0.8em;
+	background: radial-gradient(#FFF 0%, #FF4 75%) repeat scroll 0% 0%;
+	background-color: #FF0;
+	padding: 5px;
+	/*margin-bottom: 5px;*/
+	margin: 5px auto;
+}
+
+.warningBox{
+	background: radial-gradient(#FFF 0%, #F44 75%) repeat scroll 0% 0%;
+	background-color: #F44;
+}
+
+.courseBox{
+	background: radial-gradient(#FFF 0%, #1975B3 75%) repeat scroll 0% 0%;
+	background-color: #1975B3;
+}
+
+
