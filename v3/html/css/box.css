@@ -31,7 +31,7 @@
 	border: 2px solid rgb(100, 150, 140)
 }
 
-table{
+.time-table, .sub-table{
 	/*border: 1px solid black;*/
 	margin: 0 auto;
 	border-collapse: collapse;
@@ -42,28 +42,40 @@ table{
 	color: black;
 }
 
-th{
+.sub-table{
+	border: none;
+	margin: none;
+}
+
+.time-table th{
 	border: 1px solid red;
 	width: 16%;
 	height: 2em;
 }
 
-td{
+.time-table td{
 	border: 1px solid black;
 	padding: 0px;
 	height: 2em;
 }
 
-.sub-field{
+.time-table td a{
+	text-decoration: none;
+}
+
+.time-table td a :hover{
+	background-color: #222;
+	color: white;
+}
+
+.time-table .sub-field{
 	width: 33%;
 	text-align: center;
 	border: none;
 	padding: 2px;
 }
-
-.sub-table{
-	border: none;
-	margin: none;
+.day-active{
+	background-color: lightgreen;
 }
 
 
