@@ -34,6 +34,9 @@ CSS-Vorlagen -- http://purecss.io/
 
 auch: [vhf/free-programming-books](https://github.com/vhf/free-programming-books)  
 
+### Konfigruation für sendmail
+http://linuxconfig.org/configuring-gmail-as-sendmail-email-relay
+
 
 # Quelltext der hilfreich sein könnte  
 
