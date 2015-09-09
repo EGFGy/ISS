@@ -56,7 +56,7 @@ int main(int argc, char ** argv){
 
 	printf("<body>\n\
 		<div id='login-form'>\n\
-		<p><span>Herzlich wilkommen <span style='font-weight: bold;'>%s %s.</span><br>Bitte %s zum Anmelden %s Passwort ein</p>\n\
+		<p><span>Herzlich willkommen <span style='font-weight: bold;'>%s %s.</span><br>Bitte %s zum Anmelden %s Passwort ein</p>\n\
 		<form method='post' action='/cgi-bin/login.cgi' style='border-radius: 1em; padding: 1em;' autocomplete='off'>\n\
 		<input type='hidden' name='email' value='%s' />\n\
 		<input class='textIn' placeholder='Passwort' type='password' id='pass' name='pass' required>\n\

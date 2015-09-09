@@ -68,6 +68,12 @@ Für Zusätzliche Dinge
 	in das Hauptverzeichnis des nginx-Servers kopieren 
 	(nach derzeitiger Konfiguration: /usr/share/nginx/html)
 
+	Die mysql-Datenbank erzeugen und mihilfe des "mysqldump" ./mysql_base/base5.sql
+	die Struktur der Datenbank herstellen
+
+	echo "CREATE DATABASE base5" | mysql -p -u root
+	cat ./mysql_base/base5 | mysql -p -u root base5
+
 4. (Optional) C-Programme kompilieren
 	Falls die schon kompilierten Programme in ./html/cgi-bin/ nicht ausführbar sind
 	(CPU Architektur usw. passt nicht) müssen diese neu kompiliert werden.

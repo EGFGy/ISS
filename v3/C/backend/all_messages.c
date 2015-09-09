@@ -32,7 +32,7 @@ int main(int argc, char ** argv){
 	}
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
 
-	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
+	//Anhand der SID und der E-Mail-Adresse wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);

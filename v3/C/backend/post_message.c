@@ -52,9 +52,6 @@ int main(int argc, char ** argv){
 
 		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
 
-		//TODO: diese Programm soll auch für Kursbezogene Meldungen funktionieren
-
-
 		insert_message(&mes);
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi" );

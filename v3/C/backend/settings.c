@@ -144,6 +144,7 @@ int main(int argc, char ** argv){
 						#ifdef DEBUG
 						fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
 						#endif // DEBUG
+						//TODO Überprüfen ob sich die Kurse nicht überschneiden
 						check_person.courses=selected_courses;
 						update_user_courses(&check_person);
 					}
@@ -178,7 +179,6 @@ int main(int argc, char ** argv){
 							httpSetCookie("EMAIL", new_email);
 							//httpSetCookie("SID", );
                         }else{
-							//print_exit_failure("Geben sie eine Gültige E-Mail-Adresse ein!");
 							char * url=NULL;
 							asprintf(&url, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
 							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", url);
