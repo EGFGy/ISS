@@ -13,8 +13,8 @@
 //#define DEBUG
 
 int main(int argc, char ** argv){
-    cgi datCGI;
-    init_CGI(&datCGI);
+	cgi datCGI;
+	init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
 
@@ -23,12 +23,12 @@ int main(int argc, char ** argv){
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
-    extract_COOKIE_data(&datCGI, "SID", &s_sid);
-    extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
-    check_person.sid=atoi(s_sid);
+	extract_COOKIE_data(&datCGI, "SID", &s_sid);
+	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
+	check_person.sid=atoi(s_sid);
 
 
-    if(verify_sid(&check_person)){
+	if(verify_sid(&check_person)){
 		//httpHeader(TEXT);
 		get_person_by_sid(&check_person);
 		message mes;
@@ -61,8 +61,8 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
 
 
-    }else{
-    	char * redirectString=NULL;
+	}else{
+		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
     }

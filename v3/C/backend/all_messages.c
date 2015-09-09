@@ -25,8 +25,8 @@ int main(int argc, char ** argv){
 		httpSetCookie("EMAIL", "NULL");
 		httpSetCookie("SID", "0");
 		httpHeader(HTML);
-        print_html_head("Benutzung von Cookies", "Cookies");
-        puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
+		print_html_head("Benutzung von Cookies", "Cookies");
+		puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
 		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
 		exit(0);
 	}
@@ -34,9 +34,9 @@ int main(int argc, char ** argv){
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
-    extract_COOKIE_data(&datCGI, "SID", &s_sid);
-    extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
-    check_person.sid=atoi(s_sid);
+	extract_COOKIE_data(&datCGI, "SID", &s_sid);
+	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
+	check_person.sid=atoi(s_sid);
 
 
     if(verify_sid(&check_person)){

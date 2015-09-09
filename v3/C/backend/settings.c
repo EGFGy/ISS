@@ -14,8 +14,8 @@
 
 
 int main(int argc, char ** argv){
-    cgi datCGI;
-    init_CGI(&datCGI);
+	cgi datCGI;
+	init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
 
@@ -24,9 +24,9 @@ int main(int argc, char ** argv){
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
-    extract_COOKIE_data(&datCGI, "SID", &s_sid);
-    extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
-    check_person.sid=atoi(s_sid);
+	extract_COOKIE_data(&datCGI, "SID", &s_sid);
+	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
+	check_person.sid=atoi(s_sid);
 
 
 
@@ -35,7 +35,7 @@ int main(int argc, char ** argv){
 
 		course * all_courses=NULL;
 		size_t num_max_courses=0;
-        num_max_courses=get_distinct_courses(&all_courses); //Alle vorhandenen Kurse in alphabetischer Reihenfolge holen
+		num_max_courses=get_distinct_courses(&all_courses); //Alle vorhandenen Kurse in alphabetischer Reihenfolge holen
 
 		get_person_by_sid(&check_person);
 		if(datCGI.request_method == GET){
@@ -194,8 +194,8 @@ int main(int argc, char ** argv){
 			httpRedirect(redirectString);
 		}
     }else{
-    	fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %s", s_sid, check_person.email);
-    	httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
+		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %s", s_sid, check_person.email);
+		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
     	char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);

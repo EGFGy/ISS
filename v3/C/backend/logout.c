@@ -17,16 +17,16 @@ int main(int argc, char ** argv){
 	init_person(&logout_person);
 
 	char * s_sid=NULL;
-    get_CGI_data(&datCGI);
-    if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
+	get_CGI_data(&datCGI);
+	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
 
-    extract_COOKIE_data(&datCGI, "SID", &s_sid);
-    extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
-    logout_person.sid=atoi(s_sid);
+	extract_COOKIE_data(&datCGI, "SID", &s_sid);
+	extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
+	logout_person.sid=atoi(s_sid);
 
-    httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
+	httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 
-    if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
+	if(!(logout_person.sid == 0 && strcmp(logout_person.email, "NULL")==0)){
 
 		if(sid_exists(logout_person.sid)){
 			httpSetCookie("EMAIL", "NULL");
@@ -44,7 +44,7 @@ int main(int argc, char ** argv){
 		}else{
 			print_exit_failure("Bereits abgemeldet");
 		}
-    }else{
+	}else{
 		print_exit_failure("Bereits abgemeldet (cookies waren schon 0 oder \"NULL\")");
 	}
 

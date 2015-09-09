@@ -183,12 +183,12 @@ int verify_user(person * pers){
 			pers->auth=true;
 
 			//Name holen
-            //pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-            //strcpy(pers->name, row[COL_NAME]);
-            asprintf(&pers->name, "%s", row[COL_NAME]);
-            //pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-            //strcpy(pers->first_name, row[COL_VORNAME]);
-            asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
+			//pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+			//strcpy(pers->name, row[COL_NAME]);
+			asprintf(&pers->name, "%s", row[COL_NAME]);
+			//pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+			//strcpy(pers->first_name, row[COL_VORNAME]);
+			asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
 
 			if(isAcronym){
 				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
@@ -215,7 +215,7 @@ int verify_user(person * pers){
 
 			//ID holen
 			if(row[COL_ID] != NULL){
-                pers->id=atoi(row[COL_ID]);
+				pers->id=atoi(row[COL_ID]);
 			}
 
 			if(row[COL_SID] != NULL){
@@ -234,10 +234,10 @@ int verify_user(person * pers){
 		}
 	}
 
-    mysql_free_result(result);
-    mysql_close(my);
+	mysql_free_result(result);
+	mysql_close(my);
 
-    return user_state;
+	return user_state;
 }
 
 /** \brief Feststellen ob die E-mail möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
@@ -248,9 +248,9 @@ int verify_user(person * pers){
  *  zu nur Großbuchstaben umgewandelt.
  */
 bool detect_convert_acronym(person * pers){
-    bool isAcronym;
+	bool isAcronym;
 
-    if(pers->email==NULL || pers->password==NULL){
+	if(pers->email==NULL || pers->password==NULL){
 		print_exit_failure("Programm falsch!");
 	}
 
@@ -389,7 +389,7 @@ bool salt_exists(char ** salt){
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
-        print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
@@ -498,7 +498,7 @@ bool acronym_exists(char * acronym){
 
 	char * query=NULL;
 	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
-        print_exit_failure("Es konnte kein Speicher angefordert werden (acronym_exists)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (acronym_exists)");
 	}
 
 	MYSQL *my=mysql_init(NULL);
@@ -660,12 +660,12 @@ bool sid_set_null(person * pers){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return false;
 	}else{
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return true;
 	}
 }
@@ -762,8 +762,8 @@ int get_messages(message ** mes, int offset, char * select_course){
 		num=mysql_num_rows(result);
 		if(mysql_num_rows(result) > 0){
 			*mes = calloc(mysql_num_rows(result), sizeof(message));
-            MYSQL_ROW message_row;
-            for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
+			MYSQL_ROW message_row;
+			for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
 				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
 				//(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
@@ -835,13 +835,13 @@ bool get_person_by_id(person * pers){
 			row=mysql_fetch_row(result);
 
 			//Name holen
-            pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-            strcpy(pers->name, row[COL_NAME]);
-            pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-            strcpy(pers->first_name, row[COL_VORNAME]);
+			pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+			strcpy(pers->name, row[COL_NAME]);
+			pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+			strcpy(pers->first_name, row[COL_VORNAME]);
 
-            //Kürzel (falls vorhanden) holen
-            if(row[COL_ACR] != NULL){
+			//Kürzel (falls vorhanden) holen
+			if(row[COL_ACR] != NULL){
 				//Die Person hat ein Küzel --> Lehrer
 				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
 				strcpy(pers->acronym, row[COL_ACR]);
@@ -913,13 +913,13 @@ bool get_person_by_sid(person * pers){
 			row=mysql_fetch_row(result);
 
 			//Name holen
-            pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-            strcpy(pers->name, row[COL_NAME]);
-            pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-            strcpy(pers->first_name, row[COL_VORNAME]);
+			pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+			strcpy(pers->name, row[COL_NAME]);
+			pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+			strcpy(pers->first_name, row[COL_VORNAME]);
 
-            //Kürzel (falls vorhanden) holen
-            if(row[COL_ACR] != NULL){
+			//Kürzel (falls vorhanden) holen
+			if(row[COL_ACR] != NULL){
 				//Die Person hat ein Küzel --> Lehrer
 				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
 				strcpy(pers->acronym, row[COL_ACR]);
@@ -936,7 +936,7 @@ bool get_person_by_sid(person * pers){
 
 			//ID holen
 			if(row[COL_ID] != NULL){
-                pers->id=atoi(row[COL_ID]);
+				pers->id=atoi(row[COL_ID]);
 			}
 
 			mysql_free_result(result);
@@ -997,12 +997,12 @@ bool insert_message(message * mes){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return false;
 	}else{
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return true;
 	}
 }
@@ -1032,8 +1032,8 @@ size_t get_distinct_courses(course ** c){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return 0;
 	}else{
 		size_t number=0;
@@ -1051,8 +1051,8 @@ size_t get_distinct_courses(course ** c){
 				i++;
 			}
 		}
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return number;
 	}
 }
@@ -1086,12 +1086,12 @@ bool update_user_courses(person * pers){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return false;
 	}else{
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return true;
 	}
 }
@@ -1130,8 +1130,8 @@ bool update_user_email(person * pers, char * new_email){
         free(query);
 		return false;
 	}else{
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return true;
 	}
 }
@@ -1165,8 +1165,8 @@ size_t get_course(char * this_course, course ** c_arr){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return 0;
 	}else{
 		size_t number=0;
@@ -1187,8 +1187,8 @@ size_t get_course(char * this_course, course ** c_arr){
 				i++;
 			}
 		}
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return number;
 	}
 }
@@ -1216,8 +1216,8 @@ bool get_teacher_by_course(person * pers, course * c){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return false;
 	}else{
 		MYSQL_RES * result=NULL;
@@ -1228,8 +1228,8 @@ bool get_teacher_by_course(person * pers, course * c){
 			row=mysql_fetch_row(result);
 
 			//Name holen
-            asprintf(&pers->name, "%s", row[COL_NAME]);
-            asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
+			asprintf(&pers->name, "%s", row[COL_NAME]);
+			asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
 
 			asprintf(&pers->acronym, "%s", row[COL_ACR]);
 			pers->isTeacher=true;
@@ -1246,8 +1246,8 @@ bool get_teacher_by_course(person * pers, course * c){
 			return true;
 
 		}
-        mysql_close(my);
-        free(query);
+		mysql_close(my);
+		free(query);
 		return false;
 	}
 }
@@ -1322,20 +1322,20 @@ int comma_to_array(char * comma_char, char *** str_array){
 	asprintf(&local_comma_char, "%s", comma_char);
 	int j;
 	for (j=0; ; j++, local_comma_char = NULL) {
-	   char * token = strtok(local_comma_char, ",");
-	   if (token == NULL)break;
-	   //printf("%d: %s\n", j, token);
+		char * token = strtok(local_comma_char, ",");
+		if (token == NULL)break;
+		//printf("%d: %s\n", j, token);
 
 	   //asprintf(str_array+j, "%s", token);
 	}
 	asprintf(&local_comma_char, "%s", comma_char);
 	/*char ** local_str_array*/*str_array=calloc(j,sizeof(char *));
 	for (j=0; ; j++, local_comma_char = NULL) {
-	   char * token = strtok(local_comma_char, ", ");
-	   if (token == NULL)break;
-	   //printf("%d: %s\n", j, token);
+		char * token = strtok(local_comma_char, ", ");
+		if (token == NULL)break;
+		//printf("%d: %s\n", j, token);
 
-	   asprintf((&(*(/*local_*/*str_array+j))), "%s", token);
+		asprintf((&(*(/*local_*/*str_array+j))), "%s", token);
 	}
 	//str_array=local_str_array;
 	return j;

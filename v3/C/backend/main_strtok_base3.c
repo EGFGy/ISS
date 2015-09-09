@@ -167,9 +167,9 @@ int main(int argc, char ** argv)
 	}else{
 		puts("<br>YOU FAIL!!\n");
 		if(user_state == 1){
-            puts("Bereits angemeldet!");
-            printf("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>\
-         <br><a href=\"/cgi-bin/all_messages.cgi\">Alle Nachrichten</a>");
+			puts("Bereits angemeldet!");
+			printf("<a href=\"/cgi-bin/logout.cgi\">LOGOUT</a>\
+		<br><a href=\"/cgi-bin/all_messages.cgi\">Alle Nachrichten</a>");
 		}
 	}
 

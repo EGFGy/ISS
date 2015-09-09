@@ -45,8 +45,8 @@ void get_CGI_data(cgi * gotCGI){
 
 	if(request_method == NULL){
 		//request_method ist absolut notwendig
-        print_exit_failure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
-    }
+		print_exit_failure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
+	
 
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
@@ -423,7 +423,7 @@ printf("<!doctype html>\n\
 			");
 	}else{
         puts("							<li class='pure-menu-item'>\n\
-                                                <a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundeplan</a>\n\
+											a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundeplan</a>\n\
                                         </li>\n\
 			");
 	}
@@ -462,23 +462,23 @@ printf("<!doctype html>\n\
 			");
     }
     puts("								<li class='pure-menu-item'>\n\
-                                                <a href='/hilfe.html' class='pure-menu-link'>Hilfe</a>\n\
-                                        </li>\n\
-                                        <li class='pure-menu-item'>\n\
-                                                <a href='/cgi-bin/logout.cgi' class='pure-menu-link'>LOGOUT</a>\n\
-                                        </li>\n\
+											<a href='/hilfe.html' class='pure-menu-link'>Hilfe</a>\n\
+										</li>\n\
+										<li class='pure-menu-item'>\n\
+											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'>LOGOUT</a>\n\
+										</li>\n\
 		");
 	printf("\
-                                </ul>\n\
-                        </div>\n\
-                </div>\n\
-                <div id='main'>\n\
-                        <div class='header'>\n\
-                <h1>%s</h1>\n\
-                        <h2>%s</h2>\n\
-                </div>\n\
-                \n\
-                <!-- dynamischer Inhalt ab hier -->\n", title, descr);
+								</ul>\n\
+							</div>\n\
+				</div>\n\
+				<div id='main'>\n\
+					<div class='header'>\n\
+				<h1>%s</h1>\n\
+						<h2>%s</h2>\n\
+				</div>\n\
+				\n\
+				<!-- dynamischer Inhalt ab hier -->\n", title, descr);
 }
 
 void print_html_error(char * ErrorText, char * back_url){

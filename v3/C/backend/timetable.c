@@ -14,8 +14,8 @@ const char * german_weekdays[5]={"Mo", "Di", "Mi", "Do", "Fr"};
 #define HOUR_MAX 11
 
 int main(int argc, char ** argv){
-    cgi datCGI;
-    init_CGI(&datCGI);
+	cgi datCGI;
+	init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
 
@@ -26,8 +26,8 @@ int main(int argc, char ** argv){
 		httpSetCookie("EMAIL", "NULL");
 		httpSetCookie("SID", "0");
 		httpHeader(HTML);
-        print_html_head("Benutzung von Cookies", "Cookies");
-        puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
+		print_html_head("Benutzung von Cookies", "Cookies");
+		puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
 		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
 		exit(0);
 	}
@@ -35,9 +35,9 @@ int main(int argc, char ** argv){
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
-    extract_COOKIE_data(&datCGI, "SID", &s_sid);
-    extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
-    check_person.sid=atoi(s_sid);
+	extract_COOKIE_data(&datCGI, "SID", &s_sid);
+	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
+	check_person.sid=atoi(s_sid);
 
 
     if(verify_sid(&check_person)){
@@ -50,8 +50,8 @@ int main(int argc, char ** argv){
 		for(int i=number_of_courses; i--;){
 			char * current_course=*(a_course+i);
 			course * current_course_set=NULL;
-            size_t num_new_courses=get_course(current_course, &current_course_set);
-            if(num_new_courses > 0){
+			size_t num_new_courses=get_course(current_course, &current_course_set);
+			if(num_new_courses > 0){
 				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course)); //CAUSES TROUBLE WHAARG
 				/*for(int j=num_new_courses; j--;){
 					timetable_courses[oldsize+j].id=current_course_set[j].id;
@@ -72,7 +72,7 @@ int main(int argc, char ** argv){
 				free(current_course_set);
 				if(!teach->acronym && teach)free(teach);
 				oldsize+=num_new_courses;
-            }
+			}
 		}
 		/*
 		puts("___________");
@@ -134,6 +134,6 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpRedirect(redirectString);
-    }
+	}
 	exit(0);
 }
