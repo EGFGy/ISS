@@ -424,7 +424,7 @@ printf("<!doctype html>\n\
 			");
 	}else{
         puts("							<li class='pure-menu-item'>\n\
-											a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundeplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundeplan</a>\n\
                                         </li>\n\
 			");
 	}
