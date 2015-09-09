@@ -1,0 +1,76 @@
+Anleitung zur Installation:
+
+==============================================
+Voraussetzungen
+==============================================
+
+Mindestanforderungen:
+Linux-OS (root)
+gcc
+nginx
+fcgiwrap
+mysqlserver
+libmysqlclient-dev
+bash
+Internetzugang
+
+Zum Bearbeiten der Software und Erledigen zusätzlicher Aufgaben nützlich:
+geany (Text Editor)
+codeblocks (C C++ usw. IDE)
+codeblocks-contrib (Plugins (u.a. ENV-Varibales) für codeblocks)
+ufw (Konfigurationsassistent für die Firewall)
+dsnutils (Werkzeuge für dns)
+
+
+==============================================
+Anleitung
+==============================================
+
+1. Pakete installieren
+
+Für die Mindestanforderungen:
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get install libmysqlclient-dev mysqlserver nginx bash gcc
+
+Für Zusätzliche Dinge
+	sudo apt-get install geany codeblocks codeblocks-contrib ufw dnsutils
+
+2. Software Konfigurieren
+	Die für die Konfiguration des nginx-Webservers, des fcgiwrappers
+	und des msqlservers erforderlichen Dateien befinden sich im
+	Ordner "etc" und müssen in den entsprechenden "etc" Ordner des
+	zu konfigurierenden Systems kopiert werden.
+
+	etc/nginx/fastcgi_params
+	etc/nginx/nginx.conf
+	etc/nginx/sites-available/default
+	etc/mysql/my.cf
+	
+	Die für de Firewall erforderlichen Regeln lauten wie folgt.
+
+	[ 1] 443/tcp                    ALLOW IN    Anywhere
+	[ 2] 80/tcp                     ALLOW IN    Anywhere
+	[ 3] 22/tcp                     ALLOW IN    <entsprechendes>
+
+	Um https nutzen zu können muss ein ssl-Zertifikat bereitgestellt werden
+	--> Selber eines erzeugen
+	https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04	
+	
+	<aus etc/nginx/sites-available/default>
+	[...]
+	ssl_certificate /etc/nginx/ssl/nginx.crt;
+        ssl_certificate_key /etc/nginx/ssl/nginx.key;
+	[...]
+
+3. Dateien Kopieren
+	Den Inhalt des Ordners html (html-, css-, js- usw. Dateien) in das Hauptverzeichnis
+	des nginx-Servers kopieren (nach derzeitiger Konfiguration: /usr/share/nginx/html)
+
+Optional
+4. C-Programme kompilieren
+	Falls die schon kompilierten Programme in html/cgi-bin/ nicht ausführbar sind
+	(CPU Architektur usw. passt nicht) müssen diese neu kompiliert werden.
+	Dazu eignet sich die Entwicklungsumgebung codeblocks,
+	oder ein (noch nicht erstelltes) Makefile
+	
