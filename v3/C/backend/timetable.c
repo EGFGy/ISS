@@ -64,10 +64,14 @@ int main(int argc, char ** argv){
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
-				get_teacher_by_course(teach, current_course_set);
+				bool success=get_teacher_by_course(teach, current_course_set);
 
 				for(int j=num_new_courses; j--;){
-					current_course_set[j].teacher=teach;
+					if(success){
+						current_course_set[j].teacher=teach;
+					}else{
+						current_course_set[j].teacher=NULL;
+					}
 				}
 
 				memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
@@ -125,7 +129,7 @@ int main(int argc, char ** argv){
 					//printf("Stunde: %s Kurs: %s Raum: %s\n", c->time, c->name, c->room);
 					printf("<a href='/cgi-bin/spec_messages.cgi#%s'>", c->name);
 					puts("<table class='sub-table'>\n<tr>\n");
-					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>", c->name, "100", c->teacher->acronym);
+					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>", c->name, "100", c->teacher ? c->teacher->acronym : "---");
 					puts("</tr></table>");
 					puts("</a>\n");
 				}

@@ -309,7 +309,7 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1441573536 source:/home/bank/InfoWall/v3/C/backend/CGI_functions.c
+1441794416 source:/home/bank/InfoWall/v3/C/backend/CGI_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -320,7 +320,7 @@
 	<features.h>
 	"CGI_functions.h"
 
-1440797138 /home/bank/InfoWall/v3/C/backend/CGI_functions.h
+1441706204 /home/bank/InfoWall/v3/C/backend/CGI_functions.h
 
 1441287962 source:/home/bank/InfoWall/v3/C/backend/spec_messages.c
 	<stdio.h>
@@ -335,7 +335,7 @@
 
 1441581957 /home/bank/InfoWall/v3/C/backend/SQL_functions.h
 
-1441582023 source:/home/bank/InfoWall/v3/C/backend/SQL_functions_v1.c
+1441835275 source:/home/bank/InfoWall/v3/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -376,7 +376,7 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1441582873 source:/home/bank/InfoWall/v3/C/backend/timetable.c
+1441837244 source:/home/bank/InfoWall/v3/C/backend/timetable.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -384,6 +384,7 @@
 	<unistd.h>
 	<math.h>
 	<ctype.h>
+	<time.h>
 	"CGI_functions.h"
 	"SQL_functions.h"
 
