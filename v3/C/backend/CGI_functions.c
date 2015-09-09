@@ -46,7 +46,8 @@ void get_CGI_data(cgi * gotCGI){
 	if(request_method == NULL){
 		//request_method ist absolut notwendig
 		print_exit_failure("Holen der Environment-Varialbe \"REQUEST_METHOD\" fehlgeschlagen");
-	
+	}
+
 
     if(env_cook != NULL)fprintf(stderr, "strlen() der cookies: %d\n", (int)strlen(env_cook));
 
