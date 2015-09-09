@@ -28,12 +28,12 @@ Anleitung
 
 1. Pakete installieren
 
-Für die Mindestanforderungen:
+	Für die Mindestanforderungen:
 	sudo apt-get update
 	sudo apt-get upgrade
 	sudo apt-get install libmysqlclient-dev mysqlserver nginx bash gcc
 
-Für Zusätzliche Dinge
+	Für Zusätzliche Dinge:
 	sudo apt-get install geany codeblocks codeblocks-contrib ufw dnsutils
 
 2. Software Konfigurieren
