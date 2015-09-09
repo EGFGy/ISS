@@ -74,7 +74,48 @@ Für Zusätzliche Dinge
 	echo "CREATE DATABASE base5" | mysql -p -u root
 	cat ./mysql_base/base5 | mysql -p -u root base5
 
-4. (Optional) C-Programme kompilieren
+4. Skripte ausführen
+	Da für dieses Projekt die Anschaffung eines Dienstes wie noIP, dynDNS usw. unnötig erschien
+	gibt es eine einfache Lösung für das Problem einer ständig wechselnden, öffentlichen IP-Adresse.
+	(https://de.wikipedia.org/wiki/Zwangstrennung)
+	
+	Ein kleines Skript (./skripte/update_ip.sh) das jede Stunde ausgeführt wird
+	(es kann sein, dass die Internetverbindung auch mal zwischendurch getrennt wird)
+	ermittelt die derzeitige IP-Adresse und schreibt diese in eine Datei im Ordner /tmp.
+	In der nginx-Konfiguration ist diese Datei eingebunden.
+
+	<./etc/nginx/sites-available/default>
+	[...]
+	include /tmp/server_name.txt;
+	[...]
+
+	</tmp/server_name.txt>
+	server_name <ermittelte öffentliche IP>;
+
+	Dies ist deshalb erforderlich, damit ein Aufrufer von jedem Ort aus auf https://<öffentliche IP>/
+	umgeleitet wird.
+
+	Damit das Skript ausgeführt werden kann muss es an einen beliebigen Ort kopiert werden,
+	an dem es nicht gelöscht wird. (z.B.: ~/Skripte/update_ip.sh)
+
+	Damit man zusätzlich noch die Möglichkeit hat die IP des Servers aus dem Internet herauszufinden 
+	kann diese durch ein zweites Skript, z.B. auf GoogleDrive hochgeladen, oder per mail
+	an die Interessierten geschickt werden. 
+
+	Um die Skripte automatisch jede Stunde auszuführen kann man cron verwenden.
+	Dazu unter einem Benutzer mit genügend Rechten "crontab -e" aufrufen und folgende Zeilen an das Ende
+	der Datei anhängen:
+
+	0 * * * * ~/Skripte/update_ip.sh
+
+	Da nginx die Konfiguration nur beim Starten liest, muss diese Programm ebenfalls neugestarten werden
+	Dafür als root einloggen (sudo -i oder su) und wieder mit "crontab -e" die cron-Tabelle editieren
+
+	5 * * * * service nginx --full-restart
+	(5 Deshalb, da das herausfinden der öffentlichen IP-Adresse mit der derzeitigen Methode
+	manchmal durchaus länger dauern kann)
+
+5. (Optional) C-Programme kompilieren
 	Falls die schon kompilierten Programme in ./html/cgi-bin/ nicht ausführbar sind
 	(CPU Architektur usw. passt nicht) müssen diese neu kompiliert werden.
 	Dazu eignet sich die Entwicklungsumgebung codeblocks
