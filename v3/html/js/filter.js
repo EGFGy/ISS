@@ -101,3 +101,37 @@ function reset(){
 		html_element.style.display='inline-block';
 	}
 }
+
+
+//jaja is egal, dass das jetzt hier ist!
+function checkDatEmail(field)
+{
+	var url = "/cgi-bin/check_user_exist.cgi";
+	var params = "email="+field.value;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+
+	//Send the proper header information along with the request
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	
+	
+	xhr.onreadystatechange = function ()
+		{
+			if(xhr.readyState === 4)
+			{
+				if(xhr.status === 200 || rawFile.status == 0)
+				{
+					var allText = xhr.responseText;
+					var names = allText.split("\n");
+					if(names.indexOf("exists")!= -1){
+						alert("<--- !!!!!!! -\-\->\n"+ 'ACHTUNG: E-Mail existiert bereits!' + "\n<--- !!!!!!! -\-\->");
+						field.style.border= '2px solid red';
+					 }else{
+						field.style.border= '2px solid green';
+						name_correct=true;
+					 }
+					//alert(allText);
+				}
+			}
+		}
+	xhr.send(params);
+}

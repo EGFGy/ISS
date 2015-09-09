@@ -29,6 +29,12 @@ input:focus, textarea:focus{
 	background-color: lightgreen;
 }
 
+select{
+	border: 2px solid #808080;
+	border-radius: 0.5em;
+	background-color: #FFF;
+}
+
 .submitButton{
 	border-radius: 0.4em;
 	border: 2px solid #000;

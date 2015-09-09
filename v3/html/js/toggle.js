@@ -32,7 +32,7 @@ function menuShowHide(e) {
     
 function toggleId(it, thatId){
 	if(it.checked){
-		document.getElementById(thatId).style.display='block';
+		document.getElementById(thatId).style.display='inline-block';
 	}else{
 		document.getElementById(thatId).style.display='none';
 	}

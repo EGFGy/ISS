@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="backend" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option show_notes="0">
+			<notes>
+				<![CDATA[test_text
+
+ export QUERY_STRING="TEST"
+ export CONTENT_LENGTH="120"
+ export REQUEST_METHOD="POST"
+ export HTTP_COOKIE="MEEM=GOOG"]]>
+			</notes>
+		</Option>
+		<Build>
+			<Target title="login">
+				<Option output="bin/Debug/login" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="register">
+				<Option output="bin/Debug/register" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="check_user_exist">
+				<Option output="bin/Debug/check_user_exist" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wmain" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="all_messages">
+				<Option output="bin/Debug/all_messages" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="logout">
+				<Option output="bin/Debug/logout" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="post_message">
+				<Option output="bin/Debug/post_message" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="settings">
+				<Option output="bin/Debug/settings" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="spec_messages">
+				<Option output="bin/Debug/spec_messages" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+			<Target title="timetable">
+				<Option output="bin/Debug/timetable" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-DGNU_SOURCE" />
+			<Add directory="/usr/include/mysql" />
+		</Compiler>
+		<Linker>
+			<Add library="mysqlclient" />
+		</Linker>
+		<Unit filename="CGI_functions.c">
+			<Option compilerVar="CC" />
+			<Option weight="49" />
+		</Unit>
+		<Unit filename="CGI_functions.h" />
+		<Unit filename="SQL_functions.h" />
+		<Unit filename="SQL_functions_v1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="all_messages.c">
+			<Option compilerVar="CC" />
+			<Option target="all_messages" />
+		</Unit>
+		<Unit filename="check_user_exist.c">
+			<Option compilerVar="CC" />
+			<Option target="check_user_exist" />
+		</Unit>
+		<Unit filename="logout.c">
+			<Option compilerVar="CC" />
+			<Option target="logout" />
+		</Unit>
+		<Unit filename="main_strtok_base3.c">
+			<Option compilerVar="CC" />
+			<Option target="login" />
+		</Unit>
+		<Unit filename="post_message.c">
+			<Option compilerVar="CC" />
+			<Option target="post_message" />
+		</Unit>
+		<Unit filename="register.c">
+			<Option compilerVar="CC" />
+			<Option target="register" />
+		</Unit>
+		<Unit filename="settings.c">
+			<Option compilerVar="CC" />
+			<Option target="settings" />
+		</Unit>
+		<Unit filename="spec_messages.c">
+			<Option compilerVar="CC" />
+			<Option target="spec_messages" />
+		</Unit>
+		<Unit filename="timetable.c">
+			<Option compilerVar="CC" />
+			<Option target="timetable" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars set="default" />
+			<DoxyBlocks>
+				<comment_style block="0" line="0" />
+				<doxyfile_project output_language="German" />
+				<doxyfile_build extract_all="1" />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

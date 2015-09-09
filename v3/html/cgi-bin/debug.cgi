@@ -11,9 +11,21 @@ echo --------------
 echo POST:
 read post_dataz
 echo $post_dataz
-
-echo --------------
+echo -------------
+echo
+echo "status:"
+echo -------------
+uptime
+echo
+service --status-all
+echo -------------
+echo "Temperatur:"
+sensors | grep -i '[Ct][oe][rm][ep]' | sed -e 's/(.*//'
+echo ------------
+echo
+echo
+echo ">-------------<"
 echo VARIABLES
-
 env
+echo ">-------------<"
 echo end
