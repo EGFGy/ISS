@@ -57,7 +57,6 @@ int main(int argc, char ** argv){
 
 		puts("<div class='content'>");
 
-		//TODO: Course-Selector
         if(check_person.isTeacher){
 			puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST'>\n\
 			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text'>\n\

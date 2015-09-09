@@ -5,12 +5,14 @@
 #include <unistd.h>
 #include <math.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
 #define WEEKDAY_MAX 5
 const char * german_weekdays[5]={"Mo", "Di", "Mi", "Do", "Fr"};
+const char * long_german_weekdays[5]={"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
 #define HOUR_MAX 11
 
 int main(int argc, char ** argv){
@@ -82,16 +84,27 @@ int main(int argc, char ** argv){
 		}
 		puts("___________");*/
 
+		//Wochentag finden
+		time_t now=time(NULL);
+		struct tm * time_now=localtime(&now);
+		int w_day=0;
+		if(time_now->tm_wday>0 && time_now->tm_wday<6)w_day=time_now->tm_wday-1;
+
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpHeader(HTML);
-		print_html_pure_head_menu("Hier ist der Stundenblan", "Stundenplan", TIMETABLE);
+		print_html_pure_head_menu("Hier ist der Stundenplan", "Stundenplan", TIMETABLE);
 
 		puts("<div class='content' style='max-width: 900px;'>");
 
-		puts("<table id='outer'>");
-		puts("<tr>\n\
+		puts("<table class='time-table' id='outer'>");
+		/*puts("<tr>\n\
 	<th>/</th> <th>Montag </th> <th>Dienstag </th> <th>Mittwoch </th> <th>Donnerstag</th> <th>Freitag</th>\n\
-</tr>\n");
+</tr>\n");*/
+		puts("<tr><th>/</th>");
+		for(int d=0; d<WEEKDAY_MAX; d++){
+			printf("<th %s>%s</th>\n", d==w_day ? "class='day-active'" : "", long_german_weekdays[d]);
+		}
+		puts("</tr>");
 
 		for(int h=0; h<HOUR_MAX; h++){
 			puts("<tr>");
