@@ -121,4 +121,12 @@ Anleitung
 	Falls die schon kompilierten Programme in ./html/cgi-bin/ nicht ausführbar sind
 	(CPU Architektur usw. passt nicht) müssen diese neu kompiliert werden.
 	Dazu eignet sich die Entwicklungsumgebung codeblocks
-	oder ein (noch nicht erstelltes) Makefile.
+	oder das Makefile.
+
+	Für die Kompilierung mit dem make file müssen allerdings noch 2 Ordner erstellt werden.
+
+	mkdir bin .objs bin/Debug
+
+	Danach kann mit
+	"make <entsprechendes Zeil>"
+	ein ausführbares Programm erstellt werden.
