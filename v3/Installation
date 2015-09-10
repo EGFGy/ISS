@@ -47,7 +47,7 @@ Anleitung
 	cp ./etc/nginx/fastcgi_params /etc/nginx/fastcgi_params
 	cp ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
 	cp ./etc/nginx/sites-available/default /etc/nginx/sites-available/default
-	cp ./etc/mysql/my.cf /etc/mysql/my.cf
+	cp ./etc/mysql/my.cnf /etc/mysql/my.cnf
 	
 	Die für de Firewall erforderlichen Regeln lauten wie folgt.
 
