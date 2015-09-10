@@ -45,6 +45,7 @@ Anleitung
 	"etc" Ordner des zu konfigurierenden Systems kopiert werden.
 
 	cp ./etc/nginx/fastcgi_params /etc/nginx/fastcgi_params
+	cp ./etc/nginx/fcgiwrap.conf /etc/nginx/fcgiwrap.conf
 	cp ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
 	cp ./etc/nginx/sites-available/default /etc/nginx/sites-available/default
 	cp ./etc/mysql/my.cnf /etc/mysql/my.cnf
@@ -75,6 +76,14 @@ Anleitung
 
 	echo "CREATE DATABASE base5" | mysql -p -u root
 	cat ./mysql_base/base5.sql | mysql -p -u root base5
+
+	Nachdem die Datenbank in ihrer Struktur hergestellt ist müssen noch die nötigen Benutzer
+	und detren Rechte angelegt bzw. eingestellt werden.
+
+	echo "CREATE USER 'web_user'@'localhost' IDENTIFIED BY 'web_pass'" | mysql -p -u root
+	(!!! Am Ende wird das  Problem mit dem Passwort anders gelöst !!!)
+	(!!!           DIESE PASSWORT IST NUR ZU TESTZWECKEN          !!!)
+	echo "GRANT SELECT on base5.* TO 'web_user'@'localhost'" | mysql -p -u root	
 
 4. Skripte ausführen
 	Da für dieses Projekt die Anschaffung eines Dienstes wie noIP, dynDNS usw. unnötig erschien
