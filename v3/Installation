@@ -74,7 +74,7 @@ Anleitung
 	die Struktur der Datenbank herstellen
 
 	echo "CREATE DATABASE base5" | mysql -p -u root
-	cat ./mysql_base/base5 | mysql -p -u root base5
+	cat ./mysql_base/base5.sql | mysql -p -u root base5
 
 4. Skripte ausführen
 	Da für dieses Projekt die Anschaffung eines Dienstes wie noIP, dynDNS usw. unnötig erschien
