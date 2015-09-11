@@ -24,7 +24,7 @@
 #define SQL_USER            "web_user"
 #define SQL_PASS            "web_pass"
 #define SQL_BASE            "base5"
-#define SQL_ALTERNATE_USER  "root"
+#define SQL_ALTERNATE_USER  "root"  //TODO DAS MUSS NOCH VERÄNDERT WERDEN (GRANT INSERT TO web_user ? usw.)
 #define SQL_ALTERNATE_PASS  "WUW"
 
 #define SALT_LENGTH 12

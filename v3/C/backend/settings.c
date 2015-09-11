@@ -145,6 +145,7 @@ int main(int argc, char ** argv){
 						fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
 						#endif // DEBUG
 						//TODO Überprüfen ob sich die Kurse nicht überschneiden
+						// Nicht mehrere Kurs zur selben Zeit + nicht mehrere Lehrer in einem Kurs
 						check_person.courses=selected_courses;
 						update_user_courses(&check_person);
 					}
