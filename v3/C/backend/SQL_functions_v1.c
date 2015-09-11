@@ -25,6 +25,7 @@
 //id, vorname, name, email, passwort, kuerzel, kurse, sid
 // > ^ <
 
+#define DEBUG
 
 /**
 Identifikation per E-mail oder Kürzel (base5)

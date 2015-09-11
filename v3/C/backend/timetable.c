@@ -91,7 +91,7 @@ int main(int argc, char ** argv){
 		//Wochentag finden
 		time_t now=time(NULL);
 		struct tm * time_now=localtime(&now);
-		int w_day=0;
+		int w_day=-1;
 		if(time_now->tm_wday>0 && time_now->tm_wday<6)w_day=time_now->tm_wday-1;
 
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");

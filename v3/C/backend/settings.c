@@ -147,6 +147,10 @@ int main(int argc, char ** argv){
 						//TODO Überprüfen ob sich die Kurse nicht überschneiden
 						// Nicht mehrere Kurs zur selben Zeit + nicht mehrere Lehrer in einem Kurs
 						check_person.courses=selected_courses;
+						//char ** arr_selected_courses=NULL;
+						//int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
+
+
 						update_user_courses(&check_person);
 					}
 				}
