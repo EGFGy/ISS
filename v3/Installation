@@ -1,7 +1,7 @@
 Anleitung zur Installation:
 
 ==============================================
-Voraussetzungen
+               Voraussetzungen
 ==============================================
 
 Mindestanforderungen:
@@ -23,9 +23,8 @@ codeblocks-contrib (Plugins (u.a. ENV-Varibales) für codeblocks)
 ufw (Konfigurationsassistent für die Firewall)
 dnsutils (Werkzeuge für dns)
 
-
 ==============================================
-Anleitung
+                  Anleitung
 ==============================================
 
 1. Pakete installieren
@@ -78,11 +77,11 @@ Anleitung
 	cat ./mysql_base/base5.sql | mysql -p -u root base5
 
 	Nachdem die Datenbank in ihrer Struktur hergestellt ist müssen noch die nötigen Benutzer
-	und detren Rechte angelegt bzw. eingestellt werden.
+	und deren Rechte angelegt bzw. eingestellt werden.
 
 	echo "CREATE USER 'web_user'@'localhost' IDENTIFIED BY 'web_pass'" | mysql -p -u root
-	(!!! Am Ende wird das  Problem mit dem Passwort anders gelöst !!!)
-	(!!!           DIESE PASSWORT IST NUR ZU TESTZWECKEN          !!!)
+	(!!! Am Ende wird das Problem mit dem Passwort anders gelöst !!!)
+	(!!!         DIESES PASSWORT IST NUR ZU TESTZWECKEN          !!!)
 	echo "GRANT SELECT on base5.* TO 'web_user'@'localhost'" | mysql -p -u root	
 
 4. Skripte ausführen
@@ -139,3 +138,6 @@ Anleitung
 	Danach kann mit
 	"make <entsprechendes Zeil>"
 	ein ausführbares Programm erstellt werden.
+
+Um die Installation abzuschließen müssen der HTTP- und SQL-Server neu gestartet werden.
+sudo service nginx fcgiwrap mysql --full-restart
