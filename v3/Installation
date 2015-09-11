@@ -10,7 +10,7 @@ gcc
 g++ oder ld
 nginx
 fcgiwrap
-mysqlserver
+mysql-server
 libmysqlclient-dev
 curl
 bash
@@ -32,7 +32,7 @@ dnsutils (Werkzeuge für dns)
 	Für die Mindestanforderungen:
 	sudo apt-get update
 	sudo apt-get upgrade
-	sudo apt-get install libmysqlclient-dev mysqlserver nginx bash gcc
+	sudo apt-get install libmysqlclient-dev mysql-server nginx bash gcc
 
 	Für Zusätzliche Dinge:
 	sudo apt-get install geany codeblocks codeblocks-contrib ufw dnsutils
@@ -136,7 +136,7 @@ dnsutils (Werkzeuge für dns)
 	mkdir bin .objs bin/Debug
 
 	Danach kann mit
-	"make <entsprechendes Zeil>"
+	"make <entsprechendes Ziel>"
 	ein ausführbares Programm erstellt werden.
 
 Um die Installation abzuschließen müssen der HTTP- und SQL-Server neu gestartet werden.
