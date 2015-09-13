@@ -1,0 +1,48 @@
+Die Allgemeine Testprozedur sieht wie folgt aus.
+
+1.	Einen Test-Account erstellen, falls noch nicht getan.
+2.	Test an einem Programm durchführen.
+2a.	Bei Fehler:
+		Eingaben (HTML-Form (POST_DATA / QUERY_STRING), Cookies usw.) aufschreiben.
+		(Dazu eignet sich das bash-Skript (wenn der Server läuft) localhost/cgi-bin/debug.cgi)
+3.	Name des fehlerhaften Programms aufschreiben
+
+4.	Issue öffnen
+	Format:
+	Titel:	<Version> -- <Name des Programms>
+	Text:	<Stand des Reops (über das Kommando: 'git log' neuester Eintrag (GANZ OBEN))
+		<Name des Programms>
+		Eingaben:
+		<Eingaben>
+		Fehlerbild:
+		<Fehlerbild>
+
+		<Vermutete Ursache>
+		<Anmerkungen>
+
+Beispiel:
+
+So könnte eine Issue nach diesem Prinzip aussehen
+### AB HIER ###
+
+v3 -- /cgi-bin/settings.cgi
+Issue #100
+
+commit 4e134637967323ec2a1044e585bf5a402365ac32
+Author: Markus Reichel <gwirxe@gmail.com>
+Date:   Sun Sep 13 20:10:48 2015 +0200
+
+    Doppelte Lehrer (kurz getestet) geht
+		
+/cgi-bin/settings.cgi
+Eingabe:
+QUERY_STRING="test1234567890=0&A=b"
+POST_DATA="hallo123"
+HTTP_COOKIES="EMAIL=test@test.test; SID=1234"
+REQUEST_METHOD=POST
+
+Fehlerbild:
+Umleitung auf Error-Seite, aber nur wenn bei POST mehr als n Zeichen stehen ...
+
+
+### BIS HIER ###
