@@ -163,6 +163,7 @@ int main(int argc, char ** argv){
 									}else{
 										//Der aktuelle Lehrer unterrichtet diesen Kurs
 										//und hatte ihn schon vorher ausgewählt
+										is_ok=true;
 									}
 								}else{
 									//Der Kurs wird noch nicht unterrichtet
@@ -175,7 +176,10 @@ int main(int argc, char ** argv){
 						if(is_ok){
 							update_user_courses(&check_person);
 						}else{
-
+							char * url=NULL;
+							asprintf(&url, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
+							print_html_error("Fehlerhafte Auswahl!", url);
+							exit(EXIT_FAILURE);
 						}
 					}
 				}

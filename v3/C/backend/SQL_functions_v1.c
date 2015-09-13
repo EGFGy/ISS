@@ -1194,13 +1194,13 @@ size_t get_course(char * this_course, course ** c_arr){
 	}
 }
 
-bool get_teacher_by_course(person * pers, course * c){
+bool get_teacher_by_course(person * pers, char * c){
 	if(pers == NULL || c==NULL){
 		print_exit_failure("Programm falsch (get_teacher_by_course)");
 	}
 
 	char * query=NULL;
-	if(asprintf(&query, "SELECT * FROM Benutzer WHERE kurse REGEXP '(^|, )%s($|, )' AND kuerzel IS NOT NULL", c->name) == -1){
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE kurse REGEXP '(^|, )%s($|, )' AND kuerzel IS NOT NULL", c) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (update_user_courses)");
 	}
 

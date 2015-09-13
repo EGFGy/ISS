@@ -64,7 +64,7 @@ int main(int argc, char ** argv){
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
-				bool success=get_teacher_by_course(teach, current_course_set);
+				bool success=get_teacher_by_course(teach, current_course_set[0].name);
 
 				//HINWEIS: die 1 wird von num_new_courses schon am Anfang abgezogen
 				// (da ja die Bedingung geprüft wird (j>0)

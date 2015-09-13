@@ -335,7 +335,7 @@
 
 1441910489 /home/bank/InfoWall/v3/C/backend/SQL_functions.h
 
-1441918939 source:/home/bank/InfoWall/v3/C/backend/SQL_functions_v1.c
+1442166998 source:/home/bank/InfoWall/v3/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -388,7 +388,7 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
-1441494073 source:/home/bank/InfoWall/v3/C/backend/settings.c
+1442162729 source:/home/bank/InfoWall/v3/C/backend/settings.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
