@@ -160,6 +160,7 @@ int main(int argc, char ** argv){
 									if(possible_teacher.id != check_person.id){
 										//Der Kurs wird von einem anderen Lehrer unterrichtet.
 										is_ok=false;
+										break;
 									}else{
 										//Der aktuelle Lehrer unterrichtet diesen Kurs
 										//und hatte ihn schon vorher ausgewählt
