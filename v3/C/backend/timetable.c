@@ -66,6 +66,8 @@ int main(int argc, char ** argv){
 				init_person(teach);
 				bool success=get_teacher_by_course(teach, current_course_set);
 
+				//HINWEIS: die 1 wird von num_new_courses schon am Anfang abgezogen
+				// (da ja die Bedingung geprüft wird (j>0)
 				for(int j=num_new_courses; j--;){
 					if(success){
 						current_course_set[j].teacher=teach;

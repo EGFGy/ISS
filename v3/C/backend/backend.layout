@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="register" />
+	<ActiveTarget name="timetable" />
+	<File name="SQL_functions.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3013" topLine="70" />
+		</Cursor>
+	</File>
 	<File name="logout.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="874" topLine="11" />
@@ -16,29 +21,19 @@
 			<Cursor1 position="4499" topLine="80" />
 		</Cursor>
 	</File>
-	<File name="SQL_functions_v1.c" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="22957" topLine="999" />
-		</Cursor>
-	</File>
-	<File name="spec_messages.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1825" topLine="81" />
-		</Cursor>
-	</File>
-	<File name="settings.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="224" topLine="132" />
-		</Cursor>
-	</File>
 	<File name="CGI_functions.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="297" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="main_strtok_base3.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="settings.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3064" topLine="122" />
+			<Cursor1 position="6489" topLine="139" />
+		</Cursor>
+	</File>
+	<File name="timetable.c" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2476" topLine="63" />
 		</Cursor>
 	</File>
 	<File name="CGI_functions.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -46,14 +41,9 @@
 			<Cursor1 position="215" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="SQL_functions.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main_strtok_base3.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="777" topLine="36" />
-		</Cursor>
-	</File>
-	<File name="timetable.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4272" topLine="115" />
+			<Cursor1 position="3064" topLine="122" />
 		</Cursor>
 	</File>
 	<File name="post_message.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -61,9 +51,19 @@
 			<Cursor1 position="1355" topLine="27" />
 		</Cursor>
 	</File>
+	<File name="spec_messages.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1825" topLine="81" />
+		</Cursor>
+	</File>
+	<File name="SQL_functions_v1.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="22957" topLine="1011" />
+		</Cursor>
+	</File>
 	<File name="register.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1224" topLine="29" />
+			<Cursor1 position="1224" topLine="20" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -144,14 +144,39 @@ int main(int argc, char ** argv){
 						#ifdef DEBUG
 						fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
 						#endif // DEBUG
-						//TODO Überprüfen ob sich die Kurse nicht überschneiden
+
 						// Nicht mehrere Kurs zur selben Zeit + nicht mehrere Lehrer in einem Kurs
 						check_person.courses=selected_courses;
-						//char ** arr_selected_courses=NULL;
-						//int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
+						char ** arr_selected_courses=NULL;
+						int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
+						bool is_ok=true; //ist die Auswahl in Ordnung? (keine doppelten Lehrer / Stunden)
 
+						if(check_person.isTeacher){
+							person possible_teacher;
+							init_person(&possible_teacher);
+							for(int i=num_courses; i--;){
+								if(get_teacher_by_course(&possible_teacher, arr_selected_courses[i])){
+									//Der Kurs wird schon von einem Lehrer unterrichtet
+									if(possible_teacher.id != check_person.id){
+										//Der Kurs wird von einem anderen Lehrer unterrichtet.
+										is_ok=false;
+									}else{
+										//Der aktuelle Lehrer unterrichtet diesen Kurs
+										//und hatte ihn schon vorher ausgewählt
+									}
+								}else{
+									//Der Kurs wird noch nicht unterrichtet
+								}
+							}
+						}
 
-						update_user_courses(&check_person);
+						//TODO: Doppelte Stundenbelegung-Testen
+
+						if(is_ok){
+							update_user_courses(&check_person);
+						}else{
+
+						}
 					}
 				}
 			}else{
