@@ -139,6 +139,18 @@ int main(int argc, char ** argv){
 				puts("</td>");
 			}
 			puts("</tr>");
+
+			//Jeweils nach der 2. 4. und 6. Stunde eine Pause darstellen
+			//Nach der 9. Stunde auch eine Pause darstellen (aber diese ist die 3. Pause ?) oder was???
+			if(h==1 || h==3 || h==5 || h==8){
+				puts("<tr class='tiny'>\n");
+				if(h!=5 && h!=8){
+					printf("<th>%d. Pause</th><td>\n", (h+1)/2);
+				}else{
+					printf("<th>Mittagspause</th><td>");
+				}
+				puts("</td><td></td><td></td><td></td><td></td></tr>\n");
+			}
 		}
 		puts("</table>"); //zu outer
 
