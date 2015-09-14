@@ -140,4 +140,7 @@ dnsutils (Werkzeuge für dns)
 	ein ausführbares Programm erstellt werden.
 
 Um die Installation abzuschließen müssen der HTTP- und SQL-Server neu gestartet werden.
-sudo service nginx fcgiwrap mysql --full-restart
+
+sudo service nginx --full-restart
+sudo service fcgiwrap --full-restart
+sudo service mysql --full-restart
