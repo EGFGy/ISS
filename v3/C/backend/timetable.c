@@ -131,7 +131,8 @@ int main(int argc, char ** argv){
 					//printf("Stunde: %s Kurs: %s Raum: %s\n", c->time, c->name, c->room);
 					printf("<a href='/cgi-bin/spec_messages.cgi#%s'>", c->name);
 					puts("<table class='sub-table'>\n<tr>\n");
-					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>", c->name, "100", c->teacher ? c->teacher->acronym : "---");
+					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>",
+								c->name, c->room , c->teacher ? c->teacher->acronym : "---");
 					puts("</tr></table>");
 					puts("</a>\n");
 				}
