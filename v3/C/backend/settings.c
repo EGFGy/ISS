@@ -85,8 +85,12 @@ int main(int argc, char ** argv){
 
 			//Blöcke mit Kursbezeichnungen ausgeben
 			for(size_t i=0; i<num_max_courses; i++){
+			    bool selected=false;
+                selected=course_regex_search(all_courses+i, check_person.courses);
+
 				printf("<input class='courseselector' type='checkbox' %s id='%s' name='%s'><label for='%s'>%s</label>\n",
-						strstr(check_person.courses, (all_courses+i)->name)!=NULL ? "checked='checked'" : "",
+				//		strstr(check_person.courses, (all_courses+i)->name)!=NULL ? "checked='checked'" : "",
+                        selected ? "checked='checked'" : "",
 						(all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name, (all_courses+i)->name);
 			}
 			puts("</div>"); // zu 'courses'

@@ -1278,6 +1278,29 @@ void clean_string(char * str){
 	}
 }
 
+bool course_regex_search(course * c, char * all_courses){
+    regex_t reg;
+    char * reg_string=NULL;
+    asprintf(&reg_string, "(^|, )%s($|, )", c->name);
+    bool match=false;
+
+
+	regcomp(&reg, reg_string, REG_EXTENDED);
+	size_t str_len=strlen(all_courses)+1;
+	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
+	#ifdef DEBUG
+	fprintf(stderr, "(course_regex_search) String : '%s'\n", all_courses);
+	#endif // DEBUG
+
+	if(regexec(&reg, all_courses, str_len, pmatch, REG_NOTBOL) == 0){
+        match=true;
+	}else{
+        match=false;
+	}
+
+	return match;
+}
+
 /** \brief Alle \r\n (0x0D 0x0A durch <br> ersetzen (Funktion ist rekursiv)
  *
  * \param str char*  String der \r\n enthält
