@@ -1281,11 +1281,12 @@ void clean_string(char * str){
 bool course_regex_search(course * c, char * all_courses){
     regex_t reg;
     char * reg_string=NULL;
-    asprintf(&reg_string, "(^|, )%s($|, )", c->name);
+    asprintf(&reg_string, ", %s$\|, %s,\|^%s$\|^%s,)", c->name, c->name, c->name, c->name);
     bool match=false;
 
 
-	regcomp(&reg, reg_string, REG_EXTENDED);
+	int test=regcomp(&reg, reg_string, REG_EXTENDED);
+
 	size_t str_len=strlen(all_courses)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 	#ifdef DEBUG
