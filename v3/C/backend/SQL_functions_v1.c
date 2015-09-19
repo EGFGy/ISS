@@ -1257,15 +1257,21 @@ bool get_teacher_by_course(person * pers, char * c){
 
 /**
  * ----------------------------------------------------------------------------
- * Ab hier: Funktionen, die nicht direkt mit myssql zu tun haben,
+ * Ab hier: Funktionen, die nicht direkt mit mysql zu tun haben,
  * aber dennoch häufig gemeinsam mit den obigen Funktionen aufgerufen werden
  * ----------------------------------------------------------------------------
 */
 //Sollte man nicht alle html-bezogenen Funktionen in eine eigen Datei auslagern
 //TODO FEHELER!!!!!!! ( Eckige Klammer-auf geht durch ????
+/** \brief Einen String von "geföhrlichen" Zeichen befreien (nur bestimmtes Durchlassen)
+ *
+ * \param str char*  String der Verändert werden soll
+ * \return void
+ *
+ */
 void clean_string(char * str){
 	regex_t reg;
-	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüß!?(),.-]]*", REG_EXTENDED);
+	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüß!?(),.-]]*", REG_EXTENDED); //Nur diese Zeichen sind erlaubt
 	size_t str_len=strlen(str)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 	#ifdef DEBUG
@@ -1279,11 +1285,10 @@ void clean_string(char * str){
 }
 
 bool course_regex_search(course * c, char * all_courses){
-    regex_t reg;
-    char * reg_string=NULL;
-    asprintf(&reg_string, ", %s$\|, %s,\|^%s$\|^%s,)", c->name, c->name, c->name, c->name);
-    bool match=false;
-
+	regex_t reg;
+	char * reg_string=NULL;
+	asprintf(&reg_string, "(,| |^)%s(,|$)", c->name);
+	bool match=false;
 
 	int test=regcomp(&reg, reg_string, REG_EXTENDED);
 
@@ -1292,11 +1297,11 @@ bool course_regex_search(course * c, char * all_courses){
 	#ifdef DEBUG
 	fprintf(stderr, "(course_regex_search) String : '%s'\n", all_courses);
 	#endif // DEBUG
-
-	if(regexec(&reg, all_courses, str_len, pmatch, REG_NOTBOL) == 0){
-        match=true;
+	int res=regexec(&reg, all_courses, str_len, pmatch, 0); // 0 !?
+	if(res == 0){
+		match=true;
 	}else{
-        match=false;
+		match=false;
 	}
 
 	return match;
@@ -1311,7 +1316,7 @@ bool course_regex_search(course * c, char * all_courses){
 char * nlcr_to_htmlbr(char * str){
 
 	if(str == NULL){
-		 print_exit_failure("Programm falsch (nlcr_to_htmlbr)");
+		print_exit_failure("Programm falsch (nlcr_to_htmlbr)");
 	}
 
 	char * found=strstr(str, "\r\n");  //CR LF finden (%0D%0A) (machen alle Browser das so?) (IE, Safari, opera?)
