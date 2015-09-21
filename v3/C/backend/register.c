@@ -9,20 +9,26 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+#define DEBUG
+
 //name=fhfhiu&teach=true&acronym=FFF&pass=weew&acceptTOS=on (58)
 
 int main(int argc, char ** argv){
 	cgi datCGI;
+	char * teach=NULL;
+	char * acceptTOS=NULL;
+	person reg_person;
+	bool pw_short=false;
+
+	init_person(&reg_person);
 	init_CGI(&datCGI);
+
 	get_CGI_data(&datCGI);
 	if(datCGI.request_method == GET){
 		print_exit_failure("Use POST!");
 	}
 
-	person reg_person;
-	init_person(&reg_person);
-	char * teach=NULL;
-	char * acceptTOS=NULL;
+
 	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
 	extract_POST_data(&datCGI, "name_vor", &reg_person.first_name);
 	remove_newline(reg_person.first_name);
@@ -41,12 +47,29 @@ int main(int argc, char ** argv){
 	//TODO: fehlerhaften Aufruf abfangen
 	if(strcmp(teach, "true") == 0){
 		reg_person.isTeacher=true;
+		if(strlen(reg_person.acronym) != 3){
+            print_html_error("Das K&uuml;rzel muss genau 3 Zeichen lang sein", "K&uuml;rzel falsch");
+            exit(EXIT_FAILURE);
+		}
 	}else{
 		reg_person.isTeacher=false;
 	}
+	//Die E-Mail-Adresse muss genau EIN '@' beinhalten
+	if((strchr(reg_person.email, '@') == strrchr(reg_person.email, '@')) && strchr(reg_person.email, '@')) {
+		#ifdef DEBUG
+		fprintf(stderr, "es scheint alles zu passen (EMAIL)\n");
+		#endif // DEBUG
+
+		if(strlen(reg_person.password)<8){
+			pw_short=true;
+		}
+
+		insert_user(&reg_person);
+	}
+
 
 	//fprintf(stderr, "\nnow comes da htmlz\n");
-	insert_user(&reg_person);
+
 
 	httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 	httpHeader(HTML);
@@ -54,18 +77,20 @@ int main(int argc, char ** argv){
 
 	print_html_head("Passwort erneut eingeben", "Verifikation");
 
-	printf("<body>\n\
-		<div id='login-form'>\n\
-		<p><span>Herzlich willkommen <span style='font-weight: bold;'>%s %s.</span><br>Bitte %s zum Anmelden %s Passwort ein</p>\n\
-		<form method='post' action='/cgi-bin/login.cgi' style='border-radius: 1em; padding: 1em;' autocomplete='off'>\n\
+	puts("<body>\n\
+		<div id='login-form'>\n");
+		printf("<p><span>Herzlich willkommen <span style='font-weight: bold;'>%s %s.</span><br>Bitte %s zum Anmelden %s Passwort ein</p>\n",
+				reg_person.first_name, reg_person.name, reg_person.isTeacher ? "geben Sie" : "gib", reg_person.isTeacher ? "Ihr" : "dein" );
+	printf("<form method='post' action='/cgi-bin/login.cgi' style='border-radius: 1em; padding: 1em;' autocomplete='off'>\n\
 		<input type='hidden' name='email' value='%s' />\n\
 		<input class='textIn' placeholder='Passwort' type='password' id='pass' name='pass' required>\n\
 		<button class='submitButton' type='submit'>Anmelden*</button>\n\
-		</form>\n\
-		<small>* Cookies müssen aktiviert sein!</small>\n\
-		</div>\n\
-	</body>\n\
-</html>\n",reg_person.first_name, reg_person.name, reg_person.isTeacher ? "geben Sie" : "gib", reg_person.isTeacher ? "Ihr" : "dein" ,reg_person.email);
+		</form>\n",reg_person.email);
+	puts("<small>* Cookies müssen aktiviert sein!</small>\n");
+	if(pw_short){
+		puts("<br><small style='color: yellow; background-color: red;'>Sie sollten wirklich ein l&auml;ngeres Passwort verwenden!!</small>\n");
+	}
+	puts("</div>\n</body>\n</html>\n");
 
 	/*puts("Erhaltene Daten:\n");
 	printf("CONTENT_LENGTH: %d\n", datCGI.content_length);

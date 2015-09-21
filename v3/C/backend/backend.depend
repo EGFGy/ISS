@@ -472,7 +472,7 @@
 
 1442586721 /home/bank/github/ISS/v3/C/backend/SQL_functions.h
 
-1442613995 source:/home/bank/github/ISS/v3/C/backend/SQL_functions_v1.c
+1442653343 source:/home/bank/github/ISS/v3/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -489,4 +489,15 @@
 	<crypt.h>
 	"SQL_functions.h"
 	"CGI_functions.h"
+
+1442863682 source:/home/bank/github/ISS/v3/C/backend/register.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
 
