@@ -121,10 +121,10 @@ int main(int argc, char ** argv){
 				char * time_string=NULL;
 				asprintf(&time_string, "%s%d", german_weekdays[d], h+1);
 				//printf("TagStunde: %s\n", time_string);
-				for(size_t el=oldsize; el--;){
+				for(size_t el=oldsize; !c && el--;){
 					if(strcmp(timetable_courses[el].time, time_string) == 0){
 						c=(timetable_courses+el);
-						break;
+						//break;
 					}
 				}
 				if(c){
