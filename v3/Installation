@@ -26,8 +26,10 @@ dnsutils (Werkzeuge für dns)
 ==============================================
                   Anleitung
 ==============================================
+Alle Befehle müssen im selben Verzeichnis wie diese Anleitung ausgeführt werden,
+sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 
-1. Pakete installieren
+1. Pakete installieren & Zusätzliche Dateiei herunterladen
 
 	Für die Mindestanforderungen:
 	sudo apt-get update
@@ -36,6 +38,9 @@ dnsutils (Werkzeuge für dns)
 
 	Für Zusätzliche Dinge:
 	sudo apt-get install geany codeblocks codeblocks-contrib ufw dnsutils
+
+	Des weiteren wird eine Datei von jquery benötigt:
+	wget -O ./html/js/jquery.js http://code.jquery.com/jquery-1.11.3.min.js
 
 2. Software Konfigurieren
 	Die für die Konfiguration des nginx-Webservers, des fcgiwrappers

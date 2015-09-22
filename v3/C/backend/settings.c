@@ -181,9 +181,7 @@ int main(int argc, char ** argv){
 						if(is_ok){
 							update_user_courses(&check_person);
 						}else{
-							char * url=NULL;
-							asprintf(&url, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
-							print_html_error("Fehlerhafte Auswahl!", url);
+							print_html_error("Fehlerhafte Auswahl!", "/cgi-bin/settings.cgi");
 							exit(EXIT_FAILURE);
 						}
 					}
@@ -201,9 +199,7 @@ int main(int argc, char ** argv){
 				extract_POST_data(&datCGI, "new_email", &new_email);
 				if(strcmp(check_person.email, new_email) != 0){
 					if(email_exists(new_email)){
-						char * url=NULL;
-						asprintf(&url, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
-						print_html_error("Email existiert in der Datenbank bereits", url);
+						print_html_error("Email existiert in der Datenbank bereits", "/cgi-bin/settings.cgi");
 						exit(0);
 					}else{
                         if((strchr(new_email, '@') == strrchr(new_email, '@')) && strchr(new_email, '@')) {
@@ -218,9 +214,7 @@ int main(int argc, char ** argv){
 							httpSetCookie("EMAIL", new_email);
 							//httpSetCookie("SID", );
                         }else{
-							char * url=NULL;
-							asprintf(&url, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
-							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", url);
+							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", "/cgi-bin/settings.cgi");
 							exit(0);
                         }
 					}

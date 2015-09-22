@@ -32,14 +32,18 @@ int main(int argc, char ** argv){
 	//Für die Namen: siehe HTML-Dokument mit entsprechenden <input>-Elementen
 	extract_POST_data(&datCGI, "name_vor", &reg_person.first_name);
 	remove_newline(reg_person.first_name);
+	clean_string(reg_person.first_name);
 	extract_POST_data(&datCGI, "name", &reg_person.name);
 	remove_newline(reg_person.name);
+	clean_string(reg_person.name);
 	extract_POST_data(&datCGI, "email", &reg_person.email);
 	remove_newline(reg_person.email);
+	clean_string(reg_person.email);
 	extract_POST_data(&datCGI, "pass", &reg_person.password);
 	remove_newline(reg_person.password);
 	extract_POST_data(&datCGI, "acronym", &reg_person.acronym);
 	remove_newline(reg_person.acronym);
+	clean_string(reg_person.acronym);
 	extract_POST_data(&datCGI, "teach", &teach);
 	remove_newline(teach);
 	extract_POST_data(&datCGI, "acceptTOS", &acceptTOS);
@@ -48,7 +52,7 @@ int main(int argc, char ** argv){
 	if(strcmp(teach, "true") == 0){
 		reg_person.isTeacher=true;
 		if(strlen(reg_person.acronym) != 3){
-            print_html_error("Das K&uuml;rzel muss genau 3 Zeichen lang sein", "K&uuml;rzel falsch");
+            print_html_error("Das K&uuml;rzel muss genau 3 Zeichen lang sein", "/registrierung.html");
             exit(EXIT_FAILURE);
 		}
 	}else{
