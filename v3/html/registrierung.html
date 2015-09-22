@@ -7,6 +7,22 @@
 	<link rel="stylesheet" href="/css/forms.css">
 	<link rel="shortcut icon" href="/favicon.png" />
 	<style>
+	/*Source: http://www.unforastero.de/jquery/passwort-staerke-anzeige_demo.php*/
+body{margin:20px;font-size: 14px;font-family:arial;}
+
+    #resultat, .fl{display:inline; font-weight: bold;}
+    .kurz{color:#900000;}
+    .schwach{color:#ffa500;}
+    .gut{color:#000;}
+    .stark{color:#009000;}
+
+    .boldgreen{font-weight:bold;color:green;}
+
+    #minimum span{display:none;padding-left:10px;color:green;}
+    #grossundklein span{display:none;padding-left:10px;color:green;}
+    #buchstabenundzahlen span{display:none;padding-left:10px;color:green;}
+    #sonderzeichen span{display:none;padding-left:10px;color:green;}
+	
 input[type="radio"], input[type="checkbox"] {
 	display:none;
 }
@@ -39,6 +55,7 @@ input[type="radio"]:checked + label , input[type="checkbox"]:checked + label {
 }
 
 	</style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<script type="text/javascript">
 var name_correct=false;
 
@@ -101,7 +118,92 @@ function checkDatEmail(field)
 		}
 	xhr.send(params);
 }
+$(document).ready(function() {
+        $('#password').keyup(function(){
 
+        $('#resultat').html(   pruefStaerke( $('#password').val() )   );
+        });
+
+
+
+    function pruefStaerke(password){
+
+        var staerke = 0; // interner Wert
+
+
+
+        if(password.length > 7) {
+            staerke += 1;
+            $('#minimum span').show();
+            $('#minimum').addClass('boldgreen');
+        }else{
+            $('#minimum span').hide();
+            $('#minimum').removeClass('boldgreen');
+        }
+
+        if(password.match(/([a-z])/) && password.match(/([A-Z])/)  )
+        {     staerke += 1;
+            $('#grossundklein span').show();
+            $('#grossundklein').addClass('boldgreen');
+        } else{
+            $('#grossundklein span').hide();
+            $('#grossundklein').removeClass('boldgreen');
+        }
+
+        if(password.match(/([0-9])/) && password.match(/([a-zA-Z])/)) {
+            staerke += 1;
+            $('#buchstabenundzahlen span').show();
+            $('#buchstabenundzahlen').addClass('boldgreen');
+        }else{
+            $('#buchstabenundzahlen span').hide();
+            $('#buchstabenundzahlen').removeClass('boldgreen');
+        }
+
+        if(password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)){
+            staerke += 1;
+            $('#sonderzeichen span').show();
+            $('#sonderzeichen').addClass('boldgreen');
+        }else{
+            $('#sonderzeichen span').hide();
+            $('#sonderzeichen').removeClass('boldgreen');
+        }
+
+        if(password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) {
+            staerke += 1;
+        }
+
+
+        if (password.length < 6) {
+            $('#resultat').removeClass();
+            $('#resultat').addClass('kurz');
+            return 'Das Passwort ist zu kurz';
+        }
+
+
+        if (staerke < 2 ) {
+            $('#resultat').removeClass();
+            $('#resultat').addClass('schwach');
+            return 'Das Passwort ist schwach';
+
+        } else if (staerke == 2 ) {
+            $('#resultat').removeClass();
+            $('#resultat').addClass('gut');
+            return 'Das Passwort ist Gut';
+
+        } else if (staerke == 3 ) {
+            $('#resultat').removeClass();
+            $('#resultat').addClass('stark');
+            return 'Das Passwort ist Stark';
+        } else {
+            $('#resultat').removeClass();
+            $('#resultat').addClass('stark');
+            return '<b>Das Passwort ist super Stark</b>';
+        }
+
+
+    }
+
+    });
 	</script>
 	
 </head>
@@ -109,18 +211,28 @@ function checkDatEmail(field)
 <body onload="javascript:ShowAcronym(document.getElementById('pupil')); document.getElementById('register').style.display='none';">
 	<div id="login-form">
 	<form  method="post" action="/cgi-bin/register.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
-		<p>Geben sie Ihre Personendaten ein!</p>
+		<p><b>Geben sie Ihre Personendaten ein!</b></p>
 		<input id="UserName" class="textIn" placeholder="Vorname" name="name_vor" type="text" mozactionhint="next" required />
 		<input id="UserName" class="textIn" placeholder="Name" name="name" type="text" mozactionhint="next" required />
 		<input id="Email" class="textIn" placeholder="E-Mail" name="email" type="email" onblur="checkDatEmail(this);" mozactionhint="next" required />
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="teacher" name="teach" value="true"><label for="teacher" class="decision">Lehrer</label></input>
 		<input type="radio" onclick="javascript:ShowAcronym(this);" id="pupil" name="teach" value="false" checked="checked"><label for="pupil" class="decision">Schüler</label></input>
 		<input id="acronym" class="textIn" placeholder="Kürzel" name="acronym" type="text" mozactionhint="next" required />
-		<input class="textIn" placeholder="Passwort (bitte gut!)" name="pass" type="password" mozactionhint="next" required />
+		<input class="textIn" placeholder="Passwort (bitte gut!)" name="password" type="password" id="password" mozactionhint="next" required />
 		<br>
 		<input onclick="ShowDat(this, 'register');" id="acceptTOS" name="acceptTOS" type="checkbox"><label for="acceptTOS"></label><a href="/tos.html" target="_blank">Nutzungsbedingungen</a> gelesen und akzeptiert
 		<br>
 		<button class="submitButton" type="submit" id="register">Registrieren</button>
+		<p><b>Regeln f&uuml;r ein sicheres Passwort</b>
+	<ul>
+		<li id="minimum">mindestens 6 Zeichen lang<span>&radic;</span></li>
+		<li id="grossundklein">Gross- und Kleinbuchstaben vorhanden<span>&radic;</span></li>
+		<li id="buchstabenundzahlen">nicht nur Buchstaben, auch Zahlen verwenden<span>&radic;</span></li>
+		<li id="sonderzeichen">mindestens 1, besser 2 Sonderzeichen verwenden<span>&radic;</span></li>
+	</ul>
+	</p>
+	
+	<div id="resultat"></div><br>
 	</form>
 	<a href="/index.html" class="gradient-button">Zur&uuml;ck</a>
 	</div>
