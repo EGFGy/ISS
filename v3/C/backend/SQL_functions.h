@@ -88,6 +88,7 @@ size_t get_distinct_courses(course ** c);
 bool update_user_courses(person * pers);
 bool update_user_email(person * pers, char * new_email);
 size_t get_course(char * this_course, course ** c_arr);
+bool get_teacher_by_course(person * pers, char * c);
 
 void clean_string(char * str);
 char * nlcr_to_htmlbr(char * str);

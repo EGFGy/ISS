@@ -19,12 +19,7 @@ int main(int argc, char ** argv){
 	if(datCGI.http_cookies == NULL){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
-		httpSetCookie("EMAIL", "NULL");
-		httpSetCookie("SID", "0");
-		httpHeader(HTML);
-		print_html_head("Benutzung von Cookies", "Cookies");
-		puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
-		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
+		html_redirect_to_login();
 		exit(0);
 	}
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");

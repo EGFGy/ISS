@@ -19,7 +19,9 @@ int main(int argc, char ** argv){
 	init_person(&check_person);
 
 	get_CGI_data(&datCGI);
-	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
+	if(datCGI.http_cookies == NULL){
+		html_redirect_to_login();
+	}
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;

@@ -18,7 +18,10 @@ int main(int argc, char ** argv){
 
 	char * s_sid=NULL;
 	get_CGI_data(&datCGI);
-	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein! Anmeldung wie? SID wie?");
+	if(datCGI.http_cookies == NULL){
+		print_html_error("Anscheinend waren sie noch nie angemeldet oder es ist eine Fehler aufgetreten", "/index.html");
+		exit(0);
+	}
 
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);

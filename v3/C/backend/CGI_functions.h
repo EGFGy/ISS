@@ -31,3 +31,4 @@ void remove_newline(char * str);
 void print_html_head(char * descr, char * title);
 void print_html_pure_head_menu(char * descr, char * title, menuSelection menu);
 void print_html_error(char * ErrorText, char * back_url);
+void html_redirect_to_login();

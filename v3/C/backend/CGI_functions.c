@@ -356,7 +356,7 @@ void remove_newline(char * str){
 void print_html_head(char * descr, char * title){
 	printf("\
 	<!doctype html>\n\
-	<html lang='en'>\n\
+	<html lang='de'>\n\
 	<head>\n\
 	<meta charset='utf-8'>\n\
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n\
@@ -497,4 +497,20 @@ httpHeader(HTML);
 		printf("<p><span style='color: yellow; background-color: red;'>%s</p>\n", ErrorText);
 				printf("<br><a href='%s' class='gradient-button'>Zur&uuml;ck</a>\n", back_url);
 				puts("</div>\n</body>\n</html>\n");
+}
+
+/** \brief  Cookies auf 0 setzten und einen Link zur Anmeldeseite anzeigen
+ *
+ * \return void
+ *
+ * Dem Nutzer anzeigen, dass Cookies verwendet werden, und dass er sich einloggen soll.
+ */
+void html_redirect_to_login(){
+	httpSetCookie("EMAIL", "NULL");
+	httpSetCookie("SID", "0");
+	httpHeader(HTML);
+	print_html_head("Benutzung von Cookies", "Cookies");
+	puts("<body><h1>Sie sind nicht angemeldet</h1><br>Damit Sie sich anmelden können müssen Cookies aktiv sein!<br>");
+	printf("<a href='/index.html'>ZUR&Uuml;CK zur Anmeldung</a>");
+	exit(0);
 }

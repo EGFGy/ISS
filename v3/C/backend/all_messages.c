@@ -22,14 +22,16 @@ int main(int argc, char ** argv){
 	if(datCGI.http_cookies == NULL){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
-		httpSetCookie("EMAIL", "NULL");
-		httpSetCookie("SID", "0");
-		httpHeader(HTML);
-		print_html_head("Benutzung von Cookies", "Cookies");
-		puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
-		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
+		html_redirect_to_login();
+		/**
+		* Ab jetzt sind die cookies möglicherweise auf 0 bzw. NULL gesetzt
+		* --> Wenn der Nutzer nochmal unangemeldet hier her kommt wird er gleich umgeleitet
+		*     (Siehe 'UMLEITUNG')
+		*/
+
 		exit(0);
 	}
+
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
 
 	//Anhand der SID und der E-Mail-Adresse wird geprüft ob der aktuelle Benutzer angemeldet ist.
@@ -110,7 +112,7 @@ int main(int argc, char ** argv){
 		puts("</div></div>");
 		puts("</body></html>");
     }else{
-		//printf("Erst anmelden!!");
+		// UMLEITUNG
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");

@@ -20,7 +20,10 @@ int main(int argc, char ** argv){
 	init_person(&check_person);
 
 	get_CGI_data(&datCGI);
-	if(datCGI.http_cookies == NULL)print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
+	if(datCGI.http_cookies == NULL){
+		html_redirect_to_login();
+		exit(0);
+	}
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
 	char * s_sid=NULL;
@@ -98,7 +101,8 @@ int main(int argc, char ** argv){
 			if(strcmp(check_person.courses, "n/a") != 0 || strlen(check_person.courses)>1){
 					puts("<input onclick='toggleId(this, \"btn_save\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
 			}
-			printf("<br><input id='btn_save' class='submitButton' %s type='submit' value='Speichern'>", strcmp(check_person.courses, "n/a") != 0 ? "style='display: none;'" : "style='display: block;'");
+			printf("<br><input id='btn_save' class='submitButton' %s type='submit' value='Speichern'>",
+					strcmp(check_person.courses, "n/a") != 0 ? "onload=\"this.style.display='none';\"" : ""); //style='display: block;'
 
 			puts("</form>");
 			puts("</div>"); //zu courseSelection

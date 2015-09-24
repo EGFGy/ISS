@@ -25,12 +25,7 @@ int main(int argc, char ** argv){
 	if(datCGI.http_cookies == NULL){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
-		httpSetCookie("EMAIL", "NULL");
-		httpSetCookie("SID", "0");
-		httpHeader(HTML);
-		print_html_head("Benutzung von Cookies", "Cookies");
-		puts("<body>Cookies müssen aktiv und gesetzt sein!<br>");
-		printf("<a href=https://%s/index.html>ZUR&Uuml;CK zur Anmeldung</a>", datCGI.http_host);
+		html_redirect_to_login();
 		exit(0);
 	}
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
@@ -55,12 +50,6 @@ int main(int argc, char ** argv){
 			size_t num_new_courses=get_course(current_course, &current_course_set);
 			if(num_new_courses > 0){
 				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course)); //CAUSES TROUBLE WHAARG
-				/*for(int j=num_new_courses; j--;){
-					timetable_courses[oldsize+j].id=current_course_set[j].id;
-					timetable_courses[oldsize+j].name=current_course_set[j].name;
-					timetable_courses[oldsize+j].time=current_course_set[j].time;
-					timetable_courses[oldsize+j].room=current_course_set[j].room;
-				}*/
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
@@ -102,16 +91,18 @@ int main(int argc, char ** argv){
 
 		puts("<div class='content' style='max-width: 900px;'>");
 
+		printf("<span>Datum: %02d.%02d.%d</span>", time_now->tm_mday, time_now->tm_mon, time_now->tm_year+1900);
+
 		puts("<table class='time-table' id='outer'>");
-		/*puts("<tr>\n\
-	<th>/</th> <th>Montag </th> <th>Dienstag </th> <th>Mittwoch </th> <th>Donnerstag</th> <th>Freitag</th>\n\
-</tr>\n");*/
 		puts("<tr><th>/</th>");
+
+		//Wochentage als Spaltenüberschriften (aktuellen Tag hervorheben)
 		for(int d=0; d<WEEKDAY_MAX; d++){
 			printf("<th %s>%s</th>\n", d==w_day ? "class='day-active'" : "", long_german_weekdays[d]);
 		}
 		puts("</tr>");
 
+		//Schulstunden und Tage durchlaufen
 		for(int h=0; h<HOUR_MAX; h++){
 			puts("<tr>");
 			printf("<th> %d. Std.</th>", h+1);
@@ -121,10 +112,11 @@ int main(int argc, char ** argv){
 				char * time_string=NULL;
 				asprintf(&time_string, "%s%d", german_weekdays[d], h+1);
 				//printf("TagStunde: %s\n", time_string);
+
+				//Herausfinden welche Stunde jetzt (h, d) ist
 				for(size_t el=oldsize; !c && el--;){
 					if(strcmp(timetable_courses[el].time, time_string) == 0){
 						c=(timetable_courses+el);
-						//break;
 					}
 				}
 				if(c){
