@@ -21,6 +21,7 @@ int main(int argc, char ** argv){
 	get_CGI_data(&datCGI);
 	if(datCGI.http_cookies == NULL){
 		html_redirect_to_login();
+		exit(0);
 	}
 
 	//Anhand der SID und der Email wird geprüft ob der aktuelle Benutzer angemeldet ist.
