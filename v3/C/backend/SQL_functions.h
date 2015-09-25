@@ -29,6 +29,11 @@
 
 #define SALT_LENGTH 12
 
+#define WEEKDAY_MAX 5
+#define HOUR_MAX 11
+
+extern const char * german_weekdays[5];
+extern const char * long_german_weekdays[5];
 
 typedef struct {
 	int id;                 // ID der Person

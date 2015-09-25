@@ -10,11 +10,6 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
-#define WEEKDAY_MAX 5
-const char * german_weekdays[5]={"Mo", "Di", "Mi", "Do", "Fr"};
-const char * long_german_weekdays[5]={"Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"};
-#define HOUR_MAX 11
-
 int main(int argc, char ** argv){
 	cgi datCGI;
 	init_CGI(&datCGI);
@@ -49,7 +44,7 @@ int main(int argc, char ** argv){
 			course * current_course_set=NULL;
 			size_t num_new_courses=get_course(current_course, &current_course_set);
 			if(num_new_courses > 0){
-				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course)); //CAUSES TROUBLE WHAARG
+				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);

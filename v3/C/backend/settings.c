@@ -10,6 +10,10 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+#define NO_ERROR 0
+#define ERROR_DOUBLE_COURSE 1
+#define ERROR_DOUBLE_TEACHER 2
+
 #define DEBUG
 
 
@@ -143,6 +147,8 @@ int main(int argc, char ** argv){
 				#ifdef DEBUG
 				fprintf(stderr, "--------------\nKURSLISTE: %s\n--------------\n\n", selected_courses);
 				#endif // DEBUG
+
+				//Nur weitermachen, wenn auch was drinsteht
 				if(selected_courses != NULL){
 					if(strcmp(check_person.courses, "n/a") == 0){
 						//Die Person hatte noch keine Kurse --> erstes einstellen
@@ -157,22 +163,21 @@ int main(int argc, char ** argv){
 						check_person.courses=selected_courses;
 						char ** arr_selected_courses=NULL;
 						int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
-						bool is_ok=true; //ist die Auswahl in Ordnung? (keine doppelten Lehrer / Stunden)
+						int is_ok=NO_ERROR; //ist die Auswahl in Ordnung? (keine doppelten Lehrer / Stunden)
 
 						if(check_person.isTeacher){
 							person possible_teacher;
 							init_person(&possible_teacher);
-							for(int i=num_courses; i--;){
+							for(int i=num_courses; is_ok==NO_ERROR && i--;){
 								if(get_teacher_by_course(&possible_teacher, arr_selected_courses[i])){
 									//Der Kurs wird schon von einem Lehrer unterrichtet
 									if(possible_teacher.id != check_person.id){
 										//Der Kurs wird von einem anderen Lehrer unterrichtet.
-										is_ok=false;
-										break;
+										is_ok=ERROR_DOUBLE_TEACHER;
 									}else{
 										//Der aktuelle Lehrer unterrichtet diesen Kurs
 										//und hatte ihn schon vorher ausgewählt
-										is_ok=true;
+										is_ok=NO_ERROR;
 									}
 								}else{
 									//Der Kurs wird noch nicht unterrichtet
@@ -180,12 +185,61 @@ int main(int argc, char ** argv){
 							}
 						}
 
+						if(is_ok == NO_ERROR){
+							course * timetable_courses=NULL;
+							size_t oldsize=0;
+							for(int i=num_courses; i--;){
+								char * current_course=*(arr_selected_courses+i);
+								course * current_course_set=NULL;
+								size_t num_new_courses=get_course(current_course, &current_course_set);
+								if(num_new_courses > 0){
+									timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
+									memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
+									free(current_course_set);
+									oldsize+=num_new_courses;
+								}
+							}
+							for(int h=1; is_ok==NO_ERROR && h<HOUR_MAX; h++){
+								for(int d=0; is_ok==NO_ERROR && d<WEEKDAY_MAX; d++){
+									int cnt=0; // Zähler für das Auftreten dieser bestimmten Stunde (z.B. Di4)
+									           // Muss 1 sein
+									char * time_string=NULL;
+									asprintf(&time_string, "%s%d", german_weekdays[d], h+1);
+									for(int i=oldsize; is_ok==NO_ERROR && i--;){
+										if(strstr(timetable_courses[i].time, time_string)){
+											cnt++;
+										}
+										if(cnt>1)is_ok=ERROR_DOUBLE_COURSE;
+									}
+									free(time_string);
+								}
+							}
+						}
+
+
+
 						//TODO: Doppelte Stundenbelegung-Testen
 
-						if(is_ok){
+						if(is_ok == NO_ERROR){
 							update_user_courses(&check_person);
 						}else{
-							print_html_error("Fehlerhafte Auswahl!", "/cgi-bin/settings.cgi");
+							char * Meldung=NULL;
+							//asprintf(&Meldung, "Falg: %d", is_ok);
+							switch(is_ok){
+								case ERROR_DOUBLE_COURSE:
+									asprintf(&Meldung, "%s mehrere Kurse ausgew&auml;hlt die zur selben Zeit stattfinden.", check_person.isTeacher ? "Sie haben" : "Du hast");
+								break;
+
+								case ERROR_DOUBLE_TEACHER:
+									asprintf(&Meldung, "Fehlerhafte Auswahl!");
+								break;
+								default:
+									asprintf(&Meldung, "Fehlerhafte Auswahl!");
+								break;
+							}
+
+
+							print_html_error(Meldung, "/cgi-bin/settings.cgi");
 							exit(EXIT_FAILURE);
 						}
 					}
