@@ -1,69 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="settings" />
-	<File name="settings.c" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9770" topLine="226" />
-		</Cursor>
+	<File name="CGI_functions.c" open="1" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="CGI_functions.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="15781" topLine="492" />
-		</Cursor>
+	<File name="CGI_functions.h" open="1" top="0" tabpos="2">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="main_strtok_base3.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4452" topLine="122" />
-		</Cursor>
+	<File name="SQL_functions.h" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="CGI_functions.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="951" topLine="10" />
-		</Cursor>
+	<File name="SQL_functions_v1.c" open="1" top="0" tabpos="3">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="SQL_functions.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="873" topLine="21" />
-		</Cursor>
+	<File name="all_messages.c" open="1" top="0" tabpos="5">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="post_message.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="443" topLine="47" />
-		</Cursor>
+	<File name="check_user_exist.c" open="1" top="0" tabpos="11">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="spec_messages.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1300" topLine="35" />
-		</Cursor>
+	<File name="logout.c" open="1" top="0" tabpos="12">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="logout.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1127" topLine="31" />
-		</Cursor>
+	<File name="main_strtok_base3.c" open="1" top="0" tabpos="13">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="register.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2182" topLine="67" />
-		</Cursor>
+	<File name="post_message.c" open="1" top="0" tabpos="9">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="all_messages.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1344" topLine="17" />
-		</Cursor>
+	<File name="register.c" open="1" top="0" tabpos="10">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="SQL_functions_v1.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="870" topLine="21" />
-		</Cursor>
+	<File name="settings.c" open="1" top="1" tabpos="8">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="timetable.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3386" topLine="93" />
-		</Cursor>
+	<File name="spec_messages.c" open="1" top="0" tabpos="6">
+		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="check_user_exist.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="609" topLine="14" />
-		</Cursor>
+	<File name="timetable.c" open="1" top="0" tabpos="7">
+		<Cursor position="0" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
