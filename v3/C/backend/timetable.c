@@ -86,7 +86,8 @@ int main(int argc, char ** argv){
 
 		puts("<div class='content' style='max-width: 900px;'>");
 
-		printf("<span>Datum: %02d.%02d.%d</span>", time_now->tm_mday, time_now->tm_mon, time_now->tm_year+1900);
+		printf("<span>Datum: %02d.%02d.%d %s</span>",
+         time_now->tm_mday, time_now->tm_mon+1, time_now->tm_year+1900, time_now->tm_isdst ? "MESZ" : "MEZ" );
 
 		puts("<table class='time-table' id='outer'>");
 		puts("<tr><th>/</th>");
