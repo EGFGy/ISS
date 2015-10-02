@@ -492,7 +492,7 @@ httpHeader(HTML);
 </head>\n\
 <body>\n\
 		<div id='login-form'>\n");
-		printf("<p><span style='color: yellow; background-color: red;'>%s</p>\n", ErrorText);
+		printf("<p><span style='color: yellow; background-color: red; font-family: monospace; font-size: 12pt;'>%s</p>\n", ErrorText);
 				printf("<br><a href='%s' class='gradient-button'>Zur&uuml;ck</a>\n", back_url);
 				puts("</div>\n</body>\n</html>\n");
 }

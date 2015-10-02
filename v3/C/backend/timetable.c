@@ -59,7 +59,7 @@ int main(int argc, char ** argv){
 						current_course_set[j].teacher=NULL;
 					}
 				}
-
+				//Die neuen Kurse werden an den Stundenplan angehängt
 				memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
 				free(current_course_set);
 				if(!teach->acronym && teach)free(teach);

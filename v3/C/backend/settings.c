@@ -176,9 +176,15 @@ int main(int argc, char ** argv){
 							size_t num_new_courses=get_course(current_course, &current_course_set);
 							if(num_new_courses > 0){
 								if(timetable_courses != NULL){
-									for(int j=num_new_courses; j--;){
-										for(int e=oldsize; e--;){
+									//Wenn schon Stunden zum Vergleich verfügbar sind
+									for(int j=num_new_courses; j--;){ // Über alle neue Stunden
+										for(int e=oldsize; e--;){ // Über alle schon im Stundenplan
 											if(strcmp(timetable_courses[e].time, current_course_set[j].time) == 0){
+												/**
+												Wenn die Zeit(en) der/des neue(n) Kurse(s) mit den schon vorhanden
+												Übereinstimmen, ist mindestens eine Stunde doppelt belegt.
+												Das darf nicht sein.
+												*/
 												#ifdef DEBUG
 												fprintf(stderr, "Dopp! %s und %s bei %s\n", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
 												#endif // DEBUG
@@ -189,6 +195,7 @@ int main(int argc, char ** argv){
 										}
 									}
 								}
+								//Die neuen Kurse werden an den Stundenplan angehängt
 								timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
 								memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
 								free(current_course_set);
@@ -267,9 +274,6 @@ int main(int argc, char ** argv){
 						}*/
 
 
-
-						//TODO: Doppelte Stundenbelegung-Testen
-
 						if(is_ok == NO_ERROR){
 							update_user_courses(&check_person);
 						}else{
@@ -282,7 +286,7 @@ int main(int argc, char ** argv){
 								break;
 
 								case ERROR_DOUBLE_TEACHER:
-									asprintf(&Meldung, "Fehlerhafte Auswahl!");
+									asprintf(&Meldung, "Der Kurs wird schon von einem anderen Lehrer unterrichtet");
 								break;
 								default:
 									asprintf(&Meldung, "Fehlerhafte Auswahl!");
@@ -324,7 +328,7 @@ int main(int argc, char ** argv){
 							//httpSetCookie("SID", );
                         }else{
 							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", "/cgi-bin/settings.cgi");
-							exit(0);
+							exit(EXIT_FAILURE);
                         }
 					}
 				}
