@@ -114,11 +114,9 @@ void get_CGI_data(cgi * gotCGI){
 
 
 			//Wenn zusätzlich auch noch ein QUERY_STRING da ist, diesen auch einlesen
-			if(strlen(getenv("QUERY_STRING")) > 0){
-				char * query_string=getenv("QUERY_STRING");
-				if(query_string == NULL){
-					print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
-				}
+			char * query_string=getenv("QUERY_STRING");
+			if(query_string != NULL){
+
 				fprintf(stderr, "(BOTH) QUERY_STRING: '%s'\n", query_string);
 
 				char * pch;

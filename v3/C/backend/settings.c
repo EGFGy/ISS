@@ -156,7 +156,7 @@ int main(int argc, char ** argv){
 						update_user_courses(&check_person);
 					}else if(extract_POST_data(&datCGI, "really",NULL) == 0){
 						#ifdef DEBUG
-						fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################");
+						fprintf(stderr, "#################\nDer Nutzer will tatsächlich seine Kurse ändern\n#################\n");
 						#endif // DEBUG
 
 						// Nicht mehrere Kurs zur selben Zeit + nicht mehrere Lehrer in einem Kurs
@@ -164,8 +164,58 @@ int main(int argc, char ** argv){
 						char ** arr_selected_courses=NULL;
 						int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
 						int is_ok=NO_ERROR; //ist die Auswahl in Ordnung? (keine doppelten Lehrer / Stunden)
+						size_t oldsize=0;
+						course * timetable_courses=NULL;
 
-						if(check_person.isTeacher){
+						char * error_message=NULL;
+
+						for(int i=num_courses; is_ok==NO_ERROR && i--;){
+
+							char * current_course=*(arr_selected_courses+i);
+							course * current_course_set=NULL;
+							size_t num_new_courses=get_course(current_course, &current_course_set);
+							if(num_new_courses > 0){
+								if(timetable_courses != NULL){
+									for(int j=num_new_courses; j--;){
+										for(int e=oldsize; e--;){
+											if(strcmp(timetable_courses[e].time, current_course_set[j].time) == 0){
+												#ifdef DEBUG
+												fprintf(stderr, "Dopp! %s und %s bei %s\n", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
+												#endif // DEBUG
+												asprintf(&error_message, "%s<br>%s und %s bei %s",
+															error_message ? error_message : "", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
+												is_ok=ERROR_DOUBLE_COURSE;
+											}
+										}
+									}
+								}
+								timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
+								memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
+								free(current_course_set);
+								oldsize+=num_new_courses;
+							}
+
+
+							if(check_person.isTeacher && is_ok == NO_ERROR){
+								person possible_teacher;
+								init_person(&possible_teacher);
+								if(get_teacher_by_course(&possible_teacher, arr_selected_courses[i])){
+									//Der Kurs wird schon von einem Lehrer unterrichtet
+									if(possible_teacher.id != check_person.id){
+										//Der Kurs wird von einem anderen Lehrer unterrichtet.
+										is_ok=ERROR_DOUBLE_TEACHER;
+									}else{
+										//Der aktuelle Lehrer unterrichtet diesen Kurs
+										//und hatte ihn schon vorher ausgewählt
+										is_ok=NO_ERROR;
+									}
+								}else{
+									//Der Kurs wird noch nicht unterrichtet
+								}
+							}
+						}
+
+						/*if(check_person.isTeacher){
 							person possible_teacher;
 							init_person(&possible_teacher);
 							for(int i=num_courses; is_ok==NO_ERROR && i--;){
@@ -214,7 +264,7 @@ int main(int argc, char ** argv){
 									free(time_string);
 								}
 							}
-						}
+						}*/
 
 
 
@@ -227,7 +277,8 @@ int main(int argc, char ** argv){
 							//asprintf(&Meldung, "Falg: %d", is_ok);
 							switch(is_ok){
 								case ERROR_DOUBLE_COURSE:
-									asprintf(&Meldung, "%s mehrere Kurse ausgew&auml;hlt die zur selben Zeit stattfinden.", check_person.isTeacher ? "Sie haben" : "Du hast");
+									asprintf(&Meldung, "%s mehrere Kurse ausgew&auml;hlt die zur selben Zeit stattfinden.<br>%s",
+													check_person.isTeacher ? "Sie haben" : "Du hast", error_message);
 								break;
 
 								case ERROR_DOUBLE_TEACHER:

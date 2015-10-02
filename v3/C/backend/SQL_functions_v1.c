@@ -1141,9 +1141,9 @@ bool update_user_email(person * pers, char * new_email){
 	}
 }
 
-/** \brief Alle Vorkommen (Zeiten, Räume IDs) eines Kurses holen
+/** \brief Alle Vorkommen + Daten (Zeiten, Räume IDs) eines Kurses holen
  *
- * \param this_course char*  String mit name des Kurses
+ * \param this_course char*  String mit Name des Kurses (Kursbezeichnung)
  * \param c_arr course**     Array in dem die Kurse mit allen Daten gespeichert werden
  * \return size_t            Anzahl der Kurse in c_arr, 0: wenn der Kurs nicht gefunden wurde
  *
@@ -1198,6 +1198,14 @@ size_t get_course(char * this_course, course ** c_arr){
 	}
 }
 
+/** \brief Anhand einer Kursbezeichnung herausfinden, welcher Lehrer diesen unterrichtet
+ *
+ * \param pers person*   Personen-Objekt, in dem die gefunden Person gespeichert wird
+ * \param c char*        Kursbezeichnung
+ * \return bool          true:  es gibt genau eine Person, die diesen Kurs unterrichtet
+                         false: Fehler, oder mehre Personen unterrichtet den Kurs
+ *
+ */
 bool get_teacher_by_course(person * pers, char * c){
 	if(pers == NULL || c==NULL){
 		print_exit_failure("Programm falsch (get_teacher_by_course)");
@@ -1256,7 +1264,6 @@ bool get_teacher_by_course(person * pers, char * c){
 		return false;
 	}
 }
-
 
 
 /**
