@@ -36,6 +36,12 @@ function selectOnly(){
 		}
 		console.log("gradeFilter on");
 		
+		if (grade < 11){
+			document.getElementById("select-all").style.display='block';
+		}else{
+			document.getElementById("select-all").style.display='none';
+		}
+		
 		
 		it.style.backgroundColor='lightgreen';
 		it.innerHTML='zur&uuml;ck';
@@ -79,7 +85,6 @@ function searchString(){
 				html_element.style.display='none';
 			}
 		}
-		
 		it.style.backgroundColor='lightgreen';
 		it.innerHTML='zur&uuml;ck';
 		stringFilter=true;
@@ -91,7 +96,6 @@ function searchString(){
 		stringFilter=false;
 		it.style.backgroundColor='white';
 	}
-		
 }
 
 function reset(){
@@ -99,6 +103,38 @@ function reset(){
 	for(var i=0; i<all.length; i++){
 		var html_element=all[i];
 		html_element.style.display='inline-block';
+	}
+}
+
+function SelectAllShown(){
+	var grade=document.getElementById("grade").value;
+	var letter=document.getElementById("letter").value;
+	var all=document.getElementById("courses").getElementsByTagName("label");
+	
+	var str=grade+letter;
+	
+	var re=new RegExp(str);
+	
+	var choose_course=new RegExp(grade+letter+"([EeSs][MWmwTtVvHh]{1,}|[FfLlKk]$)");
+	
+	if (grade < 11){
+		for(var i=0; i<all.length; i++){
+			var arr=all[i].htmlFor.search(re);
+			var html_element=all[i];
+			if(arr >= 0){
+				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
+				html_element.style.display='inline-block';
+				if(html_element.htmlFor.search(choose_course)){
+					document.getElementById(html_element.htmlFor).checked=true;
+				}
+			}else{
+				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id + "<invisible>");
+				html_element.style.display='none';
+				document.getElementById(html_element.htmlFor).checked=false;
+			}
+		}
+	}else{
+		console.log('möh');
 	}
 }
 

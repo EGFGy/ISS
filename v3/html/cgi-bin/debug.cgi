@@ -1,6 +1,23 @@
 #!/bin/bash
 
-echo "Content-type: text/plain"
+echo "Content-type: text/html"
+echo
+echo
+cat <<HEADER
+<!DOCTYPE html>
+<head>
+	<title>InfoWall -- Debug</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="/css/forms.css" />
+	<link rel="shortcut icon" href="/favicon.png" />
+</head>
+
+<body>
+<pre>
+HEADER
+
+
 echo
 echo
 
@@ -17,7 +34,11 @@ echo "status:"
 echo -------------
 uptime
 echo
-service --status-all 2>/dev/null
+#service --status-all 2>/dev/null
+service nginx status
+service ufw status
+service mysql status
+service fcgiwrap status
 echo -------------
 echo "Temperatur:"
 sensors | grep -i '[Ct][oe][rm][ep]' | sed -e 's/(.*//'
@@ -37,3 +58,6 @@ echo VARIABLES
 env
 echo ">-------------<"
 echo end
+
+echo "</pre>"
+echo "</body></html>"

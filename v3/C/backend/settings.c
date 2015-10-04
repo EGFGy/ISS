@@ -86,6 +86,8 @@ int main(int argc, char ** argv){
 			</tr>\n\
 			</table>");
 			puts("<small>* erfordert Javascript</small>");
+			puts("<div id='select-all' style='margin-left: auto; margin-right: auto; text-align: center;'><button onclick='SelectAllShown();' style='margin-left: auto; margin-right: auto; display: block; border: 2px solid #808080; background-color: #FFFFFF;'>Pflichtfächer AUSWÄHLEN</button>\n\
+				<small>Sport, Konfession und Sprache müssen noch ausgewählt werden</small></div>\n");
 
 			printf("<form action='https://%s/cgi-bin/settings.cgi?course_update=change' method='POST'>\n", datCGI.http_host);
 			puts("<div id='courses' style='padding: 1em;'>");
@@ -169,7 +171,7 @@ int main(int argc, char ** argv){
 
 						char * error_message=NULL;
 
-						for(int i=num_courses; is_ok==NO_ERROR && i--;){
+						for(int i=num_courses; is_ok == NO_ERROR && i--;){
 
 							char * current_course=*(arr_selected_courses+i);
 							course * current_course_set=NULL;

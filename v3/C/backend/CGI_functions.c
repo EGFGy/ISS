@@ -116,18 +116,21 @@ void get_CGI_data(cgi * gotCGI){
 			//Wenn zusätzlich auch noch ein QUERY_STRING da ist, diesen auch einlesen
 			char * query_string=getenv("QUERY_STRING");
 			if(query_string != NULL){
+				if(strlen(query_string)>0){
+					fprintf(stderr, "(BOTH) QUERY_STRING: '%s'\n", query_string);
 
-				fprintf(stderr, "(BOTH) QUERY_STRING: '%s'\n", query_string);
-
-				char * pch;
-				int query_len=strnlen(query_string, content_max);
-				//Alle '+' durch Leerzeichen ersetzen
-				for(int i=0; i<query_len; i++){
-					pch=memchr(query_string, '+', query_len);
-					if(pch !=NULL) *pch=' ';
+					char * pch;
+					int query_len=strnlen(query_string, content_max);
+					//Alle '+' durch Leerzeichen ersetzen
+					for(int i=0; i<query_len; i++){
+						pch=memchr(query_string, '+', query_len);
+						if(pch !=NULL) *pch=' ';
+					}
+					gotCGI->query_string=query_string;
+					gotCGI->request_method=BOTH;
+				}else{
+					gotCGI->request_method=POST;
 				}
-				gotCGI->query_string=query_string;
-				gotCGI->request_method=BOTH;
 			}else{
 				gotCGI->request_method=POST;
 			}

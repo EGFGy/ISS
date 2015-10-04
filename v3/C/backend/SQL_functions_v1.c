@@ -390,14 +390,17 @@ void salt_generate(char ** salt){
 bool salt_exists(char ** salt){
 
 	char * seekSalt=calloc(SALT_LENGTH+1, sizeof(char));
+	char * query=NULL;
+	MYSQL * my=NULL;
+	MYSQL_RES * result=NULL;
+
 	strncpy(seekSalt, *salt, SALT_LENGTH);
 
-	char * query=NULL;
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
@@ -406,7 +409,6 @@ bool salt_exists(char ** salt){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
-	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		print_exit_failure("mysql_query failed (search salt)");
@@ -441,16 +443,20 @@ bool salt_exists(char ** salt){
  *
  */
 bool email_exists(char * email){
+	char * query=NULL;
+	MYSQL * my=NULL;
+	MYSQL_RES * result=NULL;
+
+
 	if(email == NULL){
 		print_exit_failure("Programm falsch, (email_exists)");
 	}
 
-	char * query=NULL;
 	if(asprintf(&query, "SELECT email FROM Benutzer WHERE email='%s'", email) == -1){
         print_exit_failure("Es konnte kein Speicher angefordert werden (email_exists)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -459,7 +465,6 @@ bool email_exists(char * email){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
-	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		#ifdef DEBUG
@@ -497,16 +502,19 @@ bool email_exists(char * email){
  *
  */
 bool acronym_exists(char * acronym){
+	char * query=NULL;
+	MYSQL * my=NULL;
+	MYSQL_RES * result=NULL;
+
 	if(acronym == NULL){
 		print_exit_failure("Programm falsch, Wörk!");
 	}
 
-	char * query=NULL;
 	if(asprintf(&query, "SELECT kuerzel FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (acronym_exists)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -515,7 +523,6 @@ bool acronym_exists(char * acronym){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
-	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		#ifdef DEBUG
@@ -555,6 +562,8 @@ bool acronym_exists(char * acronym){
  */
 int create_session(person * pers){
     char * query=NULL;
+    MYSQL * my=NULL;
+	MYSQL_RES * result=NULL;
 
 	srand(time(NULL));
 	int generated_sid=rand();
@@ -568,7 +577,7 @@ int create_session(person * pers){
         print_exit_failure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -599,11 +608,14 @@ int create_session(person * pers){
 bool sid_exists(int sid){
 
 	char * query=NULL;
+	MYSQL * my=NULL;
+	MYSQL_RES * result=NULL;
+
 	if(asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_exists)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
@@ -611,8 +623,6 @@ bool sid_exists(int sid){
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
-
-	MYSQL_RES * result=NULL;
 
 	if(mysql_query(my, query)){
 		print_exit_failure("mysql_query failed (search sid)");
@@ -648,11 +658,13 @@ bool sid_exists(int sid){
  */
 bool sid_set_null(person * pers){
 	char * query=NULL;
+	MYSQL * my=NULL;
+
 	if(asprintf(&query, "UPDATE Benutzer SET sid=NULL WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_set_null)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -684,11 +696,13 @@ bool sid_set_null(person * pers){
  */
 bool verify_sid(person * pers){
 	char * query=NULL;
+	MYSQL * my=NULL;
+
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE email='%s' AND sid='%d'", pers->email, pers->sid) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (verify_sid)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -706,23 +720,20 @@ bool verify_sid(person * pers){
 		MYSQL_RES * result=NULL;
 		result = mysql_store_result(my);
 
-		if(mysql_num_rows(result) > 0){
+		if(mysql_num_rows(result) > 0){  //TODO Wohl doch eher == 1 (es muss ja genau 1 sein)
 			#ifdef DEBUG
 			fprintf(stderr, "sid gefunden\n");
 			#endif // DEBUG
-			mysql_free_result(result);
-			mysql_close(my);
-
 			pers->auth=true;
-			free(query);
-			return true;
+		}else{
+			pers->auth=false;
 		}
 		mysql_free_result(result);
 	}
-	pers->auth=false;
+
     mysql_close(my);
     free(query);
-	return false;
+	return pers->auth;
 }
 
 /** \brief 5 Nachrichten holen
@@ -737,6 +748,9 @@ int get_messages(message ** mes, int offset, char * select_course){
 
 	char * query=NULL;
 	int num=0;
+	MYSQL * my=NULL;
+
+
 	if(select_course){
 		if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse REGEXP '(^|, )%s($|, )'  ORDER BY erstellt DESC LIMIT %d OFFSET %d", select_course, GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
@@ -747,7 +761,7 @@ int get_messages(message ** mes, int offset, char * select_course){
 		}
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -809,11 +823,14 @@ bool get_person_by_id(person * pers){
 
 	if(pers->id < 1)return NULL;
 	char * query=NULL;
+	MYSQL * my=NULL;
+	bool found=false;
+
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE id='%d'", pers->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_id)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -866,17 +883,14 @@ bool get_person_by_id(person * pers){
 				pers->sid=atoi(row[COL_SID]);
 			}
 
-			mysql_free_result(result);
-			mysql_close(my);
-			free(query);
-			return true;
+			found=true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
     free(query);
-    return false;
+    return found;
 }
 
 /** \brief Personendaten anhand der SID und E-mail abrufen
@@ -887,11 +901,14 @@ bool get_person_by_id(person * pers){
  */
 bool get_person_by_sid(person * pers){
 	char * query=NULL;
+	MYSQL * my=NULL;
+	bool found=false;
+
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE sid='%d' AND email='%s'", pers->sid, pers->email) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
 	}
 
-	MYSQL *my=mysql_init(NULL);
+	my=mysql_init(NULL);
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure!");
 	}
@@ -944,17 +961,14 @@ bool get_person_by_sid(person * pers){
 				pers->id=atoi(row[COL_ID]);
 			}
 
-			mysql_free_result(result);
-			mysql_close(my);
-			free(query);
-			return true;
+			found=true;
 		}
 		mysql_free_result(result);
 	}
 
     mysql_close(my);
     free(query);
-    return false;
+    return found;
 }
 
 /** \brief Eine Nachricht in die Datenbank einfügen
@@ -1064,7 +1078,7 @@ size_t get_distinct_courses(course ** c){
 
 /** \brief  Die Kursliste des Benutzers in die Datenbank schreiben
  *
- * \param pers person*  Person Kursliste
+ * \param pers person*  Person mit Kursliste
  * \return bool         true: Erfolg; false: kein Erfolg
  *
  */
