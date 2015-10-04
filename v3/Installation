@@ -143,6 +143,10 @@ sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 	Danach kann mit
 	"make <entsprechendes Ziel>"
 	ein ausführbares Programm erstellt werden.
+	Sinvoll bei einer erstinstallation ist allerdings der Aufruf
+
+	make all
+	
 
 Um die Installation abzuschließen müssen der HTTP- und SQL-Server neu gestartet werden.
 
