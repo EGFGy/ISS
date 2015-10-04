@@ -79,7 +79,7 @@ sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 	die Struktur der Datenbank herstellen
 
 	echo "CREATE DATABASE base5" | mysql -p -u root
-	cat ./mysql_base/base5.sql | mysql -p -u root base5
+	mysql -p -u root base5 < ./mysql_base/base5.sql
 
 	Nachdem die Datenbank in ihrer Struktur hergestellt ist müssen noch die nötigen Benutzer
 	und deren Rechte angelegt bzw. eingestellt werden.
