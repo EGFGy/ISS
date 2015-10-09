@@ -95,7 +95,8 @@ sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 	(https://de.wikipedia.org/wiki/Zwangstrennung)
 	
 	Ein kleines Skript (./skripte/update_ip.sh) das jede Stunde ausgeführt wird
-	(es kann sein, dass die Internetverbindung auch mal zwischendurch getrennt wird)
+	(es kann sein, dass die Internetverbindung auch mal zwischendurch getrennt wird,
+	nicht unbeding immer zum sleben Zeitpunkt (z.B. um 02:00:00 UTC))
 	ermittelt die derzeitige IP-Adresse und schreibt diese in eine Datei im Ordner /tmp.
 	In der nginx-Konfiguration ist diese Datei eingebunden.
 
@@ -107,8 +108,8 @@ sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 	</tmp/server_name.txt>
 	server_name <ermittelte öffentliche IP>;
 
-	Dies ist deshalb erforderlich, damit ein Aufrufer von jedem Ort aus auf https://<öffentliche IP>/
-	umgeleitet wird.
+	Dies ist deshalb erforderlich, damit ein Aufrufer von jedem Ort aus "https://<öffentliche IP>/"
+	aufrufen kann, und sich die Einstellung nach der Zwangstrennung entsprechend anpasst.
 
 	Damit das Skript ausgeführt werden kann muss es an einen beliebigen Ort kopiert werden,
 	an dem es nicht gelöscht wird. (z.B.: ~/Skripte/update_ip.sh)
@@ -143,7 +144,7 @@ sofern die Ordnerstruktur des Git-Repositories beibehalten wird.
 	Danach kann mit
 	"make <entsprechendes Ziel>"
 	ein ausführbares Programm erstellt werden.
-	Sinvoll bei einer erstinstallation ist allerdings der Aufruf
+	Sinvoll bei einer Erstinstallation ist allerdings der Aufruf
 
 	make all
 	

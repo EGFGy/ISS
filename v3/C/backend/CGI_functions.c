@@ -491,11 +491,12 @@ httpHeader(HTML);
 		<meta http-equiv='content-type' content='text/html;charset=utf-8' />\n\
 		<meta name='viewport' content='width=device-width'>\n\
 		<link rel='stylesheet' href='/css/forms.css'>\n\
+		<link rel='stylesheet' href='/css/box.css'>\n\
 		<link rel='shortcut icon' href='/favicon.png' />\n\
 </head>\n\
 <body>\n\
 		<div id='login-form'>\n");
-		printf("<p><span style='color: yellow; background-color: red; font-family: monospace; font-size: 12pt;'>%s</p>\n", ErrorText);
+		printf("<p><span class='error-text'>%s</span></p>\n", ErrorText);
 				printf("<br><a href='%s' class='gradient-button'>Zur&uuml;ck</a>\n", back_url);
 				puts("</div>\n</body>\n</html>\n");
 }

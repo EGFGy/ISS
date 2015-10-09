@@ -190,8 +190,12 @@ int main(int argc, char ** argv){
 												#ifdef DEBUG
 												fprintf(stderr, "Dopp! %s und %s bei %s\n", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
 												#endif // DEBUG
-												asprintf(&error_message, "%s<br>%s und %s bei %s",
-															error_message ? error_message : "", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
+												asprintf(&error_message, "%s %s %s und %s bei %s",
+															error_message ? error_message : "",
+															error_message ? "<br>" : "",
+															current_course_set[j].name,
+															timetable_courses[e].name,
+															current_course_set[j].time);
 												is_ok=ERROR_DOUBLE_COURSE;
 											}
 										}
@@ -283,7 +287,7 @@ int main(int argc, char ** argv){
 							//asprintf(&Meldung, "Falg: %d", is_ok);
 							switch(is_ok){
 								case ERROR_DOUBLE_COURSE:
-									asprintf(&Meldung, "%s mehrere Kurse ausgew&auml;hlt die zur selben Zeit stattfinden.<br>%s",
+									asprintf(&Meldung, "%s mehrere Kurse ausgew&auml;hlt die zur selben Zeit stattfinden.</span><br><br><span class='error-text'>%s</span>",
 													check_person.isTeacher ? "Sie haben" : "Du hast", error_message);
 								break;
 
