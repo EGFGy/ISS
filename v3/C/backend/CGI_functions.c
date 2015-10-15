@@ -8,6 +8,7 @@
 #include <features.h>
 
 #include "CGI_functions.h"
+#include "urlcode.h"
 
 
 int ishex(int x){

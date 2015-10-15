@@ -212,6 +212,10 @@
 			<Option compilerVar="CC" />
 			<Option target="timetable" />
 		</Unit>
+		<Unit filename="urlcode.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="urlcode.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
