@@ -1296,7 +1296,7 @@ bool get_teacher_by_course(person * pers, char * c){
  */
 void clean_string(char * str){
 	regex_t reg;
-	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüß!?(),.-]]*", REG_EXTENDED); //Nur diese Zeichen sind erlaubt
+	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüßéèêáàâíìîóòôúùûÉÈÊÁÀÂÍÌÎÓÒÔÚÙÛ!?(!?(),.-]]*", REG_EXTENDED); //Nur diese Zeichen sind erlaubt
 	size_t str_len=strlen(str)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 	#ifdef DEBUG

@@ -1,0 +1,19 @@
+# die Umgebungsvariablen z.B. für die CGI-Programme (in einer bash)
+export CONTENT_LENGTH="30"
+export REQUEST_METHOD="POST"
+export QUERY_STRING=""
+export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+
+ODER 
+export QUERY_STRING=""
+export REQUEST_METHOD="GET"
+export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+
+ODER
+export CONTENT_LENGTH="30"
+export REQUEST_METHOD="POST"
+export QUERY_STRING="<entsprechendes>"
+export REQUEST_METHOD="GET"
+export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+
+
