@@ -5,15 +5,14 @@ var oldGrade;
 var oldLetter;
 var oldString;
 
+
 function selectOnly(){
-	reset();
-	var it=document.getElementById("gradeFilterButton"); //"Filter anwenden Knopf"
 	var grade=document.getElementById("grade").value; //Dropdown-Menü Klassenstufe
 	var letter=document.getElementById("letter").value; //Dropdown-Menü Klassenbuchstabe (nur bei Klasse < 11)
 	if( grade != oldGrade || letter != oldLetter){ //Wenn Klasse geändert wird dann...
 		
 		console.log(grade);
-		
+		resetFilters(); //Filter-Reset vor Neu-Filterung
 		var re;
 		if(grade === "11"){
 			re= new RegExp("^1" + "[A-Z][A-Z]*"); //RegExp Klasse 11
@@ -44,20 +43,14 @@ function selectOnly(){
 		}
 		
 		
-		it.style.backgroundColor='lightgreen';
-		it.innerHTML='zur&uuml;ck';
+		var itGradeFilter=document.getElementById("gradeFilterButton");
+		document.getElementById("search-string").value=''; //String-Suchfeld wird geleert
+		itGradeFilter.style.backgroundColor='lightgreen';
+		itGradeFilter.innerHTML='Filter aktiv';
 		gradeFilter=true;
 		oldGrade=grade;
 		oldLetter=letter;
-	}else{ //wenn nichts geändert wird dann
-		reset(); //alle Kurse für die momentane Klasse werden gezeigt
-		it.innerHTML='Filter anwenden';
-		oldGrade='';
-		oldLetter='';
-		it.style.backgroundColor='white';
-		console.log("gradeFilter off");
-		gradeFilter=false;
-		
+	}else{		
 	}
 }
 
@@ -68,12 +61,15 @@ function toggleLetter(){
 	}else{
 		document.getElementById("letter").style.display='none';
 	}
+	var it=document.getElementById("gradeFilterButton");
+	it.style.backgroundColor='white'; //Bei Änderung der Parameter wird der Filter zurückgesetzt so dass man erneut filtern kann
+	it.innerHTML='Filter anwenden'; //S. Line 65
 }
 
 function searchString(){
-	var it=document.getElementById("stringFilterButton"); //Suchen-Button
 	var str=document.getElementById("search-string").value; //Wert aus Eingabefeld holen
 	if(str != oldString && str.length>0){ //wenn neuer String eingegeben
+		resetFilters(); //Filter-Reset vor Neu-Filterung
 		var re=new RegExp(str);
 		var all=document.getElementById("courses").getElementsByTagName("label");
 		for(var i=0; i<all.length; i++){
@@ -87,16 +83,15 @@ function searchString(){
 				html_element.style.display='none';
 			}
 		}
-		it.style.backgroundColor='lightgreen';
-		it.innerHTML='zur&uuml;ck';
+		document.getElementById("letter").style.display='none';
+		document.getElementById("grade").value='11';
+		
+		var itStringFilter=document.getElementById("stringFilterButton");
+		itStringFilter.style.backgroundColor='lightgreen';
+		itStringFilter.innerHTML='Filter aktiv';
 		stringFilter=true;
 		oldString=str;
 	}else{
-		reset();
-		it.innerHTML='suchen';
-		oldString='';
-		stringFilter=false;
-		it.style.backgroundColor='white';
 	}
 }
 
@@ -106,6 +101,27 @@ function reset(){
 		var html_element=all[i];
 		html_element.style.display='inline-block';
 	}
+}
+
+function textBoxReset(){ //Reset des Textfilters bei Neueingabe eines String sodass man erneut filtern kann
+	var it=document.getElementById("stringFilterButton");
+	it.innerHTML='suchen';
+	it.style.backgroundColor='white';
+}
+
+function resetFilters(){ //Kompletter Reset aller Filter, wird zu Beginn einer Filterung benutzt um mehrfache Filterung zu verhindern
+	reset();
+	var itStringFilter=document.getElementById("stringFilterButton");
+	itStringFilter.innerHTML='suchen';
+	oldString='';
+	stringFilter=false;
+	itStringFilter.style.backgroundColor='white';
+	var itGradeFilter=document.getElementById("gradeFilterButton");
+	itGradeFilter.innerHTML='Filter anwenden';
+	oldGrade='';
+	oldLetter='';
+	gradeFilter=false;
+	itGradeFilter.style.backgroundColor='white';
 }
 
 function SelectAllShown(){
