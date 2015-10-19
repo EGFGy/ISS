@@ -29,6 +29,10 @@ input:focus, textarea:focus{
 	background-color: lightgreen;
 }
 
+.settings-input{
+	width:200px;
+}
+
 select{
 	border: 2px solid #808080;
 	border-radius: 0.5em;
