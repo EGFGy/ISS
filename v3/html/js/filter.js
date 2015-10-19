@@ -6,25 +6,26 @@ var oldLetter;
 var oldString;
 
 function selectOnly(){
-	var it=document.getElementById("gradeFilterButton");
-	var grade=document.getElementById("grade").value;
-	var letter=document.getElementById("letter").value;
-	if( grade != oldGrade || letter != oldLetter){
+	reset();
+	var it=document.getElementById("gradeFilterButton"); //"Filter anwenden Knopf"
+	var grade=document.getElementById("grade").value; //Dropdown-Menü Klassenstufe
+	var letter=document.getElementById("letter").value; //Dropdown-Menü Klassenbuchstabe (nur bei Klasse < 11)
+	if( grade != oldGrade || letter != oldLetter){ //Wenn Klasse geändert wird dann...
 		
 		console.log(grade);
 		
 		var re;
 		if(grade === "11"){
-			re= new RegExp("^1" + "[A-Z][A-Z]*");
+			re= new RegExp("^1" + "[A-Z][A-Z]*"); //RegExp Klasse 11
 		}else if(grade === "12"){
-			re= new RegExp("^2" + "[A-Z][A-Z]*");
+			re= new RegExp("^2" + "[A-Z][A-Z]*"); //RegExp Klasse 12
 		}else{
-			re= new RegExp("^" + grade + letter);
+			re= new RegExp("^" + grade + letter); //RegExp Klasse <11
 		}
 		
-		var all=document.getElementById("courses").getElementsByTagName("label");
+		var all=document.getElementById("courses").getElementsByTagName("label"); //alle für die Jahrgangsstufe theoretisch passenden Kurse in all speichern
 		for(var i=0; i<all.length; i++){
-			var arr=all[i].htmlFor.search(re);
+			var arr=all[i].htmlFor.search(re); //Auswahl aller für die Klasse theoretisch passenden Kurse
 			var html_element=all[i];
 			if(arr === 0){
 				//console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
@@ -37,9 +38,9 @@ function selectOnly(){
 		console.log("gradeFilter on");
 		
 		if (grade < 11){
-			document.getElementById("select-all").style.display='block';
+			document.getElementById("select-all").style.display='block'; //Positionierung auf der Website
 		}else{
-			document.getElementById("select-all").style.display='none';
+			document.getElementById("select-all").style.display='none';//Positionierung auf der Website
 		}
 		
 		
@@ -48,14 +49,15 @@ function selectOnly(){
 		gradeFilter=true;
 		oldGrade=grade;
 		oldLetter=letter;
-	}else{
-		reset();
+	}else{ //wenn nichts geändert wird dann
+		reset(); //alle Kurse für die momentane Klasse werden gezeigt
 		it.innerHTML='Filter anwenden';
 		oldGrade='';
 		oldLetter='';
 		it.style.backgroundColor='white';
 		console.log("gradeFilter off");
 		gradeFilter=false;
+		
 	}
 }
 
@@ -69,19 +71,19 @@ function toggleLetter(){
 }
 
 function searchString(){
-	var it=document.getElementById("stringFilterButton");
-	var str=document.getElementById("search-string").value;
-	if(str != oldString && str.length>0){
+	var it=document.getElementById("stringFilterButton"); //Suchen-Button
+	var str=document.getElementById("search-string").value; //Wert aus Eingabefeld holen
+	if(str != oldString && str.length>0){ //wenn neuer String eingegeben
 		var re=new RegExp(str);
 		var all=document.getElementById("courses").getElementsByTagName("label");
 		for(var i=0; i<all.length; i++){
 			var arr=all[i].htmlFor.search(re);
 			var html_element=all[i];
 			if(arr >= 0){
-				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
+				//console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
 				html_element.style.display='inline-block';
 			}else{
-				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id + "<invisible>");
+				//console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id + "<invisible>");
 				html_element.style.display='none';
 			}
 		}
@@ -122,13 +124,13 @@ function SelectAllShown(){
 			var arr=all[i].htmlFor.search(re);
 			var html_element=all[i];
 			if(arr >= 0){
-				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
+				//console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id);
 				html_element.style.display='inline-block';
 				if(html_element.htmlFor.search(choose_course)){
 					document.getElementById(html_element.htmlFor).checked=true;
 				}
 			}else{
-				console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id + "<invisible>");
+				//console.log("Html: " + html_element.innerHTML + " ID: " + all[i].id + "<invisible>");
 				html_element.style.display='none';
 				document.getElementById(html_element.htmlFor).checked=false;
 			}
