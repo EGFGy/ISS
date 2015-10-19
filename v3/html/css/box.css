@@ -14,6 +14,13 @@
 	background-color: #F44;
 }
 
+.error-text{
+	color: #FF0;
+	background-color: #F00;
+	font-family: monospace;
+	font-size: 12pt;
+}
+
 .courseBox{
 	background: radial-gradient(#FFF 0%, #1975B3 75%);
 	background-color: #1975B3;
