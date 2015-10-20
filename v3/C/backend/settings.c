@@ -64,12 +64,14 @@ int main(int argc, char ** argv){
 			puts("<table class='pure-table pure-table-bordered'>\n\
 				<tr><td>Klasse:<td>\n\
 						<select style='border: 2px solid grey; border-radius: .5em; background-color: white;' id='grade' onchange='toggleLetter();'>\n\
+							<option value='7'>7</option>\n\
+							<option value='8'>8</option>\n\
 							<option value='9'>9</option>\n\
 							<option value='10'>10</option>\n\
 							<option selected='selected' value='11'>11</option>\n\
 							<option value='12'>12</option>\n\
 						</select>\n\
-						<select style='border: 2px solid grey; border-radius: .5em; background-color: white; display: none;' id='letter'>\n\
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white; display: none;' id='letter' onchange='toggleLetter();'>\n\
 							<option selected='selected' value='a'>a</option>\n\
 							<option value='b'>b</option>\n\
 							<option value='c'>c</option>\n\
@@ -81,7 +83,7 @@ int main(int argc, char ** argv){
 						</td>\n\
 						</tr>\n\
 			<tr>\n\
-			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='textBoxReset();' onkeydown='if (event.keyCode == 13)searchString(null); ' type='text'>");
+			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='textBoxReset();' onkeydown='if (event.keyCode == 13)searchString(null);' type='text'>");
 					puts("  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='searchString(this);' >suchen</button></td>\n\
 			</tr>\n\
 			</table>");
@@ -105,9 +107,9 @@ int main(int argc, char ** argv){
 			puts("</div>"); // zu 'courses'
 			//Die Sicherheitsabfrage soll erst dann sichtbar sein, wenn der Nutzer bereits Kurse eingestellt hat
 			if(strcmp(check_person.courses, "n/a") != 0 || strlen(check_person.courses)>1){
-					puts("<input onclick='toggleId(this, \"btn_save\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
+					puts("<input onclick='toggleId(this, \"btn_save_course\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
 			}
-			printf("<br><input id='btn_save' class='submitButton' %s type='submit' value='Speichern'>",
+			printf("<br><input id='btn_save_course' class='submitButton' %s type='submit' value='Speichern'>",
 					strcmp(check_person.courses, "n/a") != 0 ? "onload=\"this.style.display='none';\"" : ""); //style='display: block;'
 
 			puts("</form>");
@@ -115,15 +117,22 @@ int main(int argc, char ** argv){
 
 			// E-Mail-Einstellungen
 			printf("<h2>%s E-Mail-Adresse</h2>", check_person.isTeacher ? "Ihre" : "Deine");
-			puts("<div id='emailSettings'");
+			puts("<div id='emailSettings'>");
 			printf("<span>%s</span>", check_person.email);
 			printf("<form action='https://%s/cgi-bin/settings.cgi?email_update=change' method='POST'>\n", datCGI.http_host);
-			printf("<input type='email'required=""  onblur='checkDatEmail(this);' name='new_email' id='email' value='%s' placeholder='Ihre E-Mail-Adresse'>\n", check_person.email);
-			puts("<input id='btn_save' class='submitButton' type='submit' value='Speichern'>\n");
+			printf("<input type='email' required=""  onblur='checkDatEmail(this);' name='new_email' id='email' value='%s' placeholder='%s E-Mail-Adresse'>\n", check_person.email, check_person.isTeacher ? "Ihre" : "Deine");
+			puts("<input id='btn_save_email' class='submitButton' type='submit' value='Speichern'>\n");
 			puts("</form>\n");
 
 			puts("</div>"); // zu emailSettings
 
+
+			//Passwort-Einstellungen (von ATL4s789)
+
+
+
+			puts("<!-- WÖRKARAUND für js-onload -->\n\
+					<img src='/img/Arrow-Download-4-icon.png' style='display: none; width: 0px; heigth: 0px;' onload=\"document.getElementById('btn_save_course').style.display='none';\">");
 			puts("</div>");  //zu content
 			puts("</div></div>"); //immer da
 			puts("</body></html>");
