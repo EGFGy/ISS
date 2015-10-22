@@ -8,9 +8,12 @@ id                          |titel        |meldung      |kurse        |ersteller
 UNSIGNED INT AUTO_INCREMENT |VARCHAR(120) |VARCHAR(900) |VARCHAR(200) |INT UNSIGNED |DATETIME
 
 Kurse:
-id                         |name        |zeit       |raum
-USIGNED INT AUTO_INCREMENT |VARCHAR(10) |VARCHAR(5) |VARCHAR(10)
+id                          |name        |zeit       |raum
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(10) |VARCHAR(5) |VARCHAR(10)
 
+Vertretungen:
+id                          | name       |v_zeit     |v_raum      |v_lehrer_id
+UNSIGNED INT AUTO_INCREMENT |VARCHAR(10) |VARCHAR(5) |VARCHAR(10) |VARCHAR(3)
 
 Beispiele:
 Schüler:
@@ -27,11 +30,11 @@ kuerzel: "MUF"
 kurse:   "1D1,10fG,2F2"
 
 Kurs:
-name:    2EKO5
-zeit:    Di1
-raum     222
+name:    "2EKO5"
+zeit:    "Di1"
+raum     "B222"
 
-Format:
+Format / Beschreibung:
 vorname:    <Vorname>
 name:       <Nachname>
 passwort:   <Salt><Hash des Passwortes>
@@ -40,12 +43,18 @@ kurse:
             bei Oberstufe:              <1: Q11/2: Q12><Kursbezeichnung (groß, 1-? kann '_' enthalten) ><opt: Kursnummer>
             <kursname>, <kursname>, <kursnmae> usw.
 id:         [0-9] (usw.)
-kuerzel:    [A-Za-z][A-Za-z][A-Za-z]
+kuerzel:    [A-Za-z][A-Za-z][A-Za-z] (oder NULL, wenn es kein Lehrer ist)
 sid:        [0-9] (usw.)
 
 kursname:   (wie einzelener Kurs aus 'kurse')
 zeit:       <Wochentag (2 Buchstaben)><stunde max. 2 Ziffern>
 raum:       <i.d.R 3 ziffern, machnmal Buchstabe als Zusatz>
+
+id:          Wie in Kurse, die ID des Eintrages !! NICHT die des Kurses !!
+name:        'kursname'
+v_zeit:      Neue 'zeit' des Kurses (NULL wenn keine Änderung stattfindet)
+v_raum:      'raum' in dem der Kurs stattfindet (NULL wenn keine Änderung stattfindet)
+v_lehrer_id: Vertretungslehrer (nur dann gefüllt wenn auch ein anderer Lehrer die Stunde hält NULL wenn keine Änderung stattfindet)
 
 
 Erklärung:

@@ -245,6 +245,84 @@ int verify_user(person * pers){
 	return user_state;
 }
 
+
+/** \brief Überprüfen ob das Passwort einer angemeldeten Person stimmt
+ *
+ * \param pers person*  Person, mit E-Mail-Adresse und SessionID
+ * \return bool         true: Passwort ist richtig; false: Passwort ist falsch
+ *
+ */
+bool verify_user_password(person * pers){
+	char * query=NULL;
+	bool password_state=false;
+	MYSQL * my=NULL;
+
+	if(pers->password == NULL || pers->sid==0){
+		print_exit_failure("Programm falsch (verify_user_password)");
+	}
+
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE sid='%d' AND email='%s'", pers->sid, pers->email) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (verify_user_password)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure (verify_user_password)");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		print_exit_failure("mysql_query failed (verify_user_password)");
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) == 1){
+			MYSQL_ROW * row=NULL;
+			row=mysql_fetch_row(result);
+			#ifdef DEBUG
+			fprintf(stderr, "Benutzer gefunden (verify_user_password)\n");
+			#endif // DEBUG
+			char * password_encrypted=NULL;
+			char * password_db=NULL;
+			char * salt=NULL;
+			password_db=row[COL_PASS];
+
+			salt=salt_extract(password_db);
+
+			char * arg=NULL;
+			asprintf(&arg, "$6$%s$", salt);
+			char * encr=crypt(pers->password, arg);
+			//free(pers->password);
+			asprintf(&password_encrypted, "%s%s", salt, encr+strlen(arg));
+
+			if(strcmp(password_db, password_encrypted) == 0){
+				#ifdef DEBUG
+				fprintf(stderr, "Passwort war richtig!");
+				#endif // DEBUG
+				password_state=true;
+			}
+
+
+		}else{
+			pers->auth=false;
+		}
+		mysql_free_result(result);
+	}
+
+    mysql_close(my);
+    free(query);
+
+    return password_state;
+
+}
+
 /** \brief Feststellen ob die E-mail möglicherweise ein Kürzel ist und ggf. Zuordnung ändern.
  *
  * \param pers person*  Personen-Struktur
@@ -310,7 +388,7 @@ void insert_user(person * pers){
 		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
 
-	if(mysql_real_connect(my, "localhost", "root", "WUW", "base5", 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -401,6 +479,7 @@ bool salt_exists(char ** salt){
 	}
 
 	my=mysql_init(NULL);
+
 	if(my == NULL){
 		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
@@ -1155,6 +1234,68 @@ bool update_user_email(person * pers, char * new_email){
 	}
 }
 
+/** \brief Das Passwort eines Nutzers ändern
+ *
+ * \param pers person*  Personen-Objekt, mit Passwort
+ * \return bool         true: Änderung erfolgreich; false: Änderung fehlgeschlagen
+ *
+ */
+bool update_user_password(person * pers){
+	char * query=NULL;
+	char * salt=NULL;
+	char * arg=NULL; // für crypt
+	char * store_pw=NULL;
+	MYSQL * my=NULL;
+	bool success=false;
+
+	if(pers->password == NULL){
+		print_exit_failure("Programm falsch (update_user_password)");
+	}
+
+
+	salt_generate(&salt);
+
+    //Verhindern, dass ein bereits vorhandenes Salt zweimal verwendet wird (falls zwei Nutzer identische Passwörter wählen)
+	while(salt_exists(&salt)){
+		salt_generate(&salt);
+	}
+	asprintf(&arg, "$6$%s$", salt);
+
+	char * encr=crypt(pers->password, arg);
+	asprintf(&store_pw, "%s%s", salt, encr+strlen(arg));
+	free(arg);
+	free(salt);
+	free(pers->password);
+
+
+	if(asprintf(&query, "UPDATE Benutzer SET passwort='%s' WHERE id='%d' AND email='%s'", store_pw, pers->id, pers->email) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (update_user_password)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+
+		success=false;
+	}else{
+		success=true;
+	}
+
+	mysql_close(my);
+	free(query);
+	return success;
+}
+
 /** \brief Alle Vorkommen + Daten (Zeiten, Räume IDs) eines Kurses holen
  *
  * \param this_course char*  String mit Name des Kurses (Kursbezeichnung)
@@ -1394,4 +1535,16 @@ int comma_to_array(char * comma_char, char *** str_array){
 	}
 	//str_array=local_str_array;
 	return j;
+}
+
+
+char * salt_extract(char * db_passwd){
+		char * salt=NULL;
+		if(db_passwd != NULL){
+			salt=calloc(SALT_LENGTH+1, sizeof(char));
+			for(int i=0; i<SALT_LENGTH; i++){
+				strncat(salt, db_passwd+i, 1);
+			}
+		}
+		return salt;
 }

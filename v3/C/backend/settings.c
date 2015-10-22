@@ -128,6 +128,27 @@ int main(int argc, char ** argv){
 
 
 			//Passwort-Einstellungen (von ATL4s789)
+			printf("<h2>%s Passwort</h2>", check_person.isTeacher ? "Ihr" : "Dein");
+			puts("<div id='passwordSettings'>\n\
+	<br>\n\
+	<form action='/cgi-bin/settings.cgi?password_update=change' method='POST'>\n\
+		<span>altes Passwort</span>\n\
+		<br>\n\
+		<input required class='settings-input' name='pass_old' id='pass_old' placeholder='altes Passwort' type='password'>\n\
+		<br>\n\
+		<span>neues Passwort</span>\n\
+		<br>\n\
+		<input required class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
+		<br>\n\
+		<span>neues Passwort bestätigen</span>\n\
+		<br>\n\
+		<input required class='settings-input' name='pass_new_2' id='pass_new_2' placeholder='neues Passwort bestätigen' type='password'>\n\
+		<br>\n\
+		<progress id='resultat' class='settings-input' value=0 max=100 style='margin: 5px 0; '></progress>\n\
+		<br>\n\
+		<input id='btn_save' class='submitButton' value='Speichern' type='submit'>\n\
+	</form>\n\
+</div>");
 
 
 
@@ -346,6 +367,46 @@ int main(int argc, char ** argv){
 							exit(EXIT_FAILURE);
                         }
 					}
+				}
+			}
+
+			if(extract_QUERY_data(&datCGI, "password_update", NULL)==0){
+				//Person will ihr Passwort verändern
+				char * pass_old=NULL;
+				char * pass_new_1=NULL;
+				char * pass_new_2=NULL;
+
+				extract_POST_data(&datCGI, "pass_old", &pass_old);
+				extract_POST_data(&datCGI, "pass_new_1", &pass_new_1);
+				extract_POST_data(&datCGI, "pass_new_2", &pass_new_2);
+				remove_newline(pass_new_1);
+				remove_newline(pass_new_2);
+				remove_newline(pass_old);
+
+				check_person.password=pass_old;
+				if(strcmp(pass_new_1, pass_new_2) == 0){
+					//Die neuen Passwörter wurden richtig eingegeben
+					if(strcmp(pass_new_1, pass_old) !=0){
+						//Neues Passwort ist anders als das alte
+
+						if(verify_user_password(&check_person)){
+							//Person hat ihr aktuelles Passwort richtig eingegeben
+							free(check_person.password);
+							check_person.password=pass_new_1;
+
+							update_user_password(&check_person);
+
+
+							print_exit_failure("Passwort richtig + geändert");
+						}else{
+							print_html_error("Passwort falsch!", "/cgi-bin/settings.cgi");
+							exit(EXIT_FAILURE);
+						}
+					}
+
+				}else{
+					print_html_error("Die beiden Passwörter stimmen nicht überein", "/cgi-bin/settings.cgi");
+					exit(EXIT_FAILURE);
 				}
 			}
 

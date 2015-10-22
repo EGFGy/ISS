@@ -214,25 +214,23 @@
 			
 <h2>Dein Passwort</h2>
 <div id="passwordSettings"> <span>altes Passwort</span>
-<br>
-<form action="https://91.8.133.232/cgi-bin/settings.cgi?password_update=change" method="POST">
-	<input required class="settings-input" name="old_pass" id="old_pass" placeholder="altes Passwort" type="password">
-	</div>
-<br>
-	<div id="passwordSettings"> <span>neues Passwort</span>
 	<br>
-	<input required class="settings-input" name="new_pass1" id="new_pass1" placeholder="neues Passwort" type="password">
-	</div>
-<br>	
-	<div id="passwordSettings"> <span>neues Passwort bestätigen</span>
-	<br>
-	<input required class="settings-input" name="new_pass2" id="new_pass2" placeholder="neues Passwort bestätigen" type="password">
-	<br>
-	<progress id="resultat" class="settings-input" value=0 max=100 style="margin: 5px 0; "></progress>
-	<br>
-	<input id="btn_save" class="submitButton" value="Speichern" type="submit">
-</form>
-	</div>						
+	<form action="/cgi-bin/settings.cgi?password_update=change" method="POST">
+		<input required class="settings-input" name="old_pass" id="old_pass" placeholder="altes Passwort" type="password">
+		<br>
+		<span>neues Passwort</span>
+		<br>
+		<input required class="settings-input" name="new_pass1" id="new_pass1" placeholder="neues Passwort" type="password">
+		<br>
+		<span>neues Passwort bestätigen</span>
+		<br>
+		<input required class="settings-input" name="new_pass2" id="new_pass2" placeholder="neues Passwort bestätigen" type="password">
+		<br>
+		<progress id="resultat" class="settings-input" value=0 max=100 style="margin: 5px 0; "></progress>
+		<br>
+		<input id="btn_save" class="submitButton" value="Speichern" type="submit">
+	</form>
+</div>						
 				
 				</div>
 			</div>
