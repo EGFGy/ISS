@@ -394,10 +394,11 @@ int main(int argc, char ** argv){
 							free(check_person.password);
 							check_person.password=pass_new_1;
 
-							update_user_password(&check_person);
+							bool state=update_user_password(&check_person);
 
 
-							print_exit_failure("Passwort richtig + geändert");
+							if(state)print_html_error("Passwort erfolgreich geändert!", "/cgi-bin/settings.cgi");
+							exit(EXIT_FAILURE);
 						}else{
 							print_html_error("Passwort falsch!", "/cgi-bin/settings.cgi");
 							exit(EXIT_FAILURE);
