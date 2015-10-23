@@ -121,7 +121,7 @@ int main(int argc, char ** argv){
 			printf("<span>%s</span>", check_person.email);
 			printf("<form action='https://%s/cgi-bin/settings.cgi?email_update=change' method='POST'>\n", datCGI.http_host);
 			printf("<input type='email' required=""  onblur='checkDatEmail(this);' name='new_email' id='email' value='%s' placeholder='%s E-Mail-Adresse'>\n", check_person.email, check_person.isTeacher ? "Ihre" : "Deine");
-			puts("<input id='btn_save_email' class='submitButton' type='submit' value='Speichern'>\n");
+			puts("<br><input id='btn_save_email' class='submitButton' type='submit' value='Speichern'>\n");
 			puts("</form>\n");
 
 			puts("</div>"); // zu emailSettings
@@ -159,6 +159,7 @@ int main(int argc, char ** argv){
 			puts("</body></html>");
 
 		}else if(datCGI.request_method == BOTH){
+			bool return_to_settings=true;
 			//Die Einstellungen sollen verändern werden
 
 			if(extract_QUERY_data(&datCGI, "course_update", NULL) == 0){
@@ -343,6 +344,8 @@ int main(int argc, char ** argv){
 
 			if(extract_QUERY_data(&datCGI, "email_update", NULL)==0){
 				//Person will ihre Email verändern
+
+				return_to_settings=false;
 				char * new_email=NULL;
 
 				extract_POST_data(&datCGI, "new_email", &new_email);
@@ -361,10 +364,10 @@ int main(int argc, char ** argv){
 
 							//Cookies neu setzen (da E-Mail jetzt anders)
 							httpSetCookie("EMAIL", new_email);
+							print_html_error("E-Mail-Adresse erfolgreich geändert!", "/cgi-bin/settings.cgi");
 							//httpSetCookie("SID", );
                         }else{
 							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", "/cgi-bin/settings.cgi");
-							exit(EXIT_FAILURE);
                         }
 					}
 				}
@@ -372,6 +375,8 @@ int main(int argc, char ** argv){
 
 			if(extract_QUERY_data(&datCGI, "password_update", NULL)==0){
 				//Person will ihr Passwort verändern
+				return_to_settings=false;
+
 				char * pass_old=NULL;
 				char * pass_new_1=NULL;
 				char * pass_new_2=NULL;
@@ -398,23 +403,22 @@ int main(int argc, char ** argv){
 
 
 							if(state)print_html_error("Passwort erfolgreich geändert!", "/cgi-bin/settings.cgi");
-							exit(EXIT_FAILURE);
 						}else{
 							print_html_error("Passwort falsch!", "/cgi-bin/settings.cgi");
-							exit(EXIT_FAILURE);
 						}
 					}
 
 				}else{
 					print_html_error("Die beiden Passwörter stimmen nicht überein", "/cgi-bin/settings.cgi");
-					exit(EXIT_FAILURE);
 				}
 			}
 
 			//Den Nutzer wieder auf die Einstellungsseite umleiten
-			char * redirectString=NULL;
-			asprintf(&redirectString, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
-			httpRedirect(redirectString);
+			if(return_to_settings){
+				char * redirectString=NULL;
+				asprintf(&redirectString, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
+				httpRedirect(redirectString);
+			}
 		}
     }else{
 		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %s", s_sid, check_person.email);
