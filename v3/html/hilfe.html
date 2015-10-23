@@ -21,6 +21,21 @@
 			<!--<![endif]-->
 		<!-- Modified http://purecss.io/js/ui.js -->
 		<script src="/js/toggle.js"></script>
+		<script>
+		 function chkFormular()
+		 {
+  			var ti = document.getElementByID("ti");
+			var tex = document.getElementByID("tex");
+			if(ti.length < 3)
+    			{
+     				alert("Bitte einen längeren Titel eingeben!");
+    			}
+   			if(tex.length < 3)
+			{
+     				alert("Bitte längeren Text eingeben!");
+    			}
+  		};
+ </script>
 
 	</head>
 	<body>
