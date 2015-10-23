@@ -138,13 +138,13 @@ int main(int argc, char ** argv){
 		<br>\n\
 		<span>neues Passwort</span>\n\
 		<br>\n\
-		<input required class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
+		<input required onkeyup=\"pruefStaerke(this.value)\" onkeydown=\"pruefStaerke(this.value)\" onchange=\"pruefStaerke(this.value)\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
+					<br>\n\
+		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid;'></progress>\n\
 		<br>\n\
 		<span>neues Passwort bestätigen</span>\n\
 		<br>\n\
 		<input required class='settings-input' name='pass_new_2' id='pass_new_2' placeholder='neues Passwort bestätigen' type='password'>\n\
-		<br>\n\
-		<progress id='resultat' class='settings-input' value=0 max=100 style='margin: 5px 0; '></progress>\n\
 		<br>\n\
 		<input id='btn_save' class='submitButton' value='Speichern' type='submit'>\n\
 	</form>\n\

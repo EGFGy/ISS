@@ -406,6 +406,8 @@ printf("<!doctype html>\n\
 <!-- Modified http://purecss.io/js/ui.js -->\n\
 <script src='/js/toggle.js'></script>\n\
 <script src='/js/filter.js'></script>\n\
+<script src='/js/good_passwd.js'></script>\n\
+<script src='/js/jquery.js'></script>\n\
 \n\
 </head>\n\
 <body>\n\
