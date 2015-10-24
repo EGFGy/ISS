@@ -1,29 +1,116 @@
 <!DOCTYPE html>
+<html lang="de">
+<meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1, user-scalable=no">
 <head>
-	<title>InfoWall -- Anmeldung</title>
+	<title>InfoWall -- Startseite</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<meta name="generator" content="Geany 1.23.1" />
-	<meta name="viewport" content="width=device-width" />
-	<link rel="stylesheet" href="/css/forms.css" />
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/startpage.css" rel="stylesheet">
 	<link rel="shortcut icon" href="/favicon.png" />
+	<!-- <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>-->
 </head>
-
-<body>
-	<div id="login-form">
-	<form  method="post" action="/cgi-bin/login.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
-		<p>Melden Sie sich mit Ihrer E-Mail oder Ihrem Kürzel und Passwort an.</p>
-		<input class="textIn" placeholder="E-mail oder K&uuml;rzel" type="text" id="name" name="email" mozactionhint="next" required>
-		<br>
-		<input class="textIn" placeholder="Passwort" type="password" id="pass" name="pass" required>
-		<br>
-		<!-- <a href="/vergessen.html" style="display: inline-block;">Kennwort vergessen?</a> -->
-		<button class="submitButton" type="submit">Anmelden*</button>
-	</form>
-	<small>* Cookies müssen aktiviert sein!</small>
-	<br>
-	Sind Sie schon registriert?
-	<br><br>
-	<a href="/registrierung.html" class="gradient-button">Registrieren!</a>
-	</div>
-</body>
+	<body>
+		<div class="navigation">
+			<div class="container-fluid">
+				<ul class="pull-left">
+					<li><a href="#">ISS</a></li>
+					<li><a href="#">Erfahre mehr</a></li>
+				</ul>
+				<ul class="pull-right">
+					<li><a href="registrierung.html">Registrieren</a></li>
+					<li><a href="eingang.html">Anmelden</a></li>
+					<li><a href="#">Hilfe</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="header">
+			<div class="container-fluid">
+				<h1>ISS</h1>
+				<p>Alles, was du für den nächsten Schultag wissen musst.</p>
+			</div>
+		</div>
+		
+		<div class="screenshots-text">
+			<div class="container-fluid">
+				<h2>So sieht ISS aus</h2>
+				<p class="p">Ihr seid euch nicht sicher, ob ihr euch registrieren sollt? Klickt euch durch die Bilder an und gewinnt einen ersten Eindruck!</p>
+				<div class="row">
+					<div class="col-md-3">
+						<p>Du bist dir nicht mehr sicher, wo du jetzt Unterricht hast? Oder welches Fach als nächstes an der Reihe ist? Kein Problem!</p>
+					</div>
+					<div class="col-md-1">
+						<p> </p>
+					</div>
+					<div class="col-md-3">
+						<p>Such' dir deine Kurse selbst zusammen, um immer deinen aktuellen, individuellen Stundenplan am Start zu haben!</p>
+					</div>
+					<div class="col-md-1">
+						<p> </p>
+					</div>
+					<div class="col-md-3">
+						<p>Du willst die Website auf dem Handy? Kein Problem, die mobile Version gibt's bereits!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="screenshots">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-3">
+						<a href="img/stundenplanbig.jpg" target="_blank"><img class="img-responsive" src="img/stundenplanbig.jpg"></a>
+					</div>
+					<div class="col-md-1">
+						<p> </p>
+					</div>
+					<div class="col-md-3">
+						<a href="img/einstellungenbig.png" target="_blank"><img class="img-responsive" src="img/einstellungenbig.png"></a>
+					</div>
+					<div class="col-md-1">
+						<p> </p>
+					</div>
+					<div class="col-md-3">
+						<a href="img/mobilebig.jpg" target="_blank"><img class="img-responsive" src="img/mobilebig.jpg"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="learn-more">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4">
+						<h3>&Uuml;ber uns</h3>
+						<p>Das <b>I</b>nformations-<b>S</b>ystem für <b>S</b>chulen entstand im Laufe des P-Seminars Informatik 2014/16 am
+							<a href="http://www.egf-online.de" target="_blank">Ehrenbürg-Gymnasium Forchheim.</a>
+							</br>
+							<a href="#">Weiterlesen</a>
+						</p>
+					</div>
+		
+					<div class="col-md-4">
+						<h3>Log dich ein</h3>
+						<p>Heute schon deine Hausaufgaben gecheckt? <a href="eingang.html">Log dich ein</a></p>
+					</div>
+			
+					<div class="col-md-4">
+						<h3>Melde dich an</h3>
+						<p>Stundenplan, Vertretungsplan, Hausaufgaben - alles auf einen Blick. <a href="registrierung.html">Melde dich an.</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="anderes">
+			<div class="container-fluid">
+				<ul class="pull-left">
+					<p><a href="#">Impressum</a></p>
+				</ul>
+				<ul class="pull-right">
+					<p>Copyright © 2015 issdomain.de. Alle Rechte vorbehalten.</p>
+				</ul>
+			</div>
+		</div>
+	</body>
 </html>
