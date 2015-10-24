@@ -76,21 +76,21 @@
 
 
 .learn-more{
-  background-color: #CFCFCF;
+  background-color: #DBDBDB;
 }
 
 .learn-more h3{
 	margin-top: 30px;
 	font-family: 'Oswald', sans-serif;
 	font-size: 25px;
-	color: #00b0ff;
+	color: #1874CD;
 }
 .learn-more p{
 	font-family: 'Oswald', sans-serif;
 	font-weight: bold;
 }
 .learn-more a{
-	color: #00b0ff;
+	color: #1874CD;
 }
 .learn-more .col-md-4{
 	margin-bottom: 20px;
@@ -104,9 +104,9 @@
 }
 .anderes p{
 	font-family: 'Oswald', sans-serif;
-	color: #00b0ff
+	color: #1874CD;
 }
 .anderes a{
 	font-family: 'Oswald', sans-serif;
-	color: #00b0ff;
+	color: #1874CD;
 }
