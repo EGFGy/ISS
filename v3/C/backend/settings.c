@@ -396,7 +396,7 @@ int main(int argc, char ** argv){
 
 						if(verify_user_password(&check_person)){
 							//Person hat ihr aktuelles Passwort richtig eingegeben
-							free(check_person.password);
+							free(check_person.password); check_person.password=NULL;
 							check_person.password=pass_new_1;
 
 							bool state=update_user_password(&check_person);
