@@ -423,12 +423,12 @@ printf("<!doctype html>\n\
 	puts("<ul class='pure-menu-list'>\n");
 	if(menu == TIMETABLE){
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'>Stundeplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'>Stundenplan</a>\n\
 										</li>\n\
 			");
 	}else{
         puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundeplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundenplan</a>\n\
                                         </li>\n\
 			");
 	}

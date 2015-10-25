@@ -9,6 +9,96 @@
 	
 </head>
 
+<script>
+<!-- AUSLAGERUNG !!!! -->
+$(document).ready(function() {
+	$('#password').bind('input', function(){
+		$('#resultat').html(  pruefStaerke( $('#password').val() )  );
+	});
+
+	function pruefStaerke(password){
+
+		var staerke = 0; // interner Wert
+
+		if(password.length > 7) {
+			staerke += 1;
+			$('#minimum span').show();
+			$('#minimum').addClass('boldgreen');
+		}else{
+			$('#minimum span').hide();
+			$('#minimum').removeClass('boldgreen');
+		}
+
+		if(password.match(/([a-z])/) && password.match(/([A-Z])/)  )
+		{     staerke += 1;
+			$('#grossundklein span').show();
+			$('#grossundklein').addClass('boldgreen');
+		} else{
+			$('#grossundklein span').hide();
+			$('#grossundklein').removeClass('boldgreen');
+		}
+
+		if(password.match(/([0-9])/) && password.match(/([a-zA-Z])/)) {
+			staerke += 1;
+			$('#buchstabenundzahlen span').show();
+			$('#buchstabenundzahlen').addClass('boldgreen');
+		}else{
+			$('#buchstabenundzahlen span').hide();
+			$('#buchstabenundzahlen').removeClass('boldgreen');
+		}
+
+		if(password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)){
+			staerke += 1;
+			$('#sonderzeichen span').show();
+			$('#sonderzeichen').addClass('boldgreen');
+		}else{
+			$('#sonderzeichen span').hide();
+			$('#sonderzeichen').removeClass('boldgreen');
+		}
+
+		if(password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) {
+			staerke += 1;
+		}
+
+
+		if (password.length < 6) {
+			$('#resultat').removeClass();
+			$('#resultat').addClass('kurz');
+			$('#resultat').val("0");
+			return 'Das Passwort ist zu kurz';
+		}
+
+
+		if (staerke < 2 ) {
+			$('#resultat').removeClass();
+			$('#resultat').addClass('schwach');
+			$('#resultat').val("25");
+			return 'Das Passwort ist schwach';
+
+		} else if (staerke == 2 ) {
+			$('#resultat').removeClass();
+			$('#resultat').addClass('gut');
+			$('#resultat').val("50");
+			return 'Das Passwort ist Gut';
+
+		} else if (staerke == 3 ) {
+			$('#resultat').removeClass();
+			$('#resultat').addClass('stark');
+			$('#resultat').val("75");
+			return 'Das Passwort ist Stark';
+		} else {
+			$('#resultat').removeClass();
+			$('#resultat').addClass('stark');
+			$('#resultat').val("100");
+			return '<b>Das Passwort ist super Stark</b>';
+		}
+
+
+	}
+
+	});
+</script>
+
 <body>
 
 	<div class="login">
