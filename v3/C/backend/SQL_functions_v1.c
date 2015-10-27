@@ -413,6 +413,11 @@ void insert_user(person * pers){
 
 	//pers->password=encr+strlen(arg);
 
+	clean_string(pers->first_name);
+	clean_string(pers->email);
+	clean_string(pers->name);
+
+
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) \
@@ -422,6 +427,7 @@ void insert_user(person * pers){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
 	}else{
+		clean_string(pers->acronym);
 		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
 					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
 					pers->first_name, pers->name, pers->email, store_pw, pers->acronym) == -1)

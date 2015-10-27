@@ -516,6 +516,6 @@ void html_redirect_to_login(){
 	httpHeader(HTML);
 	print_html_head("Benutzung von Cookies", "Cookies");
 	puts("<body><h1>Sie sind nicht angemeldet</h1><br>Damit Sie sich anmelden können müssen Cookies aktiv sein!<br>");
-	printf("<a href='/index.html'>ZUR&Uuml;CK zur Anmeldung</a>");
+	printf("<a href='/eingang.html'>ZUR&Uuml;CK zur Anmeldung</a>");
 	exit(0);
 }
