@@ -1432,6 +1432,8 @@ bool get_teacher_by_course(person * pers, char * c){
 	}
 	mysql_close(my);
 	free(query);
+
+	return success;
 }
 
 
