@@ -379,7 +379,7 @@ void print_html_pure_head_menu(char * descr, char * title, menuSelection menu){
 	}
 
 printf("<!doctype html>\n\
-<html lang='en'>\n\
+<html lang='de'>\n\
 <head>\n\
 <meta charset='utf-8'>\n\
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n\

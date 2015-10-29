@@ -302,11 +302,17 @@ bool verify_user_password(person * pers){
 			//free(pers->password);
 			asprintf(&password_encrypted, "%s%s", salt, encr+strlen(arg));
 
+			free(salt);
+			free(arg);
+			free(encr);
+
 			if(strcmp(password_db, password_encrypted) == 0){
 				#ifdef DEBUG
-				fprintf(stderr, "Passwort war richtig!");
+				fprintf(stderr, "Passwort war richtig! (Benutzer: %s)", pers->email);
 				#endif // DEBUG
 				password_state=true;
+			}else{
+				password_state=false;
 			}
 
 

@@ -35,23 +35,29 @@ int main(int argc, char ** argv){
     if(verify_sid(&check_person)){
 		get_person_by_sid(&check_person);
 
+		//Komma-getrennte Kursliste derDatenbank in ausgefranstes Array aus Strings umwandeln
 		char ** a_course=NULL;
 		int number_of_courses=comma_to_array(check_person.courses, &a_course);
-		course * timetable_courses=NULL;
-		size_t oldsize=0;
+		course * timetable_courses=NULL; //Array in der alle Stunden der Woche gespeichert werden
+		size_t num_all_course=0; //Anzahl der Stunden
+
+		/**
+		Alle Kurse der Woche aus der Datenbank holen.
+		--> Array mit allen Stunden die in einer Woche stattfinden wird erzeugt
+		*/
 		for(int i=number_of_courses; i--;){
 			char * current_course=*(a_course+i);
-			course * current_course_set=NULL;
+			course * current_course_set=NULL; //Die neuen n Schulstunden (z.B. alle Mathe-Stunden der Woche)
 			size_t num_new_courses=get_course(current_course, &current_course_set);
 			if(num_new_courses > 0){
-				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
+				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+num_all_course)*sizeof(course));
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
 				bool success=get_teacher_by_course(teach, current_course_set[0].name);
 
 				//HINWEIS: die 1 wird von num_new_courses schon am Anfang abgezogen
-				// (da ja die Bedingung geprüft wird (j>0)
+				// (da ja die Bedingung geprüft wird (j!=0) (eig. schlechter Stil ???)
 				for(int j=num_new_courses; j--;){
 					if(success){
 						current_course_set[j].teacher=teach;
@@ -60,16 +66,19 @@ int main(int argc, char ** argv){
 					}
 				}
 				//Die neuen Kurse werden an den Stundenplan angehängt
-				memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
+				memcpy((timetable_courses+num_all_course), current_course_set, sizeof(course)*num_new_courses);
 				free(current_course_set);
 				if(!teach->acronym && teach)free(teach);
-				oldsize+=num_new_courses;
+				num_all_course+=num_new_courses;
 			}
 		}
+
+
+
 		/*
 		puts("___________");
 		puts("C   T   R");
-		for(size_t i=0; i<oldsize; i++){
+		for(size_t i=0; i<num_all_course; i++){
 			printf("%s  %s  %s\n", timetable_courses[i].name, timetable_courses[i].time, timetable_courses[i].room);
 		}
 		puts("___________");*/
@@ -110,7 +119,7 @@ int main(int argc, char ** argv){
 				//printf("TagStunde: %s\n", time_string);
 
 				//Herausfinden welche Stunde jetzt (h, d) ist
-				for(size_t el=oldsize; !c && el--;){
+				for(size_t el=num_all_course; !c && el--;){
 					if(strcmp(timetable_courses[el].time, time_string) == 0){
 						c=(timetable_courses+el);
 					}

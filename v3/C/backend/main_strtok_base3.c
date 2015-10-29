@@ -16,38 +16,6 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
-#define content_max 700
-//3*(bytes von name (wegen %XX <- Sonderzeichen) + 3*(bytes von pass) + reserve
-
-
-/* Struktur der Datenbank
- * mysql> DESCRIBE  Benutzer;
- * +----------+--------------+------+-----+---------+----------------+
- * | Field    | Type         | Null | Key | Default | Extra          |
- * +----------+--------------+------+-----+---------+----------------+
- * | id       | int(11)      | NO   | PRI | NULL    | auto_increment |
- * | name     | varchar(50)  | YES  |     | NULL    |                |
- * | passwort | varchar(200) | YES  |     | NULL    |                |
- * | kurse    | varchar(200) | YES  |     | NULL    |                |
- * +----------+--------------+------+-----+---------+----------------+
- *
- */
-
-/* mysql> SELECT Benutzer.id, name, passwort, kurse, Lehrer.kuerzel FROM Lehrer, Benutzer WHERE Lehrer.kuerzel="FFU" AND Lehrer.id=Benutzer.id;
- * +----+---------------+----------+-------------+---------+
- * | id | name          | passwort | kurse       | kuerzel |
- * +----+---------------+----------+-------------+---------+
- * |  5 | Fritz Fuchs   | testp    | 1INF,1P_INF | FFU     |
- * +----+---------------+----------+-------------+---------+
- * mysql> SELECT Benutzer.id, name, passwort, kurse FROM Benutzer, Schueler WHERE name="Max Mustermann" AND Schueler.id=Benutzer.id;
- * +----+----------------+--------------+--------------+
- * | id | name           | passwort     | kurse        |
- * +----+----------------+--------------+--------------+
- * |  1 | Max Mustermann | fallersleben | 1L,1ETH,1PH2 |
- * +----+----------------+--------------+--------------+
- */
-
-
 /**
 Benutzer anmelden (Passwort Überprüfen)
 

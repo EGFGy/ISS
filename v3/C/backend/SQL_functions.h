@@ -44,6 +44,7 @@ typedef struct {
 	char * acronym;         // Kürzel der Person (falls vorhanden)
 	char * email;           // E-Mail-Adresse der Person
 	struct tm * login_time; // Zeit zu der sich der Nutzer angemeldet hat
+
 	bool auth;              // ist die Person authentifiziert
 	int sid;                // Session-ID
 	bool isTeacher;         // Lehrer ?

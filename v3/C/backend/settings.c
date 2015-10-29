@@ -159,7 +159,7 @@ int main(int argc, char ** argv){
 			puts("</body></html>");
 
 		}else if(datCGI.request_method == BOTH){
-			bool return_to_settings=true;
+			bool return_to_settings=true; // soll der Nutzer nach einer erfolgreichen Änderung wieder zur Seite mit den Einstellungen umgeleitet werden?
 			//Die Einstellungen sollen verändern werden
 
 			if(extract_QUERY_data(&datCGI, "course_update", NULL) == 0){
@@ -203,7 +203,9 @@ int main(int argc, char ** argv){
 						char * error_message=NULL;
 
 						for(int i=num_courses; is_ok == NO_ERROR && i--;){
-
+							/**
+							Die Liste aller Stunden in der Woche holen und überprüfen, ob Stunden doppelt belegt sind
+							*/
 							char * current_course=*(arr_selected_courses+i);
 							course * current_course_set=NULL;
 							size_t num_new_courses=get_course(current_course, &current_course_set);
@@ -239,7 +241,9 @@ int main(int argc, char ** argv){
 								oldsize+=num_new_courses;
 							}
 
-
+							/**
+							Prüfen, ob ein Kurs schon von einem anderen Lehrer unterrichtet wird
+							*/
 							if(check_person.isTeacher && is_ok == NO_ERROR){
 								person possible_teacher;
 								init_person(&possible_teacher);
@@ -332,7 +336,7 @@ int main(int argc, char ** argv){
 
 
 							print_html_error(Meldung, "/cgi-bin/settings.cgi");
-							exit(EXIT_FAILURE);
+							exit(EXIT_FAILURE); //(kann doch weggelassen werden, oder?)
 						}
 					}
 				}
@@ -343,7 +347,7 @@ int main(int argc, char ** argv){
 			}
 
 			if(extract_QUERY_data(&datCGI, "email_update", NULL)==0){
-				//Person will ihre Email verändern
+				//Person will ihre E-Mail-Adresse verändern
 
 				return_to_settings=false;
 				char * new_email=NULL;
@@ -354,6 +358,7 @@ int main(int argc, char ** argv){
 						print_html_error("Email existiert in der Datenbank bereits", "/cgi-bin/settings.cgi");
 						exit(0);
 					}else{
+						//TODO Bessere E-Mail-Adressen-Prüfung einbauen
                         if((strchr(new_email, '@') == strrchr(new_email, '@')) && strchr(new_email, '@')) {
 							//Der Nutzer hat eine Gültige E-Mail-Adresse (mit genau einem '@') eingegeben
 							//E-Mail-Adresse wir jetzt geändert
@@ -392,7 +397,7 @@ int main(int argc, char ** argv){
 				if(strcmp(pass_new_1, pass_new_2) == 0){
 					//Die neuen Passwörter wurden richtig eingegeben
 					if(strcmp(pass_new_1, pass_old) !=0){
-						//Neues Passwort ist anders als das alte
+						//Neues Passwort ist anders als das Alte
 
 						if(verify_user_password(&check_person)){
 							//Person hat ihr aktuelles Passwort richtig eingegeben
