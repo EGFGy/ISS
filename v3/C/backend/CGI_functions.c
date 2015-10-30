@@ -423,54 +423,54 @@ printf("<!doctype html>\n\
 	puts("<ul class='pure-menu-list'>\n");
 	if(menu == TIMETABLE){
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'>Stundenplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'><img src='/img/Stundenplan.png'>Stundenplan</a>\n\
 										</li>\n\
 			");
 	}else{
         puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'>Stundenplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'><img src='/img/Stundenplan.png'>Stundenplan</a>\n\
                                         </li>\n\
 			");
 	}
 
     if(menu == MAIN){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img src='/img/Allgemeines.png'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img src='/img/Allgemeines.png'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }
     if(menu == COURSE){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'>Kursbezogenes</a>\n\
+											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img src='/img/Kursbezogenes.png'>Kursbezogenes</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'>Kursbezogenes</a>\n\
+											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img src='/img/Kursbezogenes.png'>Kursbezogenes</a>\n\
 										</li>\n\
 			");
     }
     if(menu == SETTINGS){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'>Einstellungen &#9881;</a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img src='/img/Einstellungen.png'>Einstellungen </a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'>Einstellungen &#9881;</a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img src='/img/Einstellungen.png'>Einstellungen </a>\n\
 										</li>\n\
 			");
     }
     puts("								<li class='pure-menu-item'>\n\
-											<a href='/hilfe.html' class='pure-menu-link'>Hilfe</a>\n\
+											<a href='/hilfe.html' class='pure-menu-link'><img src='/img/Hilfe.png'>Hilfe</a>\n\
 										</li>\n\
 										<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'>LOGOUT</a>\n\
+											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'><img src='/img/Logout.png'>LOGOUT</a>\n\
 										</li>\n\
 		");
 	printf("\

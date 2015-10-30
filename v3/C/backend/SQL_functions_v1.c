@@ -71,6 +71,11 @@ void init_course(course * c){
 	c->room=NULL;
 
 	c->teacher=NULL;
+
+	c->alter_time=NULL;
+	c->alter_room=NULL;
+	c->alter_teacher_acronym=NULL;
+	c->status=UNCHANGED;
 }
 
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
@@ -285,7 +290,7 @@ bool verify_user_password(person * pers){
 
 		if(mysql_num_rows(result) == 1){
 			MYSQL_ROW * row=NULL;
-			row=mysql_fetch_row(result);
+			row=mysql_fetch_row(result); //warning: assignment from incompatible pointer type (WTF?)
 			#ifdef DEBUG
 			fprintf(stderr, "Benutzer gefunden (verify_user_password)\n");
 			#endif // DEBUG
@@ -1337,7 +1342,7 @@ size_t get_course(char * this_course, course ** c_arr){
 	}
 
 	if(asprintf(&query, "SELECT * FROM Kurse WHERE name='%s'", this_course) == -1){
-		print_exit_failure("Es konnte kein Speicher angefordert werden (update_user_courses)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_course)");
 	}
 
 	my=mysql_init(NULL);
@@ -1370,6 +1375,62 @@ size_t get_course(char * this_course, course ** c_arr){
 				asprintf(&(*c_arr+i)->id, "%s", row[COL_COURSE_ID]);
 				asprintf(&(*c_arr+i)->time, "%s", row[COL_COURSE_TIME]);
 				asprintf(&(*c_arr+i)->room, "%s", row[COL_COURSE_ROOM]);
+				i++;
+			}
+		}
+		mysql_free_result(result);
+	}
+	mysql_close(my);
+	free(query);
+	return number;
+}
+
+size_t get_alter_course(char * this_course, course ** c_arr){
+	size_t number=0;
+	MYSQL *my=NULL;
+	char * query=NULL;
+
+	if(this_course==NULL || c_arr==NULL){
+		print_exit_failure("Programm falsch (get_alter_course)");
+	}
+
+	if(asprintf(&query, "SELECT * FROM Vertretungen WHERE name='%s'", this_course) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_alter_course)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+		number=0;
+	}else{
+
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			number=mysql_num_rows(result);
+			*c_arr=calloc(number, sizeof(course));
+			MYSQL_ROW row;
+			size_t i=0;
+			while((row=mysql_fetch_row(result)) && i<number){
+				init_course((*c_arr+i));
+				asprintf(&(*c_arr+i)->name, "%s", row[COL_ALTER_COURSE_NAME]);
+				asprintf(&(*c_arr+i)->id, "%s", row[COL_ALTER_COURSE_ID]);
+				if(row[COL_ALTER_COURSE_ROOM] != NULL){
+					(*c_arr+i)->status ^= (-1 ^ (*c_arr+i)->status) & (1<<0); // LSB
+					asprintf(&(*c_arr+i)->alter_room, "%s", row[COL_ALTER_COURSE_ID]);
+				}
+
 				i++;
 			}
 		}

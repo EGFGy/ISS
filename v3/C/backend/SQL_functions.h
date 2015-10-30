@@ -19,6 +19,13 @@
 #define COL_COURSE_TIME  2
 #define COL_COURSE_ROOM  3
 
+#define COL_ALTER_COURSE_ID 0
+#define COL_ALTER_COURSE_NAME 1
+#define COL_ALTER_COURSE_TIME 2
+#define COL_ALTER_COURSE_ORIGINAL_TIME 3
+#define COL_ALTER_COURSE_ROOM 4
+#define COL_ALTER_COURSE_TEACHER_ACR
+
 #define GET_MESSAGE_COUNT 5
 
 #define SQL_USER            "web_user"
@@ -34,6 +41,9 @@
 
 extern const char * german_weekdays[5];
 extern const char * long_german_weekdays[5];
+
+typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;
+typedef enum {UNCHANGED, TEACHER, ROOM, TEACHER_ROOM, TIME, TIME_TEACHER, TIME_ROOM, TIME_TEACHER_ROOM, OMITTED}CourseStatus;
 
 typedef struct {
 	int id;                 // ID der Person
@@ -65,11 +75,13 @@ typedef struct{
 	char * name;
 	char * time;
 	char * room;
-
 	person * teacher;
-}course;
 
-typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;
+	char * alter_time;
+	char * alter_room;
+	char * alter_teacher_acronym;
+	CourseStatus status;
+}course;
 
 void init_person(person * p);
 void init_message(message * mes);
@@ -94,10 +106,12 @@ bool insert_message(message * mes);
 size_t get_distinct_courses(course ** c);
 bool update_user_courses(person * pers);
 bool update_user_email(person * pers, char * new_email);
+bool update_user_password(person * pers);
 size_t get_course(char * this_course, course ** c_arr);
 bool get_teacher_by_course(person * pers, char * c);
 
 void clean_string(char * str);
+bool course_regex_search(course * c, char * all_courses);
 char * nlcr_to_htmlbr(char * str);
 int comma_to_array(char * comma_char, char *** str_array);
 char * salt_extract(char * db_passwd);

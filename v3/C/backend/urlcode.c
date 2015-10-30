@@ -1,3 +1,7 @@
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
 // From http://www.geekhideout.com/urlcode.shtml
 /* Converts a hex character to its integer value */
 char from_hex(char ch) {
@@ -15,11 +19,11 @@ char to_hex(char code) {
 char *url_encode(char *str) {
   char *pstr = str, *buf = malloc(strlen(str) * 3 + 1), *pbuf = buf;
   while (*pstr) {
-    if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~') 
+    if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
       *pbuf++ = *pstr;
-    else if (*pstr == ' ') 
+    else if (*pstr == ' ')
       *pbuf++ = '+';
-    else 
+    else
       *pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
     pstr++;
   }
@@ -37,7 +41,7 @@ char *url_decode(char *str) {
         *pbuf++ = from_hex(pstr[1]) << 4 | from_hex(pstr[2]);
         pstr += 2;
       }
-    } else if (*pstr == '+') { 
+    } else if (*pstr == '+') {
       *pbuf++ = ' ';
     } else {
       *pbuf++ = *pstr;
