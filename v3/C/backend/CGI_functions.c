@@ -423,54 +423,54 @@ printf("<!doctype html>\n\
 	puts("<ul class='pure-menu-list'>\n");
 	if(menu == TIMETABLE){
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'><img class='icon-image' src='/img/Stundenplan.png'>Stundenplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link pure-menu-selected'><img class='icon-image' src='/img/ico_Stundenplan.png'>Stundenplan</a>\n\
 										</li>\n\
 			");
 	}else{
         puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Stundenplan.png'>Stundenplan</a>\n\
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Stundenplan.png'>Stundenplan</a>\n\
                                         </li>\n\
 			");
 	}
 
     if(menu == MAIN){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Allgemeines.png'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Allgemeines.png'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Allgemeines.png'>Allgemeines</a>\n\
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Allgemeines.png'>Allgemeines</a>\n\
 										</li>\n\
 			");
     }
     if(menu == COURSE){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Kursbezogenes.png'>Kursbezogenes</a>\n\
+											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Kursbezogenes.png'>Kursbezogenes</a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Kursbezogenes.png'>Kursbezogenes</a>\n\
+											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Kursbezogenes.png'>Kursbezogenes</a>\n\
 										</li>\n\
 			");
     }
     if(menu == SETTINGS){
 		puts("							<li class='pure-menu-item menu-item-divided pure-menu-selected'>\n\
-											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Einstellungen.png'>Einstellungen </a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Einstellungen.png'>Einstellungen </a>\n\
 										</li>\n\
 			");
     }else{
 		puts("							<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Einstellungen.png'>Einstellungen </a>\n\
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Einstellungen.png'>Einstellungen </a>\n\
 										</li>\n\
 			");
     }
     puts("								<li class='pure-menu-item'>\n\
-											<a href='/hilfe.html' class='pure-menu-link'><img class='icon-image' src='/img/Hilfe.png'>Hilfe</a>\n\
+											<a href='/hilfe.html' class='pure-menu-link'><img class='icon-image' src='/img/ico_Hilfe.png'>Hilfe</a>\n\
 										</li>\n\
 										<li class='pure-menu-item'>\n\
-											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'><img class='icon-image' src='/img/Logout.png'>LOGOUT</a>\n\
+											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Logout.png'>LOGOUT</a>\n\
 										</li>\n\
 		");
 	printf("\
