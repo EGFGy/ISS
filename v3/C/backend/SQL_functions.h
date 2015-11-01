@@ -24,7 +24,7 @@
 #define COL_ALTER_COURSE_TIME 2
 #define COL_ALTER_COURSE_ORIGINAL_TIME 3
 #define COL_ALTER_COURSE_ROOM 4
-#define COL_ALTER_COURSE_TEACHER_ACR
+#define COL_ALTER_COURSE_TEACHER_ACR 5
 
 #define GET_MESSAGE_COUNT 5
 
@@ -43,7 +43,21 @@ extern const char * german_weekdays[5];
 extern const char * long_german_weekdays[5];
 
 typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;
-typedef enum {UNCHANGED, TEACHER, ROOM, TEACHER_ROOM, TIME, TIME_TEACHER, TIME_ROOM, TIME_TEACHER_ROOM, OMITTED}CourseStatus;
+//typedef enum {UNCHANGED, TEACHER, ROOM, TEACHER_ROOM, TIME, TIME_TEACHER, TIME_ROOM, TIME_TEACHER_ROOM, OMITTED}CourseStatus;
+
+#define UNCHANGED 0b0000
+#define TEACHER 0b0001
+#define ROOM 0b0010
+#define TIME 0b0100
+#define OMITTED 0b1000
+
+/**
+0 0000 UNCHANGED
+1 0001 TEACHER
+2 0010 ROOM
+4 0100 TIME
+8 1000 OMITTED
+*/
 
 typedef struct {
 	int id;                 // ID der Person
@@ -71,21 +85,29 @@ typedef struct{
 }message;
 
 typedef struct{
-	int id;
-	char * name;
-	char * time;
-	char * room;
-	person * teacher;
+	int id;                        // ID des Kurses
+	char * name;                   // Kursname (z.B. 2PHO)
+	char * time;                   // Zeit zu der der Kurs stattfindet (z.B. Mo3)
+	char * room;                   // Raum in dem der Kurs stattfindet
+	person * teacher;              // (optional) Person die den Kurs unterrichtet
 
-	char * alter_time;
-	char * alter_room;
-	char * alter_teacher_acronym;
-	CourseStatus status;
+	char * alter_time;             // Alternative Zeit zu der der Kurs stattfindet (aus V_Plan)
+	char * original_time;          // Zeit des ursprünglichen Kurses (Verschiebung von Stunden --> die andere fällt aus)
+	char * alter_room;             // Alternativer Raum in dem der Kurs stattfindet (aus V_Plan)
+	char * alter_teacher_acronym;  // Alternativer Lehrer der den Kurs unterrichtet
+	int status;           // Zustand (Änderungen, oder nichts)
 }course;
+
+typedef struct{
+	course * c_set; // Array in dem mehrere Stunden gespeichert werden
+	size_t number;  // Anzahl der Stunden
+}course_set;
 
 void init_person(person * p);
 void init_message(message * mes);
 void init_course(course * c);
+void init_course_set(course_set * c);
+
 int verify_user(person * pers);
 bool verify_user_password(person * pers);
 bool detect_convert_acronym(person * pers);
@@ -102,12 +124,14 @@ bool verify_sid(person * pers);
 int get_messages(message ** mes, int offset, char * course);
 bool get_person_by_id(person * pers);
 bool get_person_by_sid(person * pers);
+bool get_person_by_acronym(person * pers, char * acronym);
 bool insert_message(message * mes);
 size_t get_distinct_courses(course ** c);
 bool update_user_courses(person * pers);
 bool update_user_email(person * pers, char * new_email);
 bool update_user_password(person * pers);
 size_t get_course(char * this_course, course ** c_arr);
+size_t get_alter_course(char * this_course, course ** c_arr);
 bool get_teacher_by_course(person * pers, char * c);
 
 void clean_string(char * str);

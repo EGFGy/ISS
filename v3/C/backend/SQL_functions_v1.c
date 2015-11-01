@@ -78,6 +78,11 @@ void init_course(course * c){
 	c->status=UNCHANGED;
 }
 
+void init_course_set(course_set * c){
+	init_course(c->c_set);
+	c->number=0;
+}
+
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *
  * \param pers person*  Person, die angemeldet werden soll
@@ -289,7 +294,7 @@ bool verify_user_password(person * pers){
 		result = mysql_store_result(my);
 
 		if(mysql_num_rows(result) == 1){
-			MYSQL_ROW * row=NULL;
+			MYSQL_ROW row=NULL;
 			row=mysql_fetch_row(result); //warning: assignment from incompatible pointer type (WTF?)
 			#ifdef DEBUG
 			fprintf(stderr, "Benutzer gefunden (verify_user_password)\n");
@@ -1068,6 +1073,79 @@ bool get_person_by_sid(person * pers){
     return found;
 }
 
+
+bool get_person_by_acronym(person * pers, char * acronym){
+	char * query=NULL;
+	MYSQL * my=NULL;
+	bool found=false;
+
+	if(acronym == NULL){
+		print_exit_failure("Programm falsch (get_person_by_acronym)");
+	}
+
+	if(asprintf(&query, "SELECT * FROM Benutzer WHERE kuerzel='%s'", acronym) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_acronym)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		print_exit_failure("mysql_query failed (get_person_by_acronym)");
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) > 0){
+			#ifdef DEBUG
+			fprintf(stderr, "uid gefunden\n");
+			#endif // DEBUG
+
+			MYSQL_ROW row;
+			row=mysql_fetch_row(result);
+
+			//Name holen
+			asprintf(&pers->name, "%s", row[COL_NAME]);
+			asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
+
+			//Kürzel (falls vorhanden) holen
+			if(row[COL_ACR] != NULL){
+				//Die Person hat ein Küzel --> Lehrer
+				asprintf(&pers->acronym, "%s", row[COL_ACR]);
+				pers->isTeacher=true;
+			}else{
+				pers->isTeacher=false;
+			}
+
+			//Kurse (falls vorhanden)
+			if(row[COL_COURSE] != NULL){
+				asprintf(&pers->courses, "%s", row[COL_COURSE]);
+			}
+
+			//ID holen
+			if(row[COL_ID] != NULL){
+				pers->id=atoi(row[COL_ID]);
+			}
+
+			found=true;
+		}
+		mysql_free_result(result);
+	}
+
+    mysql_close(my);
+    free(query);
+    return found;
+}
+
 /** \brief Eine Nachricht in die Datenbank einfügen
  *
  * \param mes message*  Nachricht
@@ -1426,9 +1504,22 @@ size_t get_alter_course(char * this_course, course ** c_arr){
 				init_course((*c_arr+i));
 				asprintf(&(*c_arr+i)->name, "%s", row[COL_ALTER_COURSE_NAME]);
 				asprintf(&(*c_arr+i)->id, "%s", row[COL_ALTER_COURSE_ID]);
-				if(row[COL_ALTER_COURSE_ROOM] != NULL){
-					(*c_arr+i)->status ^= (-1 ^ (*c_arr+i)->status) & (1<<0); // LSB
-					asprintf(&(*c_arr+i)->alter_room, "%s", row[COL_ALTER_COURSE_ID]);
+				asprintf(&(*c_arr+i)->time, "%s", row[COL_ALTER_COURSE_ORIGINAL_TIME]);
+
+				if(row[COL_ALTER_COURSE_ROOM] == NULL && row[COL_ALTER_COURSE_TEACHER_ACR] == NULL && row[COL_ALTER_COURSE_TIME] == NULL){
+					(*c_arr+i)->status=OMITTED;
+				}else{
+					if(row[COL_ALTER_COURSE_TEACHER_ACR] != NULL){
+						//anderer Lehrer
+						(*c_arr+i)->status |= (1<<0); // LSB
+						asprintf(&(*c_arr+i)->alter_teacher_acronym, "%s", row[COL_ALTER_COURSE_TEACHER_ACR]);
+
+					}
+
+					if(row[COL_ALTER_COURSE_ROOM]){
+						(*c_arr+i)->status |= (1 << 1);
+						asprintf(&(*c_arr+i)->alter_room, "%s", row[COL_ALTER_COURSE_ROOM]);
+					}
 				}
 
 				i++;

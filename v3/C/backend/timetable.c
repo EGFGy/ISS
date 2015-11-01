@@ -7,8 +7,11 @@
 #include <ctype.h>
 #include <time.h>
 
+#define DEBUG
+
 #include "CGI_functions.h"
 #include "SQL_functions.h"
+
 
 int main(int argc, char ** argv){
 	cgi datCGI;
@@ -38,48 +41,134 @@ int main(int argc, char ** argv){
 		//Komma-getrennte Kursliste derDatenbank in ausgefranstes Array aus Strings umwandeln
 		char ** a_course=NULL;
 		int number_of_courses=comma_to_array(check_person.courses, &a_course);
-		course * timetable_courses=NULL; //Array in der alle Stunden der Woche gespeichert werden
-		size_t num_all_course=0; //Anzahl der Stunden
+
+		course_set timetable;
+		course_set alternate_courses;
+
+
+		timetable.c_set=NULL;
+		timetable.number=0;
+		alternate_courses.c_set=NULL;
+		alternate_courses.number=0;
+
+
+		//course * timetable_courses=NULL; //Array in das alle Stunden der Woche gespeichert werden
+		//size_t timetable.number=0; //Anzahl der Stunden
 
 		/**
 		Alle Kurse der Woche aus der Datenbank holen.
 		--> Array mit allen Stunden die in einer Woche stattfinden wird erzeugt
+		--> Array mit allen Vertretungsstunden wird erzeugt
 		*/
 		for(int i=number_of_courses; i--;){
 			char * current_course=*(a_course+i);
-			course * current_course_set=NULL; //Die neuen n Schulstunden (z.B. alle Mathe-Stunden der Woche)
-			size_t num_new_courses=get_course(current_course, &current_course_set);
-			if(num_new_courses > 0){
-				timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+num_all_course)*sizeof(course));
+
+			course_set new_courses;
+			course_set new_alternate_courses;
+			new_alternate_courses.c_set=NULL;
+			new_alternate_courses.number=get_alter_course(current_course, &new_alternate_courses.c_set);
+			new_courses.c_set=NULL;
+			new_courses.number=get_course(current_course, &new_courses.c_set);
+			//course * current_course_set=NULL; //Die neuen n Schulstunden (z.B. alle Mathe-Stunden der Woche)
+			//size_t num_new_course=get_course(current_course, &current_course_set);
+			if(new_courses.number > 0){
+				timetable.c_set=(course *)realloc(timetable.c_set, (new_courses.number+timetable.number)*sizeof(course));
 				person * teach;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
-				bool success=get_teacher_by_course(teach, current_course_set[0].name);
+				bool success=get_teacher_by_course(teach, new_courses.c_set[0].name);
 
-				//HINWEIS: die 1 wird von num_new_courses schon am Anfang abgezogen
+				//HINWEIS: die 1 wird von new_courses.number schon am Anfang abgezogen
 				// (da ja die Bedingung geprüft wird (j!=0) (eig. schlechter Stil ???)
-				for(int j=num_new_courses; j--;){
+				for(int j=new_courses.number; j--;){
 					if(success){
-						current_course_set[j].teacher=teach;
+						new_courses.c_set[j].teacher=teach;
 					}else{
-						current_course_set[j].teacher=NULL;
+						new_courses.c_set[j].teacher=NULL;
 					}
 				}
 				//Die neuen Kurse werden an den Stundenplan angehängt
-				memcpy((timetable_courses+num_all_course), current_course_set, sizeof(course)*num_new_courses);
-				free(current_course_set);
+				memcpy((timetable.c_set+timetable.number), new_courses.c_set, sizeof(course)*new_courses.number);
+				free(new_courses.c_set);
 				if(!teach->acronym && teach)free(teach);
-				num_all_course+=num_new_courses;
+				timetable.number+=new_courses.number;
+			}
+
+			if(new_alternate_courses.number>0){
+				alternate_courses.c_set=(course *)realloc(alternate_courses.c_set, (new_alternate_courses.number+alternate_courses.number)*sizeof(course));
+
+				person * teach;
+				teach=calloc(1, sizeof(person));
+				init_person(teach);
+				bool success=get_teacher_by_course(teach, new_alternate_courses.c_set[0].name);
+
+				for(int j=new_alternate_courses.number; j--;){
+					if(success){
+						new_alternate_courses.c_set[j].teacher=teach;
+					}else{
+						new_alternate_courses.c_set[j].teacher=NULL;
+					}
+				}
+				//Die neuen Kurse werden an die Liste der Vertretungsstunden angehängt
+				memcpy((alternate_courses.c_set+alternate_courses.number), new_alternate_courses.c_set, sizeof(course)*new_alternate_courses.number);
+				free(new_alternate_courses.c_set);
+				if(!teach->acronym && teach)free(teach);
+				alternate_courses.number+=new_alternate_courses.number;
 			}
 		}
 
+
+		for(size_t i=0; i<alternate_courses.number; i++){
+
+			#ifdef DEBUG
+
+			//struct timeval stop, start;
+			//gettimeofday(&start, NULL);
+			fprintf(stderr, "alternate_course %d '%s'\n", i, alternate_courses.c_set[i].name);
+			#endif // DEBUG
+
+            for(size_t j=0; j<timetable.number; j++){
+				int name_match=strcmp(alternate_courses.c_set[i].name, timetable.c_set[j].name);
+				int time_match=strcmp(alternate_courses.c_set[i].time, timetable.c_set[j].time);
+				if(name_match == 0 && time_match == 0){
+					// Hier ist was geändert
+					#ifdef DEBUG
+					fprintf(stderr, "Änderung von %s\n", timetable.c_set[j].name);
+					#endif // DEBUG
+					timetable.c_set[j].status=alternate_courses.c_set[i].status;
+
+					if(alternate_courses.c_set[i].status & TEACHER){
+						free(timetable.c_set[j].teacher); timetable.c_set[j].teacher=NULL;
+						timetable.c_set[j].teacher=calloc(1, sizeof(person));
+						get_person_by_acronym(timetable.c_set[j].teacher, alternate_courses.c_set[i].alter_teacher_acronym);
+					}
+					if(alternate_courses.c_set[i].status & ROOM ){
+						#ifdef DEBUG
+						fprintf(stderr, "ROOM: %s --> %s, Kurs %s\n", timetable.c_set[j].room, alternate_courses.c_set[i].alter_room, alternate_courses.c_set[i].name);
+						#endif // DEBUG
+						if(timetable.c_set[j].room)free(timetable.c_set[j].room);
+						timetable.c_set[j].room=alternate_courses.c_set[i].alter_room;
+
+
+						#ifdef DEBUG
+						fprintf(stderr, "ROOM: %s bei %s Jetzt\n", timetable.c_set[j].room, timetable.c_set[j].name);
+						#endif // DEBUG
+					}
+				}
+            }
+
+            #ifdef DEBUG
+            //gettimeofday(&stop, NULL);
+			//fprintf(stderr, "Zeit: %d\n", stop.tv_usec-start.tv_usec);
+			#endif // DEBUG
+		}
 
 
 		/*
 		puts("___________");
 		puts("C   T   R");
-		for(size_t i=0; i<num_all_course; i++){
-			printf("%s  %s  %s\n", timetable_courses[i].name, timetable_courses[i].time, timetable_courses[i].room);
+		for(size_t i=0; i<timetable.number; i++){
+			printf("%s  %s  %s\n", timetable.c_set[i].name, timetable.c_set[i].time, timetable.c_set[i].room);
 		}
 		puts("___________");*/
 
@@ -119,15 +208,16 @@ int main(int argc, char ** argv){
 				//printf("TagStunde: %s\n", time_string);
 
 				//Herausfinden welche Stunde jetzt (h, d) ist
-				for(size_t el=num_all_course; !c && el--;){
-					if(strcmp(timetable_courses[el].time, time_string) == 0){
-						c=(timetable_courses+el);
+				for(size_t el=timetable.number; !c && el--;){
+					if(strcmp(timetable.c_set[el].time, time_string) == 0){
+						c=(timetable.c_set+el);
 					}
 				}
 				if(c){
 					//printf("Stunde: %s Kurs: %s Raum: %s\n", c->time, c->name, c->room);
+
 					printf("<a href='/cgi-bin/spec_messages.cgi#%s'>", c->name);
-					puts("<table class='sub-table'>\n<tr>\n");
+					printf("<table class='sub-table'>\n<tr class='%s'>\n", c->status==OMITTED ? "cancelled":"moved");
 					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>",
 								c->name, c->room , c->teacher ? c->teacher->acronym : "---");
 					puts("</tr></table>");
