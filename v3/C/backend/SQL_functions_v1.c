@@ -1505,6 +1505,7 @@ size_t get_alter_course(char * this_course, course ** c_arr){
 				asprintf(&(*c_arr+i)->name, "%s", row[COL_ALTER_COURSE_NAME]);
 				asprintf(&(*c_arr+i)->id, "%s", row[COL_ALTER_COURSE_ID]);
 				asprintf(&(*c_arr+i)->time, "%s", row[COL_ALTER_COURSE_ORIGINAL_TIME]);
+				(*c_arr+i)->status=UNCHANGED;
 
 				if(row[COL_ALTER_COURSE_ROOM] == NULL && row[COL_ALTER_COURSE_TEACHER_ACR] == NULL && row[COL_ALTER_COURSE_TIME] == NULL){
 					(*c_arr+i)->status=OMITTED;

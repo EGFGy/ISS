@@ -54,6 +54,21 @@
 	margin: none;
 }
 
+.sub-table .cancelled{
+	background: #F44;
+	color: #FFF;
+}
+
+.sub-table .moved{
+	background: #FF5;
+	color: #000;
+}
+
+.sub-table .teacher{
+	background: #4F4;
+	color: #000;
+}
+
 .time-table th{
 	border: 1px solid red;
 	width: 16%;
@@ -95,6 +110,8 @@
 .tiny td{
 	background-color: lightblue;
 }
+
+
 
 .icon-image{
 	margin-right: 5px;

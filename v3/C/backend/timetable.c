@@ -73,7 +73,7 @@ int main(int argc, char ** argv){
 			//size_t num_new_course=get_course(current_course, &current_course_set);
 			if(new_courses.number > 0){
 				timetable.c_set=(course *)realloc(timetable.c_set, (new_courses.number+timetable.number)*sizeof(course));
-				person * teach;
+				person * teach=NULL;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
 				bool success=get_teacher_by_course(teach, new_courses.c_set[0].name);
@@ -82,7 +82,10 @@ int main(int argc, char ** argv){
 				// (da ja die Bedingung geprüft wird (j!=0) (eig. schlechter Stil ???)
 				for(int j=new_courses.number; j--;){
 					if(success){
-						new_courses.c_set[j].teacher=teach;
+						//new_courses.c_set[j].teacher=teach;
+						//person * p=new_courses.c_set[j].teacher;
+						new_courses.c_set[j].teacher=calloc(1, sizeof(person));
+						memcpy(new_courses.c_set[j].teacher, teach, sizeof(person));
 					}else{
 						new_courses.c_set[j].teacher=NULL;
 					}
@@ -90,21 +93,22 @@ int main(int argc, char ** argv){
 				//Die neuen Kurse werden an den Stundenplan angehängt
 				memcpy((timetable.c_set+timetable.number), new_courses.c_set, sizeof(course)*new_courses.number);
 				free(new_courses.c_set);
-				if(!teach->acronym && teach)free(teach);
+				if(teach)free(teach);
 				timetable.number+=new_courses.number;
 			}
 
 			if(new_alternate_courses.number>0){
 				alternate_courses.c_set=(course *)realloc(alternate_courses.c_set, (new_alternate_courses.number+alternate_courses.number)*sizeof(course));
 
-				person * teach;
+				person * teach=NULL;
 				teach=calloc(1, sizeof(person));
 				init_person(teach);
 				bool success=get_teacher_by_course(teach, new_alternate_courses.c_set[0].name);
 
 				for(int j=new_alternate_courses.number; j--;){
 					if(success){
-						new_alternate_courses.c_set[j].teacher=teach;
+						new_alternate_courses.c_set[j].teacher=calloc(1, sizeof(person));
+						memcpy(new_alternate_courses.c_set[j].teacher, teach, sizeof(person));
 					}else{
 						new_alternate_courses.c_set[j].teacher=NULL;
 					}
@@ -112,7 +116,7 @@ int main(int argc, char ** argv){
 				//Die neuen Kurse werden an die Liste der Vertretungsstunden angehängt
 				memcpy((alternate_courses.c_set+alternate_courses.number), new_alternate_courses.c_set, sizeof(course)*new_alternate_courses.number);
 				free(new_alternate_courses.c_set);
-				if(!teach->acronym && teach)free(teach);
+				if(teach)free(teach);
 				alternate_courses.number+=new_alternate_courses.number;
 			}
 		}
@@ -121,7 +125,6 @@ int main(int argc, char ** argv){
 		for(size_t i=0; i<alternate_courses.number; i++){
 
 			#ifdef DEBUG
-
 			//struct timeval stop, start;
 			//gettimeofday(&start, NULL);
 			fprintf(stderr, "alternate_course %d '%s'\n", i, alternate_courses.c_set[i].name);
@@ -138,20 +141,26 @@ int main(int argc, char ** argv){
 					timetable.c_set[j].status=alternate_courses.c_set[i].status;
 
 					if(alternate_courses.c_set[i].status & TEACHER){
+						#ifdef DEBUG
+						fprintf(stderr, "	Alter Lehrer: %s\n", timetable.c_set[j].teacher->acronym);
+						#endif // DEBUG
 						free(timetable.c_set[j].teacher); timetable.c_set[j].teacher=NULL;
 						timetable.c_set[j].teacher=calloc(1, sizeof(person));
 						get_person_by_acronym(timetable.c_set[j].teacher, alternate_courses.c_set[i].alter_teacher_acronym);
+						#ifdef DEBUG
+						fprintf(stderr, "	Neuer Lehrer: %s\n", timetable.c_set[j].teacher->acronym);
+						#endif // DEBUG
 					}
 					if(alternate_courses.c_set[i].status & ROOM ){
 						#ifdef DEBUG
-						fprintf(stderr, "ROOM: %s --> %s, Kurs %s\n", timetable.c_set[j].room, alternate_courses.c_set[i].alter_room, alternate_courses.c_set[i].name);
+						fprintf(stderr, "	ROOM: %s --> %s, Kurs %s\n", timetable.c_set[j].room, alternate_courses.c_set[i].alter_room, alternate_courses.c_set[i].name);
 						#endif // DEBUG
 						if(timetable.c_set[j].room)free(timetable.c_set[j].room);
 						timetable.c_set[j].room=alternate_courses.c_set[i].alter_room;
 
 
 						#ifdef DEBUG
-						fprintf(stderr, "ROOM: %s bei %s Jetzt\n", timetable.c_set[j].room, timetable.c_set[j].name);
+						fprintf(stderr, "	ROOM: %s bei %s Jetzt\n", timetable.c_set[j].room, timetable.c_set[j].name);
 						#endif // DEBUG
 					}
 				}
@@ -216,11 +225,21 @@ int main(int argc, char ** argv){
 				if(c){
 					//printf("Stunde: %s Kurs: %s Raum: %s\n", c->time, c->name, c->room);
 
+					char * css_class="";
+					if(c->status & OMITTED)css_class="cancelled";
+					if(c->status & TEACHER)css_class="teacher";
+					if(c->status & ROOM)css_class="moved";
+
+					#ifdef DEBUG
+					person * t=c->teacher;
+					fprintf(stderr, "PLAN: T='%s' N='%s' R='%s' A='%s'\n", time_string, c->name, c->room, t ? t->acronym : "NOPE");
+					#endif // DEBUG
+
 					printf("<a href='/cgi-bin/spec_messages.cgi#%s'>", c->name);
-					printf("<table class='sub-table'>\n<tr class='%s'>\n", c->status==OMITTED ? "cancelled":"moved");
+					printf(" %s<table class='sub-table'>\n <tr class='%s'> \n", c->status==OMITTED ? "<s style='color: black;'>":"" , css_class);
 					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>",
 								c->name, c->room , c->teacher ? c->teacher->acronym : "---");
-					puts("</tr></table>");
+					printf("</tr></table>%s", c->status==OMITTED ? "</s>":"");
 					puts("</a>\n");
 				}
 
