@@ -1369,9 +1369,9 @@ bool update_user_password(person * pers){
 
 	char * encr=crypt(pers->password, arg);
 	asprintf(&store_pw, "%s%s", salt, encr+strlen(arg));
-	free(arg);
-	free(salt);
-	free(pers->password);
+	free(arg); arg=NULL;
+	free(salt); salt=NULL;
+	free(pers->password); pers->password=NULL;
 
 
 	if(asprintf(&query, "UPDATE Benutzer SET passwort='%s' WHERE id='%d' AND email='%s'", store_pw, pers->id, pers->email) == -1){
