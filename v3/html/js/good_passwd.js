@@ -50,3 +50,19 @@ function pruefStaerke(password){
 			document.getElementById("resultat").value ="100";
 		}
 	}
+
+function comparePasswd() {
+  	var pic_wright = document.getElementById("haken");
+
+  	var pic_wrong = document.getElementById("kreuz");
+
+  	var a = document.getElementById("pass_new_1");
+
+  	var b = document.getElementById("pass_new_2");
+
+  	if (a.value == b.value) {
+      		document.getElementById('haken').style.display == 'inline';
+  	} else {
+      		document.getElementById('kreuz').style.display == 'inline';
+  	}
+}
