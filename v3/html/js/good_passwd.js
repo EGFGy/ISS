@@ -52,6 +52,7 @@ function pruefStaerke(password){
 	}
 
 function comparePasswd() {
+	
   		var pic_wright = document.getElementById("haken");
 
   		var pic_wrong = document.getElementById("kreuz");
