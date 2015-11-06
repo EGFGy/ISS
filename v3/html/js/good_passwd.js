@@ -52,17 +52,17 @@ function pruefStaerke(password){
 	}
 
 function comparePasswd() {
-  	var pic_wright = document.getElementById("haken");
+  		var pic_wright = document.getElementById("haken");
 
-  	var pic_wrong = document.getElementById("kreuz");
+  		var pic_wrong = document.getElementById("kreuz");
 
-  	var a = document.getElementById("pass_new_1");
+  		var a = document.getElementById("pass_new_1");
 
-  	var b = document.getElementById("pass_new_2");
+  		var b = document.getElementById("pass_new_2");
 
-  	if (a.value == b.value) {
-      		document.getElementById('haken').style.display == 'inline';
-  	} else {
-      		document.getElementById('kreuz').style.display == 'inline';
-  	}
+  		if (a.value == b.value) {
+      			document.getElementById('haken').style.display == 'inline';
+  		} else {
+      			document.getElementById('kreuz').style.display == 'inline';
+  		}
 }
