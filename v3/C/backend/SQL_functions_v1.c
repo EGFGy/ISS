@@ -1037,16 +1037,25 @@ bool get_person_by_sid(person * pers){
 			row=mysql_fetch_row(result);
 
 			//Name holen
-			pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-			strcpy(pers->name, row[COL_NAME]);
-			pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-			strcpy(pers->first_name, row[COL_VORNAME]);
+			//pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
+			//strcpy(pers->name, row[COL_NAME]);
+			if(asprintf(&pers->name, "%s", row[COL_NAME]) == -1){
+				print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
+			}
+			//pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
+			//strcpy(pers->first_name, row[COL_VORNAME]);
+			if(asprintf(&pers->first_name, "%s", row[COL_VORNAME]) == -1){
+				print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
+			}
 
 			//Kürzel (falls vorhanden) holen
 			if(row[COL_ACR] != NULL){
 				//Die Person hat ein Küzel --> Lehrer
-				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
-				strcpy(pers->acronym, row[COL_ACR]);
+				//pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
+				//strcpy(pers->acronym, row[COL_ACR]);
+				if(asprintf(&pers->acronym, "%s", row[COL_ACR]) == -1){
+					print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
+				}
 				pers->isTeacher=true;
 			}else{
 				pers->isTeacher=false;
@@ -1054,8 +1063,11 @@ bool get_person_by_sid(person * pers){
 
 			//Kurse (falls vorhanden)
 			if(row[COL_COURSE] != NULL){
-				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
-				strcpy(pers->courses, row[COL_COURSE]);
+				//pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
+				//strcpy(pers->courses, row[COL_COURSE]);
+				if(asprintf(&pers->courses, "%s", row[COL_COURSE]) == -1){
+					print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_sid)");
+				}
 			}
 
 			//ID holen

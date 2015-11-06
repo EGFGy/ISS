@@ -263,58 +263,6 @@ int main(int argc, char ** argv){
 							}
 						}
 
-						/*if(check_person.isTeacher){
-							person possible_teacher;
-							init_person(&possible_teacher);
-							for(int i=num_courses; is_ok==NO_ERROR && i--;){
-								if(get_teacher_by_course(&possible_teacher, arr_selected_courses[i])){
-									//Der Kurs wird schon von einem Lehrer unterrichtet
-									if(possible_teacher.id != check_person.id){
-										//Der Kurs wird von einem anderen Lehrer unterrichtet.
-										is_ok=ERROR_DOUBLE_TEACHER;
-									}else{
-										//Der aktuelle Lehrer unterrichtet diesen Kurs
-										//und hatte ihn schon vorher ausgewählt
-										is_ok=NO_ERROR;
-									}
-								}else{
-									//Der Kurs wird noch nicht unterrichtet
-								}
-							}
-						}
-
-						if(is_ok == NO_ERROR){
-							course * timetable_courses=NULL;
-							size_t oldsize=0;
-							for(int i=num_courses; i--;){
-								char * current_course=*(arr_selected_courses+i);
-								course * current_course_set=NULL;
-								size_t num_new_courses=get_course(current_course, &current_course_set);
-								if(num_new_courses > 0){
-									timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
-									memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
-									free(current_course_set);
-									oldsize+=num_new_courses;
-								}
-							}
-							for(int h=1; is_ok==NO_ERROR && h<HOUR_MAX; h++){
-								for(int d=0; is_ok==NO_ERROR && d<WEEKDAY_MAX; d++){
-									int cnt=0; // Zähler für das Auftreten dieser bestimmten Stunde (z.B. Di4)
-									           // Muss 1 sein
-									char * time_string=NULL;
-									asprintf(&time_string, "%s%d", german_weekdays[d], h+1);
-									for(int i=oldsize; is_ok==NO_ERROR && i--;){
-										if(strstr(timetable_courses[i].time, time_string)){
-											cnt++;
-										}
-										if(cnt>1)is_ok=ERROR_DOUBLE_COURSE;
-									}
-									free(time_string);
-								}
-							}
-						}*/
-
-
 						if(is_ok == NO_ERROR){
 							update_user_courses(&check_person);
 						}else{
