@@ -140,7 +140,7 @@ int main(int argc, char ** argv){
 		<br>\n\
 		<input required onkeyup=\"pruefStaerke(this.value); comparePasswd();\" onkeydown=\"pruefStaerke(this.value)\" onchange=\"pruefStaerke(this.value); comparePasswd();\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
 					<br>\n\
-		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid;'></progress>\n\
+		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid; margin-top: 5px;'></progress>\n\
 		<br>\n\
 		<span>neues Passwort bestätigen</span>\n\
 		<br>\n\

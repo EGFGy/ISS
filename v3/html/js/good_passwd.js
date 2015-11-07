@@ -56,7 +56,7 @@ function comparePasswd() {
 	var StatusIcon=document.getElementById("status-icon");
 	// Das Bild hinzufugen wenn es noch nicht da ist
 	if(StatusIcon== null){
-		document.getElementById("pass_new_2").insertAdjacentHTML('afterend', "<img id='status-icon' style='display: none; margin-left: 3px;' src=''>");
+		document.getElementById("pass_new_2").insertAdjacentHTML('afterend', "<img id='status-icon' style='vertical-align: bottom; display: none; margin-left: 3px;' src=''>");
 		// Unsichtbar, ohne Quelle
 	}
 
