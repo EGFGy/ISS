@@ -138,13 +138,13 @@ int main(int argc, char ** argv){
 		<br>\n\
 		<span>neues Passwort</span>\n\
 		<br>\n\
-		<input required onkeyup=\"pruefStaerke(this.value)\" onkeydown=\"pruefStaerke(this.value)\" onchange=\"pruefStaerke(this.value)\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
+		<input required onkeyup=\"pruefStaerke(this.value); comparePasswd();\" onkeydown=\"pruefStaerke(this.value)\" onchange=\"pruefStaerke(this.value); comparePasswd();\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
 					<br>\n\
 		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid;'></progress>\n\
 		<br>\n\
 		<span>neues Passwort bestätigen</span>\n\
 		<br>\n\
-		<input required class='settings-input' name='pass_new_2' id='pass_new_2' placeholder='neues Passwort bestätigen' type='password'>\n\
+		<input required class='settings-input' name='pass_new_2' id='pass_new_2' onchange=\"comparePasswd();\" onkeyup=\"comparePasswd();\" placeholder='neues Passwort bestätigen' type='password'>\n\
 		<br>\n\
 		<input id='btn_save' class='submitButton' value='Speichern' type='submit'>\n\
 	</form>\n\
@@ -304,7 +304,6 @@ int main(int argc, char ** argv){
 				if(strcmp(check_person.email, new_email) != 0){
 					if(email_exists(new_email)){
 						print_html_error("Email existiert in der Datenbank bereits", "/cgi-bin/settings.cgi");
-						exit(0);
 					}else{
 						//TODO Bessere E-Mail-Adressen-Prüfung einbauen
                         if((strchr(new_email, '@') == strrchr(new_email, '@')) && strchr(new_email, '@')) {
@@ -324,6 +323,7 @@ int main(int argc, char ** argv){
                         }
 					}
 				}
+				if(new_email)free(new_email);
 			}
 
 			if(extract_QUERY_data(&datCGI, "password_update", NULL)==0){
@@ -353,7 +353,6 @@ int main(int argc, char ** argv){
 							check_person.password=pass_new_1;
 
 							bool state=update_user_password(&check_person);
-
 
 							if(state)print_html_error("Passwort erfolgreich geändert!", "/cgi-bin/settings.cgi");
 						}else{
