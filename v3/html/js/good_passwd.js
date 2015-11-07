@@ -50,3 +50,29 @@ function pruefStaerke(password){
 			document.getElementById("resultat").value ="100";
 		}
 	}
+
+function comparePasswd() {
+
+	var StatusIcon=document.getElementById("status-icon");
+	// Das Bild hinzufugen wenn es noch nicht da ist
+	if(StatusIcon== null){
+		document.getElementById("pass_new_2").insertAdjacentHTML('afterend', "<img id='status-icon' style='display: none; margin-left: 3px;' src=''>");
+		// Unsichtbar, ohne Quelle
+	}
+
+	var a = document.getElementById("pass_new_1");
+
+	var b = document.getElementById("pass_new_2");
+	if(a.value.length > 0 && b.value.length > 0){
+		//Nur wenn in den Passwortfeldern was drinsteht vergleichen und das Bild sichtbar machen
+		StatusIcon.style.display='inline-block';
+		if (a.value == b.value) {
+			StatusIcon.src='/img/ok.png';
+		} else {
+			StatusIcon.src='/img/false.png';
+		}
+	}else{
+		//Wenn in den Passwortfeldenr nichtsmehr drinsteht --> unsichtbar machen
+		StatusIcon.style.display='none';
+	}
+}

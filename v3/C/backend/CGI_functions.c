@@ -490,7 +490,7 @@ void print_html_error(char * ErrorText, char * back_url){
 httpHeader(HTML);
 				puts("<!DOCTYPE html>\n\
 <head>\n\
-		<title>InfoWall -- ERROR</title>\n\
+		<title>InfoWall -- Meldung</title>\n\
 		<meta http-equiv='content-type' content='text/html;charset=utf-8' />\n\
 		<meta name='viewport' content='width=device-width'>\n\
 		<link rel='stylesheet' href='/css/forms.css'>\n\
