@@ -380,5 +380,6 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
     }
 
+	printf("HALLO\n");
     exit(0);
 }
