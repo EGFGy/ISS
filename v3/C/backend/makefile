@@ -4,7 +4,7 @@ CFLAGS=-Wextra -Wall -DGNU_SOURCE -Wextra -Wall -g -std=gnu99 -I/usr/include/mys
 LIBS=-lmysqlclient -lm -lcrypt
 OBJS=.objs/CGI_functions.o .objs/SQL_functions_v1.o
 
-all: timetable logout login register all_messages check_user_exist main_strtok_base3 post_message settings spec_messages timetable
+all: timetable logout login register all_messages check_user_exist login post_message settings spec_messages timetable
 
 %.o: %.c
 	$(CC) -c -o .objs/$@ $< $(CFLAGS)
@@ -15,8 +15,8 @@ timetable: timetable.o $(DEPS)
 logout: logout.o $(DEPS)
 	$(CC) $(CFLAGS) .objs/logout.o $(OBJS) -o bin/Debug/logout.cgi  $(LIBS)
 
-login: main_strtok_base3.o $(DEPS)
-	$(CC) $(CFLAGS) .objs/main_strtok_base3.o $(OBJS) -o bin/Debug/login.cgi $(LIBS)
+login: login.o $(DEPS)
+	$(CC) $(CFLAGS) .objs/login.o $(OBJS) -o bin/Debug/login.cgi $(LIBS)
 
 register: register.o  $(DEPS)
 	$(CC) $(CFLAGS) .objs/register.o $(OBJS) -o bin/Debug/register.cgi $(LIBS)

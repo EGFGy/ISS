@@ -188,7 +188,7 @@
 			<Option compilerVar="CC" />
 			<Option target="logout" />
 		</Unit>
-		<Unit filename="main_strtok_base3.c">
+		<Unit filename="login.c">
 			<Option compilerVar="CC" />
 			<Option target="login" />
 		</Unit>
