@@ -198,24 +198,18 @@ int verify_user(person * pers){
 			pers->auth=true;
 
 			//Name holen
-			//pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-			//strcpy(pers->name, row[COL_NAME]);
 			asprintf(&pers->name, "%s", row[COL_NAME]);
-			//pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-			//strcpy(pers->first_name, row[COL_VORNAME]);
 			asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
 
 			if(isAcronym){
 				//Person hat Kürzel angegeben --> es ist eine Leherer --> email holen holen
-				pers->email=calloc(strlen(row[COL_EMAIL])+1, sizeof(char));
-				strcpy(pers->email, row[COL_EMAIL]);
+				asprintf(&pers->email, "%s",row[COL_EMAIL]);
 			}else{
 				//Person hat ihre Email-Adresse statt dem Kürzel angegeben --> (Falls es ein Lehrer ist, dessen Kürzel holen)
 				pers->acronym=NULL;
 				if(row[COL_ACR] != NULL){
 					//Die Person hat ein Küzel --> Lehrer
-					pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
-					strcpy(pers->acronym, row[COL_ACR]);
+					asprintf(&pers->acronym, "%s", row[COL_ACR]);
 					pers->isTeacher=true;
 				}else{
 					pers->isTeacher=false;
@@ -224,8 +218,7 @@ int verify_user(person * pers){
 
 			//Kurse (falls vorhanden)
 			if(row[COL_COURSE] != NULL){
-				pers->courses=calloc(strlen(row[COL_COURSE])+1, sizeof(char));
-				strcpy(pers->courses, row[COL_COURSE]);
+				asprintf(&pers->courses, "%s", row[COL_COURSE]);
 			}
 
 			//ID holen
@@ -407,7 +400,7 @@ void insert_user(person * pers){
 		print_exit_failure("MYSQL init failure\n Wörk!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -685,7 +678,7 @@ int create_session(person * pers){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -773,7 +766,7 @@ bool sid_set_null(person * pers){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -887,23 +880,12 @@ int get_messages(message ** mes, int offset, char * select_course){
 			for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
 				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
-				//(*mes+i)->title=calloc(strlen(message_row[COL_MESSAGE_TITEL])+1, sizeof(char));
-				//strcpy((*mes+i)->title, message_row[COL_MESSAGE_TITEL]);
 				asprintf(&(*mes+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
-
-				//TODO: nur den ersten Satz / die ersten n Zeichen ausgeben oder bis zum ersten <br> ???
-				//(*mes+i)->message=calloc(strlen(message_row[COL_MESSAGE_MES])+1, sizeof(char));
-				//strcpy((*mes+i)->message, message_row[COL_MESSAGE_MES]);
 				asprintf(&(*mes+i)->message, "%s", message_row[COL_MESSAGE_MES]);
-
-				//(*mes+i)->courses=calloc(strlen(message_row[COL_MESSAGE_COURSES])+1, sizeof(char));
-				//strcpy((*mes+i)->courses, message_row[COL_MESSAGE_COURSES]);
 				asprintf(&(*mes+i)->courses, "%s", message_row[COL_MESSAGE_COURSES]);
 
 				(*mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
-				//(*mes+i)->s_created=calloc(strlen(message_row[COL_MESSAGE_TIME_CREATED])+1, sizeof(char));
-				//strcpy((*mes+i)->s_created, message_row[COL_MESSAGE_TIME_CREATED]);
 				asprintf(&(*mes+i)->s_created, "%s", message_row[COL_MESSAGE_TIME_CREATED]);
 
             }
@@ -959,16 +941,13 @@ bool get_person_by_id(person * pers){
 			row=mysql_fetch_row(result);
 
 			//Name holen
-			pers->name=calloc(strlen(row[COL_NAME])+1, sizeof(char));
-			strcpy(pers->name, row[COL_NAME]);
-			pers->first_name=calloc(strlen(row[COL_VORNAME])+1, sizeof(char));
-			strcpy(pers->first_name, row[COL_VORNAME]);
+			asprintf(&pers->name, "%s", row[COL_NAME]);
+			asprintf(&pers->first_name, "%s", row[COL_VORNAME]);
 
 			//Kürzel (falls vorhanden) holen
 			if(row[COL_ACR] != NULL){
 				//Die Person hat ein Küzel --> Lehrer
-				pers->acronym=calloc(strlen(row[COL_ACR])+1, sizeof(char));
-				strcpy(pers->acronym, row[COL_ACR]);
+				asprintf(&pers->acronym, "%s", row[COL_ACR]);
 				pers->isTeacher=true;
 			}else{
 				pers->isTeacher=false;
@@ -1190,6 +1169,8 @@ bool insert_message(message * mes){
 				mes->title, mes->message, mes->courses, mes->creator_id, time_created  ) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (insert_message)");
 	}
+
+	free(time_created);
 	#ifdef DEBUG
 	fprintf(stderr, "\n\nQuery (insert_message) : '%s'\n\n", query);
 	#endif // DEBUG
@@ -1199,7 +1180,7 @@ bool insert_message(message * mes){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -1293,7 +1274,7 @@ bool update_user_courses(person * pers){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -1335,7 +1316,7 @@ bool update_user_email(person * pers, char * new_email){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 
@@ -1395,7 +1376,7 @@ bool update_user_password(person * pers){
 		print_exit_failure("MYSQL init failure!");
 	}
 
-	if(mysql_real_connect(my, "localhost", SQL_ALTERNATE_USER, SQL_ALTERNATE_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 		print_exit_failure("MYSQL-connection error!");
 	}
 

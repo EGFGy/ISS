@@ -380,6 +380,12 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
     }
 
-	printf("HALLO\n");
+	char * c=calloc(20, sizeof(char));
+	*c='A';
+	*(c+1)='B';
+	*(c+3)='\0';
+
+	free(c);
+
     exit(0);
 }

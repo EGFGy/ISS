@@ -233,16 +233,16 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 		print_exit_failure("Eingabeparameter von extractCGIdata sind falsch");
 	}
 	char * prop=NULL;
-	prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
+	//prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
 	char * tempData=NULL;
-	tempData=(char *)calloc(strlen(data)+1, sizeof(char));
+	//tempData=(char *)calloc(strlen(data)+1, sizeof(char));
 
-	if(prop == NULL || tempData == NULL){
+	if(asprintf(&prop, "%s=", property)==-1|| asprintf(&tempData, "%s", data) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden");
 	}
-	strcpy(prop, property); //Den Namen, des Attributs kopieren und
-	strcat(prop, "="); // ein '=' anfügen
-	strcpy(tempData, data);
+	//strcpy(prop, property); //Den Namen, des Attributs kopieren und
+	//strcat(prop, "="); // ein '=' anfügen
+	//strcpy(tempData, data);
 
 	char * start=NULL;
 	start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
@@ -263,11 +263,12 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	//	*newline='\0'; //vorher '\0'
 	//}
 
-	*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
-	if(*out == NULL){
+	//*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
+	if(asprintf(out, "%s", klaus) == -1/* *out == NULL*/){
 		print_exit_failure("Es konnte kein Speicher angefordert werden");
 	}
-	strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
+	//strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
+
 
 
 	//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
