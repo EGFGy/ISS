@@ -63,7 +63,7 @@ int main(int argc, char ** argv){
 			puts("<span style='font-weight: bold;'>Filter*</span>\n");
 			puts("<table class='pure-table pure-table-bordered'>\n\
 				<tr><td>Klasse:<td>\n\
-						<select style='border: 2px solid grey; border-radius: .5em; background-color: white;' id='grade' onchange='toggleLetter();'>\n\
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white;' id='grade' onchange='filter.toggleLetter();'>\n\
 							<option value='7'>7</option>\n\
 							<option value='8'>8</option>\n\
 							<option value='9'>9</option>\n\
@@ -71,7 +71,7 @@ int main(int argc, char ** argv){
 							<option selected='selected' value='11'>11</option>\n\
 							<option value='12'>12</option>\n\
 						</select>\n\
-						<select style='border: 2px solid grey; border-radius: .5em; background-color: white; display: none;' id='letter' onchange='toggleLetter();'>\n\
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white; display: none;' id='letter' onchange='filter.toggleLetter();'>\n\
 							<option selected='selected' value='a'>a</option>\n\
 							<option value='b'>b</option>\n\
 							<option value='c'>c</option>\n\
@@ -79,12 +79,12 @@ int main(int argc, char ** argv){
 							<option value='e'>e</option>\n\
 							<option value='f'>f</option>\n\
 						</select>\n\
-						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white;' onclick='selectOnly(this);'>Filter anwenden</button>\n\
+						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.selectOnly(this);'>Filter anwenden</button>\n\
 						</td>\n\
 						</tr>\n\
 			<tr>\n\
-			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='textBoxReset();' onkeydown='if (event.keyCode == 13)searchString(null);' type='text'>");
-					puts("  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='searchString(this);' >suchen</button></td>\n\
+			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='textBoxReset();' onkeydown='if (event.keyCode == 13)filter.searchString(null);' type='text'>");
+					puts("  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.searchString(this);' >suchen</button></td>\n\
 			</tr>\n\
 			</table>");
 			puts("<small>* erfordert Javascript</small>");
@@ -138,13 +138,13 @@ int main(int argc, char ** argv){
 		<br>\n\
 		<span>neues Passwort</span>\n\
 		<br>\n\
-		<input required onkeyup=\"pruefStaerke(this.value); comparePasswd();\" onkeydown=\"pruefStaerke(this.value)\" onchange=\"pruefStaerke(this.value); comparePasswd();\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
+		<input required onkeyup=\"goodPasswd.pruefStaerke(this.value); goodPasswd.comparePasswd();\" onkeydown=\"goodPasswd.pruefStaerke(this.value)\" onchange=\"goodPasswd.pruefStaerke(this.value); goodPasswd.comparePasswd();\" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>\n\
 					<br>\n\
 		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid; margin-top: 5px;'></progress>\n\
 		<br>\n\
 		<span>neues Passwort bestätigen</span>\n\
 		<br>\n\
-		<input required class='settings-input' name='pass_new_2' id='pass_new_2' onchange=\"comparePasswd();\" onkeyup=\"comparePasswd();\" placeholder='neues Passwort bestätigen' type='password'>\n\
+		<input required class='settings-input' name='pass_new_2' id='pass_new_2' onchange=\"goodPasswd.comparePasswd();\" onkeyup=\"goodPasswd.comparePasswd();\" placeholder='neues Passwort bestätigen' type='password'>\n\
 		<br>\n\
 		<input id='btn_save' class='submitButton' value='Speichern' type='submit'>\n\
 	</form>\n\
