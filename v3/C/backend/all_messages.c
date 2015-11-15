@@ -65,9 +65,9 @@ int main(int argc, char ** argv){
 		puts("<div class='content'>");
 
         if(check_person.isTeacher)puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST' enctype='application/x-www-form-urlencoded'>\n\
-			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text'>\n\
-			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex'></textarea>\n\
-			  <input style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
+			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='countLettersInThis(this); validateAllInput();' onkeyup='countLettersInThis(this); validateAllInput();'>\n\
+			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='countLettersInThis(this); validateAllInput();' onkeyup='countLettersInThis(this); validateAllInput();'></textarea>\n\
+			  <input id='submit' style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
 			  </form></div>\
 			");
 
@@ -107,6 +107,10 @@ int main(int argc, char ** argv){
 		if(!no_older)printf("<a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/all_messages.cgi?offset=%d'>&Auml;ltere &#x2771;</a>", offset+1);
 		puts("</div><br>");
 		puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");
+
+
+		puts("<!-- WÖRKARAUND für js-onload -->\n\
+				<img src='/img/Arrow-Download-4-icon.png' style='display: none; width: 0px; heigth: 0px;' onload=\"document.getElementById('submit').disabled=true;\">");
 
 
 		puts("</div></div>");
