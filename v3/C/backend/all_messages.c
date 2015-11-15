@@ -65,8 +65,8 @@ int main(int argc, char ** argv){
 		puts("<div class='content'>");
 
         if(check_person.isTeacher)puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST' enctype='application/x-www-form-urlencoded'>\n\
-			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='countLettersInThis(this); validateAllInput();' onkeyup='countLettersInThis(this); validateAllInput();'>\n\
-			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='countLettersInThis(this); validateAllInput();' onkeyup='countLettersInThis(this); validateAllInput();'></textarea>\n\
+			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'>\n\
+			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'></textarea>\n\
 			  <input id='submit' style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
 			  </form></div>\
 			");
