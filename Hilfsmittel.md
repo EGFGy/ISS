@@ -38,7 +38,10 @@ auch: [vhf/free-programming-books](https://github.com/vhf/free-programming-books
 http://linuxconfig.org/configuring-gmail-as-sendmail-email-relay
 
 
-# Quelltext der hilfreich sein könnte  
+## Quelltext der hilfreich sein könnte  
 
 ### C
 * generisches Salz erzeugen -- http://perfec.to/gensalt/
+
+## git-Befehle
+* https://gist.githubusercontent.com/CristinaSolana/1885435/raw/c40fe8845165701bf00ccd557c2abdc30fbb38b8/gistfile1.md
