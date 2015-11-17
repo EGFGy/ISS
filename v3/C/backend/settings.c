@@ -83,7 +83,7 @@ int main(int argc, char ** argv){
 						</td>\n\
 						</tr>\n\
 			<tr>\n\
-			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='textBoxReset();' onkeydown='if (event.keyCode == 13)filter.searchString(null);' type='text'>");
+			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='filter.textBoxReset();' onkeydown='if (event.keyCode == 13)filter.searchString(null);' type='text'>");
 					puts("  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.searchString(this);' >suchen</button></td>\n\
 			</tr>\n\
 			</table>");
@@ -363,6 +363,19 @@ int main(int argc, char ** argv){
 				}else{
 					print_html_error("Die beiden Passwörter stimmen nicht überein", "/cgi-bin/settings.cgi");
 				}
+
+				if(pass_old){
+					free(pass_old);
+					pass_old=NULL;
+				}
+				if(pass_new_1){
+					free(pass_new_1);
+					pass_new_1=NULL;
+				}
+				if(pass_new_2){
+					free(pass_new_2);
+					pass_new_2=NULL;
+				}
 			}
 
 			//Den Nutzer wieder auf die Einstellungsseite umleiten
@@ -380,12 +393,5 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
     }
 
-	char * c=calloc(20, sizeof(char));
-	*c='A';
-	*(c+1)='B';
-	*(c+3)='\0';
-
-	free(c);
-
-    exit(0);
+	exit(0);
 }
