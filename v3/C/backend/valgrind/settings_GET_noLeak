@@ -1,0 +1,375 @@
+==32140== Memcheck, a memory error detector
+==32140== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==32140== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==32140== Command: ./settings
+==32140== 
+strlen() der cookies: 18
+sid gefunden
+uid gefunden
+Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+Content-type: text/html
+
+<!doctype html>
+<html lang='de'>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta name='description' content='Benutzerkonteneinstellungen'>
+<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />
+<meta http-equiv='Pragma' content='no-cache' />
+<meta http-equiv='expires' content='0' />
+<link rel='shortcut icon' href='/favicon.png' />
+
+<title>InfoWall -- Einstellung</title>
+
+
+<link rel='stylesheet' href='/css/layouts/pure-min.css' type='text/css'>
+<link rel='stylesheet' href='/css/box.css' type='text/css'>
+<link rel='stylesheet' href='/css/forms.css' type='text/css'>
+<link rel='stylesheet' href='/css/radio_block.css' type='text/css'>
+
+	<!--[if lte IE 8]>
+        <link rel='stylesheet' href='/css/layouts/side-menu-old-ie.css' type='text/css'>
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel='stylesheet' href='/css/layouts/side-menu.css' type='text/css'>
+    <!--<![endif]-->
+<!-- Modified http://purecss.io/js/ui.js -->
+<script src='/js/toggle.js'></script>
+<script src='/js/filter.js'></script>
+<script src='/js/good_passwd.js'></script>
+<script src='/js/main.js'></script>
+<script src='/js/jquery.js'></script>
+
+</head>
+<body>
+		<div id='layout'>
+                <!-- Menu toggle -->
+                <a href='#menu' onclick='menuShowHide(this);' id='menuLink' class='menu-link'>
+                        <!-- Hamburger icon -->
+                        <span></span>
+                </a>
+                <div id='menu'>
+                        <div class='pure-menu'>
+                                <a class='pure-menu-heading' href='#'>EGF</a>
+<ul class='pure-menu-list'>
+
+							<li class='pure-menu-item'>
+											<a href='/cgi-bin/timetable.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Stundenplan.png'>Stundenplan</a>
+                                        </li>
+			
+							<li class='pure-menu-item'>
+											<a href='/cgi-bin/all_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Allgemeines.png'>Allgemeines</a>
+										</li>
+			
+							<li class='pure-menu-item'>
+											<a href='/cgi-bin/spec_messages.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Kursbezogenes.png'>Kursbezogenes</a>
+										</li>
+			
+							<li class='pure-menu-item menu-item-divided pure-menu-selected'>
+											<a href='/cgi-bin/settings.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Einstellungen.png'>Einstellungen </a>
+										</li>
+			
+								<li class='pure-menu-item'>
+											<a href='/hilfe.html' class='pure-menu-link'><img class='icon-image' src='/img/ico_Hilfe.png'>Hilfe</a>
+										</li>
+										<li class='pure-menu-item'>
+											<a href='/cgi-bin/logout.cgi' class='pure-menu-link'><img class='icon-image' src='/img/ico_Logout.png'>LOGOUT</a>
+										</li>
+		
+								</ul>
+							</div>
+				</div>
+				<div id='main'>
+					<div class='header'>
+				<h1>Einstellung</h1>
+						<h2>Benutzerkonteneinstellungen</h2>
+				</div>
+				
+				<!-- dynamischer Inhalt ab hier -->
+<div class='content'>
+<h2>Ihre aktuellen Kurse</h2>
+<span>10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR</span><br><p>Um Kurse auszuw&auml;hlen einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse					ausgew&auml;hlt wurden auf <em>Speichern</em> klicken.</p>
+<div id='courseSettings'>
+
+<span style='font-weight: bold;'>Filter*</span>
+
+<table class='pure-table pure-table-bordered'>
+				<tr><td>Klasse:<td>
+						<select style='border: 2px solid grey; border-radius: .5em; background-color: white;' id='grade' onchange='filter.toggleLetter();'>
+							<option value='7'>7</option>
+							<option value='8'>8</option>
+							<option value='9'>9</option>
+							<option value='10'>10</option>
+							<option selected='selected' value='11'>11</option>
+							<option value='12'>12</option>
+						</select>
+						<select style='border: 2px solid grey; b(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+order-radius: .5em; background-color: white; display: none;' id='letter' onchange='filter.toggleLetter();'>
+							<option selected='selected' value='a'>a</option>
+							<option value='b'>b</option>
+							<option value='c'>c</option>
+							<option value='d'>d</option>
+							<option value='e'>e</option>
+							<option value='f'>f</option>
+						</select>
+						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.selectOnly(this);'>Filter anwenden</button>
+						</td>
+						</tr>
+			<tr>
+			<td>Kursname suchen:</td> <td><input id='search-string' onfocus='filter.textBoxReset();' onkeydown='if (event.keyCode == 13)filter.searchString(null);' type='text'>
+  <button id='stringFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.searchString(this);' >suchen</button></td>
+			</tr>
+			</table>
+<small>* erfordert Javascript</small>
+<div id='select-all' style='margin-left: auto; margin-right: auto; text-align: center;'><button onclick='filter.SelectAllShown();' style='margin-left: auto; margin-right: auto; display: block; border: 2px solid #808080; background-color: #FFFFFF;'>Pflichtfächer AUSWÄHLEN</button>
+				<small>Sport, Konfession und Sprache müssen noch ausgewählt werden</small></div>
+
+<form action='https://(null)/cgi-bin/settings.cgi?course_update=change' method='POST'>
+<div id='courses' style='padding: 1em;'>
+<input class='courseselector' type='checkbox' checked='checked' id='10bC' name='10bC'><label for='10bC'>10bC</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bD' name='10bD'><label for='10bD'>10bD</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bE' name='10bE'><label for='10bE'>10bE</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bEth' name='10bEth'><label for='10bEth'>10bEth</label>
+<input class='courseselector' type='checkbox'  id='10bEv' name='10bEv'><label for='10bEv'>10bEv</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bF' name='10bF'><label for='10bF'>10bF</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bG' name='10bG'><label for='10bG'>10bG</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bGEO' name='10bGEO'><label for='10bGEO'>10bGEO</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bINF' name='10bINF'><label for='10bINF'>10bINF</label>
+<input class='courseselector' type='checkbox'  id='10bK' name='10bK'><label for='10bK'>10bK</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bKu' name='10bKu'><label for='10bKu'>10bKu</label>
+<input class='courseselector' type='checkbox'  id='10bL' name='10bL'><label for='10bL'>10bL</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bM' name='10bM'><label for='10bM'>10bM</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bMu' name='10bMu'><label for='10bMu'>10bMu</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bPH' name='10bPH'><label for='10bPH'>10bPH</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bSM' name='10bSM'><label for='10bSM'>10bSM</label>
+<input class='courseselector' type='checkbox'  id='10bSW' name='10bSW'><label for='10bSW'>10bSW</label>
+<input class='courseselector' type='checkbox' checked='checked' id='10bWR' name='10bWR'><label for='10bWR'>10bWR</label>
+<input class='courseselector' type='checkbox'  id='10dC' name='10dC'><label for='10dC'>10dC</label>
+<input class='courseselector' type='checkbox'  id='10dD' name='10dD'><label for='10dD'>10dD</label>
+<input class='courseselector' type='checkbox'  id='10dE' name='10dE'><label for='10dE'>10dE</label>
+<input class='courseselector' type='checkbox'  id='10dEth' name='10dEth'><label for='10dEth'>10dEth</label>
+<input class='courseselector' type='checkbox'  id='10dEv' name='10dEv'><label for='10dEv'>10dEv</label>
+<input class='courseselector' type='checkbox'  id='10dF' name='10dF'><la(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+bel for='10dF'>10dF</label>
+<input class='courseselector' type='checkbox'  id='10dG' name='10dG'><label for='10dG'>10dG</label>
+<input class='courseselector' type='checkbox'  id='10dGEO' name='10dGEO'><label for='10dGEO'>10dGEO</label>
+<input class='courseselector' type='checkbox'  id='10dINF' name='10dINF'><label for='10dINF'>10dINF</label>
+<input class='courseselector' type='checkbox'  id='10dK' name='10dK'><label for='10dK'>10dK</label>
+<input class='courseselector' type='checkbox'  id='10dKu' name='10dKu'><label for='10dKu'>10dKu</label>
+<input class='courseselector' type='checkbox'  id='10dL' name='10dL'><label for='10dL'>10dL</label>
+<input class='courseselector' type='checkbox'  id='10dM' name='10dM'><label for='10dM'>10dM</label>
+<input class='courseselector' type='checkbox'  id='10dMu' name='10dMu'><label for='10dMu'>10dMu</label>
+<input class='courseselector' type='checkbox'  id='10dPH' name='10dPH'><label for='10dPH'>10dPH</label>
+<input class='courseselector' type='checkbox'  id='10dSM' name='10dSM'><label for='10dSM'>10dSM</label>
+<input class='courseselector' type='checkbox'  id='10dSW' name='10dSW'><label for='10dSW'>10dSW</label>
+<input class='courseselector' type='checkbox'  id='10dWR' name='10dWR'><label for='10dWR'>10dWR</label>
+<input class='courseselector' type='checkbox'  id='1D1' name='1D1'><label for='1D1'>1D1</label>
+<input class='courseselector' type='checkbox'  id='1E5' name='1E5'><label for='1E5'>1E5</label>
+<input class='courseselector' type='checkbox'  id='1EKO' name='1EKO'><label for='1EKO'>1EKO</label>
+<input class='courseselector' type='checkbox'  id='1ETH' name='1ETH'><label for='1ETH'>1ETH</label>
+<input class='courseselector' type='checkbox'  id='1EV' name='1EV'><label for='1EV'>1EV</label>
+<input class='courseselector' type='checkbox'  id='1G5' name='1G5'><label for='1G5'>1G5</label>
+<input class='courseselector' type='checkbox'  id='1GEO1' name='1GEO1'><label for='1GEO1'>1GEO1</label>
+<input class='courseselector' type='checkbox'  id='1INF' name='1INF'><label for='1INF'>1INF</label>
+<input class='courseselector' type='checkbox'  id='1K1' name='1K1'><label for='1K1'>1K1</label>
+<input class='courseselector' type='checkbox'  id='1M1' name='1M1'><label for='1M1'>1M1</label>
+<input class='courseselector' type='checkbox'  id='1M2' name='1M2'><label for='1M2'>1M2</label>
+<input class='courseselector' type='checkbox'  id='1MU2' name='1MU2'><label for='1MU2'>1MU2</label>
+<input class='courseselector' type='checkbox'  id='1PAS' name='1PAS'><label for='1PAS'>1PAS</label>
+<input class='courseselector' type='checkbox'  id='1PH2' name='1PH2'><label for='1PH2'>1PH2</label>
+<input class='courseselector' type='checkbox'  id='1P_GEO' name='1P_GEO'><label for='1P_GEO'>1P_GEO</label>
+<input class='courseselector' type='checkbox'  id='1P_INF' name='1P_INF'><label for='1P_INF'>1P_INF</label>
+<input class='courseselector' type='checkbox'  id='1P_L' name='1P_L'><label for='1P_L'>1P_L</label>
+<input class='courseselector' type='checkbox'  id='1P_M' name='1P_M'><label for='1P_M'>1P_M</label>
+<input class='courseselector' type='checkbox'  id='1SK5' name='1SK5'><label for='1SK5'>1SK5</label>
+<input class='courseselector' type='checkbox'  id='1SPO4' name='1SPO4'><label for='1SPO4'>1SPO4</label>
+<input class='courseselector' type='checkbox'  id='1SPS' name='1SPS'><label for='1SPS'>1SPS</label>
+<input class='courseselector' type='checkbox'  id='1W_BIO' name='1W_BIO'><label for='1W_BIO'>1W_BIO</label>
+<input class='courseselector' type='checkbox'  id='1W_L' name='1W_L'><label for='1W_L'>1W_L</label>
+<input class='courseselector' type='checkbox'  id='1W_M' name='1W_M'><label for='1W_M'>1W_M</label>
+<input class='courseselector' type='checkbox'  id='1W_PH' name='1W_PH'><label for='1W_PH'>1W_PH</label>
+<input class='courseselector' type='checkbox'  id='2C1' name='2C1'><label for='2C1'>2C1</label>
+<input class='courseselector' type='checkbox'  id='2D1' name='2D1'><label for='2D1'>2D1</label>
+<input class='courseselector' type='checkbox'  id='2D2' name='2D2'><label for='2D2'>2D2</label>
+<input class='courseselector' ty(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+(course_regex_search) String : '10bC, 10bD, 10bE, 10bEth, 10bF, 10bG, 10bGEO, 10bINF, 10bKu, 10bM, 10bMu, 10bPH, 10bSM, 10bWR'
+pe='checkbox'  id='2D4' name='2D4'><label for='2D4'>2D4</label>
+<input class='courseselector' type='checkbox'  id='2E3' name='2E3'><label for='2E3'>2E3</label>
+<input class='courseselector' type='checkbox'  id='2E5' name='2E5'><label for='2E5'>2E5</label>
+<input class='courseselector' type='checkbox'  id='2ETH' name='2ETH'><label for='2ETH'>2ETH</label>
+<input class='courseselector' type='checkbox'  id='2G2' name='2G2'><label for='2G2'>2G2</label>
+<input class='courseselector' type='checkbox'  id='2G3' name='2G3'><label for='2G3'>2G3</label>
+<input class='courseselector' type='checkbox'  id='2G5' name='2G5'><label for='2G5'>2G5</label>
+<input class='courseselector' type='checkbox'  id='2GEO1' name='2GEO1'><label for='2GEO1'>2GEO1</label>
+<input class='courseselector' type='checkbox'  id='2GEO2' name='2GEO2'><label for='2GEO2'>2GEO2</label>
+<input class='courseselector' type='checkbox'  id='2INF' name='2INF'><label for='2INF'>2INF</label>
+<input class='courseselector' type='checkbox'  id='2K4' name='2K4'><label for='2K4'>2K4</label>
+<input class='courseselector' type='checkbox'  id='2KU1' name='2KU1'><label for='2KU1'>2KU1</label>
+<input class='courseselector' type='checkbox'  id='2KU4' name='2KU4'><label for='2KU4'>2KU4</label>
+<input class='courseselector' type='checkbox'  id='2L' name='2L'><label for='2L'>2L</label>
+<input class='courseselector' type='checkbox'  id='2M1' name='2M1'><label for='2M1'>2M1</label>
+<input class='courseselector' type='checkbox'  id='2M2' name='2M2'><label for='2M2'>2M2</label>
+<input class='courseselector' type='checkbox'  id='2M4' name='2M4'><label for='2M4'>2M4</label>
+<input class='courseselector' type='checkbox'  id='2MU2' name='2MU2'><label for='2MU2'>2MU2</label>
+<input class='courseselector' type='checkbox'  id='2PAS' name='2PAS'><label for='2PAS'>2PAS</label>
+<input class='courseselector' type='checkbox'  id='2PH1' name='2PH1'><label for='2PH1'>2PH1</label>
+<input class='courseselector' type='checkbox'  id='2PH2' name='2PH2'><label for='2PH2'>2PH2</label>
+<input class='courseselector' type='checkbox'  id='2PHO' name='2PHO'><label for='2PHO'>2PHO</label>
+<input class='courseselector' type='checkbox'  id='2P_INF' name='2P_INF'><label for='2P_INF'>2P_INF</label>
+<input class='courseselector' type='checkbox'  id='2P_L' name='2P_L'><label for='2P_L'>2P_L</label>
+<input class='courseselector' type='checkbox'  id='2SK2' name='2SK2'><label for='2SK2'>2SK2</label>
+<input class='courseselector' type='checkbox'  id='2SK3' name='2SK3'><label for='2SK3'>2SK3</label>
+<input class='courseselector' type='checkbox'  id='2SK5' name='2SK5'><label for='2SK5'>2SK5</label>
+<input class='courseselector' type='checkbox'  id='2SPO1' name='2SPO1'><label for='2SPO1'>2SPO1</label>
+<input class='courseselector' type='checkbox'  id='2SPO4' name='2SPO4'><label for='2SPO4'>2SPO4</label>
+<input class='courseselector' type='checkbox'  id='2WR1' name='2WR1'><label for='2WR1'>2WR1</label>
+<input class='courseselector' type='checkbox'  id='2W_M' name='2W_M'><label for='2W_M'>2W_M</label>
+<input class='courseselector' type='checkbox'  id='2W_PH' name='2W_PH'><label for='2W_PH'>2W_PH</label>
+<input class='courseselector' type='checkbox'  id='BOB' name='BOB'><label for='BOB'>BOB</label>
+</div>
+<input onclick='toggleId(this, "btn_save_course");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>
+<br><input id='btn_save_course' class='submitButton' onload="this.style.display='none';" type='submit' value='Speichern'></form>
+</div>
+<h2>Ihre E-Mail-Adresse</h2><div id='emailSettings'>
+<span>r@r.c</span><form action='https://(null)/cgi-bin/settings.cgi?email_update=change' method='POST'>
+<input type='email' required=  onblur='checkDatEmail(this);' name='new_email' id='email' value='r@r.c' placeholder='Ihre E-Mail-Adresse'>
+<br><input id='btn_save_email' class='submitButton' type='submit' value='Speichern'>
+
+</form>
+
+</div>
+<h2>Ihr Passwort</h2><div id='passwordSettings'>
+	<br>
+	<form action='/cgi-bin/settings.cgi?password_update=change' method='POST'>
+		<span>altes Passwort</span>
+		<br>
+		<input required class='settings-input' name='pass_old' id='pass_old' placeholder='altes Passwort' type='password'>
+		<br>
+		<span>neues Passwort</span>
+		<br>
+		<input required onkeyup="goodPasswd.pruefStaerke(this.value); goodPasswd.comparePasswd();" onkeydown="goodPasswd.pruefStaerke(this.value)" onchange="goodPasswd.pruefStaerke(this.value); goodPasswd.comparePasswd();" class='settings-input' name='pass_new_1' id='pass_new_1' placeholder='neues Passwort' type='password'>
+					<br>
+		<progress id='resultat' class='settings-input' value=0 max=100 style='width: 226px; border: 2px solid; margin-top: 5px;'></progress>
+		<br>
+		<span>neues Passwort bestätigen</span>
+		<br>
+		<input required class='settings-input' name='pass_new_2' id='pass_new_2' onchange="goodPasswd.comparePasswd();" onkeyup="goodPasswd.comparePasswd();" placeholder='neues Passwort bestätigen' type='password'>
+		<br>
+		<input id='btn_save' class='submitButton' value='Speichern' type='submit'>
+	</form>
+</div>
+<!-- WÖRKARAUND für js-onload -->
+					<img src='/img/Arrow-Download-4-icon.png' style='display: none; width: 0px; heigth: 0px;' onload="document.getElementById('btn_save_course').style.display='none';">
+</div>
+</div></div>
+</body></html>
+==32140== 
+==32140== HEAP SUMMARY:
+==32140==     in use at exit: 82,336 bytes in 125 blocks
+==32140==   total heap usage: 15,265 allocs, 15,140 frees, 2,076,623 bytes allocated
+==32140== 
+==32140== LEAK SUMMARY:
+==32140==    definitely lost: 0 bytes in 0 blocks
+==32140==    indirectly lost: 0 bytes in 0 blocks
+==32140==      possibly lost: 0 bytes in 0 blocks
+==32140==    still reachable: 82,336 bytes in 125 blocks
+==32140==         suppressed: 0 bytes in 0 blocks
+==32140== Reachable blocks (those to which a pointer was found) are not shown.
+==32140== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==32140== 
+==32140== For counts of detected and suppressed errors, rerun with: -v
+==32140== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
