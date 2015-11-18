@@ -1623,6 +1623,7 @@ void clean_string(char * str){
 		str[i]=' ';
 	}
 	free(pmatch);
+	regfree(&reg);
 }
 
 bool course_regex_search(course * c, char * all_courses){
@@ -1645,6 +1646,8 @@ bool course_regex_search(course * c, char * all_courses){
 		match=false;
 	}
 	free(pmatch);
+	free(reg_string);
+	regfree(&reg);
 
 	return match;
 }
