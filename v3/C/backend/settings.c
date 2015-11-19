@@ -16,6 +16,26 @@
 
 #define DEBUG
 
+void free_cgi(cgi * c){
+	if(c){
+		if(c->http_cookies){
+			free(c->http_cookies);
+			c->http_cookies=NULL;
+		}
+		if(c->http_host){
+			free(c->http_host);
+			c->http_host=NULL;
+		}
+		if(c->POST_data){
+			free(c->POST_data);
+			c->POST_data=NULL;
+		}
+		if(c->query_string){
+			free(c->query_string);
+			c->query_string=NULL;
+		}
+	}
+}
 
 int main(int argc, char ** argv){
 	cgi datCGI;
@@ -34,7 +54,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
 	check_person.sid=atoi(s_sid);
-
+	free(s_sid);
 
 
     if(verify_sid(&check_person)){
@@ -284,6 +304,7 @@ int main(int argc, char ** argv){
 
 
 							print_html_error(Meldung, "/cgi-bin/settings.cgi");
+							free(Meldung);
 							exit(EXIT_FAILURE); //(kann doch weggelassen werden, oder?)
 						}
 					}
@@ -341,7 +362,7 @@ int main(int argc, char ** argv){
 				remove_newline(pass_new_2);
 				remove_newline(pass_old);
 
-				check_person.password=pass_old;
+				check_person.password=strdup(pass_old);
 				if(strcmp(pass_new_1, pass_new_2) == 0){
 					//Die neuen Passwörter wurden richtig eingegeben
 					if(strcmp(pass_new_1, pass_old) !=0){
@@ -350,7 +371,7 @@ int main(int argc, char ** argv){
 						if(verify_user_password(&check_person)){
 							//Person hat ihr aktuelles Passwort richtig eingegeben
 							free(check_person.password); check_person.password=NULL;
-							check_person.password=pass_new_1;
+							check_person.password=strdup(pass_new_1);
 
 							bool state=update_user_password(&check_person);
 
@@ -385,6 +406,8 @@ int main(int argc, char ** argv){
 				httpRedirect(redirectString);
 			}
 		}
+
+		free(all_courses);
     }else{
 		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %s", s_sid, check_person.email);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
@@ -392,6 +415,7 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
     }
+//    free_cgi(&datCGI);
 
 	exit(0);
 }

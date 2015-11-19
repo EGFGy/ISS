@@ -295,7 +295,7 @@ bool verify_user_password(person * pers){
 			char * password_encrypted=NULL;
 			char * password_db=NULL;
 			char * salt=NULL;
-			password_db=row[COL_PASS];
+			password_db=strdup(row[COL_PASS]);
 
 			salt=salt_extract(password_db);
 
@@ -307,7 +307,7 @@ bool verify_user_password(person * pers){
 
 			free(salt);
 			free(arg);
-			free(encr);
+			//free(encr);
 
 			if(strcmp(password_db, password_encrypted) == 0){
 				#ifdef DEBUG
@@ -317,7 +317,11 @@ bool verify_user_password(person * pers){
 			}else{
 				password_state=false;
 			}
-
+			free(password_encrypted);
+			free(password_db);
+			password_encrypted=NULL;
+			password_db=NULL;
+			//password_db=NULL;
 
 		}else{
 			pers->auth=false;
@@ -340,7 +344,7 @@ bool verify_user_password(person * pers){
  *  zu nur Großbuchstaben umgewandelt.
  */
 bool detect_convert_acronym(person * pers){
-	bool isAcronym;
+	bool isAcronym=false;
 
 	if(pers->email==NULL || pers->password==NULL){
 		print_exit_failure("Programm falsch!");
@@ -1360,16 +1364,20 @@ bool update_user_password(person * pers){
 	}
 	asprintf(&arg, "$6$%s$", salt);
 
-	char * encr=crypt(pers->password, arg);
+	char * encr=NULL;
+	encr=crypt(pers->password, arg);
 	asprintf(&store_pw, "%s%s", salt, encr+strlen(arg));
 	free(arg); arg=NULL;
 	free(salt); salt=NULL;
 	free(pers->password); pers->password=NULL;
 
 
+
 	if(asprintf(&query, "UPDATE Benutzer SET passwort='%s' WHERE id='%d' AND email='%s'", store_pw, pers->id, pers->email) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (update_user_password)");
 	}
+
+	free(store_pw);
 
 	my=mysql_init(NULL);
 	if(my == NULL){

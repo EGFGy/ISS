@@ -36,7 +36,6 @@ void init_CGI(cgi * c){
 void get_CGI_data(cgi * gotCGI){
 
     int content_length = 0;
-	char * contentLength = NULL; //Länge des übertragenen Strings
 	char * request_method = getenv("REQUEST_METHOD"); //HTTP-Request-Method
 	char * env_cook = getenv("HTTP_COOKIE"); //Cookies holen
 	char * http_host=getenv("HTTP_HOST"); //Host-Adresse holen
@@ -85,11 +84,14 @@ void get_CGI_data(cgi * gotCGI){
 		}
 	}else{
 		//Es ist POST
+
+		char * contentLength = NULL; //Länge des übertragenen Strings
 		contentLength = getenv("CONTENT_LENGTH");
 		if(contentLength == NULL){
 			print_exit_failure("Holen der Environment-Varialbe \"CONTENT_LENGTH\" fehlgeschlagen");
 		}
 		content_length=atoi(contentLength)+1;
+
 		if(content_length > content_max){
 			print_exit_failure("Eingabe zu lang!");
 		}else{
@@ -142,12 +144,14 @@ void get_CGI_data(cgi * gotCGI){
 			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
 
 			decodeHEX(POST_data, gotCGI->POST_data);
+			free(POST_data);
 
 			//fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
 			gotCGI->http_host=http_host;
-			return;
 		}
 	}
+
+	return;
 }
 
 /** \brief Dem Aufrufer (Person mit Browser) sagen, was nicht funktioniert hat. Programm beenden.
@@ -176,11 +180,10 @@ void print_exit_failure(const char * message){
  *
  */
 void httpSetCookie(char name[], char content[]){
-	if(name == NULL || content == NULL){
-		return;
-	}else{
+	if(name != NULL && content != NULL){
 		printf("Set-Cookie: %s=%s\n", name, content);
 	}
+	return;
 }
 
 /** \brief HTTP-Header drucken
@@ -198,6 +201,7 @@ void httpHeader(httpHeaderType type){
 			puts("Content-type: text/plain\n\n");
 		break;
 	}
+	return;
 }
 
 /** \brief HTTP-Header-Zeile zum Umleiten drucken
@@ -211,12 +215,14 @@ void httpRedirect(const char * url){
 		puts("Status: 301");
 		printf("Location: %s\n\n", url);
 	}
+	return;
 }
 
 void httpCacheControl(const char * directive){
 	if(directive != NULL){
 		printf("Cache-Control: %s\n", directive);
 	}
+	return;
 }
 
 /** \brief Extrahiert aus einem Eingabe-String alle Zeichen zwischen "<property>=" und <delim>. Speicherung in out
