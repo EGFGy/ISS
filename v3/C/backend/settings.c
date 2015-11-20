@@ -18,22 +18,51 @@
 
 void free_cgi(cgi * c){
 	if(c){
-		if(c->http_cookies){
-			free(c->http_cookies);
-			c->http_cookies=NULL;
-		}
-		if(c->http_host){
-			free(c->http_host);
-			c->http_host=NULL;
-		}
 		if(c->POST_data){
 			free(c->POST_data);
 			c->POST_data=NULL;
 		}
-		if(c->query_string){
+		/*if(c->query_string){
 			free(c->query_string);
 			c->query_string=NULL;
+		}*/
+	}
+}
+
+void free_person(person * p){
+	if(p){
+		if(p->acronym){
+			free(p->acronym);
+			p->acronym=NULL;
 		}
+		if(p->courses){
+			free(p->courses);
+			p->courses=NULL;
+		}
+		if(p->email){
+			free(p->email);
+			p->email=NULL;
+		}
+		if(p->first_name){
+			free(p->first_name);
+			p->first_name=NULL;
+		}
+		if(p->name){
+			free(p->name);
+			p->name=NULL;
+		}
+		if(p->login_time){
+			free(p->login_time);
+			p->login_time=NULL;
+		}
+		if(p->password){
+			free(p->password);
+			p->password=NULL;
+		}
+		p->auth=false;
+		p->id=0;
+		p->isTeacher=false;
+		p->sid=0;
 	}
 }
 
@@ -415,7 +444,8 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
     }
-//    free_cgi(&datCGI);
+    free_cgi(&datCGI);
+    free_person(&check_person);
 
 	exit(0);
 }

@@ -35,6 +35,8 @@ void init_CGI(cgi * c){
  */
 void get_CGI_data(cgi * gotCGI){
 
+	//TODO BIG! alle env-vars KOPIEREN !!!!!! + Funktoin für das löschen eines CGI-Objektes
+
     int content_length = 0;
 	char * request_method = getenv("REQUEST_METHOD"); //HTTP-Request-Method
 	char * env_cook = getenv("HTTP_COOKIE"); //Cookies holen
@@ -129,6 +131,8 @@ void get_CGI_data(cgi * gotCGI){
 						pch=memchr(query_string, '+', query_len);
 						if(pch !=NULL) *pch=' ';
 					}
+
+					//TODO: Decodde HEX !!
 					gotCGI->query_string=query_string;
 					gotCGI->request_method=BOTH;
 				}else{
