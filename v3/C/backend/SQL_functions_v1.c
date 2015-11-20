@@ -498,6 +498,7 @@ bool salt_exists(char ** salt){
 	if(asprintf(&query, "SELECT passwort FROM Benutzer WHERE passwort REGEXP '^%s'", seekSalt) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (salt_exists)");
 	}
+	free(seekSalt);
 
 	my=mysql_init(NULL);
 
