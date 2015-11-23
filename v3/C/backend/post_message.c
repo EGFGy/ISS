@@ -29,6 +29,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
 	check_person.sid=atoi(s_sid);
+	free(s_sid);
 
 
 	if(verify_sid(&check_person)){
@@ -59,13 +60,17 @@ int main(int argc, char ** argv){
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi" );
 		httpRedirect(redirectString);
-
+		free(redirectString);
 
 	}else{
 		char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
+		free(redirectString);
     }
+
+    free_cgi(&datCGI);
+    free_person(&check_person);
 
     exit(0);
 }

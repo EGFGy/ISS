@@ -709,7 +709,6 @@ bool acronym_exists(char * acronym){
 int create_session(person * pers){
     char * query=NULL;
     MYSQL * my=NULL;
-	MYSQL_RES * result=NULL;
 
 	srand(time(NULL));
 	int generated_sid=rand();
@@ -756,6 +755,7 @@ bool sid_exists(int sid){
 	char * query=NULL;
 	MYSQL * my=NULL;
 	MYSQL_RES * result=NULL;
+	bool success=false;
 
 	if(asprintf(&query, "SELECT sid FROM Benutzer WHERE sid='%d'", sid) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (sid_exists)");
@@ -775,6 +775,7 @@ bool sid_exists(int sid){
 		#ifdef DEBUG
 		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
 		#endif // DEBUG
+		success=false;
 	}else{
 		result = mysql_store_result(my);
 
@@ -782,18 +783,18 @@ bool sid_exists(int sid){
 			#ifdef DEBUG
 			fprintf(stderr, "sid gefunden, wörk\n");
 			#endif // DEBUG
-			mysql_free_result(result);
-			mysql_close(my);
-			free(query);
-			return true;
+
+			success=true;
+		}else{
+			success=false;
 		}
 	}
 
 	mysql_free_result(result);
 	mysql_close(my);
-
 	free(query);
-	return false;
+
+	return success;
 }
 
 /** \brief SID des Benutzers löschen (--> Abmelden)
@@ -1199,7 +1200,7 @@ bool insert_message(message * mes){
 	MYSQL * my=NULL;
 	bool success=false;
 
-	if(strlen(mes->title)<2 || strlen(mes->message)<2)print_exit_failure("Geben Sie eine Meldung ein!!");
+	if(strlen(mes->title)<2 || strlen(mes->message)<2)print_html_error("Geben Sie eine längere Meldung ein!!", "#"); // TODO: Der Zurück-Link soll gehen
 
 	clean_string(mes->message);
 	clean_string(mes->title);

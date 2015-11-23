@@ -26,6 +26,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &logout_person.email);
 	logout_person.sid=atoi(s_sid);
+	free(s_sid);
 
 	httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 
@@ -52,5 +53,7 @@ int main(int argc, char ** argv){
 		print_exit_failure("Bereits abgemeldet (cookies waren schon 0 oder \"NULL\")");
 	}
 
+	free_cgi(&datCGI);
+	free_person(&logout_person);
 	exit(0);
 }
