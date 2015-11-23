@@ -22,10 +22,18 @@ void free_cgi(cgi * c){
 			free(c->POST_data);
 			c->POST_data=NULL;
 		}
-		/*if(c->query_string){
+		if(c->query_string){
 			free(c->query_string);
 			c->query_string=NULL;
-		}*/
+		}
+		if(c->http_cookies){
+			free(c->http_cookies);
+			c->http_cookies=NULL;
+		}
+		if(c->http_host){
+			free(c->http_host);
+			c->http_host=NULL;
+		}
 	}
 }
 
@@ -128,7 +136,7 @@ int main(int argc, char ** argv){
 							<option value='e'>e</option>\n\
 							<option value='f'>f</option>\n\
 						</select>\n\
-						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white;' onclick='filter.selectOnly(this);'>Filter anwenden</button>\n\
+						<button id='gradeFilterButton' style='border: 2px solid grey; background-color: white; float: right;' onclick='filter.selectOnly(this);'>Filter anwenden</button>\n\
 						</td>\n\
 						</tr>\n\
 			<tr>\n\

@@ -478,6 +478,7 @@ void salt_generate(char ** salt){
 	for(int i=SALT_LENGTH; i>0; i--){
 		sprintf(*salt,"%s%c",*salt,letters[fgetc(f_random) % 64]);
 	}
+	fclose(f_random);
 }
 
 /** \brief Prüfen ob das Salz noch nicht vorhanden ist
@@ -1361,6 +1362,7 @@ bool update_user_password(person * pers){
 
     //Verhindern, dass ein bereits vorhandenes Salt zweimal verwendet wird (falls zwei Nutzer identische Passwörter wählen)
 	while(salt_exists(&salt)){
+		free(salt);
 		salt_generate(&salt);
 	}
 	asprintf(&arg, "$6$%s$", salt);

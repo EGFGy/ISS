@@ -62,8 +62,8 @@ void get_CGI_data(cgi * gotCGI){
 				//print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
 				gotCGI->query_string=NULL;
 				gotCGI->request_method=GET;
-				gotCGI->http_cookies = env_cook;
-				gotCGI->http_host=http_host;
+				gotCGI->http_cookies = strdup(env_cook);
+				gotCGI->http_host=strdup(http_host);
 			}else{
 
 				char * pch;
@@ -78,8 +78,12 @@ void get_CGI_data(cgi * gotCGI){
 				decodeHEX(query_string, gotCGI->query_string);
 				//gotCGI->request_method = request_method;
 				gotCGI->request_method=GET;
-				gotCGI->http_cookies = env_cook;
-				gotCGI->http_host=http_host;
+				gotCGI->http_cookies = strdup(env_cook);
+				if(http_host){
+					gotCGI->http_host=strdup(http_host);
+				}else{
+					gotCGI->http_cookies=NULL;
+				}
 			}
 		}else{
 			print_exit_failure("Use GET or POST");
@@ -133,7 +137,9 @@ void get_CGI_data(cgi * gotCGI){
 					}
 
 					//TODO: Decodde HEX !!
-					gotCGI->query_string=query_string;
+					gotCGI->query_string=calloc(strlen(query_string)+1, sizeof(char));
+					decodeHEX(query_string, gotCGI->query_string);
+
 					gotCGI->request_method=BOTH;
 				}else{
 					gotCGI->request_method=POST;
@@ -142,7 +148,7 @@ void get_CGI_data(cgi * gotCGI){
 				gotCGI->request_method=POST;
 			}
 			gotCGI->content_length=content_length;
-			gotCGI->http_cookies=env_cook;
+			gotCGI->http_cookies=strdup(env_cook);
 			gotCGI->POST_data=calloc(strlen(POST_data)+1, sizeof(char));
 
 			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
@@ -151,7 +157,11 @@ void get_CGI_data(cgi * gotCGI){
 			free(POST_data);
 
 			//fprintf(stderr, "POST_DATA nach HEX: '%s'\n\n", gotCGI->POST_data);
-			gotCGI->http_host=http_host;
+			if(http_host){
+				gotCGI->http_host=strdup(http_host);
+			}else{
+				gotCGI->http_host=NULL;
+			}
 		}
 	}
 
@@ -247,7 +257,10 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	char * tempData=NULL;
 	//tempData=(char *)calloc(strlen(data)+1, sizeof(char));
 
-	if(asprintf(&prop, "%s=", property)==-1|| asprintf(&tempData, "%s", data) == -1){
+	if(asprintf(&prop, "%s=", property) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden");
+	}
+	if(asprintf(&tempData, "%s", data) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden");
 	}
 	//strcpy(prop, property); //Den Namen, des Attributs kopieren und
@@ -255,12 +268,14 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	//strcpy(tempData, data);
 
 	char * start=NULL;
+	char * tempData_copy=tempData;
 	start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
 	if(start == NULL){
 		//print_exit_failure("Fehler beim Suchen des Attributnamens");
 		return -1;
 	}
 	char * klaus=NULL;
+
 	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden
 	if(klaus == NULL){
 		print_exit_failure("Token nicht gefunden");
@@ -284,7 +299,7 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 	//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
 	//Speicher freigeben
 	free(prop);
-	free(tempData);
+	free(tempData_copy);
 	return 0;
 	//return *out;
 
