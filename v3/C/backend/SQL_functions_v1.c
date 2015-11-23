@@ -228,7 +228,7 @@ int verify_user(person * pers){
 		char * arg=NULL;
 		asprintf(&arg, "$6$%s$", salt);
 		char * encr=crypt(pers->password, arg);
-		free(pers->password);
+		free(pers->password); pers->password=NULL;
 		char * load_pw=NULL;
 		asprintf(&load_pw, "%s%s", salt, encr+strlen(arg));
 

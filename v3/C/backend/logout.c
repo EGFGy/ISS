@@ -40,6 +40,7 @@ int main(int argc, char ** argv){
 				char * url=NULL;
 				asprintf(&url, "https://%s/index.html", datCGI.http_host);
 				httpRedirect(url);
+				free(url);
 			}else{
 				httpHeader(TEXT);
 				printf("Fehler in sid_set_null\n");
