@@ -145,7 +145,7 @@ int main(int argc, char ** argv){
 			</tr>\n\
 			</table>");
 			puts("<small>* erfordert Javascript</small>");
-			puts("<div id='reset-button' style='margin-left: auto; margin-right: auto; text-align: center;'><p><button id='resetFiltersButton'style='border: 2px solid grey; background-color: white; display: block; margin-left: auto; margin-right:auto;' onclick='filter.resetFilters(this);'>Filtereinstellungen zurücksetzen</button></p></div>")
+			puts("<div id='reset-button' style='margin-left: auto; margin-right: auto; text-align: center;'><p><button id='resetFiltersButton'style='border: 2px solid grey; background-color: white; display: block; margin-left: auto; margin-right:auto;' onclick='filter.resetFilters(this);'>Filtereinstellungen zurücksetzen</button></p></div>");
 			puts("<div id='select-all' style='margin-left: auto; margin-right: auto; text-align: center;'><button onclick='filter.SelectAllShown();' style='margin-left: auto; margin-right: auto; display: block; border: 2px solid #808080; background-color: #FFFFFF;'>Pflichtfächer AUSWÄHLEN</button>\n\
 				<small>Sport, Konfession und Sprache müssen noch ausgewählt werden</small></div>\n");
 
