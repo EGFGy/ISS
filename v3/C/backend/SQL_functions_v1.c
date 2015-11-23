@@ -55,6 +55,43 @@ void init_person(person * p){
 	p->login_time=NULL;
 }
 
+void free_person(person * p){
+	if(p){
+		if(p->acronym){
+			free(p->acronym);
+			p->acronym=NULL;
+		}
+		if(p->courses){
+			free(p->courses);
+			p->courses=NULL;
+		}
+		if(p->email){
+			free(p->email);
+			p->email=NULL;
+		}
+		if(p->first_name){
+			free(p->first_name);
+			p->first_name=NULL;
+		}
+		if(p->name){
+			free(p->name);
+			p->name=NULL;
+		}
+		if(p->login_time){
+			free(p->login_time);
+			p->login_time=NULL;
+		}
+		if(p->password){
+			free(p->password);
+			p->password=NULL;
+		}
+		p->auth=false;
+		p->id=0;
+		p->isTeacher=false;
+		p->sid=0;
+	}
+}
+
 void init_message(message * mes){
 	mes->courses=NULL;
 	mes->created=NULL;
@@ -183,15 +220,21 @@ int verify_user(person * pers){
 		char * salt=calloc(SALT_LENGTH+1, sizeof(char));
 		//strncat(salt, row[COL_PASS], 1);
 		//strncat(salt, row[COL_PASS]+1, 1);
-		for(int i=0; i<SALT_LENGTH; i++){
+		/*for(int i=0; i<SALT_LENGTH; i++){
 			strncat(salt, row[COL_PASS]+i, 1);
-		}
+		}*/
+		strncat(salt, row[COL_PASS], SALT_LENGTH);
+
 		char * arg=NULL;
 		asprintf(&arg, "$6$%s$", salt);
 		char * encr=crypt(pers->password, arg);
 		free(pers->password);
 		char * load_pw=NULL;
 		asprintf(&load_pw, "%s%s", salt, encr+strlen(arg));
+
+		free(arg); arg=NULL;
+		free(salt); salt=NULL;
+
 		//pers->password=encr+strlen(arg);
 
 		if(strcmp(load_pw, row[COL_PASS]) == 0){
@@ -240,6 +283,7 @@ int verify_user(person * pers){
 			pers->auth=false;
 			pers->sid=0;
 		}
+		free(load_pw);
 	}
 
 	mysql_free_result(result);

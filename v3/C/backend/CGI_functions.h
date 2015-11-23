@@ -16,6 +16,7 @@ typedef struct{
 }cgi;
 
 void init_CGI(cgi * c);
+void free_cgi(cgi * c);
 void get_CGI_data(cgi * gotCGI);
 void print_exit_failure(const char * message);
 void httpSetCookie(char name[], char content[]);

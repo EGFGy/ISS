@@ -26,6 +26,27 @@ void init_CGI(cgi * c){
 	c->request_method=GET;
 }
 
+void free_cgi(cgi * c){
+	if(c){
+		if(c->POST_data){
+			free(c->POST_data);
+			c->POST_data=NULL;
+		}
+		if(c->query_string){
+			free(c->query_string);
+			c->query_string=NULL;
+		}
+		if(c->http_cookies){
+			free(c->http_cookies);
+			c->http_cookies=NULL;
+		}
+		if(c->http_host){
+			free(c->http_host);
+			c->http_host=NULL;
+		}
+	}
+}
+
 /** \brief Aus dem Environment und der Standardeingabe wichtige Daten einlesen
  *
  * \param gotCGI cgi*  CGI-Objekt, in dem die gefundenen Daten gespeichert werden
@@ -78,7 +99,11 @@ void get_CGI_data(cgi * gotCGI){
 				decodeHEX(query_string, gotCGI->query_string);
 				//gotCGI->request_method = request_method;
 				gotCGI->request_method=GET;
-				gotCGI->http_cookies = strdup(env_cook);
+				if(env_cook){
+					gotCGI->http_cookies=strdup(env_cook);
+				}else{
+					gotCGI->http_cookies=NULL;
+				}
 				if(http_host){
 					gotCGI->http_host=strdup(http_host);
 				}else{
@@ -148,7 +173,11 @@ void get_CGI_data(cgi * gotCGI){
 				gotCGI->request_method=POST;
 			}
 			gotCGI->content_length=content_length;
-			gotCGI->http_cookies=strdup(env_cook);
+			if(env_cook){
+				gotCGI->http_cookies=strdup(env_cook);
+			}else{
+				gotCGI->http_cookies=NULL;
+			}
 			gotCGI->POST_data=calloc(strlen(POST_data)+1, sizeof(char));
 
 			//fprintf(stderr, "\nPOST_DATA vor HEX: '%s'\n\n", POST_data);
