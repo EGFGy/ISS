@@ -106,6 +106,7 @@ typedef struct{
 void init_person(person * p);
 void free_person(person * p);
 void init_message(message * mes);
+void free_message(message * mes);
 void init_course(course * c);
 void init_course_set(course_set * c);
 

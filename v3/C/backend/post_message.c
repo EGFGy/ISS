@@ -42,7 +42,7 @@ int main(int argc, char ** argv){
 
 		extract_POST_data(&datCGI, "meldung", &mes.message);
 		extract_POST_data(&datCGI, "titel", &mes.title);
-		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){
+		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){ // TODO: Falls ein Kurs ausgewählt ist, den es nicht gibt (manuelle Eingabe) ???
 			asprintf(&mes.courses, "all");
 		}
 
@@ -51,16 +51,20 @@ int main(int argc, char ** argv){
 		time_t now=time(NULL);
 		mes.created=localtime(&now);
 
-
-		//mes.message=convert_to_html(mes.message);
-
+		#ifdef DEBUG
 		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
+		#endif // DEBUG
 
 		insert_message(&mes);
+
 		char * redirectString=NULL;
+
+		//Abhängig von der art der Nachricht wieder auf die entsprechende Seite umleiten (spec_/all_ messages)
 		asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi" );
 		httpRedirect(redirectString);
 		free(redirectString);
+
+		free_message(&mes);
 
 	}else{
 		char * redirectString=NULL;

@@ -15,7 +15,7 @@
 
 1447551282 /home/markus/git/ISS/v3/C/backend/urlcode.h
 
-1448313681 source:/home/markus/git/ISS/v3/C/backend/SQL_functions_v1.c
+1448563903 source:/home/markus/git/ISS/v3/C/backend/SQL_functions_v1.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -108,7 +108,7 @@
 
 1442586774 /usr/include/mysql/my_alloc.h
 
-1448313681 /home/markus/git/ISS/v3/C/backend/SQL_functions.h
+1448564092 /home/markus/git/ISS/v3/C/backend/SQL_functions.h
 
 1447551282 source:/home/markus/git/ISS/v3/C/backend/urlcode.c
 	<ctype.h>
@@ -135,6 +135,18 @@
 	<unistd.h>
 	<math.h>
 	<ctype.h>
+	"CGI_functions.h"
+	"SQL_functions.h"
+
+1448564092 source:/home/markus/git/ISS/v3/C/backend/post_message.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	<time.h>
 	"CGI_functions.h"
 	"SQL_functions.h"
 

@@ -1,0 +1,99 @@
+==23097== Memcheck, a memory error detector
+==23097== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==23097== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==23097== Command: bin/Debug/post_message.cgi
+==23097== 
+strlen() der cookies: 18
+sid gefunden
+uid gefunden
+
+
+POST_DATA: 'titel=123&meldung=456&kurs=10bC
+'
+
+String : '456'
+String : '123'
+
+
+ Meldung: '456<br>'
+
+Query (insert_message) : 'INSERT INTO Meldungen 				(titel, meldung, kurse, erstellerID, erstellt)				VALUES('123', '456<br>', '10bC', '39', '2015-11-26 21:16:30')'
+
+Status: 301
+Location: https://(null)/cgi-bin/spec_messages.cgi
+
+==23097== 
+==23097== HEAP SUMMARY:
+==23097==     in use at exit: 73,948 bytes in 22 blocks
+==23097==   total heap usage: 218 allocs, 196 frees, 252,005 bytes allocated
+==23097== 
+==23097== 4 bytes in 1 blocks are definitely lost in loss record 1 of 6
+==23097==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==23097==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==23097==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==23097==    by 0x405EFD: nlcr_to_htmlbr (SQL_functions_v1.c:1758)
+==23097==    by 0x404A92: insert_message (SQL_functions_v1.c:1230)
+==23097==    by 0x4015CC: main (post_message.c:58)
+==23097== 
+==23097== 24 bytes in 1 blocks are still reachable in loss record 2 of 6
+==23097==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==23097==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E871B9: my_error_register (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E656DC: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x403D70: verify_sid (SQL_functions_v1.c:874)
+==23097==    by 0x4014D7: main (post_message.c:35)
+==23097== 
+==23097== 144 bytes in 1 blocks are still reachable in loss record 3 of 6
+==23097==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==23097==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E86342: init_alloc_root (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E701C3: mysql_client_plugin_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E656E3: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x403D70: verify_sid (SQL_functions_v1.c:874)
+==23097==    by 0x4014D7: main (post_message.c:35)
+==23097== 
+==23097== 192 bytes in 1 blocks are still reachable in loss record 4 of 6
+==23097==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==23097==    by 0x4E8C236: my_thread_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E8C540: my_thread_global_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E8A31F: my_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E656AA: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x403D70: verify_sid (SQL_functions_v1.c:874)
+==23097==    by 0x4014D7: main (post_message.c:35)
+==23097== 
+==23097== 36,792 bytes in 9 blocks are still reachable in loss record 5 of 6
+==23097==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==23097==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E81D99: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==23097==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x403DB0: verify_sid (SQL_functions_v1.c:879)
+==23097==    by 0x4014D7: main (post_message.c:35)
+==23097== 
+==23097== 36,792 bytes in 9 blocks are still reachable in loss record 6 of 6
+==23097==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==23097==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E81DB5: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==23097==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==23097==    by 0x403DB0: verify_sid (SQL_functions_v1.c:879)
+==23097==    by 0x4014D7: main (post_message.c:35)
+==23097== 
+==23097== LEAK SUMMARY:
+==23097==    definitely lost: 4 bytes in 1 blocks
+==23097==    indirectly lost: 0 bytes in 0 blocks
+==23097==      possibly lost: 0 bytes in 0 blocks
+==23097==    still reachable: 73,944 bytes in 21 blocks
+==23097==         suppressed: 0 bytes in 0 blocks
+==23097== 
+==23097== For counts of detected and suppressed errors, rerun with: -v
+==23097== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

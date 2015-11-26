@@ -99,6 +99,28 @@ void init_message(message * mes){
 	mes->id=0;
 	mes->message=NULL;
 	mes->title=NULL;
+	mes->s_created=NULL;
+}
+
+void free_message(message * mes){
+	if(mes->courses){
+		free(mes->courses);
+		mes->courses=NULL;
+	}
+	if(mes->message){
+		free(mes->message);
+		mes->message=NULL;
+	}
+	if(mes->s_created){
+		free(mes->s_created);
+		mes->s_created=NULL;
+	}
+	if(mes->title){
+		free(mes->title);
+		mes->title=NULL;
+	}
+	mes->creator_id=0;
+	mes->id=0;
 }
 
 void init_course(course * c){
@@ -1204,11 +1226,14 @@ bool insert_message(message * mes){
 
 	clean_string(mes->message);
 	clean_string(mes->title);
+	char * old_mes=mes->message;
 	mes->message=nlcr_to_htmlbr(mes->message);
+	free(old_mes); old_mes=NULL;
 	#ifdef DEBUG
 	fprintf(stderr, "\n\n Meldung: '%s'", mes->message);
 	#endif // DEBUG
 	remove_newline(mes->message);
+	remove_newline(mes->courses);
 
 	time_created=calloc(21, sizeof(char)); // 20
 	strftime(time_created, 20, "%Y-%m-%d %H:%M:%S", mes->created);
@@ -1733,7 +1758,7 @@ char * nlcr_to_htmlbr(char * str){
 		asprintf(&out, "%s%s", out ? out : "", str);
 	}
 
-	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") );
+	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") ); // Rekursion
 	return out;
 }
 
