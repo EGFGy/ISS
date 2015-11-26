@@ -1741,6 +1741,7 @@ bool course_regex_search(course * c, char * all_courses){
  */
 char * nlcr_to_htmlbr(char * str){
 
+	//TODO !!! Kommentare, sonst blickt das später keiner mehr !!! Da sind auch irgendwelche Speicherprobleme !!!!!!!
 	if(str == NULL){
 		print_exit_failure("Programm falsch (nlcr_to_htmlbr)");
 	}

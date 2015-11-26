@@ -14,7 +14,7 @@ int main(int argc, char ** argv){
     init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
-	message * all_messages;
+	message * all_messages; //TODO vielleicht eine message_set Struktur machen die die Meldungen und die Anzahl enthält um diese danach zu löschen
 	int number=0; //Zahl um die tatsächliche Anzahl an Meldungen zu speichern
 	int offset=0; //Vom Nutzer gewünschter Offset
 
@@ -28,7 +28,7 @@ int main(int argc, char ** argv){
 		* --> Wenn der Nutzer nochmal unangemeldet hier her kommt wird er gleich umgeleitet
 		*     (Siehe 'UMLEITUNG')
 		*/
-
+		free_cgi(&datCGI);
 		exit(0);
 	}
 
@@ -39,6 +39,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
 	check_person.sid=atoi(s_sid);
+	free(s_sid);
 
 
     if(verify_sid(&check_person)){
@@ -49,6 +50,7 @@ int main(int argc, char ** argv){
 		char * s_offest=NULL;
 		if(extract_QUERY_data(&datCGI, "offset", &s_offest) != -1){
 			offset=atoi(s_offest);
+			free(s_offest);
 		}
 		//all_messages=get_messages(&number, offset);
 		number=get_messages(&all_messages, offset, NULL);
@@ -89,6 +91,7 @@ int main(int argc, char ** argv){
 			//TODO: Button soll zur ganzen Meldung führen
 			puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
 			puts("</div>");
+			free_person(&pers);
 		}
 
 		if(no_older){
@@ -121,7 +124,10 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpRedirect(redirectString);
-
+		free(redirectString);
     }
+
+    free_cgi(&datCGI);
+    free_person(&check_person);
 	exit(0);
 }
