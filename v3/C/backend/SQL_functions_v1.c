@@ -137,10 +137,61 @@ void init_course(course * c){
 	c->status=UNCHANGED;
 }
 
+void free_course(course * c){
+	if(c->alter_room){
+		free(c->alter_room);
+		c->alter_room=NULL;
+	}
+	if(c->alter_teacher_acronym){
+		free(c->alter_teacher_acronym);
+		c->alter_teacher_acronym=NULL;
+	}
+	if(c->alter_time){
+		free(c->alter_time);
+		c->alter_time=NULL;
+	}
+	if(c->name){
+		free(c->name);
+		c->name=NULL;
+	}
+	if(c->original_time){
+		free(c->original_time);
+		c->original_time=NULL;
+	}
+	if(c->room){
+		free(c->room);
+		c->room=NULL;
+	}
+	if(c->teacher){
+		free_person(c->teacher); // wie ist das? Es könnte ja sein, dass man den Lehrer noch braucht
+		free(c->teacher);
+		c->teacher=NULL;
+	}
+	if(c->time){
+		free(c->time);
+		c->time=NULL;
+	}
+}
+
 void init_course_set(course_set * c){
 	init_course(c->c_set);
 	c->number=0;
 }
+
+// TODO fix free_course_set
+/*
+void free_course_set(course_set * c){
+	if(c->number>0){
+		for(size_t i=0; i<c->number; i++){
+			free_course((c->c_set+i));
+			c->c_set[i]=NULL;
+		}
+	}else{
+		#ifdef DEBUG
+		fprintf(stderr, "Ein 'course_set' mit 0 einträgen sollte gelöscht werden\n");
+		#endif // DEBUG
+	}
+}*/
 
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *

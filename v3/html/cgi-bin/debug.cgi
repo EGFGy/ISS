@@ -44,20 +44,22 @@ echo "Temperatur:"
 sensors | grep -i '[Ct][oe][rm][ep]' | sed -e 's/(.*//'
 echo ------------
 echo
-echo
-ping -c 2 fritz.box
-echo
-echo
-ping -c 2 google.com
-echo
-ping -c 2 heise.de
+#echo
+#ping -c 2 fritz.box
+#echo
+#echo
+#ping -c 2 google.com
+#echo
+#ping -c 2 heise.de
 echo ------------
 echo
 echo ">-------------<"
 echo VARIABLES
 env
 echo ">-------------<"
-echo end
-
+echo "end"
+echo ">-------------<"
+echo "vnstat"
+vnstat
 echo "</pre>"
 echo "</body></html>"
