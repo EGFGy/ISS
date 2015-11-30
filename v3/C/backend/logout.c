@@ -48,7 +48,7 @@ int main(int argc, char ** argv){
 			}
 		}else{
 			//print_exit_failure("Bereits abgemeldet");
-			print_html_error("Beretis abgemeldet!", "/index.html")
+			print_html_error("Beretis abgemeldet!", "/index.html");
 		}
 	}else{
 		print_html_error("Bereits abgemeldet!", "/index.html");

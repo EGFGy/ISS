@@ -286,7 +286,7 @@ int main(int argc, char ** argv){
 
 							print_html_error(Meldung, "/cgi-bin/settings.cgi");
 							free(Meldung);
-							exit(EXIT_FAILURE); //(kann doch weggelassen werden, oder?)
+							//exit(EXIT_FAILURE); //(kann doch weggelassen werden, oder?)
 						}
 					}
 				}
@@ -324,6 +324,8 @@ int main(int argc, char ** argv){
 							print_html_error("Geben sie eine Gültige E-Mail-Adresse ein!", "/cgi-bin/settings.cgi");
                         }
 					}
+				}else{
+					return_to_settings=true;
 				}
 				if(new_email)free(new_email);
 			}

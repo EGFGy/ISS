@@ -107,7 +107,7 @@ void get_CGI_data(cgi * gotCGI){
 				if(http_host){
 					gotCGI->http_host=strdup(http_host);
 				}else{
-					gotCGI->http_cookies=NULL;
+					gotCGI->http_host=NULL;
 				}
 			}
 		}else{

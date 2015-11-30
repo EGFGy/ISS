@@ -42,7 +42,7 @@ int main(int argc, char ** argv){
 
 		extract_POST_data(&datCGI, "meldung", &mes.message);
 		extract_POST_data(&datCGI, "titel", &mes.title);
-		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){ // TODO: Falls ein Kurs ausgewählt ist, den es nicht gibt (manuelle Eingabe) ???
+		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){ // TODO: Was tun, wenn falls ein Kurs ausgewählt ist, den es nicht gibt (manuelle Eingabe) ???
 			asprintf(&mes.courses, "all");
 		}
 

@@ -51,8 +51,9 @@ int main(int argc, char ** argv){
 		char * s_offest=NULL;
 		if(extract_QUERY_data(&datCGI, "offset", &s_offest) != -1){
 			offset=atoi(s_offest);
-			free(s_offest);
 		}
+		if(s_offest)free(s_offest);s_offest=NULL;
+
 		//all_messages=get_messages(&number, offset);
 		number=get_messages(&all_messages, offset, NULL);
 		bool no_older=false;

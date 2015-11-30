@@ -24,6 +24,9 @@ int main(int argc, char ** argv){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
 		html_redirect_to_login();
+
+		printf("HÖ\n\n\n");
+		free_cgi(&datCGI);
 		exit(0);
 	}
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
@@ -273,5 +276,8 @@ int main(int argc, char ** argv){
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpRedirect(redirectString);
 	}
+
+	free_cgi(&datCGI);
+	free_person(&check_person);
 	exit(0);
 }
