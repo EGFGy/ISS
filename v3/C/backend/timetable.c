@@ -25,7 +25,6 @@ int main(int argc, char ** argv){
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
 		html_redirect_to_login();
 
-		printf("HÖ\n\n\n");
 		free_cgi(&datCGI);
 		exit(0);
 	}
