@@ -150,3 +150,13 @@ select{
 		margin-right: auto;	
 	}
 }
+
+.ok-status-icon{
+	vertical-align: middle;
+	display: none;
+	margin-left: 3px;
+	
+	padding: 3px;
+	border-radius: 1em;
+	background-color: #777;
+}
