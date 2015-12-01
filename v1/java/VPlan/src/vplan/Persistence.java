@@ -22,7 +22,7 @@ public class Persistence {
 
     public static void writeTxtToFile(String txt, String title) {
         try {
-            file = new File(title);
+            file = new File(title + ".txt");
             writer = new FileWriter(file, false);
             writer.write(txt);
             writer.flush();

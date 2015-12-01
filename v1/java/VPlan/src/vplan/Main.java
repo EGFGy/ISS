@@ -10,7 +10,8 @@ public class Main {
         farg = Integer.parseInt(args[0]);
         plan = new PlanReader(farg);
         extract = new Extractor(plan.getvPlan());
-        Persistence.writeCSVToFile(extract.convertElementsToString(), "test");
+        Persistence.writeCSVToFile(extract.convertElementsToString(), "vplan");
+        Persistence.writeTxtToFile(extract.getData(), "meldungen");
         System.err.println(extract.convertElementsToString());
     }
 
