@@ -15,11 +15,12 @@ int main(int argc, char ** argv){
 	person check_person;
 	init_person(&check_person);
 
-    get_CGI_data(&datCGI);
+	get_CGI_data(&datCGI);
 	if(datCGI.http_cookies == NULL){
 		//Nicht angemeldet, oder Cookies deaktiviert
 		//print_exit_failure("Cookies müssen aktiv und gesetzt sein!");
 		html_redirect_to_login();
+		free_cgi(&datCGI);
 		exit(0);
 	}
 	if(datCGI.request_method != GET)print_exit_failure("Use GET!");
@@ -29,6 +30,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
 	check_person.sid=atoi(s_sid);
+	free(s_sid);
 
 
 	if(verify_sid(&check_person)){
@@ -41,6 +43,7 @@ int main(int argc, char ** argv){
 		int offset=0;
 		if(extract_QUERY_data(&datCGI, "offset", &s_offset) == 0){
 			offset=atoi(s_offset);
+			free(s_offset);
 		}
 
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
@@ -52,7 +55,7 @@ int main(int argc, char ** argv){
 
 		puts("<div class='content'>");
 
-        if(check_person.isTeacher){
+		if(check_person.isTeacher){
 			puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST' enctype='application/x-www-form-urlencoded'>\n\
 			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'>\n\
 			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'></textarea>");
@@ -67,7 +70,7 @@ int main(int argc, char ** argv){
 			puts("  <input id='submit' style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
 			  </form></div>\
 			");
-        }
+		}
 
 		//char * a_course=NULL;
 
@@ -86,6 +89,7 @@ int main(int argc, char ** argv){
 				}else{
 					is_selected_course=false;
 				}
+				free(selected_course);
 			}
 			message * a_messages=NULL;
 			number_of_messages=get_messages(&a_messages, is_selected_course ? offset :0, current_course);
@@ -99,6 +103,7 @@ int main(int argc, char ** argv){
 				}
 			}
 
+			// Kurs-Box drucken (HTML-Anzeige)
 			puts("<div class='courseBox'>");
 			printf("<span id='%s' style='font-weight: bold; color: white;'>%s</span>\n", current_course, current_course);
 			if(number_of_messages>0){
@@ -124,6 +129,7 @@ int main(int argc, char ** argv){
 				//TODO: Button soll zur ganzen Meldung führen
 				puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
 				puts("</div>"); //zu messageBox
+				free_person(&pers);
 			}
 
 			if(no_older){
@@ -163,6 +169,12 @@ int main(int argc, char ** argv){
 
 		puts("</div></div>");
 		puts("</body></html>");
+
+		// ENDE
+		for(int i=0;i<number_of_courses;i++){
+			free(a_course[i]);
+			a_course[i]=NULL;
+		}
 	}else{
 		//printf("Erst anmelden!!");
 		char * redirectString=NULL;
@@ -171,5 +183,7 @@ int main(int argc, char ** argv){
 		httpRedirect(redirectString);
 
 	}
+	free_cgi(&datCGI);
+	free_person(&check_person);
 	exit(0);
 }

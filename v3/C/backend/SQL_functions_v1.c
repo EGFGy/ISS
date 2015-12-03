@@ -1818,8 +1818,8 @@ char * nlcr_to_htmlbr(char * str){
  *			und seine in einem Array speichern
  *
  * \param comma_char char*	Durch Kommata getrennter String
- * \param str_array char***	Array mit einzelnen STrings
- * \return int
+ * \param str_array char***	Array mit einzelnen Strings
+ * \return int              Anzahl der Elemente im Array str_array
  *
  */
 int comma_to_array(char * comma_char, char *** str_array){
@@ -1827,7 +1827,9 @@ int comma_to_array(char * comma_char, char *** str_array){
 		print_exit_failure("Programm falsch (comma_to_array)");
 	}
 	char * local_comma_char=NULL;
+	char * begin_local_comma_char=NULL;
 	asprintf(&local_comma_char, "%s", comma_char);
+	
 	int j;
 	for (j=0; ; j++, local_comma_char = NULL) {
 		char * token = strtok(local_comma_char, ",");
@@ -1836,6 +1838,9 @@ int comma_to_array(char * comma_char, char *** str_array){
 
 	   //asprintf(str_array+j, "%s", token);
 	}
+	free(local_comma_char);
+	local_comma_char=NULL;
+
 	asprintf(&local_comma_char, "%s", comma_char);
 	/*char ** local_str_array*/*str_array=calloc(j,sizeof(char *));
 	for (j=0; ; j++, local_comma_char = NULL) {
@@ -1845,6 +1850,7 @@ int comma_to_array(char * comma_char, char *** str_array){
 
 		asprintf((&(*(/*local_*/*str_array+j))), "%s", token);
 	}
+	free(local_comma_char);
 	//str_array=local_str_array;
 	return j;
 }

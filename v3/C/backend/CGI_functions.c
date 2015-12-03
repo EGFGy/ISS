@@ -56,8 +56,6 @@ void free_cgi(cgi * c){
  */
 void get_CGI_data(cgi * gotCGI){
 
-	//TODO BIG! alle env-vars KOPIEREN !!!!!! + Funktoin für das löschen eines CGI-Objektes
-
     int content_length = 0;
 	char * request_method = getenv("REQUEST_METHOD"); //HTTP-Request-Method
 	char * env_cook = getenv("HTTP_COOKIE"); //Cookies holen
@@ -83,8 +81,16 @@ void get_CGI_data(cgi * gotCGI){
 				//print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
 				gotCGI->query_string=NULL;
 				gotCGI->request_method=GET;
-				gotCGI->http_cookies = strdup(env_cook);
-				gotCGI->http_host=strdup(http_host);
+				if(env_cook){
+					gotCGI->http_cookies = strdup(env_cook);
+				}else{
+					gotCGI->http_cookies=NULL;
+				}
+				if(http_host){
+					gotCGI->http_host=strdup(http_host);
+				}else{
+					gotCGI->http_host=NULL;
+				}
 			}else{
 
 				char * pch;
@@ -278,58 +284,62 @@ void httpCacheControl(const char * directive){
  *
  */
 int _extractCGIdata(char * data, const char * property, char * delim, char ** out){
-	if(data == NULL || property == NULL || delim == NULL){
-		print_exit_failure("Eingabeparameter von extractCGIdata sind falsch");
+	int success=-1;
+	if(data == NULL){
+		success=-1;
+	}else{
+		if(property == NULL || delim == NULL){
+			print_exit_failure("Eingabeparameter von extractCGIdata sind falsch");
+		}else{
+			char * prop=NULL;
+			char * tempData=NULL;
+
+			//Den Namen, des Attributs kopieren und ein '=' anfügen
+			if(asprintf(&prop, "%s=", property) == -1){
+				print_exit_failure("Es konnte kein Speicher angefordert werden");
+			}
+			if(asprintf(&tempData, "%s", data) == -1){
+				print_exit_failure("Es konnte kein Speicher angefordert werden");
+			}
+
+			char * start=NULL;
+			char * tempData_copy=tempData;
+			start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
+			if(start == NULL){
+				//print_exit_failure("Fehler beim Suchen des Attributnamens");
+				return -1;
+			}
+			char * klaus=NULL;
+
+			//TODO: strtok verursacht memory-leak (andere Lösung finden!)
+			klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden
+			if(klaus == NULL){
+				print_exit_failure("Token nicht gefunden");
+			}
+
+			//Neue Zeile am Ende durch 0-Terminator ersetzen.
+			//das hier muss geändert werden!
+			//char * newline=strchr(klaus, '\n');
+			//if(newline != NULL){
+			//	*newline='\0'; //vorher '\0'
+			//}
+
+			//*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
+			if(asprintf(out, "%s", klaus) == -1/* *out == NULL*/){
+				print_exit_failure("Es konnte kein Speicher angefordert werden");
+			}
+			//strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
+
+
+
+			//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
+			//Speicher freigeben
+			free(prop);
+			free(tempData_copy);
+			success=0;
+		}
 	}
-	char * prop=NULL;
-	//prop=(char *)calloc(strlen(property)+1+1, sizeof(char)); // Für den Namen des Attributs Speicher anfordern
-	char * tempData=NULL;
-	//tempData=(char *)calloc(strlen(data)+1, sizeof(char));
-
-	if(asprintf(&prop, "%s=", property) == -1){
-		print_exit_failure("Es konnte kein Speicher angefordert werden");
-	}
-	if(asprintf(&tempData, "%s", data) == -1){
-		print_exit_failure("Es konnte kein Speicher angefordert werden");
-	}
-	//strcpy(prop, property); //Den Namen, des Attributs kopieren und
-	//strcat(prop, "="); // ein '=' anfügen
-	//strcpy(tempData, data);
-
-	char * start=NULL;
-	char * tempData_copy=tempData;
-	start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
-	if(start == NULL){
-		//print_exit_failure("Fehler beim Suchen des Attributnamens");
-		return -1;
-	}
-	char * klaus=NULL;
-
-	klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden
-	if(klaus == NULL){
-		print_exit_failure("Token nicht gefunden");
-	}
-
-	//Neue Zeile am Ende durch 0-Terminator ersetzen.
-	//das hier muss geändert werden!
-	//char * newline=strchr(klaus, '\n');
-	//if(newline != NULL){
-	//	*newline='\0'; //vorher '\0'
-	//}
-
-	//*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
-	if(asprintf(out, "%s", klaus) == -1/* *out == NULL*/){
-		print_exit_failure("Es konnte kein Speicher angefordert werden");
-	}
-	//strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
-
-
-
-	//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
-	//Speicher freigeben
-	free(prop);
-	free(tempData_copy);
-	return 0;
+	return success;
 	//return *out;
 
 }
