@@ -1,26 +1,26 @@
 # die Umgebungsvariablen z.B. für die CGI-Programme (in einer bash)
-export CONTENT_LENGTH="50"
-export REQUEST_METHOD="POST"
-export QUERY_STRING=""
-export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
-
+ export CONTENT_LENGTH="50"
+ export REQUEST_METHOD="POST"
+ export QUERY_STRING=""
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
 ODER 
-export QUERY_STRING=""
-export REQUEST_METHOD="GET"
-export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
-
+ export QUERY_STRING=""
+ export REQUEST_METHOD="GET"
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
 ODER
-export CONTENT_LENGTH="50"
-export REQUEST_METHOD="POST"
-export QUERY_STRING="<entsprechendes>"
-export REQUEST_METHOD="GET"
-export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
-
-export QUERY_STRING="password_update=change"
-
-
+ export CONTENT_LENGTH="50"
+ export REQUEST_METHOD="POST"
+ export QUERY_STRING="<entsprechendes>"
+ export REQUEST_METHOD="GET"
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
+ export QUERY_STRING="password_update=change"
+ 
+ 
 -- Post-Data -- (je eins pro Zeile)
-pass_old=WOW&pass_new_1=ROT&pass_new_2=ROT
-pass_old=ROT&pass_new_1=WOW&pass_new_2=WOW
-
+ pass_old=WOW&pass_new_1=ROT&pass_new_2=ROT
+ pass_old=ROT&pass_new_1=WOW&pass_new_2=WOW
+ 
 -- Post-Data ---
