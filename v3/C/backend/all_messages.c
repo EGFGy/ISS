@@ -9,12 +9,28 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+typedef struct{
+	message * all_messages;
+	int count;
+}message_set;
+
+void free_message_set(message_set * m){
+	if(m){
+		if(m->count > 0 && m->all_messages){
+			for(int i=0; i<m->count; i++){
+				free_message((m->all_messages+i));
+			}
+			free(m->all_messages);
+		}
+	}
+}
+
 int main(int argc, char ** argv){
     cgi datCGI;
     init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
-	message * all_messages; //TODO vielleicht eine message_set Struktur machen die die Meldungen und die Anzahl enthält um diese danach zu löschen
+	message_set all_messages; //TODO vielleicht eine message_set Struktur machen die die Meldungen und die Anzahl enthält um diese danach zu löschen
 	int number=0; //Zahl um die tatsächliche Anzahl an Meldungen zu speichern
 	int offset=0; //Vom Nutzer gewünschter Offset
 
@@ -55,11 +71,11 @@ int main(int argc, char ** argv){
 		if(s_offest)free(s_offest);s_offest=NULL;
 
 		//all_messages=get_messages(&number, offset);
-		number=get_messages(&all_messages, offset, NULL);
+		all_messages.count=get_messages(&all_messages.all_messages, offset, NULL);
 		bool no_older=false;
-		if(number==0 && offset!=0){
+		if(all_messages.count==0 && offset!=0){
 			//all_messages=get_messages(&number, offset-1);
-			number=get_messages(&all_messages, offset-1, NULL);
+			all_messages.count=get_messages(&all_messages.all_messages, offset-1, NULL);
 			no_older=true;
 		}
 
@@ -86,17 +102,17 @@ int main(int argc, char ** argv){
 		for(int i=0; i<number; i++){
 			person pers;
 			init_person(&pers);
-			pers.id=(all_messages+i)->creator_id;
+			pers.id=(all_messages.all_messages+i)->creator_id; // TODO Check
 
 
 			puts("<div class='messageBox'>");
-			printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (all_messages+i)->title, (all_messages+i)->message);
+			printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (all_messages.all_messages+i)->title, (all_messages.all_messages+i)->message);
 
 			/** Ersteller und Uhrzeit zu der die Meldung verfasst wurde anzeigen*/
 			if(get_person_by_id(&pers)){
-				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages+i)->s_created, pers.first_name, pers.name );
+				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (all_messages.all_messages+i)->s_created, pers.first_name, pers.name );
 			}else{
-				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (all_messages+i)->s_created);
+				printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (all_messages.all_messages+i)->s_created);
 			}
 
 			//TODO: Button soll zur ganzen Meldung führen
@@ -142,5 +158,6 @@ int main(int argc, char ** argv){
 
     free_cgi(&datCGI);
     free_person(&check_person);
+    free_message_set(&all_messages);
 	exit(0);
 }
