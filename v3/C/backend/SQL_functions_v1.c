@@ -122,6 +122,21 @@ void free_message(message * mes){
 	mes->creator_id=0;
 	mes->id=0;
 }
+void init_message_set(message_set * m){
+	m->all_messages=NULL;
+	m->cnt=0;
+}
+
+void free_message_set(message_set * m){
+	if(m){
+		if(m->cnt > 0 && m->all_messages){
+			for(int i = 0; i < m->cnt; i++){
+				free_message((m->all_messages+i));
+			}
+			free(m->all_messages);
+		}
+	}
+}
 
 void init_course(course * c){
 	c->id=0;
@@ -997,7 +1012,7 @@ int get_messages(message ** mes, int offset, char * select_course){
 	}else{
 		MYSQL_RES * result=NULL;
 		result = mysql_store_result(my);
-		num=mysql_num_rows(result);
+		num = mysql_num_rows(result);
 		if(mysql_num_rows(result) > 0){
 			*mes = calloc(mysql_num_rows(result), sizeof(message));
 			MYSQL_ROW message_row;
@@ -1829,7 +1844,7 @@ int comma_to_array(char * comma_char, char *** str_array){
 	char * local_comma_char=NULL;
 	char * begin_local_comma_char=NULL;
 	asprintf(&local_comma_char, "%s", comma_char);
-	
+
 	int j;
 	for (j=0; ; j++, local_comma_char = NULL) {
 		char * token = strtok(local_comma_char, ",");

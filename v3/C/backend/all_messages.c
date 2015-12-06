@@ -9,22 +9,6 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
-typedef struct{
-	message * all_messages;
-	int count;
-}message_set;
-
-void free_message_set(message_set * m){
-	if(m){
-		if(m->count > 0 && m->all_messages){
-			for(int i=0; i<m->count; i++){
-				free_message((m->all_messages+i));
-			}
-			free(m->all_messages);
-		}
-	}
-}
-
 int main(int argc, char ** argv){
     cgi datCGI;
     init_CGI(&datCGI);
@@ -71,11 +55,11 @@ int main(int argc, char ** argv){
 		if(s_offest)free(s_offest);s_offest=NULL;
 
 		//all_messages=get_messages(&number, offset);
-		all_messages.count=get_messages(&all_messages.all_messages, offset, NULL);
+		all_messages.cnt=get_messages(&all_messages.all_messages, offset, NULL);
 		bool no_older=false;
-		if(all_messages.count==0 && offset!=0){
+		if(all_messages.cnt==0 && offset!=0){
 			//all_messages=get_messages(&number, offset-1);
-			all_messages.count=get_messages(&all_messages.all_messages, offset-1, NULL);
+			all_messages.cnt=get_messages(&all_messages.all_messages, offset-1, NULL);
 			no_older=true;
 		}
 

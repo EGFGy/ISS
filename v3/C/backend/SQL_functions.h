@@ -85,6 +85,11 @@ typedef struct{
 }message;
 
 typedef struct{
+	message * all_messages;
+	int cnt;
+}message_set;
+
+typedef struct{
 	int id;                        // ID des Kurses
 	char * name;                   // Kursname (z.B. 2PHO)
 	char * time;                   // Zeit zu der der Kurs stattfindet (z.B. Mo3)
@@ -107,6 +112,8 @@ void init_person(person * p);
 void free_person(person * p);
 void init_message(message * mes);
 void free_message(message * mes);
+void init_message_set(message_set * m);
+void free_message_set(message_set * m);
 void init_course(course * c);
 void init_course_set(course_set * c);
 
