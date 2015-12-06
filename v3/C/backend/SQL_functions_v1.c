@@ -130,10 +130,11 @@ void init_message_set(message_set * m){
 void free_message_set(message_set * m){
 	if(m){
 		if(m->cnt > 0 && m->all_messages){
-			for(int i = 0; i < m->cnt; i++){
+			for(size_t i = 0; i < m->cnt; i++){
 				free_message((m->all_messages+i));
 			}
 			free(m->all_messages);
+			m->all_messages=NULL;
 		}
 	}
 }
@@ -186,27 +187,32 @@ void free_course(course * c){
 		free(c->time);
 		c->time=NULL;
 	}
+	c->id=0;
+	c->status=0;
 }
 
 void init_course_set(course_set * c){
-	init_course(c->c_set);
+	c->c_set=NULL;
 	c->number=0;
 }
 
 // TODO fix free_course_set
-/*
 void free_course_set(course_set * c){
-	if(c->number>0){
-		for(size_t i=0; i<c->number; i++){
-			free_course((c->c_set+i));
-			c->c_set[i]=NULL;
+	if(c){
+		if(c->number > 0){
+			for(size_t i = 0; i < c->number; i++){
+				free_course((c->c_set+i));
+				free(c->c_set+i);
+			}
+			//free(c->c_set);
+			c->c_set=NULL;
+		}else{
+			#ifdef DEBUG
+			fprintf(stderr, "Ein 'course_set' mit 0 einträgen sollte gelöscht werden\n");
+			#endif // DEBUG
 		}
-	}else{
-		#ifdef DEBUG
-		fprintf(stderr, "Ein 'course_set' mit 0 einträgen sollte gelöscht werden\n");
-		#endif // DEBUG
 	}
-}*/
+}
 
 /** \brief Überprüfen, ob eine Person in der Datenbank ist und ob das Passwort stimmt
  *
@@ -971,15 +977,16 @@ bool verify_sid(person * pers){
 	return pers->auth;
 }
 
-/** \brief 5 Nachrichten holen
+/** \brief
  *
- * \param mes message ** message*   Pointer auf ein Array aus max. GET_MESSAGE_COUNT Nachrichten
- * \param offset int                Alle 5 Nachrichten ab der offset*GET_MESSAGE_COUNT-ten Nachricht holen
- * \return int                      Tatsächliche Anzahl an Meldungen
+ * \param mes message**            Pointer auf ein Array aus max. GET_MESSAGE_COUNT Nachrichten (wird in der Funktion alloziert)
+ * \param offset int               Alle 5 Nachrichten ab der offset*GET_MESSAGE_COUNT-ten Nachricht holen
+ * \param select_course char*
+ * \return int                     Tatsächliche Anzahl an Meldungen
  *
  */
-
-int get_messages(message ** mes, int offset, char * select_course){
+bool get_messages(message_set * mes, int offset, char * select_course){
+	bool success=false;
 
 	char * query=NULL;
 	int num=0;
@@ -1014,27 +1021,31 @@ int get_messages(message ** mes, int offset, char * select_course){
 		result = mysql_store_result(my);
 		num = mysql_num_rows(result);
 		if(mysql_num_rows(result) > 0){
-			*mes = calloc(mysql_num_rows(result), sizeof(message));
+			mes->all_messages = calloc(mysql_num_rows(result), sizeof(message));
 			MYSQL_ROW message_row;
 			for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
-				(*mes+i)->id=atoi(message_row[COL_MESSAGE_ID]);
+				(mes->all_messages+i)->id=atoi(message_row[COL_MESSAGE_ID]);
 
-				asprintf(&(*mes+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
-				asprintf(&(*mes+i)->message, "%s", message_row[COL_MESSAGE_MES]);
-				asprintf(&(*mes+i)->courses, "%s", message_row[COL_MESSAGE_COURSES]);
+				asprintf(&(mes->all_messages+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
+				asprintf(&(mes->all_messages+i)->message, "%s", message_row[COL_MESSAGE_MES]);
+				asprintf(&(mes->all_messages+i)->courses, "%s", message_row[COL_MESSAGE_COURSES]);
 
-				(*mes+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
+				(mes->all_messages+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
 
-				asprintf(&(*mes+i)->s_created, "%s", message_row[COL_MESSAGE_TIME_CREATED]);
+				asprintf(&(mes->all_messages+i)->s_created, "%s", message_row[COL_MESSAGE_TIME_CREATED]);
 
             }
+            mes->cnt=num;
+            success=true;
+		}else{
+			success=false;
 		}
 		mysql_free_result(result);
 	}
 	mysql_close(my);
 
 	free(query);
-	return num;
+	return success;
 }
 
 /** \brief Anhand der ID der Person die restliche Information über sie herausfinden
@@ -1549,8 +1560,8 @@ bool update_user_password(person * pers){
  * \return size_t            Anzahl der Kurse in c_arr, 0: wenn der Kurs nicht gefunden wurde
  *
  */
-size_t get_course(char * this_course, course ** c_arr){
-
+bool get_course(char * this_course, course_set * c_arr){
+	bool success=false;
 	size_t number=0;
 	MYSQL *my=NULL;
 	char * query=NULL;
@@ -1584,26 +1595,30 @@ size_t get_course(char * this_course, course ** c_arr){
 
 		if(mysql_num_rows(result) > 0){
 			number=mysql_num_rows(result);
-			*c_arr=calloc(number, sizeof(course));
+			c_arr->c_set=calloc(number, sizeof(course));
 			MYSQL_ROW row;
 			size_t i=0;
 			while((row=mysql_fetch_row(result)) && i<number){
-				init_course((*c_arr+i));
-				asprintf(&(*c_arr+i)->name, "%s", row[COL_COURSE_NAME]);
-				asprintf(&(*c_arr+i)->id, "%s", row[COL_COURSE_ID]);
-				asprintf(&(*c_arr+i)->time, "%s", row[COL_COURSE_TIME]);
-				asprintf(&(*c_arr+i)->room, "%s", row[COL_COURSE_ROOM]);
+				init_course((c_arr->c_set+i));
+				asprintf(&(c_arr->c_set+i)->name, "%s", row[COL_COURSE_NAME]);
+				//asprintf(&(c_arr->c_set+i)->id, "%s", row[COL_COURSE_ID]); OMFG
+				(c_arr->c_set+i)->id=atoi(row[COL_COURSE_ID]);
+				asprintf(&(c_arr->c_set+i)->time, "%s", row[COL_COURSE_TIME]);
+				asprintf(&(c_arr->c_set+i)->room, "%s", row[COL_COURSE_ROOM]);
 				i++;
 			}
+			c_arr->number=number;
+			success=true;
 		}
 		mysql_free_result(result);
 	}
 	mysql_close(my);
 	free(query);
-	return number;
+	return success;
 }
 
-size_t get_alter_course(char * this_course, course ** c_arr){
+bool get_alter_course(char * this_course, course_set * c_arr){
+	bool success=false;
 	size_t number=0;
 	MYSQL *my=NULL;
 	char * query=NULL;
@@ -1637,40 +1652,43 @@ size_t get_alter_course(char * this_course, course ** c_arr){
 
 		if(mysql_num_rows(result) > 0){
 			number=mysql_num_rows(result);
-			*c_arr=calloc(number, sizeof(course));
+			c_arr->c_set=calloc(number, sizeof(course));
 			MYSQL_ROW row;
 			size_t i=0;
 			while((row=mysql_fetch_row(result)) && i<number){
-				init_course((*c_arr+i));
-				asprintf(&(*c_arr+i)->name, "%s", row[COL_ALTER_COURSE_NAME]);
-				asprintf(&(*c_arr+i)->id, "%s", row[COL_ALTER_COURSE_ID]);
-				asprintf(&(*c_arr+i)->time, "%s", row[COL_ALTER_COURSE_ORIGINAL_TIME]);
-				(*c_arr+i)->status=UNCHANGED;
+				init_course((c_arr->c_set+i));
+				asprintf(&(c_arr->c_set+i)->name, "%s", row[COL_ALTER_COURSE_NAME]);
+				//asprintf(&(c_arr->c_set+i)->id, "%s", row[COL_ALTER_COURSE_ID]); OMFG
+				(c_arr->c_set+i)->id=atoi(row[COL_ALTER_COURSE_ID]);
+				asprintf(&(c_arr->c_set+i)->time, "%s", row[COL_ALTER_COURSE_ORIGINAL_TIME]);
+				(c_arr->c_set+i)->status=UNCHANGED;
 
 				if(row[COL_ALTER_COURSE_ROOM] == NULL && row[COL_ALTER_COURSE_TEACHER_ACR] == NULL && row[COL_ALTER_COURSE_TIME] == NULL){
-					(*c_arr+i)->status=OMITTED;
+					(c_arr->c_set+i)->status=OMITTED;
 				}else{
 					if(row[COL_ALTER_COURSE_TEACHER_ACR] != NULL){
 						//anderer Lehrer
-						(*c_arr+i)->status |= (1<<0); // LSB
-						asprintf(&(*c_arr+i)->alter_teacher_acronym, "%s", row[COL_ALTER_COURSE_TEACHER_ACR]);
+						(c_arr->c_set+i)->status |= (1<<0); // LSB
+						asprintf(&(c_arr->c_set+i)->alter_teacher_acronym, "%s", row[COL_ALTER_COURSE_TEACHER_ACR]);
 
 					}
 
 					if(row[COL_ALTER_COURSE_ROOM]){
-						(*c_arr+i)->status |= (1 << 1);
-						asprintf(&(*c_arr+i)->alter_room, "%s", row[COL_ALTER_COURSE_ROOM]);
+						(c_arr->c_set+i)->status |= (1 << 1);
+						asprintf(&(c_arr->c_set+i)->alter_room, "%s", row[COL_ALTER_COURSE_ROOM]);
 					}
 				}
 
 				i++;
 			}
+			c_arr->number=number;
+			success=false;
 		}
 		mysql_free_result(result);
 	}
 	mysql_close(my);
 	free(query);
-	return number;
+	return success;
 }
 
 /** \brief Anhand einer Kursbezeichnung herausfinden, welcher Lehrer diesen unterrichtet

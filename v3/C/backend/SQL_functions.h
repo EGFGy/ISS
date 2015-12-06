@@ -86,7 +86,7 @@ typedef struct{
 
 typedef struct{
 	message * all_messages;
-	int cnt;
+	size_t cnt;
 }message_set;
 
 typedef struct{
@@ -130,7 +130,7 @@ int create_session(person * pers);
 bool sid_exists(int sid);
 bool sid_set_null(person * pers);
 bool verify_sid(person * pers);
-int get_messages(message ** mes, int offset, char * course);
+bool get_messages(message_set * mes, int offset, char * course);
 bool get_person_by_id(person * pers);
 bool get_person_by_sid(person * pers);
 bool get_person_by_acronym(person * pers, char * acronym);
@@ -139,8 +139,8 @@ size_t get_distinct_courses(course ** c);
 bool update_user_courses(person * pers);
 bool update_user_email(person * pers, char * new_email);
 bool update_user_password(person * pers);
-size_t get_course(char * this_course, course ** c_arr);
-size_t get_alter_course(char * this_course, course ** c_arr);
+bool get_course(char * this_course, course_set * c_arr);
+bool get_alter_course(char * this_course, course_set * c_arr);
 bool get_teacher_by_course(person * pers, char * c);
 
 void clean_string(char * str);

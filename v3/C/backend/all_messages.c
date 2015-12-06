@@ -14,7 +14,9 @@ int main(int argc, char ** argv){
     init_CGI(&datCGI);
 	person check_person;
 	init_person(&check_person);
-	message_set all_messages; //TODO vielleicht eine message_set Struktur machen die die Meldungen und die Anzahl enthält um diese danach zu löschen
+	message_set all_messages;
+	init_course_set(&all_messages);
+
 	int number=0; //Zahl um die tatsächliche Anzahl an Meldungen zu speichern
 	int offset=0; //Vom Nutzer gewünschter Offset
 
@@ -55,11 +57,11 @@ int main(int argc, char ** argv){
 		if(s_offest)free(s_offest);s_offest=NULL;
 
 		//all_messages=get_messages(&number, offset);
-		all_messages.cnt=get_messages(&all_messages.all_messages, offset, NULL);
+		get_messages(&all_messages, offset, NULL);
 		bool no_older=false;
 		if(all_messages.cnt==0 && offset!=0){
 			//all_messages=get_messages(&number, offset-1);
-			all_messages.cnt=get_messages(&all_messages.all_messages, offset-1, NULL);
+			get_messages(&all_messages, offset-1, NULL);
 			no_older=true;
 		}
 

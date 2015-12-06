@@ -81,7 +81,6 @@ int main(int argc, char ** argv){
 			char * current_course=*(a_course+j);
 			if(strncmp(current_course, "n/a", 3) == 0 || strlen(current_course)<2)break;
 
-			int number_of_messages=0;
 			bool is_selected_course=false;
 			if(selected_course){
 				if(strcmp(current_course, selected_course) == 0){
@@ -91,14 +90,15 @@ int main(int argc, char ** argv){
 				}
 				free(selected_course);
 			}
-			message * a_messages=NULL;
-			number_of_messages=get_messages(&a_messages, is_selected_course ? offset :0, current_course);
+			message_set a_messages;
+			init_message_set(&a_messages);
+			get_messages(&a_messages, is_selected_course ? offset :0, current_course);
 
 
 			bool no_older=false;
 			if(is_selected_course){
-				if(number_of_messages==0 && offset!=0){
-					number_of_messages=get_messages(&a_messages, offset-1, current_course);
+				if(a_messages.cnt==0 && offset!=0){
+					get_messages(&a_messages, offset-1, current_course);
 					no_older=true;
 				}
 			}
@@ -106,24 +106,24 @@ int main(int argc, char ** argv){
 			// Kurs-Box drucken (HTML-Anzeige)
 			puts("<div class='courseBox'>");
 			printf("<span id='%s' style='font-weight: bold; color: white;'>%s</span>\n", current_course, current_course);
-			if(number_of_messages>0){
+			if(a_messages.cnt>0){
 				if(is_selected_course){
 					printf("<br><span style='color: white;'>Seite %d</span>\n", no_older ? offset : offset+1);
 				}else{
 					puts("<br><span style='color: white;'>Seite 1</span>\n");
 				}
 			}
-			for(int i=0; i<number_of_messages; i++){
+			for(int i=0; i<a_messages.cnt; i++){
 				person pers;
 				init_person(&pers);
-				pers.id=(a_messages+i)->creator_id;
+				pers.id=(a_messages.all_messages+i)->creator_id;
 
 				puts("<div class='messageBox'>");
-				printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (a_messages+i)->title, (a_messages+i)->message);
+				printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (a_messages.all_messages+i)->title, (a_messages.all_messages+i)->message);
 				if(get_person_by_id(&pers)){
-					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (a_messages+i)->s_created, pers.first_name, pers.name );
+					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (a_messages.all_messages+i)->s_created, pers.first_name, pers.name );
 				}else{
-					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (a_messages+i)->s_created);
+					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (a_messages.all_messages+i)->s_created);
 				}
 
 				//TODO: Button soll zur ganzen Meldung führen
@@ -138,7 +138,7 @@ int main(int argc, char ** argv){
 			}
 
 			puts("<div style='text-align: center;'>");
-			if(number_of_messages>0){
+			if(a_messages.cnt>0){
 				if(is_selected_course){
 					if(offset>0){
 						printf("<a class='pure-menu-link' style='display: inline; color: white;' href='/cgi-bin/spec_messages.cgi?offset=%d&course=%s#%s'>&#x2770; Neuere</a>", offset-1, current_course, current_course);
@@ -147,7 +147,7 @@ int main(int argc, char ** argv){
 					if(!no_older)printf("<a class='pure-menu-link' style='display: inline; color: white;' href='/cgi-bin/spec_messages.cgi?offset=%d&course=%s#%s'>&Auml;ltere &#x2771;</a>", offset+1, current_course, current_course);
 				}else{
 					//Es ist nicht der ausgewählte Kurs
-					if(number_of_messages < GET_MESSAGE_COUNT){
+					if(a_messages.cnt < GET_MESSAGE_COUNT){
 						//keine Bedienelemente anzeigen
 					}else{
 						//Bedienelemente anzeigen
@@ -156,8 +156,9 @@ int main(int argc, char ** argv){
 				}
 			}
 			puts("</div><br>"); //zu vor-zurück
-
 			puts("</div>"); //zu courseBox
+
+			free_message_set(&a_messages);
 		}
 
 		puts("</div>"); //zu Content

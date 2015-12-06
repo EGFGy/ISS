@@ -35,6 +35,7 @@ int main(int argc, char ** argv){
 	extract_COOKIE_data(&datCGI, "SID", &s_sid);
 	extract_COOKIE_data(&datCGI, "EMAIL", &check_person.email);
 	check_person.sid=atoi(s_sid);
+	free(s_sid);
 
 
     if(verify_sid(&check_person)){
@@ -45,7 +46,9 @@ int main(int argc, char ** argv){
 		int number_of_courses=comma_to_array(check_person.courses, &a_course);
 
 		course_set timetable;
+		init_course_set(&timetable);
 		course_set alternate_courses;
+		init_course_set(&timetable);
 
 
 		timetable.c_set=NULL;
@@ -66,11 +69,12 @@ int main(int argc, char ** argv){
 			char * current_course=*(a_course+i);
 
 			course_set new_courses;
+			init_course_set(&new_courses);
 			course_set new_alternate_courses;
-			new_alternate_courses.c_set=NULL;
-			new_alternate_courses.number=get_alter_course(current_course, &new_alternate_courses.c_set);
-			new_courses.c_set=NULL;
-			new_courses.number=get_course(current_course, &new_courses.c_set);
+			init_course_set(&new_alternate_courses);
+
+			get_alter_course(current_course, &new_alternate_courses);
+			get_course(current_course, &new_courses);
 			//course * current_course_set=NULL; //Die neuen n Schulstunden (z.B. alle Mathe-Stunden der Woche)
 			//size_t num_new_course=get_course(current_course, &current_course_set);
 			if(new_courses.number > 0){
@@ -94,7 +98,7 @@ int main(int argc, char ** argv){
 				}
 				//Die neuen Kurse werden an den Stundenplan angehängt
 				memcpy((timetable.c_set+timetable.number), new_courses.c_set, sizeof(course)*new_courses.number);
-				free(new_courses.c_set);
+				//free(new_courses.c_set);
 				if(teach)free(teach);
 				timetable.number+=new_courses.number;
 			}
@@ -117,10 +121,14 @@ int main(int argc, char ** argv){
 				}
 				//Die neuen Kurse werden an die Liste der Vertretungsstunden angehängt
 				memcpy((alternate_courses.c_set+alternate_courses.number), new_alternate_courses.c_set, sizeof(course)*new_alternate_courses.number);
-				free(new_alternate_courses.c_set);
+				//free(new_alternate_courses.c_set);
 				if(teach)free(teach);
 				alternate_courses.number+=new_alternate_courses.number;
 			}
+
+			//TODO free course set
+			free_course_set(&new_courses);
+			free_course_set(&new_alternate_courses);
 		}
 
 
@@ -129,7 +137,7 @@ int main(int argc, char ** argv){
 			#ifdef DEBUG
 			//struct timeval stop, start;
 			//gettimeofday(&start, NULL);
-			fprintf(stderr, "alternate_course %d '%s'\n", i, alternate_courses.c_set[i].name);
+			fprintf(stderr, "alternate_course %zu '%s'\n", i, alternate_courses.c_set[i].name);
 			#endif // DEBUG
 
             for(size_t j=0; j<timetable.number; j++){
@@ -244,7 +252,7 @@ int main(int argc, char ** argv){
 					printf("</tr></table>%s", c->status==OMITTED ? "</s>":"");
 					puts("</a>\n");
 				}
-
+				free(time_string);
 				puts("</td>");
 			}
 			puts("</tr>");
@@ -266,6 +274,9 @@ int main(int argc, char ** argv){
 		puts("</div>"); //content
 		puts("</div></div>");
 		puts("</body></html>");
+
+		free_course_set(&timetable);
+		free_course_set(&alternate_courses);
 
 
     }else{
