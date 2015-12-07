@@ -57,7 +57,7 @@ var goodPasswd={
 		var StatusIcon=document.getElementById("status-icon");
 		// Das Bild hinzufügen wenn es noch nicht da ist
 		if(StatusIcon== null){
-			document.getElementById("pass_new_2").insertAdjacentHTML('afterend', "<img id='status-icon1' class='ok-status-icon' src=''>");
+			document.getElementById("pass_new_2").insertAdjacentHTML('afterend', "<img id='status-icon' class='ok-status-icon' src=''>");
 			// Unsichtbar, ohne Quelle
 		}
 
