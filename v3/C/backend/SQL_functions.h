@@ -85,8 +85,8 @@ typedef struct{
 }message;
 
 typedef struct{
-	message * all_messages;
-	size_t cnt;
+	message * all_messages; // Array in dem mehrere Nachrichten gespeichert werden
+	size_t cnt;             // Anzahl der Nachrichten
 }message_set;
 
 typedef struct{

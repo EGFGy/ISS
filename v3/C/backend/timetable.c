@@ -48,14 +48,7 @@ int main(int argc, char ** argv){
 		course_set timetable;
 		init_course_set(&timetable);
 		course_set alternate_courses;
-		init_course_set(&timetable);
-
-
-		timetable.c_set=NULL;
-		timetable.number=0;
-		alternate_courses.c_set=NULL;
-		alternate_courses.number=0;
-
+		init_course_set(&alternate_courses);
 
 		//course * timetable_courses=NULL; //Array in das alle Stunden der Woche gespeichert werden
 		//size_t timetable.number=0; //Anzahl der Stunden

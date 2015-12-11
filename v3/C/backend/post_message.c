@@ -20,6 +20,7 @@ int main(int argc, char ** argv){
 
 	get_CGI_data(&datCGI);
 	if(datCGI.http_cookies == NULL){
+		free_cgi(&datCGI);
 		html_redirect_to_login();
 		exit(0);
 	}

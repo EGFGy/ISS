@@ -182,7 +182,7 @@ int main(int argc, char ** argv){
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 		httpRedirect(redirectString);
-
+		free(redirectString);
 	}
 	free_cgi(&datCGI);
 	free_person(&check_person);

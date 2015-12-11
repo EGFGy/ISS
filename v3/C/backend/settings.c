@@ -186,7 +186,9 @@ int main(int argc, char ** argv){
 				if(selected_courses != NULL){
 					if(strcmp(check_person.courses, "n/a") == 0){
 						//Die Person hatte noch keine Kurse --> erstes einstellen
-						check_person.courses=selected_courses;
+
+						free(check_person.courses);
+						check_person.courses=strdup(selected_courses);
 						update_user_courses(&check_person);
 					}else if(extract_POST_data(&datCGI, "really",NULL) == 0){
 						#ifdef DEBUG
@@ -194,12 +196,15 @@ int main(int argc, char ** argv){
 						#endif // DEBUG
 
 						// Nicht mehrere Kurs zur selben Zeit + nicht mehrere Lehrer in einem Kurs
-						check_person.courses=selected_courses;
+						free(check_person.courses); check_person.courses=NULL;
+
+						check_person.courses=strdup(selected_courses);
 						char ** arr_selected_courses=NULL;
 						int num_courses=comma_to_array(selected_courses, &arr_selected_courses);
 						int is_ok=NO_ERROR; //ist die Auswahl in Ordnung? (keine doppelten Lehrer / Stunden)
 						size_t oldsize=0;
-						course * timetable_courses=NULL;
+						course_set timetable_courses;
+						init_course_set(&timetable_courses);
 
 						char * error_message=NULL;
 
@@ -208,38 +213,42 @@ int main(int argc, char ** argv){
 							Die Liste aller Stunden in der Woche holen und überprüfen, ob Stunden doppelt belegt sind
 							*/
 							char * current_course=*(arr_selected_courses+i);
-							course * current_course_set=NULL;
-							size_t num_new_courses=get_course(current_course, &current_course_set);
-							if(num_new_courses > 0){
-								if(timetable_courses != NULL){
+							course_set current_course_set;
+							init_course_set(&current_course_set);
+
+							get_course(current_course, &current_course_set);
+
+							if(current_course_set.number > 0){
+								if(timetable_courses.c_set != NULL){
 									//Wenn schon Stunden zum Vergleich verfügbar sind
-									for(int j=num_new_courses; j--;){ // Über alle neue Stunden
+									for(int j=current_course_set.number; j--;){ // Über alle neue Stunden
 										for(int e=oldsize; e--;){ // Über alle schon im Stundenplan
-											if(strcmp(timetable_courses[e].time, current_course_set[j].time) == 0){
+											if(strcmp(timetable_courses.c_set[e].time, current_course_set.c_set[j].time) == 0){
 												/**
 												Wenn die Zeit(en) der/des neue(n) Kurse(s) mit den schon vorhanden
 												Übereinstimmen, ist mindestens eine Stunde doppelt belegt.
 												Das darf nicht sein.
 												*/
 												#ifdef DEBUG
-												fprintf(stderr, "Dopp! %s und %s bei %s\n", current_course_set[j].name, timetable_courses[e].name, current_course_set[j].time);
+												fprintf(stderr, "Dopp! %s und %s bei %s\n", current_course_set.c_set[j].name, timetable_courses.c_set[e].name, current_course_set.c_set[j].time);
 												#endif // DEBUG
 												asprintf(&error_message, "%s %s %s und %s bei %s",
 															error_message ? error_message : "",
 															error_message ? "<br>" : "",
-															current_course_set[j].name,
-															timetable_courses[e].name,
-															current_course_set[j].time);
+															current_course_set.c_set[j].name,
+															timetable_courses.c_set[e].name,
+															current_course_set.c_set[j].time);
 												is_ok=ERROR_DOUBLE_COURSE;
 											}
 										}
 									}
 								}
 								//Die neuen Kurse werden an den Stundenplan angehängt
-								timetable_courses=(course *)realloc(timetable_courses, (num_new_courses+oldsize)*sizeof(course));
-								memcpy((timetable_courses+oldsize), current_course_set, sizeof(course)*num_new_courses);
-								free(current_course_set);
-								oldsize+=num_new_courses;
+								timetable_courses.c_set=(course *)realloc(timetable_courses.c_set, (current_course_set.number+oldsize)*sizeof(course));
+								memcpy((timetable_courses.c_set+oldsize), current_course_set.c_set, sizeof(course)*current_course_set.number);
+								//TODO: free_course_set
+								//free(current_course_set);
+								oldsize+=current_course_set.number;
 							}
 
 							/**
@@ -261,6 +270,7 @@ int main(int argc, char ** argv){
 								}else{
 									//Der Kurs wird noch nicht unterrichtet
 								}
+								free_person(&possible_teacher);
 							}
 						}
 
@@ -283,13 +293,14 @@ int main(int argc, char ** argv){
 								break;
 							}
 
-
 							print_html_error(Meldung, "/cgi-bin/settings.cgi");
 							free(Meldung);
 							//exit(EXIT_FAILURE); //(kann doch weggelassen werden, oder?)
 						}
 					}
 				}
+
+				free(selected_courses);
 			}else{
 				#ifdef DEBUG
 				fprintf(stderr, "Person will nicht die Kurse ändern\n");
@@ -387,16 +398,18 @@ int main(int argc, char ** argv){
 				char * redirectString=NULL;
 				asprintf(&redirectString, "https://%s/cgi-bin/settings.cgi", datCGI.http_host);
 				httpRedirect(redirectString);
+				free(redirectString);
 			}
 		}
 
 		free(all_courses);
     }else{
-		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %s", s_sid, check_person.email);
+		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %d", check_person.email, check_person.sid);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
     	char * redirectString=NULL;
 		asprintf(&redirectString, "https://%s/index.html", datCGI.http_host);
 		httpRedirect(redirectString);
+		free(redirectString);
     }
     free_cgi(&datCGI);
     free_person(&check_person);

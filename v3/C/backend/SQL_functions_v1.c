@@ -208,7 +208,7 @@ void free_course_set(course_set * c){
 			c->c_set=NULL;
 		}else{
 			#ifdef DEBUG
-			fprintf(stderr, "Ein 'course_set' mit 0 einträgen sollte gelöscht werden\n");
+			fprintf(stderr, "Ein 'course_set' mit 0 Einträgen sollte gelöscht werden\n");
 			#endif // DEBUG
 		}
 	}
@@ -1358,6 +1358,7 @@ bool insert_message(message * mes){
  *
  */
 size_t get_distinct_courses(course ** c){
+	//TODO: course_set
 	char * query=NULL;
 	MYSQL *my=NULL;
 	size_t number=0;

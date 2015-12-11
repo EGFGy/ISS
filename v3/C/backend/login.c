@@ -32,6 +32,7 @@ int main(int argc, char ** argv)
 	get_CGI_data(&datCGI);
 
 	if(datCGI.request_method != POST){
+		free_cgi(&datCGI);
 		print_exit_failure("Use POST!");
 	}
 
@@ -81,7 +82,7 @@ int main(int argc, char ** argv)
 			char * redirectString=NULL;
 			asprintf(&redirectString, "https://%s/incorrect_password.html", datCGI.http_host);
 			httpRedirect(redirectString);
-			//free(redirectString);
+			free(redirectString);
 		}
 	}
 
