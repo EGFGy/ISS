@@ -15,7 +15,7 @@ int main(int argc, char ** argv){
 	person check_person;
 	init_person(&check_person);
 	message_set all_messages;
-	init_course_set(&all_messages);
+	init_message_set(&all_messages);
 
 	int number=0; //Zahl um die tatsächliche Anzahl an Meldungen zu speichern
 	int offset=0; //Vom Nutzer gewünschter Offset

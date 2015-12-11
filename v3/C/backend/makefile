@@ -1,6 +1,6 @@
 DEPS=SQL_functions_v1.o CGI_functions.o
 CC=gcc
-CFLAGS=-Wextra -Wall -DGNU_SOURCE -Wextra -Wall -g -std=gnu99 -I/usr/include/mysql
+CFLAGS=-Wextra -Wall -DGNU_SOURCE -g -std=gnu99 -I/usr/include/mysql
 LIBS=-lmysqlclient -lm -lcrypt
 OBJS=.objs/CGI_functions.o .objs/SQL_functions_v1.o
 

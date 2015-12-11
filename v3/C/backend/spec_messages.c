@@ -113,7 +113,7 @@ int main(int argc, char ** argv){
 					puts("<br><span style='color: white;'>Seite 1</span>\n");
 				}
 			}
-			for(int i=0; i<a_messages.cnt; i++){
+			for(size_t i=0; i < a_messages.cnt; i++){
 				person pers;
 				init_person(&pers);
 				pers.id=(a_messages.all_messages+i)->creator_id;
