@@ -121,7 +121,7 @@ int main(int argc, char ** argv){
 			puts("<div id='emailSettings'>");
 			printf("<span>%s</span>", check_person.email);
 			printf("<form action='https://%s/cgi-bin/settings.cgi?email_update=change' method='POST'>\n", datCGI.http_host);
-			printf("<input type='email' required=""  onblur='checkDatEmail(this);' name='new_email' id='email' value='%s' placeholder='%s E-Mail-Adresse'>\n", check_person.email, check_person.isTeacher ? "Ihre" : "Deine");
+			printf("<input type='email' required  onblur='main.chekExistingEmail(this);' name='new_email' id='email' value='%s' placeholder='%s E-Mail-Adresse'>\n", check_person.email, check_person.isTeacher ? "Ihre" : "Deine");
 			puts("<br><input id='btn_save_email' class='submitButton' type='submit' value='Speichern'>\n");
 			puts("</form>\n");
 
@@ -402,7 +402,7 @@ int main(int argc, char ** argv){
 			}
 		}
 
-		free(all_courses);
+		//free(all_courses);
     }else{
 		fprintf(stderr, "Person nicht angemeldet: email: %s, sid: %d", check_person.email, check_person.sid);
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
