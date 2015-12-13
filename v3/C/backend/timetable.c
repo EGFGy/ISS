@@ -121,10 +121,32 @@ int main(int argc, char ** argv){
 
 			//TODO free course set
 			free_course_set(&new_courses);
+			/**
+			Problem:
+			Lehrer wird nur einmal gespeichert
+			in der Schleife von 'free_course_set' wird der Lehrer einmal gelöscht.
+			Die Restlichen Pointer (in anderen Kursen) zeigen aber immer noch auf den jetzt gelöschten Lehrer.
+
+			Drei Leute Zeigen auf ein Haus. Das Haus wird gesprengt. (free_person)
+			Der erste sagt: "Das Haus ist weg" (NULL wird zugewiesen)
+			Die andern beiden sagen: "Da ist ein Haus" (die anderen Pointer, in den anderen Kursen bleiben unverändert)
+
+			Lösung #1:
+			Für jeden Kurs einzeln einen Lehrer anlegen
+			(--> braucht mehr Speicher)
+
+			Lösung #2:
+			Die Freigabe-Funktion muss prinzipiell anders aufgebaut werden und sich merken,
+			welche Pointer schon freigegeben wurden und welche nicht
+			(--> aufwändig, brauch mehr Zeit zum Implementieren)
+			*/
+
 			free_course_set(&new_alternate_courses);
 		}
 
-
+		/**
+		Vertretungsplan einbauen (--> Stundenplan wird abhängig von den alternativen Kursen (=Änderungen))
+		*/
 		for(size_t i=0; i<alternate_courses.number; i++){
 
 			#ifdef DEBUG
@@ -147,8 +169,10 @@ int main(int argc, char ** argv){
 						#ifdef DEBUG
 						fprintf(stderr, "	Alter Lehrer: %s\n", timetable.c_set[j].teacher->acronym);
 						#endif // DEBUG
-						free(timetable.c_set[j].teacher); timetable.c_set[j].teacher=NULL;
+						free_person(timetable.c_set[j].teacher); timetable.c_set[j].teacher=NULL;
 						timetable.c_set[j].teacher=calloc(1, sizeof(person));
+						init_person(timetable.c_set[j].teacher);
+
 						get_person_by_acronym(timetable.c_set[j].teacher, alternate_courses.c_set[i].alter_teacher_acronym);
 						#ifdef DEBUG
 						fprintf(stderr, "	Neuer Lehrer: %s\n", timetable.c_set[j].teacher->acronym);
