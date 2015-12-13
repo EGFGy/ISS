@@ -85,7 +85,7 @@ int main(int argc, char ** argv){
 		printf("<span>Seite %d</span>\n", no_older ? offset : offset+1);
 
 		/** Die einzelnen Meldungen der Reihe nach auflisten*/
-		for(int i=0; i<number; i++){
+		for(size_t i=0; i<all_messages.cnt; i++){
 			person pers;
 			init_person(&pers);
 			pers.id=(all_messages.all_messages+i)->creator_id; // TODO Check
