@@ -202,9 +202,9 @@ void free_course_set(course_set * c){
 		if(c->number > 0){
 			for(size_t i = 0; i < c->number; i++){
 				free_course((c->c_set+i));
-				free(c->c_set+i);
+				//free(c->c_set+i);
 			}
-			//free(c->c_set);
+			free(c->c_set);
 			c->c_set=NULL;
 		}else{
 			#ifdef DEBUG
@@ -1861,7 +1861,6 @@ int comma_to_array(char * comma_char, char *** str_array){
 		print_exit_failure("Programm falsch (comma_to_array)");
 	}
 	char * local_comma_char=NULL;
-	char * begin_local_comma_char=NULL;
 	asprintf(&local_comma_char, "%s", comma_char);
 
 	int j;

@@ -12,6 +12,26 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+person * duplicate_person(person * p){
+	person * return_p=calloc(1, sizeof(person));
+	if(return_p == NULL){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (duplicate_person)");
+	}
+	init_person(return_p);
+	if(p->acronym)return_p->acronym=strdup(p->acronym);
+	if(p->courses)return_p->courses=strdup(p->courses);
+	if(p->email)return_p->email=strdup(p->email);
+	if(p->first_name)return_p->first_name=strdup(p->first_name);
+	if(p->name)return_p->name=strdup(p->name);
+	if(p->password)return_p->password=strdup(p->password);
+	return_p->auth=p->auth;
+	return_p->id=p->id;
+	return_p->isTeacher=p->isTeacher;
+	return_p->sid=p->sid;
+
+	return return_p;
+}
+
 
 int main(int argc, char ** argv){
 	cgi datCGI;
@@ -83,8 +103,11 @@ int main(int argc, char ** argv){
 					if(success){
 						//new_courses.c_set[j].teacher=teach;
 						//person * p=new_courses.c_set[j].teacher;
-						new_courses.c_set[j].teacher=calloc(1, sizeof(person));
-						memcpy(new_courses.c_set[j].teacher, teach, sizeof(person));
+
+						new_courses.c_set[j].teacher=duplicate_person(teach);
+
+						//memcpy()
+						//memcpy(new_courses.c_set[j].teacher, teach, sizeof(person));
 					}else{
 						new_courses.c_set[j].teacher=NULL;
 					}
@@ -92,7 +115,10 @@ int main(int argc, char ** argv){
 				//Die neuen Kurse werden an den Stundenplan angehängt
 				memcpy((timetable.c_set+timetable.number), new_courses.c_set, sizeof(course)*new_courses.number);
 				//free(new_courses.c_set);
-				if(teach)free(teach);
+				if(teach){
+					free_person(teach);
+					free(teach);
+				}
 				timetable.number+=new_courses.number;
 			}
 
@@ -106,8 +132,9 @@ int main(int argc, char ** argv){
 
 				for(int j=new_alternate_courses.number; j--;){
 					if(success){
-						new_alternate_courses.c_set[j].teacher=calloc(1, sizeof(person));
-						memcpy(new_alternate_courses.c_set[j].teacher, teach, sizeof(person));
+						/*new_alternate_courses.c_set[j].teacher=calloc(1, sizeof(person));
+						memcpy(new_alternate_courses.c_set[j].teacher, teach, sizeof(person));*/
+						new_alternate_courses.c_set[j].teacher=duplicate_person(teach);
 					}else{
 						new_alternate_courses.c_set[j].teacher=NULL;
 					}
@@ -115,12 +142,15 @@ int main(int argc, char ** argv){
 				//Die neuen Kurse werden an die Liste der Vertretungsstunden angehängt
 				memcpy((alternate_courses.c_set+alternate_courses.number), new_alternate_courses.c_set, sizeof(course)*new_alternate_courses.number);
 				//free(new_alternate_courses.c_set);
-				if(teach)free(teach);
+				if(teach){
+					free_person(teach);
+					free(teach);
+				}
 				alternate_courses.number+=new_alternate_courses.number;
 			}
 
 			//TODO free course set
-			free_course_set(&new_courses);
+			//free_course_set(&new_courses);
 			/**
 			Problem:
 			Lehrer wird nur einmal gespeichert
@@ -141,7 +171,10 @@ int main(int argc, char ** argv){
 			(--> aufwändig, brauch mehr Zeit zum Implementieren)
 			*/
 
-			free_course_set(&new_alternate_courses);
+			//free_course_set(&new_alternate_courses);
+
+			free(new_alternate_courses.c_set); // Pointer löschen (Inhalt wurde vorher Kopiert und bleibt erhalten)
+			free(new_courses.c_set);
 		}
 
 		/**
@@ -166,10 +199,15 @@ int main(int argc, char ** argv){
 					timetable.c_set[j].status=alternate_courses.c_set[i].status;
 
 					if(alternate_courses.c_set[i].status & TEACHER){
+						//TODO: null teacher abfangen
+
 						#ifdef DEBUG
 						fprintf(stderr, "	Alter Lehrer: %s\n", timetable.c_set[j].teacher->acronym);
 						#endif // DEBUG
-						free_person(timetable.c_set[j].teacher); timetable.c_set[j].teacher=NULL;
+						free_person(timetable.c_set[j].teacher);
+						free(timetable.c_set[j].teacher);
+
+						timetable.c_set[j].teacher=NULL;
 						timetable.c_set[j].teacher=calloc(1, sizeof(person));
 						init_person(timetable.c_set[j].teacher);
 
@@ -183,7 +221,7 @@ int main(int argc, char ** argv){
 						fprintf(stderr, "	ROOM: %s --> %s, Kurs %s\n", timetable.c_set[j].room, alternate_courses.c_set[i].alter_room, alternate_courses.c_set[i].name);
 						#endif // DEBUG
 						if(timetable.c_set[j].room)free(timetable.c_set[j].room);
-						timetable.c_set[j].room=alternate_courses.c_set[i].alter_room;
+						timetable.c_set[j].room=strdup(alternate_courses.c_set[i].alter_room);
 
 
 						#ifdef DEBUG
