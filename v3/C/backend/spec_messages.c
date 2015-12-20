@@ -88,7 +88,7 @@ int main(int argc, char ** argv){
 				}else{
 					is_selected_course=false;
 				}
-				free(selected_course);
+
 			}
 			message_set a_messages;
 			init_message_set(&a_messages);
@@ -176,6 +176,7 @@ int main(int argc, char ** argv){
 			free(a_course[i]);
 			a_course[i]=NULL;
 		}
+		free(selected_course);
 	}else{
 		//printf("Erst anmelden!!");
 		char * redirectString=NULL;

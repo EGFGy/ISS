@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS `Meldungen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Meldungen` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `titel` varchar(120) DEFAULT NULL,
   `meldung` varchar(900) DEFAULT NULL,
   `kurse` varchar(200) DEFAULT NULL,
