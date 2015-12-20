@@ -7,6 +7,9 @@
 #include <ctype.h>
 #include <features.h>
 
+#include <sys/types.h>
+#include <regex.h>
+
 #include "CGI_functions.h"
 #include "urlcode.h"
 
@@ -75,7 +78,6 @@ void get_CGI_data(cgi * gotCGI){
 	if(strncmp(request_method, "POST", 4) != 0){
 	//TODO: FIX THIS !!!
 		if(strncmp(request_method, "GET", 3) == 0){
-			//TODO: Test this!
 			char * query_string=getenv("QUERY_STRING");
 			if(query_string == NULL){
 				//print_exit_failure("Holen der Environment-Varialbe \"QUERY_STRING\" fehlgeschlagen");
@@ -167,7 +169,6 @@ void get_CGI_data(cgi * gotCGI){
 						if(pch !=NULL) *pch=' ';
 					}
 
-					//TODO: Decodde HEX !!
 					gotCGI->query_string=calloc(strlen(query_string)+1, sizeof(char));
 					decodeHEX(query_string, gotCGI->query_string);
 
@@ -291,31 +292,59 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 		if(property == NULL || delim == NULL){
 			print_exit_failure("Eingabeparameter von extractCGIdata sind falsch");
 		}else{
-			char * prop=NULL;
+			//char * prop=NULL;
 			char * tempData=NULL;
 
 			//Den Namen, des Attributs kopieren und ein '=' anfügen
-			if(asprintf(&prop, "%s=", property) == -1){
+			/*if(asprintf(&prop, "%s=", property) == -1){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
-			}
+			}*/
 			if(asprintf(&tempData, "%s", data) == -1){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
 			}
 
-			char * start=NULL;
+			/*char * start=NULL;
 			char * tempData_copy=tempData;
 			start=strstr(tempData, prop); //Anfangspunkt der Suche festlegen
 			if(start == NULL){
 				//print_exit_failure("Fehler beim Suchen des Attributnamens");
 				return -1;
-			}
+			}*/
 			char * klaus=NULL;
 
-			//TODO: strtok verursacht memory-leak (andere Lösung finden!)
+			/*
+			// strtok verursacht memory-leak (andere Lösung finden!)
 			klaus=strtok(start, delim)+strlen(prop); //alles bis zum '&' ausschneiden
 			if(klaus == NULL){
 				print_exit_failure("Token nicht gefunden");
 			}
+			*/
+
+			regex_t reg;
+			char * reg_string=NULL;
+			asprintf(&reg_string, "(^|%s)%s=", delim, property);
+			regcomp(&reg, reg_string, REG_EXTENDED);
+
+			size_t str_len=strlen(tempData)+1;
+			regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
+			if(regexec(&reg, tempData, str_len, pmatch, 0) == 0){
+				fprintf(stderr, "prop '%s' gefunden!\nWert: %s\n", property, (tempData+pmatch->rm_eo));
+				char * end=strchr((tempData+pmatch->rm_eo), delim[0]);
+				if(!end)end=strchrnul((tempData+pmatch->rm_eo), '#'); // Anker war Teil der url --> am Ende --> Rest muss weg
+
+				size_t value_length=end - (tempData+pmatch->rm_eo);
+
+				//TODO abbruch bei Feheler!
+				*out=calloc(value_length+1, sizeof(char));
+				strncpy(*out, (tempData+pmatch->rm_eo), value_length);
+				fprintf(stderr, "out: %s\n", *out);
+				success=0;
+			}else{
+				success=-1;
+			}
+			free(pmatch);
+			free(reg_string);
+			regfree(&reg);
 
 			//Neue Zeile am Ende durch 0-Terminator ersetzen.
 			//das hier muss geändert werden!
@@ -325,18 +354,20 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 			//}
 
 			//*out=calloc(strlen(klaus)+1, sizeof(char)); //Für den Rückgabepointer (out) Speicher anfordern
-			if(asprintf(out, "%s", klaus) == -1/* *out == NULL*/){
+
+
+			/*if(asprintf(out, "%s", klaus) == -1){
 				print_exit_failure("Es konnte kein Speicher angefordert werden");
-			}
+			}*/
 			//strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
 
 
 
 			//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
 			//Speicher freigeben
-			free(prop);
-			free(tempData_copy);
-			success=0;
+			//free(prop);
+			free(tempData);
+			//success=0;
 		}
 	}
 	return success;
@@ -373,7 +404,7 @@ int extract_POST_data(cgi * cgi, const char * property, char ** out){
  *
  */
 int extract_COOKIE_data(cgi * cgi, const char * property, char ** out){
-	return _extractCGIdata(cgi->http_cookies, property, ";", out);
+	return _extractCGIdata(cgi->http_cookies, property, "; ", out);
 }
 
 int extract_QUERY_data(cgi * cgi, const char * property, char ** out){

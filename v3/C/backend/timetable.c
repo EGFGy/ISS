@@ -149,19 +149,17 @@ int main(int argc, char ** argv){
 				alternate_courses.number+=new_alternate_courses.number;
 			}
 
-			//TODO free course set
-			//free_course_set(&new_courses);
 			/**
 			Problem:
-			Lehrer wird nur einmal gespeichert
-			in der Schleife von 'free_course_set' wird der Lehrer einmal gelöscht.
+			Informationen des Lehrers werden nur einmal gespeichert
+			in der Schleife von 'free_course_set' wird der Inhalt des Lehrers einmal gelöscht.
 			Die Restlichen Pointer (in anderen Kursen) zeigen aber immer noch auf den jetzt gelöschten Lehrer.
 
 			Drei Leute Zeigen auf ein Haus. Das Haus wird gesprengt. (free_person)
 			Der erste sagt: "Das Haus ist weg" (NULL wird zugewiesen)
 			Die andern beiden sagen: "Da ist ein Haus" (die anderen Pointer, in den anderen Kursen bleiben unverändert)
 
-			Lösung #1:
+			Lösung #1: <-- diese wird verwendet
 			Für jeden Kurs einzeln einen Lehrer anlegen
 			(--> braucht mehr Speicher)
 

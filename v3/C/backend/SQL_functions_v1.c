@@ -196,7 +196,7 @@ void init_course_set(course_set * c){
 	c->number=0;
 }
 
-// TODO fix free_course_set
+
 void free_course_set(course_set * c){
 	if(c){
 		if(c->number > 0){
@@ -1786,7 +1786,7 @@ void clean_string(char * str){
 
 	while(regexec(&reg, str, str_len, pmatch, REG_NOTBOL) == 0){
 		int i=(int)pmatch->rm_so;
-		str[i]=' ';
+		if(pmatch->rm_so != pmatch->rm_eo && pmatch->rm_so < strlen(str))str[i]=' ';
 	}
 	free(pmatch);
 	regfree(&reg);

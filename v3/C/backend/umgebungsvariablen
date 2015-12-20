@@ -20,7 +20,12 @@ ODER
  
  
 -- Post-Data -- (je eins pro Zeile)
+
+# Für die Änderung einse Passwortes
  pass_old=WOW&pass_new_1=ROT&pass_new_2=ROT
  pass_old=ROT&pass_new_1=WOW&pass_new_2=WOW
+
+# Für das Erstellen einer Meldung
+ titel=Titel&meldung=Text&kurs=10bWR
  
 -- Post-Data ---
