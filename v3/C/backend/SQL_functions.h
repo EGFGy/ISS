@@ -135,7 +135,7 @@ bool get_person_by_id(person * pers);
 bool get_person_by_sid(person * pers);
 bool get_person_by_acronym(person * pers, char * acronym);
 bool insert_message(message * mes);
-size_t get_distinct_courses(course ** c);
+size_t get_distinct_courses(course_set * c);
 bool update_user_courses(person * pers);
 bool update_user_email(person * pers, char * new_email);
 bool update_user_password(person * pers);

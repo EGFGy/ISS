@@ -1357,7 +1357,7 @@ bool insert_message(message * mes){
  * \return size_t      Anzahl der Kurse (Größe des Arrays)
  *
  */
-size_t get_distinct_courses(course ** c){
+size_t get_distinct_courses(course_set * c){
 	//TODO: course_set
 	char * query=NULL;
 	MYSQL *my=NULL;
@@ -1388,14 +1388,15 @@ size_t get_distinct_courses(course ** c){
 
 		if(mysql_num_rows(result) > 0){
 			number=mysql_num_rows(result);
-			*c=calloc(number, sizeof(course));
+			c->c_set=calloc(number, sizeof(course));
 			MYSQL_ROW row;
 			size_t i=0;
 			while((row=mysql_fetch_row(result)) && i<number){
-				init_course((*c+i));
-				asprintf(&(*c+i)->name, "%s", row[0]);  //0, da nur eine Spalte erwartet wird (^ Siehe query)
+				init_course((c->c_set+i));
+				asprintf(&(c->c_set+i)->name, "%s", row[0]);  //0, da nur eine Spalte erwartet wird (^ Siehe query)
 				i++;
 			}
+			c->number=number;
 		}
 		mysql_free_result(result);
 	}

@@ -33,6 +33,8 @@ int main(int argc, char ** argv){
 
 	printf("Email war: '%s'\n", email);
 
+	free(email);
+	free_cgi(&thisCGI);
 	return 1;
 
 }

@@ -235,7 +235,6 @@ int main(int argc, char ** argv){
 			#endif // DEBUG
 		}
 
-
 		/*
 		puts("___________");
 		puts("C   T   R");
@@ -330,8 +329,6 @@ int main(int argc, char ** argv){
 
 		free_course_set(&timetable);
 		free_course_set(&alternate_courses);
-
-
     }else{
 		//printf("Erst anmelden!!");
 		char * redirectString=NULL;

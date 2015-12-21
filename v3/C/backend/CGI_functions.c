@@ -361,8 +361,6 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 			}*/
 			//strcpy(*out, klaus); //klaus in den Rückgabepointer kopieren
 
-
-
 			//fprintf(stderr, "\n\ninhalt:\nprop:%s\ntempdata: %s\nout: %s", prop, tempData, *out);
 			//Speicher freigeben
 			//free(prop);

@@ -32,7 +32,6 @@ int main(int argc, char ** argv){
 	check_person.sid=atoi(s_sid);
 	free(s_sid);
 
-
 	if(verify_sid(&check_person)){
 		get_person_by_sid(&check_person);
 		char ** a_course=NULL;
@@ -93,7 +92,6 @@ int main(int argc, char ** argv){
 			message_set a_messages;
 			init_message_set(&a_messages);
 			get_messages(&a_messages, is_selected_course ? offset :0, current_course);
-
 
 			bool no_older=false;
 			if(is_selected_course){
@@ -166,7 +164,6 @@ int main(int argc, char ** argv){
 
 		puts("<!-- WÖRKARAUND für js-onload -->\n\
 				<img src='/img/Arrow-Download-4-icon.png' style='display: none; width: 0px; heigth: 0px;' onload=\"document.getElementById('submit').disabled=true;\">");
-
 
 		puts("</div></div>");
 		puts("</body></html>");
