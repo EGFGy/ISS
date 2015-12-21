@@ -124,7 +124,7 @@ int main(int argc, char ** argv){
 		}
 		if(!no_older)printf("<a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/all_messages.cgi?offset=%d'>&Auml;ltere &#x2771;</a>", offset+1);
 		puts("</div><br>");
-		puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");
+		//puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");
 
 
 		puts("<!-- WÖRKARAUND für js-onload -->\n\

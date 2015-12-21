@@ -247,7 +247,7 @@ int main(int argc, char ** argv){
 								timetable_courses.c_set=(course *)realloc(timetable_courses.c_set, (current_course_set.number+oldsize)*sizeof(course));
 								memcpy((timetable_courses.c_set+oldsize), current_course_set.c_set, sizeof(course)*current_course_set.number);
 								//TODO: free_course_set
-								//free(current_course_set);
+								//free_course_set(&current_course_set);
 								oldsize+=current_course_set.number;
 							}
 
@@ -273,6 +273,8 @@ int main(int argc, char ** argv){
 								free_person(&possible_teacher);
 							}
 						}
+
+						free_course_set(&timetable_courses);
 
 						if(is_ok == NO_ERROR){
 							update_user_courses(&check_person);

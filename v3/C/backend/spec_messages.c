@@ -162,7 +162,7 @@ int main(int argc, char ** argv){
 		}
 
 		puts("</div>"); //zu Content
-		puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");
+		//puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");
 
 		puts("<!-- WÖRKARAUND für js-onload -->\n\
 				<img src='/img/Arrow-Download-4-icon.png' style='display: none; width: 0px; heigth: 0px;' onload=\"document.getElementById('submit').disabled=true;\">");
