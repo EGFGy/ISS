@@ -63,3 +63,5 @@ echo "vnstat"
 vnstat
 echo "</pre>"
 echo "</body></html>"
+
+echo "DEBUG executed" 1>&2

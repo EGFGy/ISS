@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="all_messages" />
+	<ActiveTarget name="settings" />
+	<File name="all_messages.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5924" topLine="122" />
+		</Cursor>
+	</File>
+	<File name="check_user_exist.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="654" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="SQL_functions.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4673" topLine="17" />
+		</Cursor>
+	</File>
 	<File name="register.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="863" topLine="25" />
+			<Cursor1 position="863" topLine="83" />
 		</Cursor>
 	</File>
-	<File name="post_message.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="CGI_functions.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="730" topLine="23" />
+			<Cursor1 position="298" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="login.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="settings.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="603" topLine="22" />
-		</Cursor>
-	</File>
-	<File name="check_user_exist.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="timetable.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7000" topLine="189" />
-		</Cursor>
-	</File>
-	<File name="SQL_functions_v1.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="47546" topLine="1813" />
+			<Cursor1 position="12276" topLine="228" />
 		</Cursor>
 	</File>
 	<File name="logout.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -36,34 +36,34 @@
 			<Cursor1 position="1424" topLine="31" />
 		</Cursor>
 	</File>
-	<File name="settings.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="CGI_functions.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11987" topLine="239" />
+			<Cursor1 position="9855" topLine="489" />
+		</Cursor>
+	</File>
+	<File name="login.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="603" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="post_message.c" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="730" topLine="23" />
 		</Cursor>
 	</File>
 	<File name="spec_messages.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2499" topLine="62" />
+			<Cursor1 position="872" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="SQL_functions.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="timetable.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="920" topLine="21" />
+			<Cursor1 position="11530" topLine="318" />
 		</Cursor>
 	</File>
-	<File name="all_messages.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="SQL_functions_v1.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5924" topLine="124" />
-		</Cursor>
-	</File>
-	<File name="CGI_functions.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="298" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="CGI_functions.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="8246" topLine="275" />
+			<Cursor1 position="35900" topLine="1383" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
