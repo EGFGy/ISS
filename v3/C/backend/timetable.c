@@ -297,7 +297,7 @@ int main(int argc, char ** argv){
 					fprintf(stderr, "PLAN: T='%s' N='%s' R='%s' A='%s'\n", time_string, c->name, c->room, t ? t->acronym : "NOPE");
 					#endif // DEBUG
 
-					printf("<a href='/cgi-bin/spec_messages.cgi#%s'>", c->name);
+					printf("<a href='/cgi-bin/spec_messages.cgi?course=%s#button_%s'>", c->name, c->name);
 					printf(" %s<table class='sub-table'>\n <tr class='%s'> \n", c->status==OMITTED ? "<s style='color: black;'>":"" , css_class);
 					printf("<td class='sub-field'>%s</td> <td class='sub-field'>%s</td> <td class='sub-field'>%s</td>",
 								c->name, c->room , c->teacher ? c->teacher->acronym : "---");
