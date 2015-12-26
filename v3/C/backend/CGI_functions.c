@@ -325,6 +325,7 @@ int _extractCGIdata(char * data, const char * property, char * delim, char ** ou
 			asprintf(&reg_string, "(^|%s)%s=", delim, property);
 			regcomp(&reg, reg_string, REG_EXTENDED);
 
+			//TODO: error safe!
 			size_t str_len=strlen(tempData)+1;
 			regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 			if(regexec(&reg, tempData, str_len, pmatch, 0) == 0){

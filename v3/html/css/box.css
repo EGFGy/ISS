@@ -119,3 +119,8 @@
 
 
 
+.course-tab{
+	border: 1px solid;
+	width: 70px;
+	text-align: center;
+}

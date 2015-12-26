@@ -9,6 +9,9 @@
 #include "CGI_functions.h"
 #include "SQL_functions.h"
 
+//#define COURSE_BOXES
+#define SCROLL_MENU
+
 int main(int argc, char ** argv){
 	cgi datCGI;
 	init_CGI(&datCGI);
@@ -62,7 +65,11 @@ int main(int argc, char ** argv){
 			puts("<label style='font-weight: bold;' for='grade'>Kurs</label><br>\n\
 				<select name ='kurs'>");
 			for(int i=0; i<number_of_courses; i++){
-				printf("<option value='%s'>%s</option>", *(a_course+i), *(a_course+i));
+				bool this_course=false;
+				if(selected_course){
+					if(strcmp(selected_course, *(a_course+i)) == 0)this_course=true;
+				}
+				printf("<option value='%s' %s>%s</option>", *(a_course+i), this_course ? "selected" : "", *(a_course+i));
 			}
 			puts("</select>");
 
@@ -73,6 +80,88 @@ int main(int argc, char ** argv){
 
 		//char * a_course=NULL;
 
+		#ifdef SCROLL_MENU
+
+		// Menü
+		puts("<div class='pure-menu pure-menu-horizontal pure-menu-scrollable'><ul class='pure-menu-list'>");
+		for(int j=0; j<number_of_courses; j++){
+			bool this_course=false;
+			if(selected_course){
+				if(strcmp(selected_course, *(a_course+j)) == 0)this_course=true;
+			}
+			printf("<li id='button_%s' class='pure-menu-item course-tab %s'><a href='/cgi-bin/spec_messages.cgi?course=%s#button_%s' class='pure-menu-link'>%s</a></li>",
+					*(a_course+j), this_course ? "pure-menu-selected" : "", *(a_course+j), *(a_course+j), *(a_course+j));
+		}
+		puts("</ul></div>");
+
+
+		if(selected_course){
+			// Nur wenn ein Kurs ausgewählt wurde etwas anzeigen
+			char * current_course=selected_course;
+			message_set a_messages;
+			init_message_set(&a_messages);
+
+			get_messages(&a_messages, offset, current_course);
+
+			bool no_older=false;
+			if(a_messages.cnt==0 && offset!=0){
+				get_messages(&a_messages, offset-1, current_course);
+				no_older=true;
+			}
+
+			// Kurs-Box drucken (HTML-Anzeige)
+			puts("<div class='courseBox'>");
+			printf("<span id='%s' style='font-weight: bold; color: white;'>%s</span>\n", current_course, current_course);
+			if(a_messages.cnt>0){
+				printf("<br><span style='color: white;'>Seite %d</span>\n", no_older ? offset : offset+1);
+
+			}
+			for(size_t i=0; i < a_messages.cnt; i++){
+				person pers;
+				init_person(&pers);
+				pers.id=(a_messages.all_messages+i)->creator_id;
+
+				puts("<div class='messageBox'>");
+				printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (a_messages.all_messages+i)->title, (a_messages.all_messages+i)->message);
+				if(get_person_by_id(&pers)){
+					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (a_messages.all_messages+i)->s_created, pers.first_name, pers.name );
+				}else{
+					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von <span style='color: red;'>gel&ouml;schtem Benutzer</span> erstellt</h3>", (a_messages.all_messages+i)->s_created);
+				}
+
+				//TODO: Button soll zur ganzen Meldung führen
+				puts("<button style='border: 2px solid; border-radius: 2em; background-color: lightblue;'>MEHR</button>");
+				puts("</div>"); //zu messageBox
+				free_person(&pers);
+			}
+
+			if(no_older){
+				puts("<div class='messageBox warningBox'><em>Keine &auml;lteren Meldungen!</em></div>");
+				//offset--; //Damit man mit den Knöpfen nicht weiter schalten kann
+			}
+
+			puts("<div style='text-align: center;'>");
+			if(a_messages.cnt>0){
+				if(offset>0){
+					printf("<a class='pure-menu-link' style='display: inline; color: white;' href='/cgi-bin/spec_messages.cgi?offset=%d&course=%s#button_%s'>&#x2770; Neuere</a>", offset-1, current_course, current_course);
+					printf("<a class='pure-menu-link' style='display: inline; color: white;' href='/cgi-bin/spec_messages.cgi?course=%s#button_%s'>Neueste &#x21ef;</a>", current_course, current_course);
+				}
+				if(!no_older)printf("<a class='pure-menu-link' style='display: inline; color: white;' href='/cgi-bin/spec_messages.cgi?offset=%d&course=%s#button_%s'>&Auml;ltere &#x2771;</a>", offset+1, current_course, current_course);
+			}
+			puts("</div><br>"); //zu vor-zurück
+			puts("</div>"); //zu courseBox
+
+			free_message_set(&a_messages);
+		}
+
+		#endif // SCROLL_MENU
+
+
+
+
+
+
+		#ifdef COURSE_BOXES
 		for(int j=0; j<number_of_courses; j++){
 			//Parameter aus QueryString extrahieren
 
@@ -158,6 +247,7 @@ int main(int argc, char ** argv){
 
 			free_message_set(&a_messages);
 		}
+		#endif  //COURSE_BOXES
 
 		puts("</div>"); //zu Content
 		//puts("<br><a style='width: 8em; color: black;' class='pure-menu-link' href='https://icons8.com/'>Quelle der Icons</a>");

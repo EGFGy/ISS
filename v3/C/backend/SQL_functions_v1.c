@@ -1799,7 +1799,7 @@ bool course_regex_search(course * c, char * all_courses){
 	asprintf(&reg_string, "(,| |^)%s(,|$)", c->name);
 	bool match=false;
 
-	int test=regcomp(&reg, reg_string, REG_EXTENDED);
+	regcomp(&reg, reg_string, REG_EXTENDED);
 
 	size_t str_len=strlen(all_courses)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
