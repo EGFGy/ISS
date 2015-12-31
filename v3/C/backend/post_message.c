@@ -61,7 +61,13 @@ int main(int argc, char ** argv){
 		char * redirectString=NULL;
 
 		//Abhängig von der art der Nachricht wieder auf die entsprechende Seite umleiten (spec_/all_ messages)
-		asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi" );
+		//asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi",  );
+		if(strncmp(mes.courses, "all", 3) == 0){
+			asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
+		}else{
+			asprintf(&redirectString, "https://%s/cgi-bin/spec_messages.cgi?course=%s#button_%s", datCGI.http_host, mes.courses, mes.courses);
+		}
+
 		httpRedirect(redirectString);
 		free(redirectString);
 
