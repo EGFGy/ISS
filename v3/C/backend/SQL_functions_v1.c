@@ -92,6 +92,12 @@ void free_person(person * p){
 	}
 }
 
+/** \brief Eine Nachricht initialisieren
+ *
+ * \param mes message* zu initialisierende Nachricht
+ * \return void
+ *
+ */
 void init_message(message * mes){
 	mes->courses=NULL;
 	mes->created=NULL;
@@ -102,6 +108,12 @@ void init_message(message * mes){
 	mes->s_created=NULL;
 }
 
+/** \brief Eine Nachricht löschen (alle Stirngs)
+ *
+ * \param mes message* zu löschende Nachricht
+ * \return void
+ *
+ */
 void free_message(message * mes){
 	if(mes->courses){
 		free(mes->courses);
@@ -122,11 +134,24 @@ void free_message(message * mes){
 	mes->creator_id=0;
 	mes->id=0;
 }
+
+/** \brief Ein message_set initialisieren
+ *
+ * \param m message_set* zu initialisierendes message_set
+ * \return void
+ *
+ */
 void init_message_set(message_set * m){
 	m->all_messages=NULL;
 	m->cnt=0;
 }
 
+/** \brief Ein message_set löschen (alle Nachrichten und deren Strings)
+ *
+ * \param m message_set* zu löschendes message_set
+ * \return void
+ *
+ */
 void free_message_set(message_set * m){
 	if(m){
 		if(m->cnt > 0 && m->all_messages){
@@ -139,6 +164,12 @@ void free_message_set(message_set * m){
 	}
 }
 
+/** \brief Einen Kurs initialisieren
+ *
+ * \param c course*  zu initialisierender Kurs
+ * \return void
+ *
+ */
 void init_course(course * c){
 	c->id=0;
 	c->name=NULL;
@@ -153,6 +184,12 @@ void init_course(course * c){
 	c->status=UNCHANGED;
 }
 
+/** \brief Einen Kurs löschen (ALLES: alle Strings und die Person)
+ *
+ * \param c course*  zu löschender Kurs
+ * \return void
+ *
+ */
 void free_course(course * c){
 	if(c->alter_room){
 		free(c->alter_room);
@@ -191,12 +228,24 @@ void free_course(course * c){
 	c->status=0;
 }
 
+/** \brief Ein course_set initialisieren
+ *
+ * \param c course_set*  zu initialisierendes course_set
+ * \return void
+ *
+ */
 void init_course_set(course_set * c){
 	c->c_set=NULL;
 	c->number=0;
 }
 
 
+/** \brief Das course_set löschen (ALLES: alle Strings in den Kursen, die Personen der Kurse)
+ *         ACHTUNG: in mehreren Kursen darf es keine ointer geben die auf nur eine Person zeigen
+ * \param c course_set*  course_set dessen Inhalt gelöscht werden soll
+ * \return void
+ *
+ */
 void free_course_set(course_set * c){
 	if(c){
 		if(c->number > 0){
@@ -1351,14 +1400,14 @@ bool insert_message(message * mes){
 	return success;
 }
 
-/** \brief	Alle verfügbaren Kurse in alphabetischer Reihenfolge in dass Array "c" speichern
+/** \brief Alle verfügbaren Kurse in alphabetischer Reihenfolge in einem course_set speichern
+ *         (jeweils nur ein Kurs, ohne daten, nur der Name)
  *
- * \param c course**   Array, in dem die Kurse abgelegt werden (muss vorher NULL sein)
- * \return size_t      Anzahl der Kurse (Größe des Arrays)
+ * \param c course_set*  leeres course_set
+ * \return size_t        Anzahl der geholten Kurse
  *
  */
 size_t get_distinct_courses(course_set * c){
-	//TODO: course_set
 	char * query=NULL;
 	MYSQL *my=NULL;
 	size_t number=0;
@@ -1555,11 +1604,11 @@ bool update_user_password(person * pers){
 	return success;
 }
 
-/** \brief Alle Vorkommen + Daten (Zeiten, Räume IDs) eines Kurses holen
+/** \brief Alle Stunden eines Kurses holen
  *
- * \param this_course char*  String mit Name des Kurses (Kursbezeichnung)
- * \param c_arr course**     Array in dem die Kurse mit allen Daten gespeichert werden
- * \return size_t            Anzahl der Kurse in c_arr, 0: wenn der Kurs nicht gefunden wurde
+ * \param this_course char*  String mit Name des Kurses
+ * \param c_arr course_set*  leeres course_set in dem die Stunden gespeichert werden
+ * \return bool              true: Erfolg; false. Fehler
  *
  */
 bool get_course(char * this_course, course_set * c_arr){
@@ -1619,6 +1668,13 @@ bool get_course(char * this_course, course_set * c_arr){
 	return success;
 }
 
+/** \brief Die Vertretungsstunden zu einem bestimmten Kurs aus der Datenbank abrufen
+ *
+ * \param this_course char*   String mit Name des Kurses, dessen Vertretungsstunden geholt werde sollen
+ * \param c_arr course_set*   leeres course_set in dem die Stunden gespeichert werden
+ * \return bool               true: Erfolg; false. Fehler
+ *
+ */
 bool get_alter_course(char * this_course, course_set * c_arr){
 	bool success=false;
 	size_t number=0;
@@ -1684,6 +1740,8 @@ bool get_alter_course(char * this_course, course_set * c_arr){
 				i++;
 			}
 			c_arr->number=number;
+			success=true; // vorher false, warum, keine Ahnung.
+		}else{
 			success=false;
 		}
 		mysql_free_result(result);
