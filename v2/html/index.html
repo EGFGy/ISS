@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+	<title>InfoWall -- Anmeldung</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="/css/forms.css" />
+	<link rel="shortcut icon" href="/favicon.png" />
+</head>
+
+<body>
+	<div id="login-form">
+	<form  method="post" action="/cgi-bin/login.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
+		<p>Melden Sie sich mit Ihrer E-Mail oder Ihrem Kürzel und Passwort an.</p>
+		<input class="textIn" placeholder="E-mail oder K&uuml;rzel" type="text" id="name" name="email" mozactionhint="next" required>
+		<br>
+		<input class="textIn" placeholder="Passwort" type="password" id="pass" name="pass" required>
+		<br>
+		<!-- <a href="/vergessen.html" style="display: inline-block;">Kennwort vergessen?</a> -->
+		<button class="submitButton" type="submit">Anmelden*</button>
+	</form>
+	<small>* Cookies müssen aktiviert sein!</small>
+	<br>
+	Sind Sie schon registriert?
+	<br><br>
+	<a href="/registrierung.html" class="gradient-button">Registrieren!</a>
+	</div>
+</body>
+</html>

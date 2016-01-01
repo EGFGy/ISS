@@ -1,0 +1,1215 @@
+==4040== Memcheck, a memory error detector
+==4040== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==4040== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==4040== Command: ./timetable.cgi
+==4040== 
+strlen() der cookies: 18
+sid gefunden
+uid gefunden
+==4040== Invalid read of size 8
+==4040==    at 0x4035AC: free_course (SQL_functions_v1.c:157)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ac8 is 136 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035D5: free_course (SQL_functions_v1.c:161)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ad0 is 144 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035FE: free_course (SQL_functions_v1.c:165)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ab8 is 120 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403627: free_course (SQL_functions_v1.c:169)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803a98 is 88 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403634: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803a98 is 88 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x403644: free_course (SQL_functions_v1.c:171)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803a98 is 88 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403650: free_course (SQL_functions_v1.c:173)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ac0 is 128 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403679: free_course (SQL_functions_v1.c:177)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa8 is 104 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403686: free_course (SQL_functions_v1.c:178)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa8 is 104 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x403696: free_course (SQL_functions_v1.c:179)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa8 is 104 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036A2: free_course (SQL_functions_v1.c:181)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ab0 is 112 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036AF: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ab0 is 112 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40322F: free_person (SQL_functions_v1.c:61)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6811340 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40322F: free_person (SQL_functions_v1.c:61)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x403258: free_person (SQL_functions_v1.c:65)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6811440 is 0 bytes inside a block of size 94 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x403258: free_person (SQL_functions_v1.c:65)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4032AA: free_person (SQL_functions_v1.c:73)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6811240 is 0 bytes inside a block of size 9 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4032AA: free_person (SQL_functions_v1.c:73)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4032D3: free_person (SQL_functions_v1.c:77)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6811140 is 0 bytes inside a block of size 13 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4032D3: free_person (SQL_functions_v1.c:77)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036BF: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ab0 is 112 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4036CF: free_course (SQL_functions_v1.c:184)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ab0 is 112 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036DB: free_course (SQL_functions_v1.c:186)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa0 is 96 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036E8: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa0 is 96 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4036F8: free_course (SQL_functions_v1.c:188)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803aa0 is 96 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x403704: free_course (SQL_functions_v1.c:190)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803a90 is 80 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x40370E: free_course (SQL_functions_v1.c:191)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803ad8 is 152 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040==  Address 0x6803a90 is 80 bytes inside a block of size 160 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+Ein 'course_set' mit 0 einträgen sollte gelöscht werden
+==4040== Invalid read of size 1
+==4040==    at 0x58F9E2C: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FAB60: buffered_vfprintf (vfprintf.c:2348)
+==4040==    by 0x58F53DD: vfprintf (vfprintf.c:1296)
+==4040==    by 0x58FFD46: fprintf (fprintf.c:32)
+==4040==    by 0x401AC0: main (timetable.c:140)
+==4040==  Address 0x67f6940 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5925290: _IO_default_xsputn (genops.c:475)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FAB60: buffered_vfprintf (vfprintf.c:2348)
+==4040==    by 0x58F53DD: vfprintf (vfprintf.c:1296)
+==4040==    by 0x58FFD46: fprintf (fprintf.c:32)
+==4040==    by 0x401AC0: main (timetable.c:140)
+==4040==  Address 0x67f6940 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x592529E: _IO_default_xsputn (genops.c:474)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FAB60: buffered_vfprintf (vfprintf.c:2348)
+==4040==    by 0x58F53DD: vfprintf (vfprintf.c:1296)
+==4040==    by 0x58FFD46: fprintf (fprintf.c:32)
+==4040==    by 0x401AC0: main (timetable.c:140)
+==4040==  Address 0x67f6942 is 2 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+alternate_course 0 '10bWR'
+==4040== Invalid read of size 1
+==4040==    at 0x593F450: __strcmp_sse2_unaligned (strcmp-sse2-unaligned.S:22)
+==4040==    by 0x401B18: main (timetable.c:144)
+==4040==  Address 0x67f6940 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1D3: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B18: main (timetable.c:144)
+==4040==  Address 0x6803bd0 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1E8: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B18: main (timetable.c:144)
+==4040==  Address 0x67f6941 is 1 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1EB: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B18: main (timetable.c:144)
+==4040==  Address 0x6803bd1 is 1 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x593F450: __strcmp_sse2_unaligned (strcmp-sse2-unaligned.S:22)
+==4040==    by 0x401B69: main (timetable.c:145)
+==4040==  Address 0x67f6a40 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1D3: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B69: main (timetable.c:145)
+==4040==  Address 0x6803cd0 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1E8: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B69: main (timetable.c:145)
+==4040==  Address 0x67f6a41 is 1 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1EB: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x401B69: main (timetable.c:145)
+==4040==  Address 0x6803cd1 is 1 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+Änderung von 10bWR
+==4040== Invalid read of size 8
+==4040==    at 0x401C4B: main (timetable.c:155)
+==4040==  Address 0x6811598 is 40 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+	Alter Lehrer: (null)
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x401C8F: main (timetable.c:157)
+==4040==  Address 0x6811570 is 0 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x58F9E2C: vfprintf (vfprintf.c:1642)
+==4040==    by 0x5921182: vasprintf (vasprintf.c:62)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x405896: get_person_by_acronym (SQL_functions_v1.c:1227)
+==4040==    by 0x401D2E: main (timetable.c:159)
+==4040==  Address 0x67f6b40 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035ED: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5925290: _IO_default_xsputn (genops.c:475)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x5921182: vasprintf (vasprintf.c:62)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x405896: get_person_by_acronym (SQL_functions_v1.c:1227)
+==4040==    by 0x401D2E: main (timetable.c:159)
+==4040==  Address 0x67f6b40 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035ED: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x592529E: _IO_default_xsputn (genops.c:474)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x5921182: vasprintf (vasprintf.c:62)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x405896: get_person_by_acronym (SQL_functions_v1.c:1227)
+==4040==    by 0x401D2E: main (timetable.c:159)
+==4040==  Address 0x67f6b42 is 2 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035ED: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+uid gefunden
+	Neuer Lehrer: OTZ
+	ROOM: (null) --> B203, Kurs 10bWR
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x401E5E: main (timetable.c:168)
+==4040==  Address 0x6803dd0 is 0 bytes inside a block of size 7 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x403691: free_course (SQL_functions_v1.c:178)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+	ROOM: B203 bei 10bWR Jetzt
+alternate_course 1 '10bM'
+Änderung von 10bM
+	ROOM: (null) --> B203, Kurs 10bM
+	ROOM: B203 bei 10bM Jetzt
+alternate_course 2 '10bINF'
+Änderung von 10bINF
+	ROOM: (null) --> B203, Kurs 10bINF
+	ROOM: B203 bei 10bINF Jetzt
+alternate_course 3 '10bGEO'
+Änderung von 10bGEO
+	ROOM: (null) --> B203, Kurs 10bGEO
+	ROOM: B203 bei 10bGEO Jetzt
+alternate_course 4 '10bG'
+alternate_course 5 '10bD'
+Änderung von 10bD
+	Alter Lehrer: (null)
+uid gefunden
+	Neuer Lehrer: LUA
+	ROOM: (null) --> B203, Kurs 10bD
+	ROOM: B203 bei 10bD Jetzt
+==4040== Invalid read of size 1
+==4040==    at 0x593F450: __strcmp_sse2_unaligned (strcmp-sse2-unaligned.S:22)
+==4040==    by 0x40212D: main (timetable.c:231)
+==4040==  Address 0x6a4a720 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x4C2D1E8: strcmp (vg_replace_strmem.c:755)
+==4040==    by 0x40212D: main (timetable.c:231)
+==4040==  Address 0x6a17001 is 1 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4021DF: main (timetable.c:245)
+==4040==  Address 0x68b6fc8 is 40 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+PLAN: T='Mo1' N='10bM' R='B203' A='(null)'
+==4040== Invalid read of size 1
+==4040==    at 0x58F9E2C: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x402239: main (timetable.c:248)
+==4040==  Address 0x68a9380 is 0 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5923A09: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1294)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x402239: main (timetable.c:248)
+==4040==  Address 0x68a9383 is 3 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5923A1C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1294)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x402239: main (timetable.c:248)
+==4040==  Address 0x68a9382 is 2 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 4
+==4040==    at 0x59347EE: __GI_mempcpy (memcpy.S:95)
+==4040==    by 0x5923956: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1312)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x402239: main (timetable.c:248)
+==4040==  Address 0x68a9380 is 0 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x402280: main (timetable.c:250)
+==4040==  Address 0x68b6fc8 is 40 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x58F9E2C: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x4022AC: main (timetable.c:250)
+==4040==  Address 0x68a9380 is 0 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5923A09: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1294)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x4022AC: main (timetable.c:250)
+==4040==  Address 0x68a9383 is 3 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 1
+==4040==    at 0x5923A1C: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1294)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x4022AC: main (timetable.c:250)
+==4040==  Address 0x68a9382 is 2 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+PLAN: T='Di1' N='10bPH' R='(null)' A='(null)'
+==4040== Invalid read of size 1
+==4040==    at 0x59347CB: __GI_mempcpy (memcpy.S:71)
+==4040==    by 0x5923956: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1312)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x402239: main (timetable.c:248)
+==4040==  Address 0x685be90 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 2
+==4040==    at 0x59347DB: __GI_mempcpy (memcpy.S:83)
+==4040==    by 0x5923956: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1312)
+==4040==    by 0x58F9DE6: vfprintf (vfprintf.c:1642)
+==4040==    by 0x58FFDE8: printf (printf.c:33)
+==4040==    by 0x4022AC: main (timetable.c:250)
+==4040==  Address 0x685c090 is 0 bytes inside a block of size 7 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x403691: free_course (SQL_functions_v1.c:178)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+PLAN: T='Mi1' N='10bF' R='(null)' A='(null)'
+PLAN: T='Do1' N='10bD' R='B203' A='LUA'
+PLAN: T='Fr1' N='10bGEO' R='B203' A='(null)'
+PLAN: T='Mo2' N='10bM' R='(null)' A='(null)'
+PLAN: T='Di2' N='10bPH' R='(null)' A='(null)'
+PLAN: T='Mi2' N='10bF' R='(null)' A='(null)'
+PLAN: T='Do2' N='10bD' R='(null)' A='(null)'
+PLAN: T='Fr2' N='10bGEO' R='(null)' A='(null)'
+PLAN: T='Mo3' N='10bD' R='(null)' A='(null)'
+PLAN: T='Di3' N='10bKu' R='(null)' A='(null)'
+PLAN: T='Mi3' N='10bE' R='(null)' A='(null)'
+PLAN: T='Do3' N='10bC' R='(null)' A='(null)'
+PLAN: T='Fr3' N='10bWR' R='B203' A='OTZ'
+PLAN: T='Mo4' N='10bD' R='(null)' A='(null)'
+PLAN: T='Di4' N='10bKu' R='(null)' A='(null)'
+PLAN: T='Mi4' N='10bE' R='(null)' A='(null)'
+PLAN: T='Do4' N='10bC' R='(null)' A='(null)'
+PLAN: T='Fr4' N='10bWR' R='(null)' A='(null)'
+PLAN: T='Mo5' N='10bE' R='(null)' A='(null)'
+PLAN: T='Di5' N='10bF' R='(null)' A='(null)'
+PLAN: T='Mi5' N='10bEth' R='(null)' A='(null)'
+PLAN: T='Do5' N='10bINF' R='(null)' A='(null)'
+PLAN: T='Mo6' N='10bE' R='(null)' A='(null)'
+PLAN: T='Di6' N='10bF' R='(null)' A='(null)'
+PLAN: T='Mi6' N='10bEth' R='(null)' A='(null)'
+PLAN: T='Do6' N='10bINF' R='B203' A='(null)'
+PLAN: T='Mo7' N='10bMu' R='(null)' A='(null)'
+PLAN: T='Do7' N='10bG' R='(null)' A='(null)'
+PLAN: T='Mo8' N='10bMu' R='(null)' A='(null)'
+PLAN: T='Mi8' N='10bSM' R='(null)' A='(null)'
+PLAN: T='Do8' N='10bG' R='(null)' A='(null)'
+PLAN: T='Mi9' N='10bSM' R='(null)' A='(null)'
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6803bd0 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x403691: free_course (SQL_functions_v1.c:178)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x67f6c40 is 0 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035C4: free_course (SQL_functions_v1.c:158)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6803cd0 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036F3: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035AC: free_course (SQL_functions_v1.c:157)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8f8 is 136 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035D5: free_course (SQL_functions_v1.c:161)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a900 is 144 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035FE: free_course (SQL_functions_v1.c:165)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8e8 is 120 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403627: free_course (SQL_functions_v1.c:169)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8c8 is 88 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403634: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8c8 is 88 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x403644: free_course (SQL_functions_v1.c:171)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8c8 is 88 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403650: free_course (SQL_functions_v1.c:173)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8f0 is 128 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403679: free_course (SQL_functions_v1.c:177)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d8 is 104 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403686: free_course (SQL_functions_v1.c:178)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d8 is 104 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x403696: free_course (SQL_functions_v1.c:179)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d8 is 104 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036A2: free_course (SQL_functions_v1.c:181)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8e0 is 112 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036AF: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8e0 is 112 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403217: free_person (SQL_functions_v1.c:60)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811508 is 40 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403240: free_person (SQL_functions_v1.c:64)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811500 is 32 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403269: free_person (SQL_functions_v1.c:68)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811510 is 48 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403292: free_person (SQL_functions_v1.c:72)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x68114e8 is 8 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4032BB: free_person (SQL_functions_v1.c:76)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x68114f0 is 16 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4032E4: free_person (SQL_functions_v1.c:80)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811518 is 56 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x40330D: free_person (SQL_functions_v1.c:84)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x68114f8 is 24 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 1
+==4040==    at 0x403336: free_person (SQL_functions_v1.c:88)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811520 is 64 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x40333E: free_person (SQL_functions_v1.c:89)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x68114e0 is 0 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 1
+==4040==    at 0x403348: free_person (SQL_functions_v1.c:90)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811528 is 72 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x403350: free_person (SQL_functions_v1.c:91)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6811524 is 68 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036BF: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8e0 is 112 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x68114e0 is 0 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A51: main (timetable.c:130)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4036CF: free_course (SQL_functions_v1.c:184)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8e0 is 112 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036DB: free_course (SQL_functions_v1.c:186)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d0 is 96 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4036E8: free_course (SQL_functions_v1.c:187)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d0 is 96 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4036F8: free_course (SQL_functions_v1.c:188)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8d0 is 96 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x403704: free_course (SQL_functions_v1.c:190)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8c0 is 80 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid write of size 4
+==4040==    at 0x40370E: free_course (SQL_functions_v1.c:191)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a908 is 152 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040==  Address 0x6a4a8c0 is 80 bytes inside a block of size 2,720 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023C4: main (timetable.c:278)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035C4: free_course (SQL_functions_v1.c:158)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x67f6c40 is 0 bytes inside a block of size 5 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035C4: free_course (SQL_functions_v1.c:158)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035ED: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x67f6b40 is 0 bytes inside a block of size 4 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4035ED: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid free() / delete / delete[] / realloc()
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x67f6940 is 0 bytes inside a block of size 6 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x40363F: free_course (SQL_functions_v1.c:170)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403217: free_person (SQL_functions_v1.c:60)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e998 is 40 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403240: free_person (SQL_functions_v1.c:64)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e990 is 32 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403269: free_person (SQL_functions_v1.c:68)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e9a0 is 48 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x403292: free_person (SQL_functions_v1.c:72)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e978 is 8 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4032BB: free_person (SQL_functions_v1.c:76)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e980 is 16 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4032E4: free_person (SQL_functions_v1.c:80)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e9a8 is 56 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x40330D: free_person (SQL_functions_v1.c:84)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e988 is 24 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== Invalid write of size 1
+==4040==    at 0x403336: free_person (SQL_functions_v1.c:88)
+==4040==    by 0x4036BA: free_course (SQL_functions_v1.c:182)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x681e9b0 is 64 bytes inside a block of size 80 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4036CA: free_course (SQL_functions_v1.c:183)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x401A65: main (timetable.c:131)
+==4040== 
+==4040== 
+==4040== More than 100 errors detected.  Subsequent errors
+==4040== will still be recorded, but in less detail than before.
+==4040== Invalid read of size 8
+==4040==    at 0x4035B9: free_course (SQL_functions_v1.c:158)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x6a25138 is 136 bytes inside a block of size 480 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4035C9: free_course (SQL_functions_v1.c:159)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x6a25138 is 136 bytes inside a block of size 480 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040== 
+==4040== Invalid read of size 8
+==4040==    at 0x4035E2: free_course (SQL_functions_v1.c:162)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x6a25280 is 464 bytes inside a block of size 480 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040== 
+==4040== Invalid write of size 8
+==4040==    at 0x4035F2: free_course (SQL_functions_v1.c:163)
+==4040==    by 0x403789: free_course_set (SQL_functions_v1.c:204)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040==  Address 0x6a25280 is 464 bytes inside a block of size 480 free'd
+==4040==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==4040==    by 0x4037AD: free_course_set (SQL_functions_v1.c:205)
+==4040==    by 0x4023D8: main (timetable.c:279)
+==4040== 
+==4040== 
+==4040== HEAP SUMMARY:
+==4040==     in use at exit: 74,325 bytes in 38 blocks
+==4040==   total heap usage: 1,638 allocs, 1,904 frees, 2,774,756 bytes allocated
+==4040== 
+==4040== 24 bytes in 1 blocks are still reachable in loss record 1 of 9
+==4040==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==4040==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E871B9: my_error_register (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E656DC: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x404E23: verify_sid (SQL_functions_v1.c:946)
+==4040==    by 0x4015C7: main (timetable.c:41)
+==4040== 
+==4040== 81 bytes in 14 blocks are still reachable in loss record 2 of 9
+==4040==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==4040==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x40715B: comma_to_array (SQL_functions_v1.c:1884)
+==4040==    by 0x401602: main (timetable.c:46)
+==4040== 
+==4040== 94 bytes in 1 blocks are possibly lost in loss record 3 of 9
+==4040==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==4040==    by 0x59211BA: vasprintf (vasprintf.c:84)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x4070DC: comma_to_array (SQL_functions_v1.c:1877)
+==4040==    by 0x401602: main (timetable.c:46)
+==4040== 
+==4040== 94 bytes in 1 blocks are definitely lost in loss record 4 of 9
+==4040==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==4040==    by 0x59211BA: vasprintf (vasprintf.c:84)
+==4040==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==4040==    by 0x40708A: comma_to_array (SQL_functions_v1.c:1864)
+==4040==    by 0x401602: main (timetable.c:46)
+==4040== 
+==4040== 112 bytes in 1 blocks are still reachable in loss record 5 of 9
+==4040==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==4040==    by 0x4070EE: comma_to_array (SQL_functions_v1.c:1878)
+==4040==    by 0x401602: main (timetable.c:46)
+==4040== 
+==4040== 144 bytes in 1 blocks are still reachable in loss record 6 of 9
+==4040==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==4040==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E86342: init_alloc_root (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E701C3: mysql_client_plugin_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E656E3: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x404E23: verify_sid (SQL_functions_v1.c:946)
+==4040==    by 0x4015C7: main (timetable.c:41)
+==4040== 
+==4040== 192 bytes in 1 blocks are still reachable in loss record 7 of 9
+==4040==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==4040==    by 0x4E8C236: my_thread_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E8C540: my_thread_global_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E8A31F: my_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E656AA: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x404E23: verify_sid (SQL_functions_v1.c:946)
+==4040==    by 0x4015C7: main (timetable.c:41)
+==4040== 
+==4040== 36,792 bytes in 9 blocks are still reachable in loss record 8 of 9
+==4040==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==4040==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E81D99: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==4040==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x404E63: verify_sid (SQL_functions_v1.c:951)
+==4040==    by 0x4015C7: main (timetable.c:41)
+==4040== 
+==4040== 36,792 bytes in 9 blocks are still reachable in loss record 9 of 9
+==4040==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==4040==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E81DB5: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==4040==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==4040==    by 0x404E63: verify_sid (SQL_functions_v1.c:951)
+==4040==    by 0x4015C7: main (timetable.c:41)
+==4040== 
+==4040== LEAK SUMMARY:
+==4040==    definitely lost: 94 bytes in 1 blocks
+==4040==    indirectly lost: 0 bytes in 0 blocks
+==4040==      possibly lost: 94 bytes in 1 blocks
+==4040==    still reachable: 74,137 bytes in 36 blocks
+==4040==         suppressed: 0 bytes in 0 blocks
+==4040== 
+==4040== For counts of detected and suppressed errors, rerun with: -v
+==4040== ERROR SUMMARY: 8752 errors from 106 contexts (suppressed: 0 from 0)

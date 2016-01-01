@@ -1,0 +1,126 @@
+@charset "utf-8";
+.messageBox, .courseBox{
+	border: 2px solid;
+	border-radius: 0.8em;
+	background: radial-gradient(#FFF 0%, #FF4 75%);
+	background-color: #FF0;
+	padding: 5px;
+	/*margin-bottom: 5px;*/
+	margin: 5px auto;
+}
+
+.warningBox{
+	background: radial-gradient(#FFF 0%, #F44 75%);
+	background-color: #F44;
+}
+
+.error-text{
+	color: #FF0;
+	background-color: #F00;
+	font-family: monospace;
+	font-size: 12pt;
+}
+
+.courseBox{
+	background: radial-gradient(#FFF 0%, #1975B3 75%);
+	background-color: #1975B3;
+}
+/*"Nach-oben"-Knopf // http://icons8.com/ https://icons8.com/license/ */
+#scroll-top{
+	position: fixed;
+    bottom: 25px;
+    right: 25px;
+    border: 2px solid;
+    width: 50px;
+    height: 50px;
+    background: rgb(173, 216, 230) url("/img/Arrows-Up-Circular-icon.png") no-repeat scroll 50% 50%;
+    border-radius: 30px;
+	border: 2px solid rgb(100, 150, 140)
+}
+
+.time-table, .sub-table{
+	/*border: 1px solid black;*/
+	margin: 0 auto;
+	border-collapse: collapse;
+	width: 100%;
+	font-family: "Courier New", Courier, monospace;
+	font-weight: bold;
+	font-size: 0.9em;
+	color: black;
+}
+
+.sub-table{
+	border: none;
+	margin: none;
+}
+
+.sub-table .cancelled{
+	background: #F44;
+	color: #FFF;
+}
+
+.sub-table .moved{
+	background: #FF5;
+	color: #000;
+}
+
+.sub-table .teacher{
+	background: #4F4;
+	color: #000;
+}
+
+.time-table th{
+	border: 1px solid red;
+	width: 16%;
+	height: 2em;
+}
+
+.time-table td{
+	border: 1px solid black;
+	padding: 0px;
+	height: 2em;
+}
+
+.time-table td a{
+	text-decoration: none;
+}
+
+.time-table td a :hover{
+	background-color: #222;
+	color: white;
+}
+
+.time-table .sub-field{
+	width: 33%;
+	text-align: center;
+	border: none;
+	padding: 2px;
+}
+.day-active{
+	background-color: lightgreen;
+}
+
+.tiny th, .tiny td{
+	height: 0.5em;
+	line-height: 2px;
+	font-size: .9em;
+	padding: 3px
+}
+
+.tiny td{
+	background-color: lightblue;
+}
+
+
+
+.icon-image{
+	margin-right: 5px;
+}
+
+
+
+.course-tab{
+	border: 1px solid;
+	width: 70px;
+	text-align: center;
+}

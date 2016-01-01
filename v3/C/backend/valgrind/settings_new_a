@@ -1,0 +1,198 @@
+==2091== Memcheck, a memory error detector
+==2091== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==2091== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==2091== Command: ./settings.cgi
+==2091== 
+strlen() der cookies: 18
+(BOTH) QUERY_STRING: 'password_update=change'
+sid gefunden
+uid gefunden
+Person will nicht die Kurse ändern
+Benutzer gefunden (verify_user_password)
+Passwort war richtig! (Benutzer: r@r.c)Content-type: text/html
+
+<!DOCTYPE html>
+<head>
+		<title>InfoWall -- Meldung</title>
+		<meta http-equiv='content-type' content='text/html;charset=utf-8' />
+		<meta name='viewport' content='width=device-width'>
+		<link rel='stylesheet' href='/css/forms.css'>
+		<link rel='stylesheet' href='/css/box.css'>
+		<link rel='shortcut icon' href='/favicon.png' />
+</head>
+<body>
+		<div id='login-form'>
+
+<p><span class='error-text'>Passwort erfolgreich geändert!</span></p>
+<br><a href='/cgi-bin/settings.cgi' class='gradient-button'>Zur&uuml;ck</a>
+</div>
+</body>
+</html>
+
+==2091== 
+==2091== HEAP SUMMARY:
+==2091==     in use at exit: 75,399 bytes in 131 blocks
+==2091==   total heap usage: 432 allocs, 301 frees, 396,871 bytes allocated
+==2091== 
+==2091== 4 bytes in 1 blocks are still reachable in loss record 1 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x4050D9: get_person_by_sid (SQL_functions_v1.c:1040)
+==2091==    by 0x40164D: main (settings.c:67)
+==2091== 
+==2091== 6 bytes in 1 blocks are still reachable in loss record 2 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x402B98: _extractCGIdata (CGI_functions.c:273)
+==2091==    by 0x402C81: extract_COOKIE_data (CGI_functions.c:318)
+==2091==    by 0x4015DD: main (settings.c:55)
+==2091== 
+==2091== 9 bytes in 1 blocks are still reachable in loss record 3 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x405092: get_person_by_sid (SQL_functions_v1.c:1031)
+==2091==    by 0x40164D: main (settings.c:67)
+==2091== 
+==2091== 13 bytes in 1 blocks are still reachable in loss record 4 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x40505B: get_person_by_sid (SQL_functions_v1.c:1026)
+==2091==    by 0x40164D: main (settings.c:67)
+==2091== 
+==2091== 13 bytes in 1 blocks are definitely lost in loss record 5 of 19
+==2091==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2091==    by 0x403E45: salt_exists (SQL_functions_v1.c:491)
+==2091==    by 0x405B11: update_user_password (SQL_functions_v1.c:1363)
+==2091==    by 0x402348: main (settings.c:376)
+==2091== 
+==2091== 14 bytes in 1 blocks are definitely lost in loss record 6 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x402ADE: _extractCGIdata (CGI_functions.c:246)
+==2091==    by 0x402CC6: extract_QUERY_data (CGI_functions.c:325)
+==2091==    by 0x402088: main (settings.c:318)
+==2091== 
+==2091== 15 bytes in 1 blocks are definitely lost in loss record 7 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x402ADE: _extractCGIdata (CGI_functions.c:246)
+==2091==    by 0x402CC6: extract_QUERY_data (CGI_functions.c:325)
+==2091==    by 0x4019F2: main (settings.c:185)
+==2091== 
+==2091== 23 bytes in 1 blocks are definitely lost in loss record 8 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x402AFD: _extractCGIdata (CGI_functions.c:246)
+==2091==    by 0x402CC6: extract_QUERY_data (CGI_functions.c:325)
+==2091==    by 0x4019F2: main (settings.c:185)
+==2091== 
+==2091== 23 bytes in 1 blocks are definitely lost in loss record 9 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x402AFD: _extractCGIdata (CGI_functions.c:246)
+==2091==    by 0x402CC6: extract_QUERY_data (CGI_functions.c:325)
+==2091==    by 0x402088: main (settings.c:318)
+==2091== 
+==2091== 24 bytes in 1 blocks are still reachable in loss record 10 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E871B9: my_error_register (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E656DC: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x40478B: verify_sid (SQL_functions_v1.c:806)
+==2091==    by 0x401610: main (settings.c:60)
+==2091== 
+==2091== 44 bytes in 1 blocks are still reachable in loss record 11 of 19
+==2091==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2091==    by 0x4028EB: get_CGI_data (CGI_functions.c:142)
+==2091==    by 0x401578: main (settings.c:46)
+==2091== 
+==2091== 94 bytes in 1 blocks are still reachable in loss record 12 of 19
+==2091==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==2091==    by 0x59211BA: vasprintf (vasprintf.c:84)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x405132: get_person_by_sid (SQL_functions_v1.c:1052)
+==2091==    by 0x40164D: main (settings.c:67)
+==2091== 
+==2091== 125 bytes in 1 blocks are still reachable in loss record 13 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x4C2AFCF: realloc (vg_replace_malloc.c:692)
+==2091==    by 0x567B244: __sha512_crypt (sha512-crypt.c:430)
+==2091==    by 0x403892: verify_user_password (SQL_functions_v1.c:304)
+==2091==    by 0x402305: main (settings.c:371)
+==2091== 
+==2091== 144 bytes in 1 blocks are still reachable in loss record 14 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E86342: init_alloc_root (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E701C3: mysql_client_plugin_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E656E3: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x40478B: verify_sid (SQL_functions_v1.c:806)
+==2091==    by 0x401610: main (settings.c:60)
+==2091== 
+==2091== 192 bytes in 1 blocks are still reachable in loss record 15 of 19
+==2091==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==2091==    by 0x4E8C236: my_thread_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E8C540: my_thread_global_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E8A31F: my_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E656AA: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x40478B: verify_sid (SQL_functions_v1.c:806)
+==2091==    by 0x401610: main (settings.c:60)
+==2091== 
+==2091== 504 bytes in 97 blocks are definitely lost in loss record 16 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==2091==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==2091==    by 0x4057EC: get_distinct_courses (SQL_functions_v1.c:1247)
+==2091==    by 0x40163A: main (settings.c:65)
+==2091== 
+==2091== 568 bytes in 1 blocks are still reachable in loss record 17 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x591906C: __fopen_internal (iofopen.c:73)
+==2091==    by 0x403D90: salt_generate (SQL_functions_v1.c:471)
+==2091==    by 0x405AF7: update_user_password (SQL_functions_v1.c:1360)
+==2091==    by 0x402348: main (settings.c:376)
+==2091== 
+==2091== 36,792 bytes in 9 blocks are still reachable in loss record 18 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E81D99: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==2091==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4047CB: verify_sid (SQL_functions_v1.c:811)
+==2091==    by 0x401610: main (settings.c:60)
+==2091== 
+==2091== 36,792 bytes in 9 blocks are still reachable in loss record 19 of 19
+==2091==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==2091==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E81DB5: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==2091==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==2091==    by 0x4047CB: verify_sid (SQL_functions_v1.c:811)
+==2091==    by 0x401610: main (settings.c:60)
+==2091== 
+==2091== LEAK SUMMARY:
+==2091==    definitely lost: 592 bytes in 102 blocks
+==2091==    indirectly lost: 0 bytes in 0 blocks
+==2091==      possibly lost: 0 bytes in 0 blocks
+==2091==    still reachable: 74,807 bytes in 29 blocks
+==2091==         suppressed: 0 bytes in 0 blocks
+==2091== 
+==2091== For counts of detected and suppressed errors, rerun with: -v
+==2091== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 0 from 0)

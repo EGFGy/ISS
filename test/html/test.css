@@ -1,0 +1,120 @@
+html, body {
+	margin: 0; 
+	padding: 0;
+	height: 100%; 
+	color: #000;
+}
+
+.menu-button{
+	margin: 2px;
+	text-align: center;
+	background: darkred;
+	color: #FFF;
+	border-radius: 0.5em;;
+	transition: background 0.2s ease;
+}
+
+.menu-button:hover{
+	background: lightgreen;
+	color: #000;
+}
+
+form{
+	display: inline;
+}
+
+input{
+	width: inherit;
+	height: 2em;
+	border: 4px outset #0AD;
+	border-radius: 1em;
+}
+input:hover{
+	border: 4px inset #0AD;
+}
+@media (min-width: 531px){
+	.login{
+		/*padding: 5px;
+		border: 2px solid #0F0;
+		margin-left: 70%;*/
+		padding: 0px;
+		background-color:#FF0;
+		display: inline;
+		float: right;
+		width: 300px;
+		height: 120px; 
+		border-bottom: 5px dashed black;
+		position: absolute;
+		left: calc(100% - 300px);
+		top: -115px;
+		transition: top 0.5s ease;
+	}
+	
+	.login:hover{
+		top: 0px;;
+	}
+	
+	.login-form{
+		margin-left: 10px;
+		margin-top: 5px;	
+	}
+	.menu{
+		text-align: center;
+		width: 200px;
+		height: 100%;
+		background-color: #FDD;
+		float: left;
+	}
+	form{
+		margin-left: auto;
+		margin-right: auto;
+		display: inline;
+	}
+	
+	input{
+		width: 160px;
+	}
+	.logo{
+		display: inline;
+		margin: 5px;
+	}
+	.fields{
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+	.content-frame{
+		width: 87%;
+		height: 100%;
+		float: left;
+		display: block;
+		border: none;
+	}
+}
+
+@media (max-width: 530px){
+	.login{
+		padding: 10px;
+		background-color: #FDD;
+	}
+	input{
+		width: 100%
+	}
+	.menu{
+		background-color: #FDD;
+	}
+	button{
+		font-size: 20px;
+		border: 2px solid gray;
+	}
+	.logo{
+		display: none;
+	}
+	.fields{
+		margin-right: 10px;
+		margin-left: 0px;
+	}
+	.content-frame{
+		width: 100%;
+		height: 1000px;
+	}
+}

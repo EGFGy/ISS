@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Benutzerkonteneinstellungen">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<link rel="shortcut icon" href="https://91.8.133.232/favicon.png">
+
+<title>InfoWall -- Einstellung</title>
+
+
+<link rel="stylesheet" href="InfoWall%20--%20Einstellung-Dateien/pure-min.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Einstellung-Dateien/box.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Einstellung-Dateien/forms.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Einstellung-Dateien/radio_block.css" type="text/css">
+
+	<!--[if lte IE 8]>
+        <link rel='stylesheet' href='/css/layouts/side-menu-old-ie.css' type='text/css'>
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="InfoWall%20--%20Einstellung-Dateien/side-menu.css" type="text/css">
+    <!--<![endif]-->
+<!-- Modified http://purecss.io/js/ui.js -->
+<script src="InfoWall%20--%20Einstellung-Dateien/toggle.js"></script>
+<script src="InfoWall%20--%20Einstellung-Dateien/filter.js"></script>
+
+</head>
+<body>
+		<div id="layout">
+                <!-- Menu toggle -->
+                <a href="#menu" onclick="menuShowHide(this);" id="menuLink" class="menu-link">
+                        <!-- Hamburger icon -->
+                        <span></span>
+                </a>
+                <div id="menu">
+                        <div class="pure-menu">
+                                <a class="pure-menu-heading" href="#">EGF</a>
+<ul class="pure-menu-list">
+
+							<li class="pure-menu-item">
+											<a href="https://91.8.133.232/cgi-bin/timetable.cgi" class="pure-menu-link">Stundeplan</a>
+                                        </li>
+			
+							<li class="pure-menu-item">
+											<a href="https://91.8.133.232/cgi-bin/all_messages.cgi" class="pure-menu-link">Allgemeines</a>
+										</li>
+			
+							<li class="pure-menu-item">
+											<a href="https://91.8.133.232/cgi-bin/spec_messages.cgi" class="pure-menu-link">Kursbezogenes</a>
+										</li>
+			
+							<li class="pure-menu-item menu-item-divided pure-menu-selected">
+											<a href="https://91.8.133.232/cgi-bin/settings.cgi" class="pure-menu-link">Einstellungen ⚙</a>
+										</li>
+			
+								<li class="pure-menu-item">
+											<a href="https://91.8.133.232/hilfe.html" class="pure-menu-link">Hilfe</a>
+										</li>
+										<li class="pure-menu-item">
+											<a href="https://91.8.133.232/cgi-bin/logout.cgi" class="pure-menu-link">LOGOUT</a>
+										</li>
+		
+								</ul>
+							</div>
+				</div>
+				<div id="main">
+					<div class="header">
+				<h1>Einstellung</h1>
+						<h2>Benutzerkonteneinstellungen</h2>
+				</div>
+				
+				<!-- dynamischer Inhalt ab hier -->
+<div class="content">
+<h2>Deine aktuellen Kurse</h2>
+<span>2D2, 2E3, 2G2, 2INF, 2K4, 2KU1, 2M2, 2PH1, 2PHO, 2P_INF, 2SK2, 2SK5, 2SPO1, 2WR1, 2W_M</span><br><p>Um Kurse auszuwählen einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse					ausgewählt wurden auf <em>Speichern</em> klicken.</p>
+<div id="courseSettings">
+
+<span style="font-weight: bold;">Filter*</span>
+
+<table class="pure-table pure-table-bordered">
+				<tbody><tr><td>Klasse:</td><td>
+						<select style="border: 2px solid grey; border-radius: .5em; background-color: white;" id="grade" onchange="toggleLetter();">
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option selected="selected" value="11">11</option>
+							<option value="12">12</option>
+						</select>
+						<select style="border: 2px solid grey; border-radius: .5em; background-color: white; display: none;" id="letter">
+							<option selected="selected" value="a">a</option>
+							<option value="b">b</option>
+							<option value="c">c</option>
+							<option value="d">d</option>
+							<option value="e">e</option>
+							<option value="f">f</option>
+						</select>
+						<button id="gradeFilterButton" style="border: 2px solid grey; background-color: white;" onclick="selectOnly(this);">Filter anwenden</button>
+						</td>
+						</tr>
+			<tr>
+			<td>Kursname suchen:</td> <td><input id="search-string" onkeydown="if (event.keyCode == 13)searchString(null); " type="text">
+  <button id="stringFilterButton" style="border: 2px solid grey; background-color: white;" onclick="searchString(this);">suchen</button></td>
+			</tr>
+			</tbody></table>
+<small>* erfordert Javascript</small>
+<div id="select-all" style="margin-left: auto; margin-right: auto; text-align: center;"><button onclick="SelectAllShown();" style="margin-left: auto; margin-right: auto; display: block; border: 2px solid #808080; background-color: #FFFFFF;">Pflichtfächer AUSWÄHLEN</button>
+				<small>Sport, Konfession und Sprache müssen noch ausgewählt werden</small></div>
+
+<form action="https://91.8.133.232/cgi-bin/settings.cgi?course_update=change" method="POST">
+<div id="courses" style="padding: 1em;">
+<input class="courseselector" id="10bC" name="10bC" type="checkbox"><label for="10bC">10bC</label>
+<input class="courseselector" id="10bD" name="10bD" type="checkbox"><label for="10bD">10bD</label>
+<input class="courseselector" id="10bE" name="10bE" type="checkbox"><label for="10bE">10bE</label>
+<input class="courseselector" id="10bEth" name="10bEth" type="checkbox"><label for="10bEth">10bEth</label>
+<input class="courseselector" id="10bEv" name="10bEv" type="checkbox"><label for="10bEv">10bEv</label>
+<input class="courseselector" id="10bF" name="10bF" type="checkbox"><label for="10bF">10bF</label>
+<input class="courseselector" id="10bG" name="10bG" type="checkbox"><label for="10bG">10bG</label>
+<input class="courseselector" id="10bGEO" name="10bGEO" type="checkbox"><label for="10bGEO">10bGEO</label>
+<input class="courseselector" id="10bINF" name="10bINF" type="checkbox"><label for="10bINF">10bINF</label>
+<input class="courseselector" id="10bK" name="10bK" type="checkbox"><label for="10bK">10bK</label>
+<input class="courseselector" id="10bKu" name="10bKu" type="checkbox"><label for="10bKu">10bKu</label>
+<input class="courseselector" id="10bL" name="10bL" type="checkbox"><label for="10bL">10bL</label>
+<input class="courseselector" id="10bM" name="10bM" type="checkbox"><label for="10bM">10bM</label>
+<input class="courseselector" id="10bMu" name="10bMu" type="checkbox"><label for="10bMu">10bMu</label>
+<input class="courseselector" id="10bPH" name="10bPH" type="checkbox"><label for="10bPH">10bPH</label>
+<input class="courseselector" id="10bSM" name="10bSM" type="checkbox"><label for="10bSM">10bSM</label>
+<input class="courseselector" id="10bSW" name="10bSW" type="checkbox"><label for="10bSW">10bSW</label>
+<input class="courseselector" id="10bWR" name="10bWR" type="checkbox"><label for="10bWR">10bWR</label>
+<input class="courseselector" id="10dC" name="10dC" type="checkbox"><label for="10dC">10dC</label>
+<input class="courseselector" id="10dD" name="10dD" type="checkbox"><label for="10dD">10dD</label>
+<input class="courseselector" id="10dE" name="10dE" type="checkbox"><label for="10dE">10dE</label>
+<input class="courseselector" id="10dEth" name="10dEth" type="checkbox"><label for="10dEth">10dEth</label>
+<input class="courseselector" id="10dEv" name="10dEv" type="checkbox"><label for="10dEv">10dEv</label>
+<input class="courseselector" id="10dF" name="10dF" type="checkbox"><label for="10dF">10dF</label>
+<input class="courseselector" id="10dG" name="10dG" type="checkbox"><label for="10dG">10dG</label>
+<input class="courseselector" id="10dGEO" name="10dGEO" type="checkbox"><label for="10dGEO">10dGEO</label>
+<input class="courseselector" id="10dINF" name="10dINF" type="checkbox"><label for="10dINF">10dINF</label>
+<input class="courseselector" id="10dK" name="10dK" type="checkbox"><label for="10dK">10dK</label>
+<input class="courseselector" id="10dKu" name="10dKu" type="checkbox"><label for="10dKu">10dKu</label>
+<input class="courseselector" id="10dL" name="10dL" type="checkbox"><label for="10dL">10dL</label>
+<input class="courseselector" id="10dM" name="10dM" type="checkbox"><label for="10dM">10dM</label>
+<input class="courseselector" id="10dMu" name="10dMu" type="checkbox"><label for="10dMu">10dMu</label>
+<input class="courseselector" id="10dPH" name="10dPH" type="checkbox"><label for="10dPH">10dPH</label>
+<input class="courseselector" id="10dSM" name="10dSM" type="checkbox"><label for="10dSM">10dSM</label>
+<input class="courseselector" id="10dSW" name="10dSW" type="checkbox"><label for="10dSW">10dSW</label>
+<input class="courseselector" id="10dWR" name="10dWR" type="checkbox"><label for="10dWR">10dWR</label>
+<input class="courseselector" id="1D1" name="1D1" type="checkbox"><label for="1D1">1D1</label>
+<input class="courseselector" id="1E5" name="1E5" type="checkbox"><label for="1E5">1E5</label>
+<input class="courseselector" id="1EKO" name="1EKO" type="checkbox"><label for="1EKO">1EKO</label>
+<input class="courseselector" id="1ETH" name="1ETH" type="checkbox"><label for="1ETH">1ETH</label>
+<input class="courseselector" id="1EV" name="1EV" type="checkbox"><label for="1EV">1EV</label>
+<input class="courseselector" id="1G5" name="1G5" type="checkbox"><label for="1G5">1G5</label>
+<input class="courseselector" id="1GEO1" name="1GEO1" type="checkbox"><label for="1GEO1">1GEO1</label>
+<input class="courseselector" id="1INF" name="1INF" type="checkbox"><label for="1INF">1INF</label>
+<input class="courseselector" id="1K1" name="1K1" type="checkbox"><label for="1K1">1K1</label>
+<input class="courseselector" id="1M1" name="1M1" type="checkbox"><label for="1M1">1M1</label>
+<input class="courseselector" id="1M2" name="1M2" type="checkbox"><label for="1M2">1M2</label>
+<input class="courseselector" id="1MU2" name="1MU2" type="checkbox"><label for="1MU2">1MU2</label>
+<input class="courseselector" id="1PAS" name="1PAS" type="checkbox"><label for="1PAS">1PAS</label>
+<input class="courseselector" id="1PH2" name="1PH2" type="checkbox"><label for="1PH2">1PH2</label>
+<input class="courseselector" id="1P_GEO" name="1P_GEO" type="checkbox"><label for="1P_GEO">1P_GEO</label>
+<input class="courseselector" id="1P_INF" name="1P_INF" type="checkbox"><label for="1P_INF">1P_INF</label>
+<input class="courseselector" id="1P_L" name="1P_L" type="checkbox"><label for="1P_L">1P_L</label>
+<input class="courseselector" id="1P_M" name="1P_M" type="checkbox"><label for="1P_M">1P_M</label>
+<input class="courseselector" id="1SK5" name="1SK5" type="checkbox"><label for="1SK5">1SK5</label>
+<input class="courseselector" id="1SPO4" name="1SPO4" type="checkbox"><label for="1SPO4">1SPO4</label>
+<input class="courseselector" id="1SPS" name="1SPS" type="checkbox"><label for="1SPS">1SPS</label>
+<input class="courseselector" id="1W_BIO" name="1W_BIO" type="checkbox"><label for="1W_BIO">1W_BIO</label>
+<input class="courseselector" id="1W_L" name="1W_L" type="checkbox"><label for="1W_L">1W_L</label>
+<input class="courseselector" id="1W_M" name="1W_M" type="checkbox"><label for="1W_M">1W_M</label>
+<input class="courseselector" id="1W_PH" name="1W_PH" type="checkbox"><label for="1W_PH">1W_PH</label>
+<input class="courseselector" id="2D1" name="2D1" type="checkbox"><label for="2D1">2D1</label>
+<input class="courseselector" checked="checked" id="2D2" name="2D2" type="checkbox"><label for="2D2">2D2</label>
+<input class="courseselector" checked="checked" id="2E3" name="2E3" type="checkbox"><label for="2E3">2E3</label>
+<input class="courseselector" id="2E5" name="2E5" type="checkbox"><label for="2E5">2E5</label>
+<input class="courseselector" id="2ETH" name="2ETH" type="checkbox"><label for="2ETH">2ETH</label>
+<input class="courseselector" checked="checked" id="2G2" name="2G2" type="checkbox"><label for="2G2">2G2</label>
+<input class="courseselector" id="2G5" name="2G5" type="checkbox"><label for="2G5">2G5</label>
+<input class="courseselector" id="2GEO1" name="2GEO1" type="checkbox"><label for="2GEO1">2GEO1</label>
+<input class="courseselector" checked="checked" id="2INF" name="2INF" type="checkbox"><label for="2INF">2INF</label>
+<input class="courseselector" checked="checked" id="2K4" name="2K4" type="checkbox"><label for="2K4">2K4</label>
+<input class="courseselector" checked="checked" id="2KU1" name="2KU1" type="checkbox"><label for="2KU1">2KU1</label>
+<input class="courseselector" id="2M1" name="2M1" type="checkbox"><label for="2M1">2M1</label>
+<input class="courseselector" checked="checked" id="2M2" name="2M2" type="checkbox"><label for="2M2">2M2</label>
+<input class="courseselector" id="2MU2" name="2MU2" type="checkbox"><label for="2MU2">2MU2</label>
+<input class="courseselector" id="2PAS" name="2PAS" type="checkbox"><label for="2PAS">2PAS</label>
+<input class="courseselector" checked="checked" id="2PH1" name="2PH1" type="checkbox"><label for="2PH1">2PH1</label>
+<input class="courseselector" checked="checked" id="2PHO" name="2PHO" type="checkbox"><label for="2PHO">2PHO</label>
+<input class="courseselector" checked="checked" id="2P_INF" name="2P_INF" type="checkbox"><label for="2P_INF">2P_INF</label>
+<input class="courseselector" checked="checked" id="2SK2" name="2SK2" type="checkbox"><label for="2SK2">2SK2</label>
+<input class="courseselector" checked="checked" id="2SK5" name="2SK5" type="checkbox"><label for="2SK5">2SK5</label>
+<input class="courseselector" checked="checked" id="2SPO1" name="2SPO1" type="checkbox"><label for="2SPO1">2SPO1</label>
+<input class="courseselector" id="2SPO4" name="2SPO4" type="checkbox"><label for="2SPO4">2SPO4</label>
+<input class="courseselector" checked="checked" id="2WR1" name="2WR1" type="checkbox"><label for="2WR1">2WR1</label>
+<input class="courseselector" checked="checked" id="2W_M" name="2W_M" type="checkbox"><label for="2W_M">2W_M</label>
+<input class="courseselector" id="BOB" name="BOB" type="checkbox"><label for="BOB">BOB</label>
+</div>
+<input onclick='toggleId(this, "btn_save");' id="really" name="really" type="checkbox"><label for="really">Wirklich bereits eingestellte Kurse Verändern?</label>
+<br><input id="btn_save" class="submitButton" onload="this.style.display='none';" value="Speichern" type="submit"></form>
+</div>
+
+<h2>Deine E-Mail-Adresse</h2>
+<div id="emailSettings"> <span>dd@ll.com</span>
+<form action="https://91.8.133.232/cgi-bin/settings.cgi?email_update=change" method="POST">
+<input required class="settings-input" onblur='checkDatEmail(this);' name="new_email" id="email" value="dd@ll.com" placeholder="Ihre E-Mail-Adresse" type="email">
+<br>
+<input id="btn_save" class="submitButton" value="Speichern" type="submit">
+</form>
+	</div>
+	
+<br>
+			
+<h2>Dein Passwort</h2>
+<div id="passwordSettings"> <span>altes Passwort</span>
+	<br>
+	<form action="/cgi-bin/settings.cgi?password_update=change" method="POST">
+		<input required class="settings-input" name="old_pass" id="old_pass" placeholder="altes Passwort" type="password">
+		<br>
+		<span>neues Passwort</span>
+		<br>
+		<input required class="settings-input" name="new_pass1" id="new_pass1" placeholder="neues Passwort" type="password">
+		<br>
+		<span>neues Passwort bestätigen</span>
+		<br>
+		<input required class="settings-input" name="new_pass2" id="new_pass2" placeholder="neues Passwort bestätigen" type="password">
+		<br>
+		<progress id="resultat" class="settings-input" value=0 max=100 style="margin: 5px 0; "></progress>
+		<br>
+		<input id="btn_save" class="submitButton" value="Speichern" type="submit">
+	</form>
+</div>						
+				
+				</div>
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Anzeige von kursbezogenen Meldungen">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<link rel="shortcut icon" href="https://91.8.128.244/favicon.png">
+
+<title>InfoWall -- Kursbezogenes</title>
+
+
+<link rel="stylesheet" href="InfoWall%20--%20Kursbezogenes-Dateien/pure-min.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Kursbezogenes-Dateien/box.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Kursbezogenes-Dateien/forms.css" type="text/css">
+<link rel="stylesheet" href="InfoWall%20--%20Kursbezogenes-Dateien/radio_block.css" type="text/css">
+
+	<!--[if lte IE 8]>
+        <link rel='stylesheet' href='/css/layouts/side-menu-old-ie.css' type='text/css'>
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="InfoWall%20--%20Kursbezogenes-Dateien/side-menu.css" type="text/css">
+    <!--<![endif]-->
+<!-- Modified http://purecss.io/js/ui.js -->
+<script src="InfoWall%20--%20Kursbezogenes-Dateien/toggle.js"></script>
+<script src="InfoWall%20--%20Kursbezogenes-Dateien/filter.js"></script>
+<script src="InfoWall%20--%20Kursbezogenes-Dateien/good_passwd.js"></script>
+<script src="InfoWall%20--%20Kursbezogenes-Dateien/jquery.js"></script>
+<style>
+	#add{
+		
+		border: 2px inset #4F4;
+		display: inline-block;
+		text-align: center;
+		border-radius: 10px;
+		background: #FFF none repeat scroll 0% 0%;
+		font-weight: bold;
+		padding-left: 7px;
+		padding-right: 7px;
+		cursor: pointer;
+	}
+	
+	#remove{
+		border: 2px inset #F44;
+		display: inline-block;
+		text-align: center;
+		border-radius: 10px;
+		background: #FFF none repeat scroll 0% 0%;
+		font-weight: bold;
+		padding-left: 7px;
+		padding-right: 7px;
+		cursor: pointer;
+	}
+</style>
+
+<script>
+var max_cs=3;
+var old_cs=1;
+
+function addSelector(){
+	//var form=document.getElementById('message-form').childNodes[0];
+	if(old_cs < max_cs){
+		var cs=document.getElementById('cs'+old_cs);
+		var options=cs.innerHTML;
+		var id=old_cs+1;
+		//var new_cs=' <select id="cs' + id + '" name ="kurs' + id + '">'+'<option selected="selected" value="10bC">10bC</option><option value="10bD">10bD</option><option value="10bE">10bE</option><option value="10bEth">10bEth</option><option value="10bF">10bF</option><option value="10bG">10bG</option><option value="10bGEO">10bGEO</option><option value="10bINF">10bINF</option><option value="10bKu">10bKu</option><option value="10bM">10bM</option><option value="10bMu">10bMu</option><option value="10bPH">10bPH</option><option value="10bSM">10bSM</option><option value="10bWR">10bWR</option></select>';
+		var new_cs=' <select id="cs' + id + '" name ="kurs' + id + '">'+ options;
+		cs.insertAdjacentHTML('afterend', new_cs);
+		old_cs++;
+		if(old_cs>1){
+			document.getElementById('remove').style.display='inline-block';
+		}
+		if(old_cs === max_cs){
+			document.getElementById('add').style.display='none';
+		}
+	}
+}
+
+function removeSelector(){
+	//var form=document.getElementById('message-form').childNodes[0];
+	if(old_cs > 1){
+		var newest_cs_id="cs"+(old_cs)
+		var cs=document.getElementById(newest_cs_id);
+		cs.parentNode.removeChild(cs);
+		old_cs--;
+		if(old_cs === 1){
+			document.getElementById('remove').style.display='none';
+		}
+		if(old_cs < max_cs){
+			document.getElementById('add').style.display='inline-block';
+		}
+	}
+}
+</script>
+
+</head>
+<body onload="document.getElementById('remove').style.display='none';">
+		<div id="layout">
+                <!-- Menu toggle -->
+                <a href="#menu" onclick="menuShowHide(this);" id="menuLink" class="menu-link">
+                        <!-- Hamburger icon -->
+                        <span></span>
+                </a>
+                <div id="menu">
+                        <div class="pure-menu">
+                                <a class="pure-menu-heading" href="#">EGF</a>
+<ul class="pure-menu-list">
+
+							<li class="pure-menu-item">
+											<a href="https://91.8.128.244/cgi-bin/timetable.cgi" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Stundenplan.png">Stundenplan</a>
+                                        </li>
+			
+							<li class="pure-menu-item">
+											<a href="https://91.8.128.244/cgi-bin/all_messages.cgi" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Allgemeines.png">Allgemeines</a>
+										</li>
+			
+							<li class="pure-menu-item menu-item-divided pure-menu-selected">
+											<a href="https://91.8.128.244/cgi-bin/spec_messages.cgi" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Kursbezogenes.png">Kursbezogenes</a>
+										</li>
+			
+							<li class="pure-menu-item">
+											<a href="https://91.8.128.244/cgi-bin/settings.cgi" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Einstellungen.png">Einstellungen </a>
+										</li>
+			
+								<li class="pure-menu-item">
+											<a href="https://91.8.128.244/hilfe.html" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Hilfe.png">Hilfe</a>
+										</li>
+										<li class="pure-menu-item">
+											<a href="https://91.8.128.244/cgi-bin/logout.cgi" class="pure-menu-link"><img class="icon-image" src="InfoWall%20--%20Kursbezogenes-Dateien/ico_Logout.png">LOGOUT</a>
+										</li>
+		
+								</ul>
+							</div>
+				</div>
+				<div id="main">
+					<div class="header">
+				<h1>Kursbezogenes</h1>
+						<h2>Anzeige von kursbezogenen Meldungen</h2>
+				</div>
+				
+				<!-- dynamischer Inhalt ab hier -->
+<a id="scroll-top" href="#"></a>
+<div class="content">
+<div id="message-form"><form style="border-radius: 1em; padding: 1em;" action="/cgi-bin/debug.cgi" method="POST" enctype="application/x-www-form-urlencoded">
+			  <label style="font-weight: bold;" for="ti">Titel</label><input style="display: block;" name="titel" id="ti" type="text">
+			  <label style="font-weight: bold;" for="tex">Text</label><textarea style="display: block;" name="meldung" id="tex"></textarea>
+<label style="font-weight: bold;" for="grade">Kurs</label><br>
+				<select id='cs1' name="kurs1">
+<option selected="selected" value="10bC">10bC</option><option value="10bD">10bD</option><option value="10bE">10bE</option><option value="10bEth">10bEth</option><option value="10bF">10bF</option><option value="10bG">10bG</option><option value="10bGEO">10bGEO</option><option value="10bINF">10bINF</option><option value="10bKu">10bKu</option><option value="10bM">10bM</option><option value="10bMu">10bMu</option><option value="10bPH">10bPH</option><option value="10bSM">10bSM</option><option value="10bWR">10bWR</option></select>
+	<div id="add" onclick="addSelector();">+</div>
+	<div id="remove" onclick="removeSelector();" >-</div>
+  <input style="display: block; margin-left: auto; margin-right: auto;" class="submitButton" value="Absenden" type="submit">
+			  </form></div>			
+<div class="courseBox">
+<span id="10bC" style="font-weight: bold; color: white;">10bC</span>
+<br><span style="color: white;">Seite 1</span>
+
+<div class="messageBox">
+	<h2 class="content-subhead">Hausaufgabe</h2>
+	<p>lalalallala<br></p>
+	<h3 style="font-size: 12px; font-style: italic;" class="message-info">Um 2015-10-19 17:01:05 von Adelheid Rottenheimer erstellt</h3><button style="border: 2px solid; border-radius: 2em; background-color: lightblue;">MEHR</button>
+</div>
+<div class="messageBox">
+	<h2 class="content-subhead">EEèeÈE123</h2>
+	<p>lelelele<br></p>
+	<h3 style="font-size: 12px; font-style: italic;" class="message-info">Um 2015-10-16 18:15:12 von Adelheid Rottenheimer erstellt</h3><button style="border: 2px solid; border-radius: 2em; background-color: lightblue;">MEHR</button>
+</div>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bD" style="font-weight: bold; color: white;">10bD</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bE" style="font-weight: bold; color: white;">10bE</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bEth" style="font-weight: bold; color: white;">10bEth</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bF" style="font-weight: bold; color: white;">10bF</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bG" style="font-weight: bold; color: white;">10bG</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bGEO" style="font-weight: bold; color: white;">10bGEO</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bINF" style="font-weight: bold; color: white;">10bINF</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bKu" style="font-weight: bold; color: white;">10bKu</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bM" style="font-weight: bold; color: white;">10bM</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bMu" style="font-weight: bold; color: white;">10bMu</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bPH" style="font-weight: bold; color: white;">10bPH</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bSM" style="font-weight: bold; color: white;">10bSM</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+<div class="courseBox">
+<span id="10bWR" style="font-weight: bold; color: white;">10bWR</span>
+<div style="text-align: center;">
+</div><br>
+</div>
+</div>
+<br><a style="width: 8em; color: black;" class="pure-menu-link" href="https://icons8.com/">Quelle der Icons</a>
+</div></div>
+
+</body></html>

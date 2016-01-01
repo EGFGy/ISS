@@ -1,0 +1,14 @@
+SELECT * FROM Meldungen WHERE kurse REGEXP "([,]*[ ]*1E5[,$]*)|([,]*[ ]*1M4[,$])";
++-----+----------+-----------+-------------------------+-------------+----------+
+| id  | titel    | meldung   | kurse                   | erstellerID | erstellt |
++-----+----------+-----------+-------------------------+-------------+----------+
+| 155 | 123      | 456       | 1D1, 1M1, 1E5           |        NULL | NULL     |
+| 156 | HAHAHAHA | LALALALAL | 1M1, 1M2, 1M3, 1M4, 1M5 |        NULL | NULL     |
++-----+----------+-----------+-------------------------+-------------+----------+
+
+
+
+---STDPLN---
+Domi's vorschlag:
+einfach alle Kurse einer PErson durchgehen
+dann Mo1 Mo2 Mo3 usw ausgeben

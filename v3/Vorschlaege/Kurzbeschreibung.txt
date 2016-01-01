@@ -1,0 +1,27 @@
+Im Zuge unseres P-Seminars Informatik „Softwarearchitektur“ entschlossen wir uns ein Infoportal für Schüler und Lehrer zu erstellen.
+Ein grundlegender Gedanke war die Zusammenführung des Vertretungsplans mit den Stundenplänen der Schüler, sowie das Verteilen von Meldungen, wie Ankündigungen oder Hausaufgaben.
+Schnell kamen wir überein bei den Meldungen zwischen allgemeinen und kursbezogenen Meldungen zu unterscheiden. Meldungen können im Portal nur von Lehrern erstellt werden.
+Kursbezogene Nachrichten können für mehrere Kurse eines Lehrers gleichzeitig angezeigt werden. Eine Kommentarfunktion existiert nicht.
+Da sowohl Schüler als auch Lehrer Kurse (bestimmtes Unterrichtsfach in einer bestimmten Klasse) besuchen, werden diese zusammenfassend als Person bezeichnet,
+wodurch sie die Funktionen des Infoportals gleichwertig benutzen können, nur der Lehrer hat mehr Rechte.
+Im Einstellungsbereich kann die Person die Kurse auswählen, die sie besucht, also die Fächer, die ein Lehrer unterrichtet bzw. die ein Schüler besucht.
+Mittels einer Filterfunktion wird die Auswahl der entsprechenden Kurse für die jeweilige Jahrgangsstufe vereinfacht. Ebenfalls ist es dort möglich das Passwort sowie die E-mail-Adresse zu ändern.
+Der Stundenplan wird auf der Seite in Form einer Tabelle dargestellt und ergibt sich aus den Angaben, die im Einstellungsbereich gemacht wurden.
+Für jeden Kurs den man auswählt sind bestimmte Datensätze in einer Datenbank vorhanden.
+Dort steht für den jeweiligen Kurs seine Bezeichnung aus der sich das Fach sowie die Jahrgangsstufe bzw. spezifische Klasse bestimmen lassen,
+der Wochentag, die Stunde und der Raum in dem er stattfindet.
+Ein Kurs kann stets von nur einem Lehrer besucht, also unterrichtet, werden, dieser wird dann auch in dem Stundenplan des Schülers angezeigt,
+obwohl er nicht im jeweiligen Kurs gespeichert ist.
+Dies ermöglicht eine dynamische Lehrerzuweisung zu den Kursen, sollte ein Lehrer beispielsweise in Vater-/Mutterschaftsurlaub gehen
+und somit einen langfristigen Lehrerwechsel erzwingen.
+Im nächsten Schritt zur Erstellung des persönlichen Stundenplans wird der Vertretungsplan, der auf der Schulwebsite einzusehen ist, in der Stundenplan des Schülers integriert.
+Es wird überprüft ob im Vertretungsplan Kurse enthalten sind, die der Schüler auch besucht und die spezifische Stunde wird dann im Stundenplan des Schülers ausgebessert sowie farbig markiert,
+um auf die Änderung aufmerksam zu machen.
+So wird im Falle einer Vertretung das eigentliche Lehrerkürzel durch das des Vertretungslehrers ersetzt und markiert.
+Entfällt die Stunde wird der Text durchgestrichen und das Feld rot markiert.
+Dies gilt analog für Raumtäusche und ist auch kombinierbar.
+Der Wochenrhythmus unserer Schule in A- und B-Wochen wird ebenfalls beachtet.
+Dieser ist sowohl bei den Intensivierungsstunden der Unterstufe wie auch bei den Seminaren der Oberstufe von Bedeutung.
+Unser Registrierverfahren verlangt nur nach den notwendigen Daten, also den Namen, Vorname und die E-mail-Adresse, um mit Schülern in Kontakt treten zu können.
+Eine Anzeige für die Stärke des Passworts ist eingebaut, um vor allem die jüngeren Schüler zu schützen.
+Der Datenschutz wird gewährleistet und die Passwörter werden verschlüsselt in der Datenbank gespeichert und auch von der Website per HTTPS verschlüsselt übertragen.

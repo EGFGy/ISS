@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+	<title>InfoWall -- Anmeldung</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="/forms.css">	
+</head>
+
+<body>
+	<div id="login-form">
+	<form  method="post" action="/cgi-bin/login.cgi" style="border-radius: 1em; padding: 1em;" autocomplete="off">
+		<p>Melden Sie sich mit Ihrem Benutzernamen und Passwort an.</p>
+		<input class="textIn" placeholder="Benutzername" type="text" id="name" name="name" mozactionhint="next" required>
+		<br>
+		<input class="textIn" placeholder="Passwort" type="password" id="pass" name="pass" required>
+		<br>
+		<input type="radio" name="teach" value="true">Lehrer
+		<input type="radio" name="teach" value="false" checked="checked">Schüler
+		<br>
+		<a href="/vergessen.html" style="display: inline-block;">Kennwort vergessen?</a>
+		<br>
+		<button class="submitButton" type="submit">Anmelden</button>
+	</form>
+	<br>
+	<a href="/registrierung.html" class="gradient-button">Registrieren</a>
+	</div>
+</body>
+</html>

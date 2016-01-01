@@ -1,0 +1,10 @@
+ export QUERY_STRING="TEST"
+ export CONTENT_LENGTH="120"
+ export REQUEST_METHOD="POST"
+ export HTTP_COOKIE="MEEM=GOOG"
+
+// name=Ruben+Mons&pass=111111111111111 37
+// name=Markus+Reichel&pass=lalalala
+// name=Konstantin+Haubner&pass=fallersleben 42
+// name=Rainer+Martin&pass=testp 30
+// name=MAR&pass=testp 20

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Anzeige von allgemeinen Meldungen zu aktuellen Ereignisen.">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<link rel="shortcut icon" href="/favicon.png" />
+
+		<title>InfoWall -- Hilfe</title>
+
+		<link rel="stylesheet" href="/css/layouts/pure-min.css">
+		<link rel="stylesheet" href="/css/box.css">
+
+			<!--[if lte IE 8]>
+				<link rel="stylesheet" href="/css/layouts/side-menu-old-ie.css">
+			<![endif]-->
+			<!--[if gt IE 8]><!-->
+				<link rel="stylesheet" href="/css/layouts/side-menu.css">
+			<!--<![endif]-->
+		<!-- Modified http://purecss.io/js/ui.js -->
+		<script src="/js/toggle.js"></script>
+
+	</head>
+	<body>
+
+		<div id="layout">
+			<!-- Menu toggle -->
+			<a href="#menu" onclick="menuShowHide(this);" id="menuLink" class="menu-link">
+				<!-- Hamburger icon -->
+				<span></span>
+			</a>
+
+			<div id="menu">
+					<div class="pure-menu">
+					<a class="pure-menu-heading" href="#">EGF</a>
+
+					<ul class="pure-menu-list">
+						<li class="pure-menu-item">
+							<a href="/cgi-bin/timetable.cgi" class="pure-menu-link"><img class="icon-image" src="/img/ico_Stundenplan.png">Stundenplan</a>
+						</li>
+						<li class="pure-menu-item">
+							<a href="/cgi-bin/all_messages.cgi" class="pure-menu-link"><img class="icon-image" src="/img/ico_Allgemeines.png">Allgemeines</a>
+						</li>
+						<li class="pure-menu-item">
+							<a href="/cgi-bin/spec_messages.cgi" class="pure-menu-link"><img class="icon-image" src="/img/ico_Kursbezogenes.png">Kursbezogenes</a>
+						</li>
+						<li class="pure-menu-item">
+							<a href="/cgi-bin/settings.cgi" class="pure-menu-link"><img class="icon-image" src="/img/ico_Einstellungen.png">Einstellungen </a>
+						</li>
+			
+						<li class="pure-menu-item menu-item-divided pure-menu-selected">
+							<a href="/hilfe.html" class="pure-menu-link"><img class="icon-image" src="/img/ico_Hilfe.png">Hilfe</a>
+						</li>
+						<li class="pure-menu-item">
+							<a href="/cgi-bin/logout.cgi" class="pure-menu-link"><img class="icon-image" src="/img/ico_Logout.png">LOGOUT</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<div id="main">
+				<div class="header">
+					<h1>Hilfe</h1>
+					<h2>Information der Bedienung</h2>
+				</div>
+				<div class="content">
+					<p>
+						Links am Rand sehen Sie die Navigationsleiste.
+					</p>
+					<p>
+						Falls Sie noch nicht registriert sind, wechseln Sie wieder zur Startseite, um sich dort zu registrieren.
+						<br>Ansonsten können Sie sich, wenn Sie noch nicht eingeloggt sein sollten, auf der Startseite einloggen.
+						<br>Falls Sie angemeldet sein sollten, können Sie sich jetzt frei "bewegen".
+					</p>
+					<p>
+						Klicken Sie auf den Reiter <b>Stundenplan</b>, so können Sie jetzt den Stundenplan, der nach ihren angegebenen Fächern zusammengestellt wurde, sehen.
+						<br>Unter <b>Allgemeines</b> finden Sie grundlegend Informationen über schulische Veranstaltungen und Termine.
+						<br>Unter <b>Kursbezogenes</b> finden Sie Information zu Terminen, Veranstaltungen und Hausaufgaben aus ihrem Kurs.
+						<br>Unter <b>Einstellungen</b> können Sie ihre E-Mail-Adresse und/oder ihr Passwort ändern, ebenfalls können Sie hier ihr Kurs wählen.
+						<br>Unter <b>Hilfe</b> können Sie diesen Hilfe-text aufrufen.
+						<br> Mit dem <b>Logout</b>-Button können Sie sich wieder abmelden!
+					</p>
+					<br>
+					<p>
+						</p><b>Externe Quellen:</b>
+						<ul>
+							<li>ICONS - <a href="https://icons8.com/">icons8.com</a></li>
+							<li>CSS + JS - <a href="https://purecss.io">PureCSS.io</a> <a href="/css/layouts/LICENSE.md">LICENSE.md</a></li>
+							<li>Passwortüberprüfungs JS - <a href="http://www.unforastero.de/jquery/passwort-staerke-anzeige_demo.php">www.unforastero.de</a></li>
+						</ul>
+					</p>
+					<hr>
+					<br><a href='/webcam' class='pure-menu-link' style='display: inline; color: black;'><span>WEBCAM</span></a><a href='./webcam/capture/image2.png' class='pure-menu-link' style='display: inline; color: black;'><span>LOGGER</span></a>
+					<br><a class='pure-menu-link' style='display: inline; color: black;' href='/cgi-bin/debug.cgi'>DEBUG</a>
+					<br>
+					<br><a href="/img/server.jpg">Bild des Servers</a>
+					<br><a href="/webcam/capture/plan.html">Vertretungsplan</a>
+					<br>
+					<br><a href='/img/stuff/my_stuff.html'>sonstiges</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
