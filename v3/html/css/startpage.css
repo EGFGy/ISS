@@ -3,10 +3,10 @@
 	font-size: 15px;
 	font-weight: bold;
 	padding-top: 14px;
-  padding-bottom: 14px;
-  padding-left: 10px;
-  padding-right: 10px;
-  text-transform: uppercase;
+	padding-bottom: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-transform: uppercase;
 	font-family: 'Oswald', sans-serif;
 	display: inline;
 }
@@ -15,10 +15,10 @@
 	font-size: 15px;
 	font-weight: bold;
 	padding-top: 14px;
-  padding-bottom: 14px;
-  padding-left: 10px;
-  padding-right: 10px;
-  text-transform: uppercase;
+	padding-bottom: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-transform: uppercase;
 	font-family: 'Oswald', sans-serif;
 	display: inline;
 }
@@ -35,44 +35,40 @@
 	font-family: 'Oswald', sans-serif;
 }
 .header p{
-  color: #fff;
-  font-size: 20px;
+	color: #fff;
+	font-size: 24px;
 	font-family: 'Oswald', sans-serif;
 	font-weight: bold;
 }
 
 
-
-
 .screenshots-text{
-	background-color: #999;
+	background-color: #CCC;
 }
 .screenshots-text h2{
 	font-family: 'Oswald', sans-serif;
-	color: #fff;
+	color: #333;
 	font-size: 25px;
 	margin-bottom: 13px;
 }
 .screenshots-text  p{
-  font-family: 'Oswald', sans-serif;
+	font-family: 'Oswald', sans-serif;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
 .screenshots-text .col-md-3 p{
-  font-size: 15px;
+	font-size: 15px;
 	font-family: 'Oswald', sans-serif;
 	font-weight: bold;
 }
 
 
-
 .screenshots{
-	background-color: #999;
+	background-color: #CCC;
 }
 .screenshots .col-md-3{
 	margin-bottom: 30px;
 }
-
 
 
 .learn-more{
@@ -83,7 +79,7 @@
 	margin-top: 30px;
 	font-family: 'Oswald', sans-serif;
 	font-size: 25px;
-	color: #1874CD;
+	color: #333;
 }
 .learn-more p{
 	font-family: 'Oswald', sans-serif;
@@ -95,7 +91,6 @@
 .learn-more .col-md-4{
 	margin-bottom: 20px;
 }
-
 
 
 .anderes{
