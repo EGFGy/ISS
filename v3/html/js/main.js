@@ -1,4 +1,6 @@
 var main ={
+	minLetters: 2,
+	
 	countLettersInThis: function countLettersInThis(obj){
 		//var HTMLWithThisId=document.getElementById(obj.id);
 		var LabelForThis=$("label[for='" + obj.id + "']");
@@ -8,10 +10,16 @@ var main ={
 		if(cnt == null){
 			LabelForThis.after("<span id='" + obj.id + "-counter'" +"style='float: right; margin-left: 5px;'>" + obj.value.length + " Zeichen </span>");
 		}
+		cnt=document.getElementById(obj.id+"-counter");
 		if(cnt != null){
 			if(ObjLength > 0){
 				cnt.innerHTML=ObjLength + " Zeichen";
 				cnt.style.display='inline';
+				if(ObjLength <= this.minLetters){
+					cnt.style.color='#f00';
+				}else{
+					cnt.style.color='#000'
+				}
 			}else{
 				cnt.style.display='none';
 			}
@@ -23,7 +31,7 @@ var main ={
 		var title=document.getElementById('ti');
 		var button=document.getElementById('submit');
 		
-		if(text.value.length > 2 && title.value.length > 2){
+		if(text.value.length > this.minLetters && title.value.length > this.minLetters){
 			button.disabled=false;
 		}else{
 			button.disabled=true;
