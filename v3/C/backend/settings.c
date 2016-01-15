@@ -54,8 +54,8 @@ int main(int argc, char ** argv){
 
 			puts("<div class='content'>");
 			printf("<h2>%s aktuellen Kurse</h2>\n<span>%s</span>", check_person.isTeacher ? "Ihre" : "Deine", check_person.courses);
-			puts("<br><p>Um Kurse auszuw&auml;hlen einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse\
-					ausgew&auml;hlt wurden auf <em>Speichern</em> klicken.</p>");
+			puts("<br><p>Um Kurse auszuw&auml;hlen, einfach auf die bunten Flächen klicken. Nachdem alle betreffenden Kurse\
+					ausgew&auml;hlt wurden, auf <em>Speichern</em> klicken.</p>");
 
 			puts("<div id='courseSettings'>\n");
 			puts("<span style='font-weight: bold;'>Filter*</span>\n");
@@ -109,7 +109,7 @@ int main(int argc, char ** argv){
 			puts("</div>"); // zu 'courses'
 			//Die Sicherheitsabfrage soll erst dann sichtbar sein, wenn der Nutzer bereits Kurse eingestellt hat
 			if(strcmp(check_person.courses, "n/a") != 0 || strlen(check_person.courses)>1){
-					puts("<input onclick='toggleId(this, \"btn_save_course\");' type='checkbox' id='really' name='really'><label for='really'>Wirklich bereits eingestellte Kurse Ver&auml;ndern?</label>");
+					puts("<input onclick='toggleId(this, \"btn_save_course\");' type='checkbox' id='really' name='really'><label for='really' style='margin: 3px;'>Wirklich bereits eingestellte Kurse ver&auml;ndern?</label>");
 			}
 			printf("<br><input id='btn_save_course' class='submitButton' %s type='submit' value='Speichern'>",
 					strcmp(check_person.courses, "n/a") != 0 ? "onload=\"this.style.display='none';\"" : ""); //style='display: block;'
@@ -132,7 +132,6 @@ int main(int argc, char ** argv){
 			//Passwort-Einstellungen (von ATL4s789)
 			printf("<h2>%s Passwort</h2>", check_person.isTeacher ? "Ihr" : "Dein");
 			puts("<div id='passwordSettings'>\n\
-	<br>\n\
 	<form action='/cgi-bin/settings.cgi?password_update=change' method='POST'>\n\
 		<span>altes Passwort</span>\n\
 		<br>\n\

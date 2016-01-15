@@ -46,8 +46,9 @@ int main(int argc, char ** argv){
 		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){ // TODO: Was tun, wenn falls ein Kurs ausgewählt ist, den es nicht gibt (manuelle Eingabe) ???
 			asprintf(&mes.courses, "all");
 		}
-
+		#ifdef DEBUG
 		fprintf(stderr, "\n\nPOST_DATA: '%s'\n\n", datCGI.POST_data);
+		#endif // DEBUG
 
 		time_t now=time(NULL);
 		mes.created=localtime(&now);

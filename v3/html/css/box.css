@@ -117,7 +117,36 @@
 	margin-right: 5px;
 }
 
+.optionbox{
+	float: right;
+}
+.optionbox a{
+	text-decoration: none;
+}
+.edit, .delete{
+	padding: 2px;
+	border: 2px solid black;
+	display: inline-block;
+	width: 40px;
+	text-align: center;
+	padding: 2px;
+}
 
+.edit:hover{
+	background: lightgrey;
+}
+
+.delete:hover{
+	background: salmon;
+}
+
+.edit{
+	border-bottom-left-radius: 10px;
+		border-right: none;
+}
+.delete{
+	border-top-right-radius: 10px;
+}
 
 .course-tab{
 	border: 1px solid;
