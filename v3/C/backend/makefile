@@ -41,3 +41,6 @@ spec_messages: spec_messages.o $(DEPS)
 
 timetable: timetable.o $(DEPS)
 	$(CC) $(CFLAGS) .objs/timetable.o $(OBJS) -o bin/Debug/timetable.cgi $(LIBS)
+
+delete_message: delete_message.o $(DEPS)
+	$(CC) $(CFLAGS) .objs/delete_message.o $(OBJS) -o bin/Debug/delete_message.cgi $(LIBS)

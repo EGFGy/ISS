@@ -142,6 +142,8 @@ bool update_user_password(person * pers);
 bool get_course(char * this_course, course_set * c_arr);
 bool get_alter_course(char * this_course, course_set * c_arr);
 bool get_teacher_by_course(person * pers, char * c);
+bool get_message_by_id(int id, message * mes);
+bool delete_message_by_id(message * mes);
 
 void clean_string(char * str);
 bool course_regex_search(course * c, char * all_courses);

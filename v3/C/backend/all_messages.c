@@ -92,10 +92,11 @@ int main(int argc, char ** argv){
 
 
 			puts("<div class='messageBox'>");
-
-			printf("<div class='optionbox'>\n\
-				<a class='edit'  href='/cgi-bin/debug.cgi?edit&%d'><img class='icon-image' src='/img/ico_pen.png'></a><a class='delete' href='/cgi-bin/debug.cgi?delete&%d'><img class='icon-image' src='/img/ico_delete.png'></a>\n\
-			</div>", (all_messages.all_messages+i)->id, (all_messages.all_messages+i)->id);
+			if((all_messages.all_messages+i)->creator_id == check_person.id){
+				printf("<div class='optionbox'>\n\
+					<a class='edit'  href='/cgi-bin/debug.cgi?edit&%d'><img class='icon-image' src='/img/ico_pen.png'></a><a class='delete' href='/cgi-bin/delete_message.cgi?message_ID=%d'><img class='icon-image' src='/img/ico_delete.png'></a>\n\
+				</div>", (all_messages.all_messages+i)->id, (all_messages.all_messages+i)->id);
+			}
 			printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (all_messages.all_messages+i)->title, (all_messages.all_messages+i)->message);
 
 			/** Ersteller und Uhrzeit zu der die Meldung verfasst wurde anzeigen*/

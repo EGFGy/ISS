@@ -1819,6 +1819,118 @@ bool get_teacher_by_course(person * pers, char * c){
 	return success;
 }
 
+/** \brief Eine Nachricht aus der Datenbank anhand ihrer ID holen
+ *
+ * \param id int        ID der Nachricht
+ * \param mes message*  Pointer auf eine Nachrichten-Struktur in der die Nachricht gespeichert wird
+ * \return bool         (true: Nachricht gefunden; false: Nachricht nicht gefunden)
+ *
+ */
+bool get_message_by_id(int id, message * mes){
+	char * query=NULL;
+	MYSQL * my=NULL;
+	bool success=false;
+	if(id <= 0 || mes == NULL){
+		print_exit_failure("Programm falsch (get_message_by_id)");
+	}
+
+	if(asprintf(&query, "SELECT * FROM Meldungen WHERE id='%d'", id) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (get_message_by_id)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+		mysql_close(my);
+		free(query);
+		success=false;
+	}else{
+		MYSQL_RES * result=NULL;
+		result = mysql_store_result(my);
+
+		if(mysql_num_rows(result) == 1){
+			MYSQL_ROW row;
+			row=mysql_fetch_row(result);
+
+			//Kurse holen
+			asprintf(&(mes->courses), "%s", row[COL_MESSAGE_COURSES]);
+
+			asprintf(&(mes->message), "%s", row[COL_MESSAGE_MES]);
+			asprintf(&(mes->title),"%s", row[COL_MESSAGE_TITEL]);
+
+			char * time;
+			asprintf(&time, "%s", row[COL_MESSAGE_TIME_CREATED]);
+			//TODO convert time
+
+			mes->creator_id=atoi(row[COL_MESSAGE_CREATORID]);
+			mes->id=atoi(row[COL_MESSAGE_ID]);
+
+
+
+			mysql_free_result(result);
+			success=true;
+
+		}
+	}
+	mysql_close(my);
+	free(query);
+
+	return success;
+}
+
+/** \brief Eine Nachricht löschen
+ *
+ * \param mes message*  Nachrichten-Objekt (muss mindestens die id beinhalten)
+ * \return bool         (true: löschen erfolgreich; false: Fehler ist aufgetreten)
+ *
+ */
+bool delete_message_by_id(message * mes){
+	char * query=NULL;
+	MYSQL * my=NULL;
+	bool success=false;
+	if(mes == NULL){
+		print_exit_failure("Programm falsch (delete_message_by_id)");
+	}
+
+	if(asprintf(&query, "DELETE FROM Meldungen WHERE id='%d'", mes->id) == -1){
+		print_exit_failure("Es konnte kein Speicher angefordert werden (delete_message_by_id)");
+	}
+
+	my=mysql_init(NULL);
+	if(my == NULL){
+		print_exit_failure("MYSQL init failure!");
+	}
+
+	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
+		print_exit_failure("MYSQL-connection error!");
+	}
+
+	if(mysql_query(my, query)){
+		#ifdef DEBUG
+		fprintf(stderr, "sql_query:\n%s\nfailed\n", query);
+		#endif // DEBUG
+		mysql_close(my);
+		free(query);
+		success=false;
+	}else{
+		success=true;
+	}
+	mysql_close(my);
+	free(query);
+
+	return success;
+}
+
 
 /**
  * ----------------------------------------------------------------------------

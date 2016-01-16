@@ -36,32 +36,42 @@ int main(int argc, char ** argv){
 	if(verify_sid(&check_person)){
 		//httpHeader(TEXT);
 		get_person_by_sid(&check_person);
+		char * message_ID_s=NULL;
 		message mes;
-		init_message(&mes);
 
-		mes.creator_id=check_person.id;
+		if(extract_QUERY_data(&datCGI, "message_ID", &message_ID_s) == 0){
+			int id=atoi(message_ID_s);
+			if(get_message_by_id(id, &mes)){
+				if(mes.creator_id == check_person.id){
+					if(delete_message_by_id(&mes)){
+						print_html_error("Meldung gelöscht", "/cgi-bin/all_messages.cgi");
+					}else{
+						print_html_error("Meldung nicht gelöscht", "/cgi-bin/all_messages.cgi");
+					}
 
-		extract_POST_data(&datCGI, "meldung", &mes.message);
-		extract_POST_data(&datCGI, "titel", &mes.title);
-		if(extract_POST_data(&datCGI, "kurs", &mes.courses) == -1){ // TODO: Was tun, wenn falls ein Kurs ausgewählt ist, den es nicht gibt (manuelle Eingabe) ???
-			asprintf(&mes.courses, "all");
+				}else{
+					char * redirectString=NULL;
+
+					//Abhängig von der art der Nachricht wieder auf die entsprechende Seite umleiten (spec_/all_ messages)
+					//asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi",  );
+					if(strncmp(mes.courses, "all", 3) == 0){
+						asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
+					}else{
+						asprintf(&redirectString, "https://%s/cgi-bin/spec_messages.cgi?course=%s#button_%s", datCGI.http_host, mes.courses, mes.courses);
+					}
+
+					httpRedirect(redirectString);
+					free(redirectString);
+				}
+			}else{
+				print_html_error("Nachricht nicht gefunden", "/cgi-bin/all_messages.cgi"); //TODO: anpassen
+			}
 		}
-		#ifdef DEBUG
-		fprintf(stderr, "\n\nPOST_DATA: '%s'\n\n", datCGI.POST_data);
-		#endif // DEBUG
-
-		time_t now=time(NULL);
-		mes.created=localtime(&now);
-
-		#ifdef DEBUG
-		fprintf(stderr, "\n\nTitel: '%s',\nNachricht: '%s'\n\n\nend", mes.title, mes.message);
-		#endif // DEBUG
-
-		insert_message(&mes);
-
+		free(message_ID_s);
+	/*
 		char * redirectString=NULL;
 
-		//Abhängig von der Art der Nachricht wieder auf die entsprechende Seite umleiten (spec_/all_ messages)
+		//Abhängig von der art der Nachricht wieder auf die entsprechende Seite umleiten (spec_/all_ messages)
 		//asprintf(&redirectString, "https://%s/cgi-bin/%s", datCGI.http_host, strncmp(mes.courses, "all", 3) == 0 ? "all_messages.cgi" : "spec_messages.cgi",  );
 		if(strncmp(mes.courses, "all", 3) == 0){
 			asprintf(&redirectString, "https://%s/cgi-bin/all_messages.cgi", datCGI.http_host);
@@ -71,7 +81,7 @@ int main(int argc, char ** argv){
 
 		httpRedirect(redirectString);
 		free(redirectString);
-
+*/
 		free_message(&mes);
 
 	}else{

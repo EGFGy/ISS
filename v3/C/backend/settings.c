@@ -50,7 +50,7 @@ int main(int argc, char ** argv){
 
 			httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
 			httpHeader(HTML);
-			print_html_pure_head_menu("Benutzerkonteneinstellungen", "Einstellung", SETTINGS);
+			print_html_pure_head_menu("Benutzerkonteneinstellungen", "Einstellungen", SETTINGS);
 
 			puts("<div class='content'>");
 			printf("<h2>%s aktuellen Kurse</h2>\n<span>%s</span>", check_person.isTeacher ? "Ihre" : "Deine", check_person.courses);

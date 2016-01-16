@@ -84,7 +84,7 @@ int main(int argc, char ** argv){
 
 		#ifdef SCROLL_MENU
 
-		// Menü
+		// Auswahlmenü
 		puts("<div class='pure-menu pure-menu-horizontal pure-menu-scrollable'><ul class='pure-menu-list'>");
 		for(int j=0; j<number_of_courses; j++){
 			bool this_course=false;
@@ -124,6 +124,13 @@ int main(int argc, char ** argv){
 				pers.id=(a_messages.all_messages+i)->creator_id;
 
 				puts("<div class='messageBox'>");
+
+				if((a_messages.all_messages+i)->creator_id == check_person.id){
+					printf("<div class='optionbox'>\n\
+						<a class='edit'  href='/cgi-bin/debug.cgi?edit&%d'><img class='icon-image' src='/img/ico_pen.png'></a><a class='delete' href='/cgi-bin/debug.cgi?delete&%d'><img class='icon-image' src='/img/ico_delete.png'></a>\n\
+					</div>", (a_messages.all_messages+i)->id, (a_messages.all_messages+i)->id);
+				}
+
 				printf("	<h2 class='content-subhead'>%s</h2>\n	<p>%s</p>\n", (a_messages.all_messages+i)->title, (a_messages.all_messages+i)->message);
 				if(get_person_by_id(&pers)){
 					printf("	<h3 style='font-size: 12px; font-style: italic;' class='message-info'>Um %s von %s %s erstellt</h3>", (a_messages.all_messages+i)->s_created, pers.first_name, pers.name );
