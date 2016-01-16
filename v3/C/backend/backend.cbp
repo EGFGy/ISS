@@ -157,6 +157,21 @@
 					<Add library="crypt" />
 				</Linker>
 			</Target>
+			<Target title="delete_message">
+				<Option output="bin/Debug/delete_message" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-std=gnu99" />
+				</Compiler>
+				<Linker>
+					<Add library="m" />
+					<Add library="crypt" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
@@ -184,13 +199,17 @@
 			<Option compilerVar="CC" />
 			<Option target="check_user_exist" />
 		</Unit>
-		<Unit filename="logout.c">
+		<Unit filename="delete_message.c">
 			<Option compilerVar="CC" />
-			<Option target="logout" />
+			<Option target="delete_message" />
 		</Unit>
 		<Unit filename="login.c">
 			<Option compilerVar="CC" />
 			<Option target="login" />
+		</Unit>
+		<Unit filename="logout.c">
+			<Option compilerVar="CC" />
+			<Option target="logout" />
 		</Unit>
 		<Unit filename="post_message.c">
 			<Option compilerVar="CC" />

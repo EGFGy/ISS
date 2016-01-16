@@ -1808,10 +1808,11 @@ bool get_teacher_by_course(person * pers, char * c){
 			//ID holen
 			pers->id=atoi(row[COL_ID]);
 
-			mysql_free_result(result);
+			//mysql_free_result(result);
 			success=true;
 
 		}
+		mysql_free_result(result);
 	}
 	mysql_close(my);
 	free(query);
@@ -1872,15 +1873,18 @@ bool get_message_by_id(int id, message * mes){
 			asprintf(&time, "%s", row[COL_MESSAGE_TIME_CREATED]);
 			//TODO convert time
 
+			free(time);
+
 			mes->creator_id=atoi(row[COL_MESSAGE_CREATORID]);
 			mes->id=atoi(row[COL_MESSAGE_ID]);
 
 
 
-			mysql_free_result(result);
+			//mysql_free_result(result);
 			success=true;
 
 		}
+		mysql_free_result(result);
 	}
 	mysql_close(my);
 	free(query);

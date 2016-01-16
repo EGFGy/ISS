@@ -4,7 +4,7 @@ CFLAGS=-Wextra -Wall -DGNU_SOURCE -g -std=gnu99 -I/usr/include/mysql
 LIBS=-lmysqlclient -lm -lcrypt
 OBJS=.objs/CGI_functions.o .objs/SQL_functions_v1.o
 
-all: timetable logout login register all_messages check_user_exist login post_message settings spec_messages timetable
+all: timetable logout login register all_messages check_user_exist login post_message settings spec_messages timetable delete_message
 
 %.o: %.c
 	$(CC) -c -o .objs/$@ $< $(CFLAGS)

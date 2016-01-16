@@ -119,6 +119,7 @@
 
 .optionbox{
 	float: right;
+	display: flex;
 }
 .optionbox a{
 	text-decoration: none;
