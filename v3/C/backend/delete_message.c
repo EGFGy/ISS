@@ -38,17 +38,33 @@ int main(int argc, char ** argv){
 		get_person_by_sid(&check_person);
 
 
+		/**
+		Zuerst herausfinden wo der Nutzer herkam.
+		Da man sich nicht darauf verlassen kann,
+		dass jeder einen HTTP referer überträgt (Privatsphäre usw.) muss die Information, "woher kam der Nutzer",
+		in dem Link enthalten sein mit dem er Die Nachricht löschen will.
+
+		Beispiel:
+		(https://<DOMAIN>/cgi-bin/delete_message?message_ID=123&all_messages=1)
+		--> Der Nutzer kam von den allgemeinen Meldungen
+		--> Die Umleitung muss entsprechend engepasst werden
+		--> Umleintung: https://<DOMAIN>/cgi-bin/all_messages.cgi
+
+		Zudem wird noch übertragen wie weit der Nutzer zuvor geblättert hat (offset)
+		und bei welchem Kurs er war (course)
+		*/
+
 		bool all_or_spec=false; // false = all; true= spec
 		char * offset=NULL; // Auf welcher Seite war er
 		if(extract_QUERY_data(&datCGI, "offset", &offset) == 0){
 			char * return_link=NULL;
 			if(extract_QUERY_data(&datCGI, "all_messages", NULL) == 0){
-				//Zurück zur Seite mit allen Meldungen
+				//Zurück zur Seite mit allgemeinen Meldungen
 				all_or_spec=true;
 				asprintf(&return_link, "/cgi-bin/all_messages.cgi?offset=%s", offset);
 			}else if(extract_QUERY_data(&datCGI, "spec_messages", NULL) == 0){
 				//Zu den Kursbezogene Meldungen
-				char * course_s=NULL; // Bei welche mKurs war er (wenn überhaupt)
+				char * course_s=NULL; // Bei welchem Kurs war er (wenn überhaupt)
 				if(extract_QUERY_data(&datCGI, "course", &course_s) == 0){
 					asprintf(&return_link, "/cgi-bin/spec_messages.cgi?offset=%s&course=%s#button_%s", offset, course_s);
 				}else{
@@ -60,20 +76,29 @@ int main(int argc, char ** argv){
 				//lel
 			}
 
+			/**
+			Nachricht nur dann löschen, wenn sie Existiert und wenn der aktuell
+			angemeldete Nutzer diese Nachricht auch erstellt hat (creatorID)
+			*/
 			message mes;
 			init_message(&mes);
 			char * message_ID_s=NULL;
 			if(extract_QUERY_data(&datCGI, "message_ID", &message_ID_s) == 0){
 				int id=atoi(message_ID_s);
 				if(get_message_by_id(id, &mes)){
+					//Nachricht existiert
 					if(mes.creator_id == check_person.id){
+						//Der aktuell angemeldete nutzer hat dies Nachricht erstellt
 						if(delete_message_by_id(&mes)){
 							print_html_error("Meldung gelöscht", return_link);
 						}else{
+							//Ein Fehler ist aufgetreten
 							print_html_error("Meldung nicht gelöscht", return_link);
 						}
 
 					}else{
+						//Jemand hat versucht eine Nachricht zu löschen, die nicht von ihm erstellt wurde
+						// Wieder zurück wo er herkam
 						char * redirectString=NULL;
 
 						asprintf(&redirectString, "https://%s%s", datCGI.http_host, return_link);
@@ -90,7 +115,7 @@ int main(int argc, char ** argv){
 			if(message_ID_s)free(message_ID_s);
 			if(return_link)free(return_link);
 		}else{
-			print_html_error("fehlerhafte Anfrage", "/cgi-bin/all_messages.cgi");
+			print_html_error("fehlerhafte Anfrage", "/cgi-bin/all_messages.cgi"); // wieder zurück zur Hauptseite (allgemeine Meldungen
 		}
 
 		if(offset)free(offset);

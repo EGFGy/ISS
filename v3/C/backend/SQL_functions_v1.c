@@ -2064,6 +2064,13 @@ int comma_to_array(char * comma_char, char *** str_array){
 }
 
 
+/** \brief Aus einem String mit Salt + Hash-Wert des Passwortes aus der Datenbank
+           das Salz extrahieren
+ *
+ * \param db_passwd char*  String aus der DB
+ * \return char*           Allozierter Speicher mit dem Salt
+ *
+ */
 char * salt_extract(char * db_passwd){
 	char * salt=NULL;
 	if(db_passwd != NULL){
