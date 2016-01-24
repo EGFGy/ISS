@@ -1952,7 +1952,8 @@ bool delete_message_by_id(message * mes){
  */
 void clean_string(char * str){
 	regex_t reg;
-	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüßéèêáàâíìîóòôúùûÉÈÊÁÀÂÍÌÎÓÒÔÚÙÛ!?(!?(),.-]]*", REG_EXTENDED); //Nur diese Zeichen sind erlaubt
+	regcomp(&reg, "[^A-Za-z0-9 #@\n\rÄÖÜäöüßéèêáàâíìîóòôúùûÉÈÊÁÀÂÍÌÎÓÒÔÚÙÛ!?(!?(),.-€]]*", REG_EXTENDED); //Nur diese Zeichen sind erlaubt
+	// Achtung: keine ' (Hochkomma), oder " (Anführungszeichen) --> SQL-injection
 	size_t str_len=strlen(str)+1;
 	regmatch_t * pmatch=calloc(str_len, sizeof(regmatch_t));
 	#ifdef DEBUG

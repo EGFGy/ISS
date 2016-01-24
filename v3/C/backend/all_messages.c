@@ -53,8 +53,10 @@ int main(int argc, char ** argv){
 		char * s_offest=NULL;
 		if(extract_QUERY_data(&datCGI, "offset", &s_offest) == 0){
 			offset=atoi(s_offest);
+			if(offset<=0)offset=0;
+			free(s_offest);
+			s_offest=NULL;
 		}
-		if(s_offest)free(s_offest);s_offest=NULL;
 
 		//all_messages=get_messages(&number, offset);
 		get_messages(&all_messages, offset, NULL);
@@ -76,8 +78,8 @@ int main(int argc, char ** argv){
 
 		/** Wenn ein Lehrer die Seite aufruft, das Eingabefeld anzeigen*/
         if(check_person.isTeacher)puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST' enctype='application/x-www-form-urlencoded'>\n\
-			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'>\n\
-			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'></textarea>\n\
+			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();' required>\n\
+			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();' required></textarea>\n\
 			  <input id='submit' style='display: block; margin-left: auto; margin-right: auto;' class='submitButton' type='submit' value='Absenden'>\n\
 			  </form></div>\
 			");
@@ -92,6 +94,8 @@ int main(int argc, char ** argv){
 
 
 			puts("<div class='messageBox'>");
+
+			//Knöpfe zum Löschen und Editieren
 			if((all_messages.all_messages+i)->creator_id == check_person.id){
 				puts("<div class='optionbox'>\n");
 				printf("<a class='edit'  href='/cgi-bin/debug.cgi?edit&%d'><img class='icon-image' src='/img/ico_pen.png'></a>\n", (all_messages.all_messages+i)->id);

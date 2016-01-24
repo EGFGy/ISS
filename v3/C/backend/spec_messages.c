@@ -46,6 +46,7 @@ int main(int argc, char ** argv){
 		if(extract_QUERY_data(&datCGI, "offset", &s_offset) == 0){
 			offset=atoi(s_offset);
 			free(s_offset);
+			if(offset<=0)offset=0;
 		}
 
 		httpCacheControl("no-store, no-cache, must-revalidate, max-age=0");
@@ -59,8 +60,8 @@ int main(int argc, char ** argv){
 
 		if(check_person.isTeacher){
 			puts("<div id='message-form'><form style='border-radius: 1em; padding: 1em;' action='/cgi-bin/post_message.cgi' method='POST' enctype='application/x-www-form-urlencoded'>\n\
-			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'>\n\
-			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();'></textarea>");
+			  <label style='font-weight: bold;' for='ti'>Titel</label><input style='display: block;' name='titel' id='ti' type='text' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();' required>\n\
+			  <label style='font-weight: bold;' for='tex'>Text</label><textarea style='display: block;' name='meldung' id='tex' onchange='main.countLettersInThis(this); main.validateAllInput();' onkeyup='main.countLettersInThis(this); main.validateAllInput();' required></textarea>");
 
 			//Kursauswahl
 			puts("<label style='font-weight: bold;' for='grade'>Kurs</label><br>\n\
