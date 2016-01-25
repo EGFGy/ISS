@@ -42,13 +42,13 @@ int main(int argc, char ** argv){
 		Zuerst herausfinden wo der Nutzer herkam.
 		Da man sich nicht darauf verlassen kann,
 		dass jeder einen HTTP referer überträgt (Privatsphäre usw.) muss die Information, "woher kam der Nutzer",
-		in dem Link enthalten sein mit dem er Die Nachricht löschen will.
+		in dem Link enthalten sein mit dem er die Nachricht löschen will.
 
 		Beispiel:
 		(https://<DOMAIN>/cgi-bin/delete_message?message_ID=123&all_messages=1)
 		--> Der Nutzer kam von den allgemeinen Meldungen
-		--> Die Umleitung muss entsprechend engepasst werden
-		--> Umleintung: https://<DOMAIN>/cgi-bin/all_messages.cgi
+		--> Die Umleitung muss entsprechend angepasst werden
+		--> Umleitung: https://<DOMAIN>/cgi-bin/all_messages.cgi
 
 		Zudem wird noch übertragen wie weit der Nutzer zuvor geblättert hat (offset)
 		und bei welchem Kurs er war (course)
