@@ -39,6 +39,7 @@ service nginx status
 service ufw status
 service mysql status
 service fcgiwrap status
+service mumble-server status
 echo -------------
 echo "Temperatur:"
 sensors | grep -i '[Ct][oe][rm][ep]' | sed -e 's/(.*//'
