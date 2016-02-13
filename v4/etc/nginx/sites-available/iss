@@ -18,43 +18,11 @@
 ##
 
 server {
-	listen 443 ssl;
-	listen 80;
-	root /srv/data;
-	index index.html;
-	server_name iss-stuff.goip.de;
-
-        ssl_certificate /etc/nginx/ssl/nginx.crt;
-        ssl_certificate_key /etc/nginx/ssl/nginx.key;
-
-        ssl_session_timeout 5m; # ad
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # ad
-        ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES"; # ad
-        ssl_prefer_server_ciphers on; # ad
-
-        if ($scheme = http) {
-                return 301 https://$server_name$request_uri;
-        }
-
-	
-	location / {
-                # First attempt to serve request as file, then
-                # as directory, then fall back to displaying a 404.
-                try_files $uri $uri/ =404;
-                # Uncomment to enable naxsi on this location
-                # include /etc/nginx/naxsi.rules
-                autoindex on;
-        }
-	error_page 404 /404.html;
-}
-
-
-server {
 	listen 80 default_server;
 	# listen [::]:80 default_server ipv6only=on;
 	listen 443 ssl default_server;
 
-	root /srv/html;
+	root /srv/iss;
 	index index.html index.htm main.html;
 
 	# Make site accessible from http://localhost/
@@ -83,7 +51,7 @@ server {
  	##
  	# My Added
  	##
- 	include /etc/nginx/fcgiwrap.conf;
+	#include /etc/nginx/fcgiwrap.conf;
 
 	location / {
 		# First attempt to serve request as file, then
@@ -111,6 +79,19 @@ server {
 	error_page 500 502 503 504 /50x.html;
 	location = /50x.html {
 		root /usr/share/nginx/html;
+	}
+
+	location /cgi-bin/ {
+		gzip off;
+
+		# Fastcgi socket
+		fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+
+		# Fastcgi parameters, include the standard ones
+		 include /etc/nginx/fastcgi_params;
+
+		# Adjust non standard parameters (SCRIPT_FILENAME)
+		fastcgi_param SCRIPT_FILENAME  /srv/iss$fastcgi_script_name;
 	}
 
 	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
