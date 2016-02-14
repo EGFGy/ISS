@@ -1,0 +1,143 @@
+==25968== Memcheck, a memory error detector
+==25968== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==25968== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==25968== Command: ./login.cgi
+==25968== 
+Lehrer.
+sql_query: SELECT  * FROM Benutzer WHERE kuerzel='ROT'
+
+Ein Ergebnis!
+ Name: Rottenheimer, Pass: ip14HXo8cfm.aslft9Fg3.V6IV1O6BREKoYqCGoUMoEvvaq1isAVBWNaQPCmqbUSVSvlGvH9Iq3trc0SR7acKkB0pgtvVM5Fr., SID: '1414084561'
+Set-Cookie: EMAIL=r@r.c
+Set-Cookie: SID=1414084561
+Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+Status: 301
+Location: https://(null)/cgi-bin/all_messages.cgi
+
+==25968== 
+==25968== HEAP SUMMARY:
+==25968==     in use at exit: 74,266 bytes in 30 blocks
+==25968==   total heap usage: 120 allocs, 90 frees, 151,339 bytes allocated
+==25968== 
+==25968== 4 bytes in 1 blocks are still reachable in loss record 1 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x401D96: _extractCGIdata (CGI_functions.c:300)
+==25968==    by 0x401E49: extract_POST_data (CGI_functions.c:332)
+==25968==    by 0x40142B: main (login.c:41)
+==25968== 
+==25968== 6 bytes in 1 blocks are still reachable in loss record 2 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x40276E: verify_user (SQL_functions_v1.c:212)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 9 bytes in 1 blocks are still reachable in loss record 3 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x402740: verify_user (SQL_functions_v1.c:208)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 11 bytes in 1 blocks are still reachable in loss record 4 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x401510: main (login.c:83)
+==25968== 
+==25968== 13 bytes in 1 blocks are still reachable in loss record 5 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x402718: verify_user (SQL_functions_v1.c:207)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 20 bytes in 1 blocks are still reachable in loss record 6 of 14
+==25968==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==25968==    by 0x401AB7: get_CGI_data (CGI_functions.c:160)
+==25968==    by 0x401401: main (login.c:32)
+==25968== 
+==25968== 24 bytes in 1 blocks are still reachable in loss record 7 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E871B9: my_error_register (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E656DC: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4023BD: verify_user (SQL_functions_v1.c:106)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 40 bytes in 1 blocks are still reachable in loss record 8 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x59211E7: vasprintf (vasprintf.c:76)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x401556: main (login.c:89)
+==25968== 
+==25968== 94 bytes in 1 blocks are still reachable in loss record 9 of 14
+==25968==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==25968==    by 0x59211BA: vasprintf (vasprintf.c:84)
+==25968==    by 0x58FFFA6: asprintf (asprintf.c:35)
+==25968==    by 0x4027FE: verify_user (SQL_functions_v1.c:227)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 125 bytes in 1 blocks are still reachable in loss record 10 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x4C2AFCF: realloc (vg_replace_malloc.c:692)
+==25968==    by 0x567B244: __sha512_crypt (sha512-crypt.c:430)
+==25968==    by 0x402651: verify_user (SQL_functions_v1.c:193)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 144 bytes in 1 blocks are still reachable in loss record 11 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x4E8AA63: my_malloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E86342: init_alloc_root (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E701C3: mysql_client_plugin_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E656E3: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4023BD: verify_user (SQL_functions_v1.c:106)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 192 bytes in 1 blocks are still reachable in loss record 12 of 14
+==25968==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==25968==    by 0x4E8C236: my_thread_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E8C540: my_thread_global_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E8A31F: my_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E656AA: mysql_server_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6BA2E: mysql_init (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4023BD: verify_user (SQL_functions_v1.c:106)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 36,792 bytes in 9 blocks are still reachable in loss record 13 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E81D99: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==25968==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4023FD: verify_user (SQL_functions_v1.c:111)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== 36,792 bytes in 9 blocks are still reachable in loss record 14 of 14
+==25968==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==25968==    by 0x4E8ADB7: my_once_alloc (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E81DB5: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E82963: ??? (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x5C6544F: pthread_once (pthread_once.S:103)
+==25968==    by 0x4E82FAE: get_charset_by_csname (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6BC40: mysql_init_character_set (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4E6CA67: mysql_real_connect (in /usr/lib/x86_64-linux-gnu/libmysqlclient.so.18.0.0)
+==25968==    by 0x4023FD: verify_user (SQL_functions_v1.c:111)
+==25968==    by 0x4014D0: main (login.c:77)
+==25968== 
+==25968== LEAK SUMMARY:
+==25968==    definitely lost: 0 bytes in 0 blocks
+==25968==    indirectly lost: 0 bytes in 0 blocks
+==25968==      possibly lost: 0 bytes in 0 blocks
+==25968==    still reachable: 74,266 bytes in 30 blocks
+==25968==         suppressed: 0 bytes in 0 blocks
+==25968== 
+==25968== For counts of detected and suppressed errors, rerun with: -v
+==25968== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

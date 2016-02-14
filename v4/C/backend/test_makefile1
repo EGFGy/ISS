@@ -1,0 +1,31 @@
+DEPS=SQL_functions_v1.o CGI_functions.o
+CC=gcc
+CFLAGS=-Wextra -Wall -DGNU_SOURCE -Wextra -Wall -g -std=gnu99 -I/usr/include/mysql
+LIBS=-lmysqlclient -lm -lcrypt
+
+%.o: %.c
+	$(CC) -c -o .objs/$@ $< $(CFLAGS)
+
+timetable: timetable.o $(DEPS)
+	$(CC) -o bin/Debug/timetable .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/timetable.o $(LIBS)
+
+login: main_strtok_base3.o $(DEPS)
+	$(CC) -o bin/Debug/login .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/main_strtok_base3.o $(LIBS)
+
+logout: logout.o
+	$(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)
+
+logout: logout.o
+        $(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)
+
+logout: logout.o
+        $(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)
+
+logout: logout.o
+        $(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)
+
+logout: logout.o
+        $(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)
+
+logout: logout.o
+        $(CC) -o bin/Debug/logout .objs/CGI_functions.o .objs/SQL_functions_v1.o .objs/logout.o $(LIBS)

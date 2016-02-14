@@ -1,0 +1,37 @@
+# die Umgebungsvariablen z.B. für die CGI-Programme (in einer bash)
+ export CONTENT_LENGTH="50"
+ export REQUEST_METHOD="POST"
+ export QUERY_STRING=""
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
+ODER 
+ export QUERY_STRING=""
+ export REQUEST_METHOD="GET"
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
+ODER
+ export CONTENT_LENGTH="300"
+ export REQUEST_METHOD="POST"
+ export QUERY_STRING="<entsprechendes>"
+ export REQUEST_METHOD="GET"
+ export HTTP_COOKIE="EMAIL=r@r.c; SID=1"
+ 
+ export QUERY_STRING="password_update=change"
+ export QUERY_STRING="course_update=change"
+ 
+ 
+-- Post-Data -- (je eins pro Zeile)
+
+# Für die Änderung einse Passwortes
+ pass_old=WOW&pass_new_1=ROT&pass_new_2=ROT
+ pass_old=ROT&pass_new_1=WOW&pass_new_2=WOW
+
+# Für das Erstellen einer Meldung
+ titel=Titel&meldung=Text&kurs=10bWR
+
+# Beispiel Kursänderungen (Stunden fehlerhaft doppelt belegt)
+ 10bC=on&10bD=on&10bE=on&10bEth=on&10bEv=on&10bF=on&10bG=on&10bGEO=on&10bINF=on&10bK=on&10bKu=on&10bM=on&10bMu=on&10bPH=on&10bSM=on&10bWR=on&really=on
+
+# Beispiel Kursänderungen (nichts doppelt belegti)
+ 10bC=on&10bD=on&10bE=on&10bEth=on&10bF=on&10bG=on&10bGEO=on&10bINF=on&10bKu=on&10bM=on&10bMu=on&10bPH=on&10bSM=on&10bWR=on&really=on
+-- Post-Data ---

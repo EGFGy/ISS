@@ -1,0 +1,627 @@
+==18293== Invalid free() / delete / delete[] / realloc()
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402EBF: main (settings.c:368)
+==18293==  Address 0x67fe0d0 is 0 bytes inside a block of size 4 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402E40: main (settings.c:352)
+==18293== 
+==18293== Invalid free() / delete / delete[] / realloc()
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402EE5: main (settings.c:372)
+==18293==  Address 0x67fe3f0 is 0 bytes inside a block of size 4 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x405B50: update_user_password (SQL_functions_v1.c:1367)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293== 
+--18293-- Discarding syms at 0x73b82a0-0x73be803 in /lib/x86_64-linux-gnu/libnss_files-2.19.so due to munmap()
+==18293== 
+==18293== HEAP SUMMARY:
+==18293==     in use at exit: 83,327 bytes in 135 blocks
+==18293==   total heap usage: 429 allocs, 296 frees, 396,804 bytes allocated
+==18293== 
+==18293== Searching for pointers to 135 not-freed blocks
+==18293== Checked 1,109,832 bytes
+==18293== 
+==18293== 13 bytes in 1 blocks are definitely lost in loss record 6 of 23
+==18293==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==18293==    by 0x403DE2: salt_exists (SQL_functions_v1.c:487)
+==18293==    by 0x405AAE: update_user_password (SQL_functions_v1.c:1358)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293== 
+==18293== 14 bytes in 1 blocks are definitely lost in loss record 7 of 23
+==18293==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==18293==    by 0x5E421E7: vasprintf (vasprintf.c:76)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x401B5D: _extractCGIdata (CGI_functions.c:240)
+==18293==    by 0x401D45: extract_QUERY_data (CGI_functions.c:319)
+==18293==    by 0x402BB8: main (settings.c:297)
+==18293== 
+==18293== 15 bytes in 1 blocks are definitely lost in loss record 8 of 23
+==18293==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==18293==    by 0x5E421E7: vasprintf (vasprintf.c:76)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x401B5D: _extractCGIdata (CGI_functions.c:240)
+==18293==    by 0x401D45: extract_QUERY_data (CGI_functions.c:319)
+==18293==    by 0x402531: main (settings.c:165)
+==18293== 
+==18293== 23 bytes in 1 blocks are definitely lost in loss record 9 of 23
+==18293==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==18293==    by 0x5E421E7: vasprintf (vasprintf.c:76)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x401B7C: _extractCGIdata (CGI_functions.c:240)
+==18293==    by 0x401D45: extract_QUERY_data (CGI_functions.c:319)
+==18293==    by 0x402531: main (settings.c:165)
+==18293== 
+==18293== 23 bytes in 1 blocks are definitely lost in loss record 10 of 23
+==18293==    at 0x4C28C20: malloc (vg_replace_malloc.c:296)
+==18293==    by 0x5E421E7: vasprintf (vasprintf.c:76)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x401B7C: _extractCGIdata (CGI_functions.c:240)
+==18293==    by 0x401D45: extract_QUERY_data (CGI_functions.c:319)
+==18293==    by 0x402BB8: main (settings.c:297)
+==18293== 
+==18293== 93 bytes in 1 blocks are definitely lost in loss record 13 of 23
+==18293==    at 0x4C2AD10: calloc (vg_replace_malloc.c:623)
+==18293==    by 0x401804: get_CGI_data (CGI_functions.c:97)
+==18293==    by 0x4020C6: main (settings.c:26)
+==18293== 
+==18293== 99 bytes in 1 blocks are definitely lost in loss record 15 of 23
+==18293==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==18293==    by 0x5E421BA: vasprintf (vasprintf.c:84)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x403884: verify_user_password (SQL_functions_v1.c:306)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 99 bytes in 1 blocks are definitely lost in loss record 16 of 23
+==18293==    at 0x4C2AF2E: realloc (vg_replace_malloc.c:692)
+==18293==    by 0x5E421BA: vasprintf (vasprintf.c:84)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293== 
+==18293== LEAK SUMMARY:
+==18293==    definitely lost: 379 bytes in 8 blocks
+==18293==    indirectly lost: 0 bytes in 0 blocks
+==18293==      possibly lost: 0 bytes in 0 blocks
+==18293==    still reachable: 82,948 bytes in 127 blocks
+==18293==         suppressed: 0 bytes in 0 blocks
+==18293== Reachable blocks (those to which a pointer was found) are not shown.
+==18293== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==18293== 
+==18293== ERROR SUMMARY: 334 errors from 50 contexts (suppressed: 0 from 0)
+==18293== 
+==18293== 1 errors in context 1 of 50:
+==18293== Invalid free() / delete / delete[] / realloc()
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402EE5: main (settings.c:372)
+==18293==  Address 0x67fe3f0 is 0 bytes inside a block of size 4 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x405B50: update_user_password (SQL_functions_v1.c:1367)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293== 
+==18293== 
+==18293== 1 errors in context 2 of 50:
+==18293== Invalid free() / delete / delete[] / realloc()
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402EBF: main (settings.c:368)
+==18293==  Address 0x67fe0d0 is 0 bytes inside a block of size 4 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x402E40: main (settings.c:352)
+==18293== 
+==18293== 
+==18293== 1 errors in context 3 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E55823: __GI_mempcpy (memcpy.S:123)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6fe is 94 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 4 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E55820: __GI_mempcpy (memcpy.S:122)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f6 is 86 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 5 of 50:
+==18293== Invalid read of size 4
+==18293==    at 0x5E557EE: __GI_mempcpy (memcpy.S:95)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f2 is 82 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 6 of 50:
+==18293== Invalid read of size 2
+==18293==    at 0x5E557DB: __GI_mempcpy (memcpy.S:83)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f0 is 80 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 7 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E558B7: __GI_mempcpy (memcpy.S:216)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6e8 is 72 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 8 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E558B3: __GI_mempcpy (memcpy.S:215)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6e0 is 64 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 9 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E558AF: __GI_mempcpy (memcpy.S:214)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6d8 is 56 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 10 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E558AC: __GI_mempcpy (memcpy.S:213)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6d0 is 48 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 11 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E5588D: __GI_mempcpy (memcpy.S:199)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6c8 is 40 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 12 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E55889: __GI_mempcpy (memcpy.S:198)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6c0 is 32 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 13 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E55885: __GI_mempcpy (memcpy.S:197)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b8 is 24 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 14 of 50:
+==18293== Invalid read of size 8
+==18293==    at 0x5E55882: __GI_mempcpy (memcpy.S:196)
+==18293==    by 0x5E462ED: _IO_default_xsputn (genops.c:463)
+==18293==    by 0x5E1ADE6: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b0 is 16 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 15 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x5379EED: __sha512_crypt_r (sha512-crypt.c:384)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b706 is 102 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 1 errors in context 16 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x5379BE5: __sha512_crypt_r (sha512-crypt.c:339)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6af is 15 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 2 errors in context 17 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379ED7: __sha512_crypt_r (sha512-crypt.c:376)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b704 is 100 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 3 errors in context 18 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x4C2F303: stpncpy (vg_replace_strmem.c:1050)
+==18293==    by 0x5379B6F: __sha512_crypt_r (sha512-crypt.c:323)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6a0 is 0 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 19 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379EBF: __sha512_crypt_r (sha512-crypt.c:375)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b700 is 96 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 20 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379E9D: __sha512_crypt_r (sha512-crypt.c:374)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6fc is 92 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 21 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379E7B: __sha512_crypt_r (sha512-crypt.c:373)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f8 is 88 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 22 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379E59: __sha512_crypt_r (sha512-crypt.c:372)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f4 is 84 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 23 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379E37: __sha512_crypt_r (sha512-crypt.c:371)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6f0 is 80 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 24 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379E15: __sha512_crypt_r (sha512-crypt.c:370)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6ec is 76 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 25 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379DF3: __sha512_crypt_r (sha512-crypt.c:369)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6e8 is 72 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 26 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379DD1: __sha512_crypt_r (sha512-crypt.c:368)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6e4 is 68 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 27 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379DAF: __sha512_crypt_r (sha512-crypt.c:367)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6e0 is 64 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 28 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379D8D: __sha512_crypt_r (sha512-crypt.c:366)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6dc is 60 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 29 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379D6B: __sha512_crypt_r (sha512-crypt.c:365)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6d8 is 56 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 30 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379D49: __sha512_crypt_r (sha512-crypt.c:364)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6d4 is 52 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 31 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379D27: __sha512_crypt_r (sha512-crypt.c:363)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6d0 is 48 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 32 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379D05: __sha512_crypt_r (sha512-crypt.c:362)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6cc is 44 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 33 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379CE3: __sha512_crypt_r (sha512-crypt.c:361)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6c8 is 40 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 34 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379CC1: __sha512_crypt_r (sha512-crypt.c:360)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6c4 is 36 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 35 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379C9F: __sha512_crypt_r (sha512-crypt.c:359)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6c0 is 32 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 36 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379C7D: __sha512_crypt_r (sha512-crypt.c:358)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6bc is 28 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 37 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379C5B: __sha512_crypt_r (sha512-crypt.c:357)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b8 is 24 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 38 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379C39: __sha512_crypt_r (sha512-crypt.c:356)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b4 is 20 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 4 errors in context 39 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x53794F5: b64_from_24bit.8809 (sha512-crypt.c:349)
+==18293==    by 0x5379C17: __sha512_crypt_r (sha512-crypt.c:355)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b0 is 16 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 12 errors in context 40 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x4C2F303: stpncpy (vg_replace_strmem.c:1050)
+==18293==    by 0x5379BB2: __sha512_crypt_r (sha512-crypt.c:334)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6a3 is 3 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 87 errors in context 41 of 50:
+==18293== Invalid read of size 1
+==18293==    at 0x5E1AE2C: vfprintf (vfprintf.c:1642)
+==18293==    by 0x5E42182: vasprintf (vasprintf.c:62)
+==18293==    by 0x5E20FA6: asprintf (asprintf.c:35)
+==18293==    by 0x405B18: update_user_password (SQL_functions_v1.c:1364)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6b0 is 16 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== 
+==18293== 122 errors in context 42 of 50:
+==18293== Invalid write of size 1
+==18293==    at 0x4C2F38C: stpncpy (vg_replace_strmem.c:1050)
+==18293==    by 0x5379B6F: __sha512_crypt_r (sha512-crypt.c:323)
+==18293==    by 0x405AE3: update_user_password (SQL_functions_v1.c:1363)
+==18293==    by 0x402E68: main (settings.c:355)
+==18293==  Address 0x680b6a3 is 3 bytes inside a block of size 125 free'd
+==18293==    at 0x4C29E90: free (vg_replace_malloc.c:473)
+==18293==    by 0x4038A8: verify_user_password (SQL_functions_v1.c:310)
+==18293==    by 0x402E2D: main (settings.c:350)
+==18293== 
+==18293== ERROR SUMMARY: 334 errors from 50 contexts (suppressed: 0 from 0)
+
