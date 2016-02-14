@@ -1,0 +1,11 @@
+# TODO
+
+Änderungne für die neue, verbesserte Version 4 des Projektes.
+
+* Session ID soll eine zufällig generierte Zeichenkette ([A-Za-z0-9])
+* Neuen Aufbau der Datenbank im C-Programm umsetzen
+* Kursbezogene Nachrichten gibt es nur für einen Kurs, nicht für mehrere
+* Stundenplan im XML-Format einlesen
+
+
+Um das Projekt zu Präsentieren muss auch die Version 3 lauffähig sein, falls v4 nicht fertig wird.
