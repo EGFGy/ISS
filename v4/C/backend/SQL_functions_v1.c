@@ -274,14 +274,14 @@ int verify_user(person * pers){
 	UserState user_state=PW_INCORRECT;
 
 	if(pers->email==NULL || pers->password==NULL){
-		print_exit_failure("Programm falsch!");
+		print_exit_failure("Programm falsch! (verify_user)");
 	}
 
 	isAcronym=detect_convert_acronym(pers);
 
 	MYSQL *my=mysql_init(NULL);
 	if(my == NULL){
-		print_exit_failure("MYSQL init failure");
+		print_exit_failure("MYSQL init failure (verify_user)");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
@@ -299,7 +299,7 @@ int verify_user(person * pers){
 		//TODO: sql-injection verhindern
 
 		char * sql_query=NULL;
-		if(asprintf(&sql_query, "SELECT  * FROM Benutzer WHERE kuerzel='%s'", pers->acronym) == -1){
+		if(asprintf(&sql_query, "SELECT * FROM Benutzer WHERE kuerzel='%s'", pers->acronym) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (verify_user)");
 		}
 		#ifdef DEBUG
@@ -396,11 +396,6 @@ int verify_user(person * pers){
 				}else{
 					pers->isTeacher=false;
 				}
-			}
-
-			//Kurse (falls vorhanden)
-			if(row[COL_COURSE] != NULL){
-				asprintf(&pers->courses, "%s", row[COL_COURSE]);
 			}
 
 			//ID holen

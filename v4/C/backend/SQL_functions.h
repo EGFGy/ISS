@@ -1,30 +1,65 @@
 #define COL_ID      0
-#define COL_VORNAME 1 //zweite Spalte ist der Name
+#define COL_VORNAME 1
 #define COL_NAME    2
 #define COL_EMAIL   3
 #define COL_PASS    4
 #define COL_ACR     5
-#define COL_COURSE  6
-#define COL_SID     7
+#define COL_SID     6
+/*
+mysql> DESCRIBE Benutzer;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| id          | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| vorname     | varchar(60)      | YES  |     | NULL    |                |
+| name        | varchar(60)      | YES  |     | NULL    |                |
+| email       | varchar(60)      | YES  |     | NULL    |                |
+| passwort    | varchar(128)     | YES  |     | NULL    |                |
+| kuerzel     | varchar(3)       | YES  |     | NULL    |                |
+| sid         | varchar(20)      | YES  |     | NULL    |                |
+| anmeldezeit | datetime         | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+*/
 
 #define COL_MESSAGE_ID            0
 #define COL_MESSAGE_TITEL         1
 #define COL_MESSAGE_MES           2
-#define COL_MESSAGE_COURSES       3
+#define COL_MESSAGE_COURSE_ID     3
 #define COL_MESSAGE_CREATORID     4
 #define COL_MESSAGE_TIME_CREATED  5
+/*
+mysql> DESCRIBE Meldung;
++---------------+------------------+------+-----+---------+----------------+
+| Field         | Type             | Null | Key | Default | Extra          |
++---------------+------------------+------+-----+---------+----------------+
+| id            | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| titel         | varchar(100)     | YES  |     | NULL    |                |
+| meldung       | varchar(1000)    | YES  |     | NULL    |                |
+| KursID        | int(10) unsigned | YES  |     | NULL    |                |
+| BenutzerID    | int(10) unsigned | YES  |     | NULL    |                |
+| zeit_erstellt | datetime         | YES  |     | NULL    |                |
++---------------+------------------+------+-----+---------+----------------+
+*/
 
 #define COL_COURSE_ID    0
 #define COL_COURSE_NAME  1
-#define COL_COURSE_TIME  2
-#define COL_COURSE_ROOM  3
-
+/*
+mysql> DESCRIBE Kurs;
++-------+------------------+------+-----+---------+----------------+
+| Field | Type             | Null | Key | Default | Extra          |
++-------+------------------+------+-----+---------+----------------+
+| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(10)      | YES  |     | NULL    |                |
++-------+------------------+------+-----+---------+----------------+
+*/
+/*
 #define COL_ALTER_COURSE_ID 0
 #define COL_ALTER_COURSE_NAME 1
 #define COL_ALTER_COURSE_TIME 2
 #define COL_ALTER_COURSE_ORIGINAL_TIME 3
 #define COL_ALTER_COURSE_ROOM 4
 #define COL_ALTER_COURSE_TEACHER_ACR 5
+*/
 
 #define GET_MESSAGE_COUNT 5
 
@@ -65,7 +100,7 @@ typedef struct message message;
 typedef struct message_set message_set;
 
 typedef struct person{
-	unsigned int id;                 // ID der Person
+	unsigned long id;                 // ID der Person
 	char * first_name;      // Vorname
 	char * name;            // Nachname
 	char * password;        // eingegebenes Passwort
@@ -80,7 +115,7 @@ typedef struct person{
 }person;
 
 typedef struct course{
-	unsigned int id;                        // ID des Kurses
+	unsigned long id;                        // ID des Kurses
 	char * name;                   // Kursname (z.B. 2PHO)
 	int time_day;                  // Wochentag an dem der Kurs stattfindet (struct tm ... tm_wday) --> (0=Sonntag, 1=Montag ...)
 	int time_hour;                 // Schulstunde zu der der Kurs stattfindet (z.B. Mo3)
@@ -96,7 +131,7 @@ typedef struct course{
 
 
 typedef struct message{
-	unsigned int id;              // ID der Nachricht
+	unsigned long id;              // ID der Nachricht
 	char * title;                 // Titel
 	char * message;               // Nachricht
 	unsigned int course_id;       // String mit Kursliste aus der Datenbank / vom Browser (bei Erstellung)
