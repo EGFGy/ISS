@@ -30,7 +30,7 @@
 
 #define SQL_USER            "web_user"
 #define SQL_PASS            "web_pass"
-#define SQL_BASE            "base5"
+#define SQL_BASE            "info_wall_better"
 #define SQL_ALTERNATE_USER  "web_user"
 #define SQL_ALTERNATE_PASS  "web_pass"
 
@@ -58,13 +58,18 @@ typedef enum {PW_CORRECT, PW_CORRECT_ALREADY_LOGGED_IN, PW_INCORRECT}UserState;
 4 0100 TIME
 8 1000 OMITTED
 */
+typedef struct course course;
+typedef struct course_set course_set;
+typedef struct person person;
+typedef struct message message;
+typedef struct message_set message_set;
 
-typedef struct {
-	int id;                 // ID der Person
+typedef struct person{
+	unsigned int id;                 // ID der Person
 	char * first_name;      // Vorname
 	char * name;            // Nachname
 	char * password;        // eingegebenes Passwort
-	char * courses;         // Liste der Kurse an denen die Person teilnimmt
+	course_set * courses;   // Liste der Kurse an denen die Person teilnimmt
 	char * acronym;         // Kürzel der Person (falls vorhanden)
 	char * email;           // E-Mail-Adresse der Person
 	struct tm * login_time; // Zeit zu der sich der Nutzer angemeldet hat
@@ -74,25 +79,11 @@ typedef struct {
 	bool isTeacher;         // Lehrer ?
 }person;
 
-typedef struct{
-	int id;               // ID der Nachricht
-	char * title;         // Titel
-	char * message;       // Nachricht
-	char * courses;       // String mit Kursliste aus der Datenbank / vom Browser (bei Erstellung)
-	int creator_id;       // ID des / der Erstellers / Erstellerin
-	struct tm * created;  // Speicherung der Zeit bei Erstellung
-	char * s_created;     // String in dem die Zeit de rErstellung aus der Datenbank gespeichert wird
-}message;
-
-typedef struct{
-	message * all_messages; // Array in dem mehrere Nachrichten gespeichert werden
-	size_t cnt;             // Anzahl der Nachrichten
-}message_set;
-
-typedef struct{
-	int id;                        // ID des Kurses
+typedef struct course{
+	unsigned int id;                        // ID des Kurses
 	char * name;                   // Kursname (z.B. 2PHO)
-	char * time;                   // Zeit zu der der Kurs stattfindet (z.B. Mo3)
+	int time_day;                  // Wochentag an dem der Kurs stattfindet (struct tm ... tm_wday) --> (0=Sonntag, 1=Montag ...)
+	int time_hour;                 // Schulstunde zu der der Kurs stattfindet (z.B. Mo3)
 	char * room;                   // Raum in dem der Kurs stattfindet
 	person * teacher;              // (optional) Person die den Kurs unterrichtet
 
@@ -100,10 +91,27 @@ typedef struct{
 	char * original_time;          // Zeit des ursprünglichen Kurses (Verschiebung von Stunden --> die andere fällt aus)
 	char * alter_room;             // Alternativer Raum in dem der Kurs stattfindet (aus V_Plan)
 	char * alter_teacher_acronym;  // Alternativer Lehrer der den Kurs unterrichtet
-	int status;           // Zustand (Änderungen, oder nichts)
+	int status;                    // Zustand (Änderungen, oder nichts)
 }course;
 
-typedef struct{
+
+typedef struct message{
+	unsigned int id;              // ID der Nachricht
+	char * title;                 // Titel
+	char * message;               // Nachricht
+	unsigned int course_id;       // String mit Kursliste aus der Datenbank / vom Browser (bei Erstellung)
+	unsigned int creator_id;      // ID des / der Erstellers / Erstellerin
+	struct tm * created;          // Speicherung der Zeit bei Erstellung
+	char * s_created;             // String in dem die Zeit de rErstellung aus der Datenbank gespeichert wird
+}message;
+
+typedef struct message_set{
+	message * all_messages; // Array in dem mehrere Nachrichten gespeichert werden
+	size_t cnt;             // Anzahl der Nachrichten
+}message_set;
+
+
+typedef struct course_set{
 	course * c_set; // Array in dem mehrere Stunden gespeichert werden
 	size_t number;  // Anzahl der Stunden
 }course_set;

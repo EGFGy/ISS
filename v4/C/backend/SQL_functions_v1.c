@@ -62,7 +62,7 @@ void free_person(person * p){
 			p->acronym=NULL;
 		}
 		if(p->courses){
-			free(p->courses);
+			free_course_set(p->courses);
 			p->courses=NULL;
 		}
 		if(p->email){
@@ -99,7 +99,7 @@ void free_person(person * p){
  *
  */
 void init_message(message * mes){
-	mes->courses=NULL;
+	mes->course_id=0;
 	mes->created=NULL;
 	mes->creator_id=0;
 	mes->id=0;
@@ -115,10 +115,7 @@ void init_message(message * mes){
  *
  */
 void free_message(message * mes){
-	if(mes->courses){
-		free(mes->courses);
-		mes->courses=NULL;
-	}
+	mes->course_id=0;
 	if(mes->message){
 		free(mes->message);
 		mes->message=NULL;
@@ -173,7 +170,8 @@ void free_message_set(message_set * m){
 void init_course(course * c){
 	c->id=0;
 	c->name=NULL;
-	c->time=NULL;
+	c->time_day=0;
+	c->time_hour=0;
 	c->room=NULL;
 
 	c->teacher=NULL;
@@ -220,10 +218,8 @@ void free_course(course * c){
 		free(c->teacher);
 		c->teacher=NULL;
 	}
-	if(c->time){
-		free(c->time);
-		c->time=NULL;
-	}
+	c->time_day=0;
+	c->time_hour=0;
 	c->id=0;
 	c->status=0;
 }
@@ -290,7 +286,7 @@ int verify_user(person * pers){
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
 
-		print_exit_failure("MYSQL-connection error!");
+		print_exit_failure("MYSQL-connection error! (verify_user)");
 	}else{
 		//fprintf(stderr, "Connection extablished!\n");
 	}
@@ -2022,46 +2018,6 @@ char * nlcr_to_htmlbr(char * str){
 
 	asprintf(&out, "%s<br>%s", out ? out : "", (found ? nlcr_to_htmlbr(found+2) : "") ); // Rekursion
 	return out;
-}
-
-/** \brief 	Einen String der durch Kommata getrennt ist ("1D1, 1M1, 1E5" usw.) in die einzelnen Bestandteil zerlegen
- *			und seine in einem Array speichern
- *
- * \param comma_char char*	Durch Kommata getrennter String
- * \param str_array char***	Array mit einzelnen Strings
- * \return int              Anzahl der Elemente im Array str_array
- *
- */
-int comma_to_array(char * comma_char, char *** str_array){
-	if(comma_char == NULL){
-		print_exit_failure("Programm falsch (comma_to_array)");
-	}
-	char * local_comma_char=NULL;
-	asprintf(&local_comma_char, "%s", comma_char);
-
-	int j;
-	for (j=0; ; j++, local_comma_char = NULL) {
-		char * token = strtok(local_comma_char, ",");
-		if (token == NULL)break;
-		//printf("%d: %s\n", j, token);
-
-	   //asprintf(str_array+j, "%s", token);
-	}
-	free(local_comma_char);
-	local_comma_char=NULL;
-
-	asprintf(&local_comma_char, "%s", comma_char);
-	/*char ** local_str_array*/*str_array=calloc(j,sizeof(char *));
-	for (j=0; ; j++, local_comma_char = NULL) {
-		char * token = strtok(local_comma_char, ", ");
-		if (token == NULL)break;
-		//printf("%d: %s\n", j, token);
-
-		asprintf((&(*(/*local_*/*str_array+j))), "%s", token);
-	}
-	free(local_comma_char);
-	//str_array=local_str_array;
-	return j;
 }
 
 

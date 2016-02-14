@@ -198,3 +198,21 @@
 	"CGI_functions.h"
 	"SQL_functions.h"
 
+1455473060 source:/home/markus/git/ISS/v4/C/backend/CGI_functions.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdbool.h>
+	<unistd.h>
+	<math.h>
+	<ctype.h>
+	<features.h>
+	<sys/types.h>
+	<regex.h>
+	"CGI_functions.h"
+	"urlcode.h"
+
+1455473060 /home/markus/git/ISS/v4/C/backend/CGI_functions.h
+
+1455473060 /home/markus/git/ISS/v4/C/backend/urlcode.h
+
