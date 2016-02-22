@@ -236,10 +236,10 @@ void init_course_set(course_set * c){
 }
 
 
-/** \brief Das course_set löschen (ALLES: alle Strings in den Kursen, die Personen der Kurse)
- *         ACHTUNG: in mehreren Kursen darf es keine ointer geben die auf nur eine Person zeigen
+/** \brief  Das course_set löschen (ALLES: alle Strings in den Kursen, die Personen der Kurse)
+ *          ACHTUNG: in mehreren Kursen darf es keine Pointer geben die auf nur eine Person zeigen
  * \param c course_set*  course_set dessen Inhalt gelöscht werden soll
- * \return void
+ * \return  void
  *
  */
 void free_course_set(course_set * c){
@@ -400,7 +400,7 @@ int verify_user(person * pers){
 
 			//ID holen
 			if(row[COL_ID] != NULL){
-				pers->id=atoi(row[COL_ID]);
+				pers->id=atoul(row[COL_ID]);
 			}
 
 			if(row[COL_SID] != NULL){
@@ -408,6 +408,7 @@ int verify_user(person * pers){
 				user_state=PW_CORRECT_ALREADY_LOGGED_IN;
 				pers->auth=true;
 				pers->sid=atoi(row[COL_SID]);
+
 			}else{
 				user_state=PW_CORRECT;
 				create_session(pers);
@@ -611,16 +612,16 @@ void insert_user(person * pers){
 
 	//Ist es eine Lehrer oder ein Schüler?
 	if(!pers->isTeacher){
-		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse) \
-					VALUES('%s', '%s', '%s', '%s', 'n/a')",
+		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort) \
+					VALUES('%s', '%s', '%s', '%s')",
 					pers->first_name, pers->name, pers->email, store_pw) == -1)
 		{
 			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");
 		}
 	}else{
 		clean_string(pers->acronym);
-		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kurse, kuerzel) \
-					VALUES('%s', '%s', '%s', '%s', 'n/a', '%s')",
+		if(asprintf(&query, "INSERT INTO Benutzer (vorname, name, email, passwort, kuerzel) \
+					VALUES('%s', '%s', '%s', '%s', '%s')",
 					pers->first_name, pers->name, pers->email, store_pw, pers->acronym) == -1)
 		{
 			print_exit_failure("Es konnte kein Speicher angefordert werden (insert_user)");

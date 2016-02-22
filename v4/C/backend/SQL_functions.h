@@ -158,7 +158,9 @@ void free_message(message * mes);
 void init_message_set(message_set * m);
 void free_message_set(message_set * m);
 void init_course(course * c);
+void free_course(course * c);
 void init_course_set(course_set * c);
+void free_course_set(course_set * c);
 
 int verify_user(person * pers);
 bool verify_user_password(person * pers);
