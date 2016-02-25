@@ -756,7 +756,7 @@ bool email_exists(char * email){
 		result = mysql_store_result(my);
 		if(mysql_num_rows(result) > 0){
 			#ifdef DEBUG
-			fprintf(stderr, "Benutzer gefunden, wörk\n");
+			fprintf(stderr, "Benutzer gefunden\n");
 			#endif // DEBUG
 			mysql_free_result(result);
 			mysql_close(my);
@@ -815,7 +815,7 @@ bool acronym_exists(char * acronym){
 
 		if(mysql_num_rows(result) > 0){
 			#ifdef DEBUG
-			fprintf(stderr, "Benutzer gefunden, wörk\n");
+			fprintf(stderr, "Benutzer gefunden\n");
 			#endif // DEBUG
 			mysql_free_result(result);
 			mysql_close(my);
@@ -848,13 +848,13 @@ int create_session(person * pers){
 	srand(time(NULL));
 	int generated_sid=rand();
 	while((sid_exists(generated_sid)) ^ (generated_sid==0)){
-        generated_sid=rand();
+		generated_sid=rand();
 	}
 
 	pers->sid=generated_sid;
 
 	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
-        print_exit_failure("Es konnte kein Speicher angefordert werden (create_session)");
+		print_exit_failure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
 
 	my=mysql_init(NULL);
@@ -872,7 +872,9 @@ int create_session(person * pers){
 		#endif // DEBUG
 		print_exit_failure("mysql_query failed (create_session)");
 	}
-    mysql_close(my);
+
+	// TODO Was wenn die Session nicht erzeugt werden konnte, status?
+	mysql_close(my);
 
 	free(query);
 	return 0;
@@ -898,7 +900,7 @@ bool sid_exists(int sid){
 
 	my=mysql_init(NULL);
 	if(my == NULL){
-		print_exit_failure("MYSQL init failure\n Wörk!");
+		print_exit_failure("MYSQL init failure");
 	}
 
 	if(mysql_real_connect(my, "localhost", SQL_USER, SQL_PASS, SQL_BASE, 0, NULL, 0) == NULL){
@@ -1034,11 +1036,11 @@ bool get_messages(message_set * mes, int offset, char * select_course){
 	MYSQL * my=NULL;
 
 	if(select_course){
-		if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse REGEXP '(^|, )%s($|, )'  ORDER BY erstellt DESC LIMIT %d OFFSET %d", select_course, GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
+		if(asprintf(&query, "SELECT Meldung.* FROM Meldung, Kurs WHERE Kurs.id =Meldung.KursID AND Kurs.name='%s' ORDER BY erstellt DESC LIMIT %d OFFSET %d", select_course, GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 		}
 	}else{
-		if(asprintf(&query, "SELECT * FROM Meldungen WHERE kurse='all' ORDER BY erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
+		if(asprintf(&query, "SELECT Meldung.* FROM Meldung WHERE Meldung.KursID=0 ORDER BY erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 		}
 	}
@@ -1065,13 +1067,14 @@ bool get_messages(message_set * mes, int offset, char * select_course){
 			mes->all_messages = calloc(mysql_num_rows(result), sizeof(message));
 			MYSQL_ROW message_row;
 			for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
-				(mes->all_messages+i)->id=atoi(message_row[COL_MESSAGE_ID]);
+				// TODO Spaltennummern anpassen
+				(mes->all_messages+i)->id=atoul(message_row[COL_MESSAGE_ID]);
 
 				asprintf(&(mes->all_messages+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
 				asprintf(&(mes->all_messages+i)->message, "%s", message_row[COL_MESSAGE_MES]);
-				asprintf(&(mes->all_messages+i)->courses, "%s", message_row[COL_MESSAGE_COURSES]);
+				(mes->all_messages+i)->course_id=atoul(message_row[COL_MESSAGE_COURSE_ID])
 
-				(mes->all_messages+i)->creator_id=atoi(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "-1");
+				(mes->all_messages+i)->creator_id=atoul(message_row[COL_MESSAGE_CREATORID] ? message_row[COL_MESSAGE_CREATORID] : "0");
 
 				asprintf(&(mes->all_messages+i)->s_created, "%s", message_row[COL_MESSAGE_TIME_CREATED]);
 
@@ -1100,7 +1103,8 @@ bool get_person_by_id(person * pers){
 	char * query=NULL;
 	MYSQL * my=NULL;
 	bool found=false;
-
+	// TODO Neuen Datenbankaufbau einbauen 
+	// SELECT Benutzer.*, Kurs.name FROM Kurs, Benutzer, Benutzer2Kurs WHERE Benutzer.vorname='Markus' AND Benutzer.id=Benutzer2Kurs.BenutzerID AND Benutzer2Kurs.KursID=Kurs.id
 	if(asprintf(&query, "SELECT * FROM Benutzer WHERE id='%d'", pers->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_id)");
 	}
