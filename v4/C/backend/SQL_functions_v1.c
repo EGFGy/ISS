@@ -853,7 +853,7 @@ int create_session(person * pers){
 
 	pers->sid=generated_sid;
 
-	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%d'", pers->sid, pers->id) == -1){
+	if(asprintf(&query, "UPDATE Benutzer SET sid='%d' WHERE id='%lu'", pers->sid, pers->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (create_session)");
 	}
 
@@ -1036,11 +1036,11 @@ bool get_messages(message_set * mes, int offset, char * select_course){
 	MYSQL * my=NULL;
 
 	if(select_course){
-		if(asprintf(&query, "SELECT Meldung.* FROM Meldung, Kurs WHERE Kurs.id =Meldung.KursID AND Kurs.name='%s' ORDER BY erstellt DESC LIMIT %d OFFSET %d", select_course, GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
+		if(asprintf(&query, "SELECT Meldung.* FROM Meldung, Kurs WHERE Kurs.id =Meldung.KursID AND Kurs.name='%s' ORDER BY Meldung.zeit_erstellt DESC LIMIT %d OFFSET %d", select_course, GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 		}
 	}else{
-		if(asprintf(&query, "SELECT Meldung.* FROM Meldung WHERE Meldung.KursID=0 ORDER BY erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
+		if(asprintf(&query, "SELECT Meldung.* FROM Meldung WHERE Meldung.KursID=0 ORDER BY Meldung.zeit_erstellt DESC LIMIT %d OFFSET %d", GET_MESSAGE_COUNT,(offset*GET_MESSAGE_COUNT)) == -1){
 			print_exit_failure("Es konnte kein Speicher angefordert werden (get_all_messages)");
 		}
 	}
@@ -1067,7 +1067,7 @@ bool get_messages(message_set * mes, int offset, char * select_course){
 			mes->all_messages = calloc(mysql_num_rows(result), sizeof(message));
 			MYSQL_ROW message_row;
 			for(my_ulonglong i=0; i<mysql_num_rows(result) && (message_row=mysql_fetch_row(result)); i++){
-				// TODO Spaltennummern anpassen
+
 				(mes->all_messages+i)->id=atoul(message_row[COL_MESSAGE_ID]);
 
 				asprintf(&(mes->all_messages+i)->title, "%s", message_row[COL_MESSAGE_TITEL]);
@@ -1103,9 +1103,9 @@ bool get_person_by_id(person * pers){
 	char * query=NULL;
 	MYSQL * my=NULL;
 	bool found=false;
-	// TODO Neuen Datenbankaufbau einbauen 
+	// TODO Neuen Datenbankaufbau einbauen
 	// SELECT Benutzer.*, Kurs.name FROM Kurs, Benutzer, Benutzer2Kurs WHERE Benutzer.vorname='Markus' AND Benutzer.id=Benutzer2Kurs.BenutzerID AND Benutzer2Kurs.KursID=Kurs.id
-	if(asprintf(&query, "SELECT * FROM Benutzer WHERE id='%d'", pers->id) == -1){
+	if(asprintf(&query, "SELECT Benutzer.*, Kurs.name FROM Kurs, Benutzer, Benutzer2Kurs WHERE Benutzer.id='%lu' AND Benutzer.id=Benutzer2Kurs.BenutzerID AND Benutzer2Kurs.KursID=Kurs.id'", pers->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_person_by_id)");
 	}
 
@@ -1831,7 +1831,7 @@ bool get_message_by_id(int id, message * mes){
 		print_exit_failure("Programm falsch (get_message_by_id)");
 	}
 
-	if(asprintf(&query, "SELECT * FROM Meldungen WHERE id='%d'", id) == -1){
+	if(asprintf(&query, "SELECT * FROM Meldungen WHERE id='%lu'", id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (get_message_by_id)");
 	}
 
@@ -1902,7 +1902,7 @@ bool delete_message_by_id(message * mes){
 		print_exit_failure("Programm falsch (delete_message_by_id)");
 	}
 
-	if(asprintf(&query, "DELETE FROM Meldungen WHERE id='%d'", mes->id) == -1){
+	if(asprintf(&query, "DELETE FROM Meldungen WHERE id='%lu'", mes->id) == -1){
 		print_exit_failure("Es konnte kein Speicher angefordert werden (delete_message_by_id)");
 	}
 
